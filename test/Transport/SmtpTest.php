@@ -153,6 +153,28 @@ class SmtpTest extends \PHPUnit_Framework_TestCase
         $this->assertContains($expectedMessage, $this->connection->getLog());
     }
 
+    public function testSendMinimalMailWithoutSender()
+    {
+        $headers = new Headers();
+        $headers->addHeaderLine('Date', 'Sun, 10 Jun 2012 20:07:24 +0200');
+        $message = new Message();
+        $message
+            ->setHeaders($headers)
+            ->setFrom('ralph.schindler@zend.com', 'Ralph Schindler')
+            ->setBody('testSendMinimalMailWithoutSender')
+            ->addTo('zf-devteam@zend.com', 'ZF DevTeam')
+        ;
+        $expectedMessage = "Date: Sun, 10 Jun 2012 20:07:24 +0200\r\n"
+                           . "From: Ralph Schindler <ralph.schindler@zend.com>\r\n"
+                           . "To: ZF DevTeam <zf-devteam@zend.com>\r\n"
+                           . "\r\n"
+                           . "testSendMinimalMailWithoutSender";
+
+        $this->transport->send($message);
+
+        $this->assertContains($expectedMessage, $this->connection->getLog());
+    }
+
     public function testReceivesMailArtifacts()
     {
         $message = $this->getMessage();
