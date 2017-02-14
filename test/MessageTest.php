@@ -158,6 +158,13 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->message->getSender());
     }
 
+    public function testNullSenderDoesNotCreateHeader()
+    {
+        $sender = $this->message->getSender();
+        $headers = $this->message->getHeaders();
+        $this->assertFalse($headers->has('sender'));
+    }
+
     public function testSettingSenderCreatesAddressObject()
     {
         $this->message->setSender('zf-devteam@example.com');
