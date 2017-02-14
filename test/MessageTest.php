@@ -838,4 +838,19 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $contentType = $headers->get('Content-Type');
         $this->assertEquals('multipart/report', $contentType->getType());
     }
+
+    public function testMailHeaderContainsZeroValue()
+    {
+        $message =
+            "From: someone@example.com\r\n"
+            ."To: someone@example.com\r\n"
+            ."Subject: plain text email example\r\n"
+            ."X-Spam-Score: 0\r\n"
+            ."X-Some-Value: 1\r\n"
+            ."\r\n"
+            ."I am a test message\r\n";
+
+        $msg = Message::fromString($message);
+        $this->assertContains('X-Spam-Score: 0', $msg->toString());
+    }
 }

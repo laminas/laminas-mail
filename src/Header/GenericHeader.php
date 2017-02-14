@@ -79,7 +79,7 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
             $this->setFieldName($fieldName);
         }
 
-        if ($fieldValue) {
+        if ($fieldValue !== null) {
             $this->setFieldValue($fieldValue);
         }
     }
