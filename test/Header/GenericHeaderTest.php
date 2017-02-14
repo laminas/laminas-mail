@@ -141,4 +141,11 @@ class GenericHeaderTest extends TestCase
         $this->assertEquals($encoded, $header->getFieldValue(GenericHeader::FORMAT_ENCODED));
         $this->assertEquals('Foo: ' . $encoded, $header->toString());
     }
+
+    public function testAllowZeroInHeaderValueInConstructor()
+    {
+        $header = new GenericHeader('Foo', 0);
+        $this->assertEquals(0, $header->getFieldValue());
+        $this->assertEquals('Foo: 0', $header->toString());
+    }
 }
