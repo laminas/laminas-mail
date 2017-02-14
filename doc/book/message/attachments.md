@@ -116,10 +116,8 @@ $content = new MimeMessage();
 $content->setParts([$text, $html]);
 
 $contentPart = new MimePart($content->generateMessage());
-$contentPart->type = sprintf(
-    "multipart/alternative\n boundary=\"%s\",
-    $content->getMime()->boundary()
-);
+$contentPart->boundary = $content->getMime()->boundary();
+$contentPart->type = 'multipart/alternative';
 
 $image = new MimePart(fopen($pathToImage, 'r'));
 $image->type = 'image/jpeg';
