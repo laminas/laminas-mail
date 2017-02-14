@@ -206,7 +206,14 @@ abstract class AbstractProtocol
         $errorStr = '';
 
         // open connection
-        $this->socket = @stream_socket_client($remote, $errorNum, $errorStr, self::TIMEOUT_CONNECTION);
+        set_error_handler(
+            function ($error, $message = '') {
+                throw new Exception\RuntimeException(sprintf('Could not open socket: %s', $message), $error);
+            },
+            E_WARNING
+        );
+        $this->socket = stream_socket_client($remote, $errorNum, $errorStr, self::TIMEOUT_CONNECTION);
+        restore_error_handler();
 
         if ($this->socket === false) {
             if ($errorNum == 0) {

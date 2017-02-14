@@ -24,6 +24,9 @@ All notable changes to this project will be documented in this file, in reverse 
   transport.
 - [#105](https://github.com/zendframework/zend-mail/pull/105) fixes the header
   implementation to allow zero (`0`) values for header values.
+- [#116](https://github.com/zendframework/zend-mail/pull/116) fixes how the
+  `AbstractProtocol` handles `stream_socket_client()` errors, ensuring an
+  exception is thrown with detailed information regarding the failure.
 
 ## 2.7.2 - 2016-12-19
 

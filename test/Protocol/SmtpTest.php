@@ -102,4 +102,13 @@ class SmtpTest extends \PHPUnit_Framework_TestCase
         $this->connection->disconnect();
         $this->assertFalse($this->connection->getAuth());
     }
+
+    public function testConnectHasVerboseErrors()
+    {
+        $smtp = new TestAsset\ErroneousSmtp();
+
+        $this->setExpectedExceptionRegExp('Zend\Mail\Protocol\Exception\RuntimeException', '/nonexistentremote/');
+
+        $smtp->connect('nonexistentremote');
+    }
 }
