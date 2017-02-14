@@ -6,7 +6,12 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#117](https://github.com/zendframework/zend-mail/pull/117) adds support
+  configuring whether or not an SMTP transport should issue a `QUIT` at
+  `__destruct()` and/or end of script execution. Use the `use_complete_quit`
+  configuration flag and/or the `setuseCompleteQuit($flag)` method to change
+  the setting (default is to enable this behavior, which was the previous
+  behavior).
 
 ### Deprecated
 
