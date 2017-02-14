@@ -67,6 +67,13 @@ class Smtp extends AbstractProtocol
     protected $data = null;
 
     /**
+     * Whether or not send QUIT command
+     *
+     * @var bool
+     */
+    protected $useCompleteQuit = true;
+
+    /**
      * Constructor.
      *
      * The first argument may be an array of all options. If so, it must include
@@ -128,6 +135,10 @@ class Smtp extends AbstractProtocol
             }
         }
 
+        if (array_key_exists('use_complete_quit', $config)) {
+            $this->setUseCompleteQuit($config['use_complete_quit']);
+        }
+
         // If no port has been specified then check the master PHP ini file. Defaults to 25 if the ini setting is null.
         if ($port === null) {
             if (($port = ini_get('smtp_port')) == '') {
@@ -138,6 +149,25 @@ class Smtp extends AbstractProtocol
         parent::__construct($host, $port);
     }
 
+    /**
+     * Set whether or not send QUIT command
+     *
+     * @param int $useCompleteQuit use complete quit
+     */
+    public function setUseCompleteQuit($useCompleteQuit)
+    {
+        return $this->useCompleteQuit = (bool) $useCompleteQuit;
+    }
+
+    /**
+     * Whether or not send QUIT command
+     *
+     * @return bool
+     */
+    public function useCompleteQuit()
+    {
+        return $this->useCompleteQuit;
+    }
 
     /**
      * Connect to the server with the parameters given in the constructor.
@@ -350,8 +380,12 @@ class Smtp extends AbstractProtocol
     {
         if ($this->sess) {
             $this->auth = false;
-            $this->_send('QUIT');
-            $this->_expect(221, 300); // Timeout set for 5 minutes as per RFC 2821 4.5.3.2
+
+            if ($this->useCompleteQuit()) {
+                $this->_send('QUIT');
+                $this->_expect(221, 300); // Timeout set for 5 minutes as per RFC 2821 4.5.3.2
+            }
+
             $this->stopSession();
         }
     }

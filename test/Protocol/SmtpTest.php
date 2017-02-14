@@ -36,23 +36,23 @@ class SmtpTest extends \PHPUnit_Framework_TestCase
     {
         $headers = new Headers();
         $headers->addHeaderLine('Date', 'Sun, 10 Jun 2012 20:07:24 +0200');
+
         $message = new Message();
-        $message
-            ->setHeaders($headers)
-            ->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
-            ->setBody('testSendMailWithoutMinimalHeaders')
-            ->addTo('zf-devteam@zend.com', 'ZF DevTeam')
-        ;
+        $message->setHeaders($headers);
+        $message->setSender('ralph.schindler@zend.com', 'Ralph Schindler');
+        $message->setBody('testSendMailWithoutMinimalHeaders');
+        $message->addTo('zf-devteam@zend.com', 'ZF DevTeam');
+
         $expectedMessage = "EHLO localhost\r\n"
-                           . "MAIL FROM:<ralph.schindler@zend.com>\r\n"
-                           . "RCPT TO:<zf-devteam@zend.com>\r\n"
-                           . "DATA\r\n"
-                           . "Date: Sun, 10 Jun 2012 20:07:24 +0200\r\n"
-                           . "Sender: Ralph Schindler <ralph.schindler@zend.com>\r\n"
-                           . "To: ZF DevTeam <zf-devteam@zend.com>\r\n"
-                           . "\r\n"
-                           . "testSendMailWithoutMinimalHeaders\r\n"
-                           . ".\r\n";
+            . "MAIL FROM:<ralph.schindler@zend.com>\r\n"
+            . "RCPT TO:<zf-devteam@zend.com>\r\n"
+            . "DATA\r\n"
+            . "Date: Sun, 10 Jun 2012 20:07:24 +0200\r\n"
+            . "Sender: Ralph Schindler <ralph.schindler@zend.com>\r\n"
+            . "To: ZF DevTeam <zf-devteam@zend.com>\r\n"
+            . "\r\n"
+            . "testSendMailWithoutMinimalHeaders\r\n"
+            . ".\r\n";
 
         $this->transport->send($message);
 
@@ -63,13 +63,13 @@ class SmtpTest extends \PHPUnit_Framework_TestCase
     {
         $headers = new Headers();
         $headers->addHeaderLine('Date', 'Sun, 10 Jun 2012 20:07:24 +0200');
+
         $message = new Message();
-        $message
-            ->setHeaders($headers)
-            ->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
-            ->setBody("This is a test\n.")
-            ->addTo('zf-devteam@zend.com', 'ZF DevTeam')
-        ;
+        $message->setHeaders($headers);
+        $message->setSender('ralph.schindler@zend.com', 'Ralph Schindler');
+        $message->setBody("This is a test\n.");
+        $message->addTo('zf-devteam@zend.com', 'ZF DevTeam');
+
         $expectedMessage = "EHLO localhost\r\n"
             . "MAIL FROM:<ralph.schindler@zend.com>\r\n"
             . "RCPT TO:<zf-devteam@zend.com>\r\n"
@@ -110,5 +110,32 @@ class SmtpTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedExceptionRegExp('Zend\Mail\Protocol\Exception\RuntimeException', '/nonexistentremote/');
 
         $smtp->connect('nonexistentremote');
+    }
+
+    public function testCanAvoidQuitRequest()
+    {
+        $this->assertTrue($this->connection->useCompleteQuit(), 'Default behaviour must be BC');
+
+        $this->connection->resetLog();
+        $this->connection->connect();
+        $this->connection->helo();
+        $this->connection->disconnect();
+
+        $this->assertContains('QUIT', $this->connection->getLog());
+
+        $this->connection->setUseCompleteQuit(false);
+        $this->assertFalse($this->connection->useCompleteQuit());
+
+        $this->connection->resetLog();
+        $this->connection->connect();
+        $this->connection->helo();
+        $this->connection->disconnect();
+
+        $this->assertNotContains('QUIT', $this->connection->getLog());
+
+        $connection = new SmtpProtocolSpy([
+            'use_complete_quit' => false,
+        ]);
+        $this->assertFalse($connection->useCompleteQuit());
     }
 }
