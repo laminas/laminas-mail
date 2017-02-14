@@ -314,6 +314,10 @@ class Message
      */
     public function getSender()
     {
+        $headers = $this->getHeaders();
+        if (! $headers->has('sender')) {
+            return null;
+        }
         $header = $this->getHeaderByName('sender', __NAMESPACE__ . '\Header\Sender');
         return $header->getAddress();
     }
