@@ -18,7 +18,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#93](https://github.com/zendframework/zend-mail/pull/93) fixes a situation
+  whereby `getSender()` was unintentionally creating a blank `Sender` header,
+  instead of returning `null` if none exists, fixing an issue in the SMTP
+  transport.
 
 ## 2.7.2 - 2016-12-19
 
