@@ -32,7 +32,9 @@ $body->setParts([$html, $image]);
 
 $message = new Message();
 $message->setBody($body);
-$message->getHeaders()->addHeaderLine('Content-Type', 'multipart/related');
+
+$contentTypeHeader = $message->getHeaders()->get('Content-Type');
+$contentTypeHeader->setType('multipart/related');
 ```
 
 Note that the above code requires us to manually specify the message content
@@ -65,7 +67,9 @@ $body->setParts([$text, $html]);
 
 $message = new Message();
 $message->setBody($body);
-$message->getHeaders()->addHeaderLine('Content-Type', 'multipart/alternative');
+
+$contentTypeHeader = $message->getHeaders()->get('Content-Type');
+$contentTypeHeader->setType('multipart/alternative');
 ```
 
 The only differences from the first example are:
@@ -128,7 +132,9 @@ $body->setParts([$contentPart, $image]);
 
 $message = new Message();
 $message->setBody($body);
-$message->geHeaders()->addHeaderLine('Content-Type', 'multipart/related');
+
+$contentTypeHeader = $message->getHeaders()->get('Content-Type');
+$contentTypeHeader->setType('multipart/related');
 ```
 
 ## Setting custom MIME boundaries
