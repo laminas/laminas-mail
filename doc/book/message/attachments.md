@@ -102,28 +102,27 @@ use Zend\Mime\Part as MimePart;
 
 $body = new MimeMessage();
 
-$text = new MimePart($textContent);
-$text->type = Mime::TYPE_TEXT;
-$text->charset = 'utf-8';
+$text           = new MimePart($textContent);
+$text->type     = Mime::TYPE_TEXT;
+$text->charset  = 'utf-8';
 $text->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
 
-$html = new MimePart($htmlMarkup);
-$html->type = Mime::TYPE_HTML;
-$html->charset = 'utf-8';
+$html           = new MimePart($htmlMarkup);
+$html->type     = Mime::TYPE_HTML;
+$html->charset  = 'utf-8';
 $html->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
 
 $content = new MimeMessage();
+// This order is important for email clients to properly display the correct version of the content
 $content->setParts([$text, $html]);
 
 $contentPart = new MimePart($content->generateMessage());
-$contentPart->boundary = $content->getMime()->boundary();
-$contentPart->type = 'multipart/alternative';
 
-$image = new MimePart(fopen($pathToImage, 'r'));
-$image->type = 'image/jpeg';
-$image->filename = 'image-file-name.jpg';
+$image              = new MimePart(fopen($pathToImage, 'r'));
+$image->type        = 'image/jpeg';
+$image->filename    = 'image-file-name.jpg';
 $image->disposition = Mime::DISPOSITION_ATTACHMENT;
-$image->encoding = Mime::ENCODING_BASE64;
+$image->encoding    = Mime::ENCODING_BASE64;
 
 $body = new MimeMessage();
 $body->setParts([$contentPart, $image]);
