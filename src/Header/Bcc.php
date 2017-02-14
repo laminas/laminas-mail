@@ -15,7 +15,7 @@ class Bcc extends AbstractAddressList
      * @var string
      */
     protected $fieldName = 'Bcc';
-    
+
     /**
      * @var string
      */
