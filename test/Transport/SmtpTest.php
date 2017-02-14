@@ -37,19 +37,21 @@ class SmtpTest extends \PHPUnit_Framework_TestCase
     public function getMessage()
     {
         $message = new Message();
-        $message->addTo('zf-devteam@zend.com', 'ZF DevTeam')
-                ->addCc('matthew@zend.com')
-                ->addBcc('zf-crteam@lists.zend.com', 'CR-Team, ZF Project')
-                ->addFrom([
-                    'zf-devteam@zend.com',
-                    'matthew@zend.com' => 'Matthew',
-                ])
-                ->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
-                ->setSubject('Testing Zend\Mail\Transport\Sendmail')
-                ->setBody('This is only a test.');
+        $message->addTo('zf-devteam@zend.com', 'ZF DevTeam');
+        $message->addCc('matthew@zend.com');
+        $message->addBcc('zf-crteam@lists.zend.com', 'CR-Team, ZF Project');
+        $message->addFrom([
+            'zf-devteam@zend.com',
+            'matthew@zend.com' => 'Matthew',
+        ]);
+        $message->setSender('ralph.schindler@zend.com', 'Ralph Schindler');
+        $message->setSubject('Testing Zend\Mail\Transport\Sendmail');
+        $message->setBody('This is only a test.');
+
         $message->getHeaders()->addHeaders([
             'X-Foo-Bar' => 'Matthew',
         ]);
+
         return $message;
     }
 
@@ -135,18 +137,18 @@ class SmtpTest extends \PHPUnit_Framework_TestCase
     {
         $headers = new Headers();
         $headers->addHeaderLine('Date', 'Sun, 10 Jun 2012 20:07:24 +0200');
+
         $message = new Message();
-        $message
-            ->setHeaders($headers)
-            ->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
-            ->setBody('testSendMailWithoutMinimalHeaders')
-            ->addTo('zf-devteam@zend.com', 'ZF DevTeam')
-        ;
+        $message->setHeaders($headers);
+        $message->setSender('ralph.schindler@zend.com', 'Ralph Schindler');
+        $message->setBody('testSendMailWithoutMinimalHeaders');
+        $message->addTo('zf-devteam@zend.com', 'ZF DevTeam');
+
         $expectedMessage = "Date: Sun, 10 Jun 2012 20:07:24 +0200\r\n"
-                           . "Sender: Ralph Schindler <ralph.schindler@zend.com>\r\n"
-                           . "To: ZF DevTeam <zf-devteam@zend.com>\r\n"
-                           . "\r\n"
-                           . "testSendMailWithoutMinimalHeaders";
+            . "Sender: Ralph Schindler <ralph.schindler@zend.com>\r\n"
+            . "To: ZF DevTeam <zf-devteam@zend.com>\r\n"
+            . "\r\n"
+            . "testSendMailWithoutMinimalHeaders";
 
         $this->transport->send($message);
 
@@ -157,18 +159,18 @@ class SmtpTest extends \PHPUnit_Framework_TestCase
     {
         $headers = new Headers();
         $headers->addHeaderLine('Date', 'Sun, 10 Jun 2012 20:07:24 +0200');
+
         $message = new Message();
-        $message
-            ->setHeaders($headers)
-            ->setFrom('ralph.schindler@zend.com', 'Ralph Schindler')
-            ->setBody('testSendMinimalMailWithoutSender')
-            ->addTo('zf-devteam@zend.com', 'ZF DevTeam')
-        ;
+        $message->setHeaders($headers);
+        $message->setFrom('ralph.schindler@zend.com', 'Ralph Schindler');
+        $message->setBody('testSendMinimalMailWithoutSender');
+        $message->addTo('zf-devteam@zend.com', 'ZF DevTeam');
+
         $expectedMessage = "Date: Sun, 10 Jun 2012 20:07:24 +0200\r\n"
-                           . "From: Ralph Schindler <ralph.schindler@zend.com>\r\n"
-                           . "To: ZF DevTeam <zf-devteam@zend.com>\r\n"
-                           . "\r\n"
-                           . "testSendMinimalMailWithoutSender";
+            . "From: Ralph Schindler <ralph.schindler@zend.com>\r\n"
+            . "To: ZF DevTeam <zf-devteam@zend.com>\r\n"
+            . "\r\n"
+            . "testSendMinimalMailWithoutSender";
 
         $this->transport->send($message);
 
