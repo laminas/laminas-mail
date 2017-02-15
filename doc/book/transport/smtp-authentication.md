@@ -39,8 +39,7 @@ Optionally, ou may also provide:
   TLS.
 - `use_complete_quit`: configuring whether or not an SMTP transport should
   issue a `QUIT` at `__destruct()` and/or end of script execution. Useful in
-  long-running scripts against SMTP servers that implements a reuse time limit.
-  More details below.
+  long-running scripts against [SMTP servers that implements a reuse time limit](#smtp-transport-usage-for-servers-with-reuse-time-limit).
 
 ## Examples
 
@@ -129,10 +128,10 @@ $transport->setOptions($options);
 
 ### SMTP Transport Usage for servers with reuse time limit
 
-By default every `Zend\Mail\Protocol\Smtp\*` class try to disconnet from the
-STMP server by sending a `QUIT` command and expecting a `221`
-(_Service closing transmission channel_) code response.
-This is done automatically at object `__destruct`ion, and can generate errors
+By default, every `Zend\Mail\Protocol\Smtp\*` class tries to disconnect from
+the STMP server by sending a `QUIT` command and expecting a `221` (_Service
+closing transmission channel_) response code.  This is done automatically at
+object destruction (via the `__destruct()` method), and can generate errors
 with SMTP servers like [Posftix](http://www.postfix.org/postconf.5.html#smtp_connection_reuse_time_limit)
 that implement a reuse time limit:
 
@@ -151,8 +150,8 @@ exit;
 // Fatal error: Uncaught Zend\Mail\Protocol\Exception\RuntimeException: Could not read from 127.0.0.1 in ./zend-mail/src/Protocol/AbstractProtocol.php:301
 ```
 
-To avoid this error you can configure any `Zend\Mail\Protocol\Smtp\*` to close
-the connection with the SMTP server without the `QUIT` command:
+To avoid this error, you can configure any `Zend\Mail\Protocol\Smtp\*` instance
+to close the connection with the SMTP server without the `QUIT` command:
 
 ```php
 use Zend\Mail\Transport\Smtp as SmtpTransport;
@@ -165,8 +164,8 @@ $options   = new SmtpOptions([
     'host'              => '127.0.0.1',
     'connection_class'  => 'plain',
     'connection_config' => [
-        'username' => 'user',
-        'password' => 'pass',
+        'username'          => 'user',
+        'password'          => 'pass',
         'use_complete_quit' => false,
     ],
 ]);
@@ -175,15 +174,15 @@ $transport->setOptions($options);
 
 > ### NOTE: recreate old connection
 >
-> The flag described above aims to avoid unmanageble errors.
-> If you deal with those kind of SMTP server in long running scripts it is up to
-> the developer:
+> The flag described above aims to avoid errors that you cannot manage from PHP.
+>
+> If you deal with SMTP servers that exhibit this behavior from within
+> long-running scripts, you will need to:
 > 
-> 1. Tracing the time elapsed since the creation of the connection
-> 1. Closing and reopening the connection if the elapsed time exceeded the reuse
+> 1. Trace the time elapsed since the creation of the connection.
+> 1. Close and reopen the connection if the elapsed time exceeds the reuse
 >    time limit
 > 
-> These steps can be done, for example, applying a proxy class that wraps the
-> real `Zend\Mail\Protocol\Smtp\*` instance to track the construction time and a
-> custom `Zend\Mail\Transport\Smtp` class to close and open the connection when
-> needed.
+> As an example, you can perform these steps by applying a proxy class that
+> wraps the real `Zend\Mail\Protocol\Smtp\*` instance to track the construction
+> time, and then close and open the connection when needed.
