@@ -17,9 +17,9 @@ The connection class should be a fully qualified class name of a
 `Zend\Mail\Protocol\Smtp\Auth\*` class or extension, or the short name (name
 without leading namespace). zend-mail ships with the following:
 
-- `Zend\Mail\Protoco\Smtp\Auth\Plain`, or `plain`
-- `Zend\Mail\Protoco\Smtp\Auth\Login`, or `login`
-- `Zend\Mail\Protoco\Smtp\Auth\Crammd5`, or `crammd5`
+- `Zend\Mail\Protocol\Smtp\Auth\Plain`, or `plain`
+- `Zend\Mail\Protocol\Smtp\Auth\Login`, or `login`
+- `Zend\Mail\Protocol\Smtp\Auth\Crammd5`, or `crammd5`
 
 Custom connection classes must be extensions of `Zend\Mail\Protocol\Smtp`.
 
@@ -37,6 +37,10 @@ Optionally, ou may also provide:
 - `port`: if using something other than the default port for the protocol used.
   Port 25 is the default used for non-SSL connections, 465 for SSL, and 587 for
   TLS.
+- `use_complete_quit`: configuring whether or not an SMTP transport should
+  issue a `QUIT` at `__destruct()` and/or end of script execution. Useful in
+  long-running scripts against SMTP servers that implements a reuse time limit.
+  More details below.
 
 ## Examples
 
@@ -122,3 +126,64 @@ $options   = new SmtpOptions([
 ]);
 $transport->setOptions($options);
 ```
+
+### SMTP Transport Usage for servers with reuse time limit
+
+By default every `Zend\Mail\Protocol\Smtp\*` class try to disconnet from the
+STMP server by sending a `QUIT` command and expecting a `221`
+(_Service closing transmission channel_) code response.
+This is done automatically at object `__destruct`ion, and can generate errors
+with SMTP servers like [Posftix](http://www.postfix.org/postconf.5.html#smtp_connection_reuse_time_limit)
+that implement a reuse time limit:
+
+```php
+// [...]
+$transport->send($message);
+
+var_dump('E-mail sent');
+sleep(305);
+var_dump('Soon to exit...');
+exit;
+
+// E-mail sent
+// Soon to exit...
+// Notice: fwrite(): send of 6 bytes failed with errno=32 Broken pipe in ./zend-mail/src/Protocol/AbstractProtocol.php on line 255
+// Fatal error: Uncaught Zend\Mail\Protocol\Exception\RuntimeException: Could not read from 127.0.0.1 in ./zend-mail/src/Protocol/AbstractProtocol.php:301
+```
+
+To avoid this error you can configure any `Zend\Mail\Protocol\Smtp\*` to close
+the connection with the SMTP server without the `QUIT` command:
+
+```php
+use Zend\Mail\Transport\Smtp as SmtpTransport;
+use Zend\Mail\Transport\SmtpOptions;
+
+// Setup SMTP transport to exit without the `QUIT` command
+$transport = new SmtpTransport();
+$options   = new SmtpOptions([
+    'name'              => 'localhost.localdomain',
+    'host'              => '127.0.0.1',
+    'connection_class'  => 'plain',
+    'connection_config' => [
+        'username' => 'user',
+        'password' => 'pass',
+        'use_complete_quit' => false,
+    ],
+]);
+$transport->setOptions($options);
+```
+
+> ### NOTE: recreate old connection
+>
+> The flag described above aims to avoid unmanageble errors.
+> If you deal with those kind of SMTP server in long running scripts it is up to
+> the developer:
+> 
+> 1. Tracing the time elapsed since the creation of the connection
+> 1. Closing and reopening the connection if the elapsed time exceeded the reuse
+>    time limit
+> 
+> These steps can be done, for example, applying a proxy class that wraps the
+> real `Zend\Mail\Protocol\Smtp\*` instance to track the construction time and a
+> custom `Zend\Mail\Transport\Smtp` class to close and open the connection when
+> needed.
