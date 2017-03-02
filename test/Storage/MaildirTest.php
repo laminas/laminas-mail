@@ -9,13 +9,14 @@
 
 namespace ZendTest\Mail\Storage;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Config;
 use Zend\Mail\Storage;
 
 /**
  * @group      Zend_Mail
  */
-class MaildirTest extends \PHPUnit_Framework_TestCase
+class MaildirTest extends TestCase
 {
     protected $originalMaildir;
     protected $maildir;

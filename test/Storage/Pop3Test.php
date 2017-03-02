@@ -9,6 +9,7 @@
 
 namespace ZendTest\Mail\Storage;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Config;
 use Zend\Mail\Protocol;
 use Zend\Mail\Storage;
@@ -17,7 +18,7 @@ use Zend\Mail\Storage;
  * @group      Zend_Mail
  * @covers Zend\Mail\Storage\Pop3<extended>
  */
-class Pop3Test extends \PHPUnit_Framework_TestCase
+class Pop3Test extends TestCase
 {
     protected $params;
 

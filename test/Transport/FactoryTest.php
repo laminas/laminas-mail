@@ -7,14 +7,14 @@
 
 namespace ZendTest\Mail\Transport;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Transport\Factory;
 use Zend\Stdlib\ArrayObject;
 
 /**
  * @covers Zend\Mail\Transport\Factory<extended>
  */
-class FactoryTest extends PHPUnit_Framework_TestCase
+class FactoryTest extends TestCase
 {
     /**
      * @dataProvider invalidSpecTypeProvider

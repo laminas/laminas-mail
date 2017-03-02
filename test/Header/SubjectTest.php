@@ -9,13 +9,14 @@
 
 namespace ZendTest\Mail\Header;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Header;
 
 /**
  * @group      Zend_Mail
  * @covers Zend\Mail\Header\Subject<extended>
  */
-class SubjectTest extends \PHPUnit_Framework_TestCase
+class SubjectTest extends TestCase
 {
     public function testHeaderFolding()
     {
@@ -55,7 +56,8 @@ class SubjectTest extends \PHPUnit_Framework_TestCase
         $expectedException,
         $expectedExceptionMessage
     ) {
-        $this->setExpectedException($expectedException, $expectedExceptionMessage);
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionMessage);
         Header\Subject::fromString('Subject:' . $decodedValue);
     }
 

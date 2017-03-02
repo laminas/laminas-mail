@@ -9,6 +9,7 @@
 
 namespace ZendTest\Mail\Storage;
 
+use PHPUnit\Framework\TestCase;
 use RecursiveIteratorIterator;
 use Zend\Config;
 use Zend\Mail\Storage\Folder;
@@ -16,7 +17,7 @@ use Zend\Mail\Storage\Folder;
 /**
  * @group      Zend_Mail
  */
-class MaildirFolderTest extends \PHPUnit_Framework_TestCase
+class MaildirFolderTest extends TestCase
 {
     protected $params;
     protected $originalDir;

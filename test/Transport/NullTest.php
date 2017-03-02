@@ -9,12 +9,13 @@
 
 namespace ZendTest\Mail\Transport;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Transport\Null as NullTransport;
 
 /**
  * @group      Zend_Mail
  */
-class NullTest extends \PHPUnit_Framework_TestCase
+class NullTest extends TestCase
 {
     public function setUp()
     {

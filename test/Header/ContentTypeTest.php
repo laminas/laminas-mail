@@ -9,6 +9,7 @@
 
 namespace ZendTest\Mail\Header;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Header\ContentType;
 use Zend\Mail\Header\Exception\InvalidArgumentException;
 use Zend\Mail\Header\HeaderInterface;
@@ -18,7 +19,7 @@ use Zend\Mail\Header\UnstructuredInterface;
  * @group      Zend_Mail
  * @covers Zend\Mail\Header\ContentType<extended>
  */
-class ContentTypeTest extends \PHPUnit_Framework_TestCase
+class ContentTypeTest extends TestCase
 {
     public function testImplementsHeaderInterface()
     {
@@ -85,7 +86,8 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
      */
     public function testFromStringThrowException($headerLine, $expectedException, $exceptionMessage)
     {
-        $this->setExpectedException($expectedException, $exceptionMessage);
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($exceptionMessage);
         ContentType::fromString($headerLine);
     }
 
@@ -107,7 +109,8 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
         $header = new ContentType();
         $header->setType('text/html');
 
-        $this->setExpectedException($expectedException, $exceptionMessage);
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($exceptionMessage);
         $header->addParameter($paramName, $paramValue);
     }
 

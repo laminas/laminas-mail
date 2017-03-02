@@ -8,7 +8,7 @@
 namespace ZendTest\Mail\Protocol;
 
 use Interop\Container\ContainerInterface;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Protocol\Smtp;
 use Zend\Mail\Protocol\SmtpPluginManager;
 use Zend\Mail\Protocol\SmtpPluginManagerFactory;

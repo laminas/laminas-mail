@@ -9,6 +9,7 @@
 
 namespace ZendTest\Mail\Storage;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail;
 use Zend\Mail\Storage;
 use Zend\Mail\Storage\Writable;
@@ -16,7 +17,7 @@ use Zend\Mail\Storage\Writable;
 /**
  * @group      Zend_Mail
  */
-class MaildirWritableTest extends \PHPUnit_Framework_TestCase
+class MaildirWritableTest extends TestCase
 {
     protected $params;
     protected $originalDir;
