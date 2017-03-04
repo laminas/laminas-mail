@@ -12,9 +12,10 @@ All notable changes to this project will be documented in this file, in reverse 
   configuration flag and/or the `setuseCompleteQuit($flag)` method to change
   the setting (default is to enable this behavior, which was the previous
   behavior).
-
 - [#128](https://github.com/zendframework/zend-mail/pull/128) adds a
   requirement on ext/iconv, as it is used internally.
+- [#132](https://github.com/zendframework/zend-mail/pull/132) bumps minimum
+  php version to 5.6
 
 ### Deprecated
 
