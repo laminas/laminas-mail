@@ -119,20 +119,20 @@ class MaildirFolderTest extends TestCase
 
     public function testNoParams()
     {
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         new Folder\Maildir([]);
     }
 
     public function testLoadFailure()
     {
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         new Folder\Maildir(['dirname' => 'This/Folder/Does/Not/Exist']);
     }
 
     public function testLoadUnkownFolder()
     {
         $this->params['folder'] = 'UnknownFolder';
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         new Folder\Maildir($this->params);
     }
 
@@ -150,7 +150,7 @@ class MaildirFolderTest extends TestCase
     {
         $mail = new Folder\Maildir($this->params);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->selectFolder('/Unknown/Folder/');
     }
 
@@ -356,7 +356,7 @@ class MaildirFolderTest extends TestCase
         $root = $mail->getFolders();
         $root->foobar = new Folder('foobar', DIRECTORY_SEPARATOR . 'foobar');
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->selectFolder('foobar');
     }
 
@@ -366,7 +366,7 @@ class MaildirFolderTest extends TestCase
         $root = $mail->getFolders();
         $root->foobar = new Folder('foobar', 'foobar');
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->selectFolder('foobar');
     }
 
@@ -376,7 +376,7 @@ class MaildirFolderTest extends TestCase
         $root = $mail->getFolders();
         $root->foobar = new Folder('foobar', 'foobar', false);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->selectFolder('foobar');
     }
 

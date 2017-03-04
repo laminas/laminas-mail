@@ -106,13 +106,13 @@ class Pop3Test extends TestCase
     {
         $this->params['host'] = 'example.example';
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Pop3($this->params);
     }
 
     public function testNoParams()
     {
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Pop3([]);
     }
 
@@ -142,7 +142,7 @@ class Pop3Test extends TestCase
     {
         $this->params['port'] = getenv('TESTS_ZEND_MAIL_POP3_INVALID_PORT');
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Pop3($this->params);
     }
 
@@ -150,7 +150,7 @@ class Pop3Test extends TestCase
     {
         $this->params['port'] = getenv('TESTS_ZEND_MAIL_POP3_WRONG_PORT');
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Pop3($this->params);
     }
 
@@ -263,7 +263,7 @@ class Pop3Test extends TestCase
         $protocol = new Protocol\Pop3($this->params['host']);
         $mail = new Storage\Pop3($protocol);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         // because we did no login this has to throw an exception
         $mail->getMessage(1);
     }
@@ -273,7 +273,7 @@ class Pop3Test extends TestCase
         $mail = new Storage\Pop3($this->params);
         $mail->close();
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->getMessage(1);
     }
 
@@ -329,7 +329,7 @@ class Pop3Test extends TestCase
     {
         $mail = new Storage\Pop3($this->params);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->getNumberByUniqueId('this_is_an_invalid_id');
     }
 
@@ -338,7 +338,7 @@ class Pop3Test extends TestCase
         $protocol = new Protocol\Pop3($this->params['host']);
         $protocol->logout();
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $protocol->readResponse();
     }
 

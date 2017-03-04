@@ -99,13 +99,13 @@ class ImapTest extends TestCase
     public function testConnectFailure()
     {
         $this->params['host'] = 'example.example';
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Imap($this->params);
     }
 
     public function testNoParams()
     {
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Imap([]);
     }
 
@@ -133,14 +133,14 @@ class ImapTest extends TestCase
     public function testInvalidService()
     {
         $this->params['port'] = getenv('TESTS_ZEND_MAIL_IMAP_INVALID_PORT');
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Imap($this->params);
     }
 
     public function testWrongService()
     {
         $this->params['port'] = getenv('TESTS_ZEND_MAIL_IMAP_WRONG_PORT');
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Imap($this->params);
     }
 
@@ -148,7 +148,7 @@ class ImapTest extends TestCase
     {
         // this also triggers ...{chars}<NL>token for coverage
         $this->params['user'] = "there is no\nnobody";
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Imap($this->params);
     }
 
@@ -163,14 +163,14 @@ class ImapTest extends TestCase
     public function testWithNotConnectedInstance()
     {
         $protocol = new Protocol\Imap();
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Imap($protocol);
     }
 
     public function testWithNotLoggedInstance()
     {
         $protocol = new Protocol\Imap($this->params['host']);
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Imap($protocol);
     }
 
@@ -178,7 +178,7 @@ class ImapTest extends TestCase
     {
         $this->params['folder'] = 'this folder does not exist on your server';
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Imap($this->params);
     }
 
@@ -288,14 +288,14 @@ class ImapTest extends TestCase
         $mail->close();
         // after closing we can't count messages
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->countMessages();
     }
 
     public function testLoadUnkownFolder()
     {
         $this->params['folder'] = 'UnknownFolder';
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Imap($this->params);
     }
 
@@ -310,7 +310,7 @@ class ImapTest extends TestCase
     public function testUnknownFolder()
     {
         $mail = new Storage\Imap($this->params);
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->selectFolder('/Unknown/Folder/');
     }
 
@@ -436,7 +436,7 @@ class ImapTest extends TestCase
     public function testWrongUniqueId()
     {
         $mail = new Storage\Imap($this->params);
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->getNumberByUniqueId('this_is_an_invalid_id');
     }
 
@@ -456,7 +456,7 @@ class ImapTest extends TestCase
     {
         $mail = new Storage\Imap($this->params);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->createFolder('subfolder/test');
     }
 
@@ -465,7 +465,7 @@ class ImapTest extends TestCase
         $mail = new Storage\Imap($this->params);
         $mail->removeFolder('subfolder/test');
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->getFolders()->subfolder->test;
     }
 
@@ -474,7 +474,7 @@ class ImapTest extends TestCase
         $mail = new Storage\Imap($this->params);
         $mail->removeFolder($mail->getFolders()->subfolder->test);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->getFolders()->subfolder->test;
     }
 
@@ -482,7 +482,7 @@ class ImapTest extends TestCase
     {
         $mail = new Storage\Imap($this->params);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->removeFolder('thisFolderDoestNotExist');
     }
 
@@ -493,7 +493,7 @@ class ImapTest extends TestCase
         $mail->renameFolder('subfolder/test', 'subfolder/test1');
         $mail->renameFolder($mail->getFolders()->subfolder->test1, 'subfolder/test');
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->renameFolder('subfolder/test', 'INBOX');
     }
 
@@ -513,7 +513,7 @@ class ImapTest extends TestCase
         $this->assertEquals($count + 1, $mail->countMessages());
         $this->assertEquals($mail->getMessage($count + 1)->subject, 'append test');
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->appendMessage('');
     }
 
@@ -533,7 +533,7 @@ class ImapTest extends TestCase
         $this->assertEquals($mail->getMessage($count + 1)->from, $message->from);
         $this->assertEquals($mail->getMessage($count + 1)->to, $message->to);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->copyMessage(1, 'justARandomFolder');
     }
 
@@ -562,7 +562,7 @@ class ImapTest extends TestCase
         $this->assertFalse($message->hasFlag(Storage::FLAG_FLAGGED));
         $this->assertTrue($message->hasFlag('myflag'));
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->setFlags(1, [Storage::FLAG_RECENT]);
     }
 
@@ -611,7 +611,7 @@ class ImapTest extends TestCase
         $protocol->login($this->params['user'], $this->params['password']);
         $protocol->logout();
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $protocol->select("foo\nbar");
     }
 
@@ -646,7 +646,7 @@ class ImapTest extends TestCase
             $this->assertInternalType('array', $v['FLAGS']);
         }
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $protocol->fetch('UID', 99);
     }
 
