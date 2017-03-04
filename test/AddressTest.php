@@ -9,12 +9,13 @@
 
 namespace ZendTest\Mail;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Address;
 
 /**
  * @covers Zend\Mail\Address<extended>
  */
-class AddressTest extends \PHPUnit_Framework_TestCase
+class AddressTest extends TestCase
 {
     public function testDoesNotRequireNameForInstantiation()
     {
@@ -44,7 +45,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetAddressInvalidAddressObject($email, $name)
     {
-        $this->setExpectedException('Zend\Mail\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Exception\InvalidArgumentException');
         new Address($email, $name);
     }
 

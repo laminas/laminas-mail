@@ -9,6 +9,7 @@
 
 namespace ZendTest\Mail\Transport;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Headers;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\Smtp;
@@ -20,7 +21,7 @@ use ZendTest\Mail\TestAsset\SmtpProtocolSpy;
  * @group      Zend_Mail
  * @covers Zend\Mail\Transport\Smtp<extended>
  */
-class SmtpTest extends \PHPUnit_Framework_TestCase
+class SmtpTest extends TestCase
 {
     /** @var Smtp */
     public $transport;
@@ -60,8 +61,8 @@ class SmtpTest extends \PHPUnit_Framework_TestCase
      */
     public function testSendMailWithoutMinimalHeaders()
     {
-        $this->setExpectedException(
-            'Zend\Mail\Transport\Exception\RuntimeException',
+        $this->expectException('Zend\Mail\Transport\Exception\RuntimeException');
+        $this->expectExceptionMessage(
             'transport expects either a Sender or at least one From address in the Message; none provided'
         );
         $message = new Message();
@@ -74,10 +75,8 @@ class SmtpTest extends \PHPUnit_Framework_TestCase
      */
     public function testSendMailWithoutRecipient()
     {
-        $this->setExpectedException(
-            'Zend\Mail\Transport\Exception\RuntimeException',
-            'at least one recipient if the message has at least one header or body'
-        );
+        $this->expectException('Zend\Mail\Transport\Exception\RuntimeException');
+        $this->expectExceptionMessage('at least one recipient if the message has at least one header or body');
         $message = new Message();
         $message->setSender('ralph.schindler@zend.com', 'Ralph Schindler');
         $this->transport->send($message);

@@ -9,13 +9,14 @@
 
 namespace ZendTest\Mail\Storage;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Config;
 use Zend\Mail\Storage;
 
 /**
  * @group      Zend_Mail
  */
-class MaildirTest extends \PHPUnit_Framework_TestCase
+class MaildirTest extends TestCase
 {
     protected $originalMaildir;
     protected $maildir;
@@ -98,13 +99,13 @@ class MaildirTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadFailure()
     {
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Maildir(['dirname' => '/This/Dir/Does/Not/Exist']);
     }
 
     public function testLoadInvalid()
     {
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Maildir(['dirname' => __DIR__]);
     }
 
@@ -200,7 +201,7 @@ class MaildirTest extends \PHPUnit_Framework_TestCase
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->getSize(0);
     }
 
@@ -208,7 +209,7 @@ class MaildirTest extends \PHPUnit_Framework_TestCase
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->getMessage(0);
     }
 
@@ -216,7 +217,7 @@ class MaildirTest extends \PHPUnit_Framework_TestCase
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->removeMessage(1);
     }
 
@@ -262,7 +263,7 @@ class MaildirTest extends \PHPUnit_Framework_TestCase
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->getNumberByUniqueId('this_is_an_invalid_id');
     }
 

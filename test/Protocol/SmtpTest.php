@@ -9,6 +9,7 @@
 
 namespace ZendTest\Mail\Protocol;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Headers;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\Smtp;
@@ -18,7 +19,7 @@ use ZendTest\Mail\TestAsset\SmtpProtocolSpy;
  * @group      Zend_Mail
  * @covers Zend\Mail\Protocol\Smtp<extended>
  */
-class SmtpTest extends \PHPUnit_Framework_TestCase
+class SmtpTest extends TestCase
 {
     /** @var Smtp */
     public $transport;
@@ -107,7 +108,8 @@ class SmtpTest extends \PHPUnit_Framework_TestCase
     {
         $smtp = new TestAsset\ErroneousSmtp();
 
-        $this->setExpectedExceptionRegExp('Zend\Mail\Protocol\Exception\RuntimeException', '/nonexistentremote/');
+        $this->expectException('Zend\Mail\Protocol\Exception\RuntimeException');
+        $this->expectExceptionMessageRegExp('/nonexistentremote/');
 
         $smtp->connect('nonexistentremote');
     }

@@ -9,6 +9,7 @@
 
 namespace ZendTest\Mail\Storage;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail;
 use Zend\Mail\Storage;
 use Zend\Mail\Storage\Writable;
@@ -16,7 +17,7 @@ use Zend\Mail\Storage\Writable;
 /**
  * @group      Zend_Mail
  */
-class MaildirWritableTest extends \PHPUnit_Framework_TestCase
+class MaildirWritableTest extends TestCase
 {
     protected $params;
     protected $originalDir;
@@ -133,21 +134,21 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
     public function testCreateFolderEmptyPart()
     {
         $mail = new Writable\Maildir($this->params);
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->createFolder('foo..bar');
     }
 
     public function testCreateFolderSlash()
     {
         $mail = new Writable\Maildir($this->params);
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->createFolder('foo/bar');
     }
 
     public function testCreateFolderDirectorySeparator()
     {
         $mail = new Writable\Maildir($this->params);
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->createFolder('foo' . DIRECTORY_SEPARATOR . 'bar');
     }
 
@@ -157,7 +158,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
         $mail = new Writable\Maildir($this->params);
         unset($mail->getFolders()->subfolder->test);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->createFolder('subfolder.test');
     }
 
@@ -165,7 +166,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
     {
         $mail = new Writable\Maildir($this->params);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->createFolder('subfolder.test');
     }
 
@@ -175,7 +176,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
         $mail = new Writable\Maildir($this->params);
         $mail->removeFolder('INBOX.subfolder.test');
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->selectFolder($mail->getFolders()->subfolder->test);
     }
 
@@ -185,7 +186,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
         $mail = new Writable\Maildir($this->params);
         $mail->removeFolder($mail->getFolders()->subfolder->test);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->selectFolder($mail->getFolders()->subfolder->test);
     }
 
@@ -193,7 +194,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
     {
         $mail = new Writable\Maildir($this->params);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->removeFolder($mail->getFolders()->subfolder);
     }
 
@@ -203,7 +204,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
         $mail = new Writable\Maildir($this->params);
         $mail->selectFolder('subfolder.test');
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->removeFolder('subfolder.test');
     }
 
@@ -211,7 +212,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
     {
         $mail = new Writable\Maildir($this->params);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->removeFolder('thisFolderDoestNotExist');
     }
 
@@ -223,7 +224,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
         $mail->renameFolder('INBOX.subfolder', 'INBOX.foo');
         $mail->renameFolder($mail->getFolders()->foo, 'subfolder');
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->renameFolder('INBOX', 'foo');
     }
 
@@ -233,7 +234,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
         $mail = new Writable\Maildir($this->params);
         $mail->selectFolder('subfolder.test');
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->renameFolder('subfolder.test', 'foo');
     }
 
@@ -241,7 +242,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
     {
         $mail = new Writable\Maildir($this->params);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->renameFolder('subfolder.test', 'subfolder.test.foo');
     }
 
@@ -279,7 +280,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($mail->getMessage($count + 1)->from, $message->from);
         $this->assertEquals($mail->getMessage($count + 1)->to, $message->to);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->copyMessage(1, 'justARandomFolder');
     }
 
@@ -302,7 +303,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($message->hasFlag(Storage::FLAG_SEEN));
         $this->assertTrue($message->hasFlag(Storage::FLAG_FLAGGED));
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->setFlags(1, [Storage::FLAG_RECENT]);
     }
 
@@ -311,7 +312,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
         $mail = new Writable\Maildir($this->params);
         unlink($this->params['dirname'] . 'cur/1000000000.P1.example.org:2,S');
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
     }
 
     public function testRemove()
@@ -331,7 +332,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
         $mail = new Writable\Maildir($this->params);
         unlink($this->params['dirname'] . 'cur/1000000000.P1.example.org:2,S');
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->removeMessage(1);
     }
 
@@ -395,7 +396,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNull($mail->getQuota());
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->getQuota(true);
     }
 
@@ -447,7 +448,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
         $mail->setQuota(true);
         $this->assertTrue($mail->checkQuota());
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->appendMessage("Subject: test\r\n\r\n");
     }
 

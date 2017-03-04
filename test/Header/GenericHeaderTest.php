@@ -9,7 +9,7 @@
 
 namespace ZendTest\Mail\Header;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Header\GenericHeader;
 
 /**
@@ -22,7 +22,7 @@ class GenericHeaderTest extends TestCase
      */
     public function testSplitHeaderLineRaisesExceptionOnInvalidHeader()
     {
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
         GenericHeader::splitHeaderLine(
             'Content-Type' . chr(32) . ': text/html; charset = "iso-8859-1"' . "\nThis is a test"
         );
@@ -43,7 +43,8 @@ class GenericHeaderTest extends TestCase
     public function testRaisesExceptionOnInvalidFieldName($fieldName)
     {
         $header = new GenericHeader();
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException', 'name');
+        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('name');
         $header->setFieldName($fieldName);
     }
 

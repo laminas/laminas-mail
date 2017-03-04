@@ -9,6 +9,7 @@
 
 namespace ZendTest\Mail\Transport;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\Exception\RuntimeException;
 use Zend\Mail\Transport\Sendmail;
@@ -17,7 +18,7 @@ use Zend\Mail\Transport\Sendmail;
  * @group      Zend_Mail
  * @covers Zend\Mail\Transport\Sendmail<extended>
  */
-class SendmailTest extends \PHPUnit_Framework_TestCase
+class SendmailTest extends TestCase
 {
     public $transport;
     public $to;
@@ -137,13 +138,13 @@ class SendmailTest extends \PHPUnit_Framework_TestCase
 
     public function testCodeInjectionInFromHeader()
     {
+        $this->expectException(RuntimeException::class);
         $message = $this->getMessage();
         $message->setBody('This is the text of the email.');
         $message->setFrom('"AAA\" code injection"@domain', 'Sender\'s name');
         $message->addTo('hacker@localhost', 'Name of recipient');
         $message->setSubject('TestSubject');
 
-        $this->setExpectedException(RuntimeException::class);
         $this->transport->send($message);
     }
 

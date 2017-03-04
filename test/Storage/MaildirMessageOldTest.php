@@ -9,7 +9,7 @@
 
 namespace ZendTest\Mail\Storage;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Storage;
 
 class MaildirMessageOldTest extends TestCase

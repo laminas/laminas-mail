@@ -9,6 +9,7 @@
 
 namespace ZendTest\Mail\Header;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Header\GenericHeader;
 use Zend\Mail\Header\HeaderWrap;
 
@@ -16,12 +17,12 @@ use Zend\Mail\Header\HeaderWrap;
  * @group      Zend_Mail
  * @covers Zend\Mail\Header\HeaderWrap<extended>
  */
-class HeaderWrapTest extends \PHPUnit_Framework_TestCase
+class HeaderWrapTest extends TestCase
 {
     public function testWrapUnstructuredHeaderAscii()
     {
         $string = str_repeat('foobarblahblahblah baz bat', 4);
-        $header = $this->getMock('Zend\Mail\Header\UnstructuredInterface');
+        $header = $this->createMock('Zend\Mail\Header\UnstructuredInterface');
         $header->expects($this->any())
             ->method('getEncoding')
             ->will($this->returnValue('ASCII'));
@@ -37,7 +38,7 @@ class HeaderWrapTest extends \PHPUnit_Framework_TestCase
     public function testWrapUnstructuredHeaderMime()
     {
         $string = str_repeat('foobarblahblahblah baz bat', 3);
-        $header = $this->getMock('Zend\Mail\Header\UnstructuredInterface');
+        $header = $this->createMock('Zend\Mail\Header\UnstructuredInterface');
         $header->expects($this->any())
             ->method('getEncoding')
             ->will($this->returnValue('UTF-8'));

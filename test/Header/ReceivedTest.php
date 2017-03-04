@@ -9,13 +9,14 @@
 
 namespace ZendTest\Mail\Header;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Header;
 
 /**
  * @group      Zend_Mail
  * @covers Zend\Mail\Header\Received<extended>
  */
-class ReceivedTest extends \PHPUnit_Framework_TestCase
+class ReceivedTest extends TestCase
 {
     public function testFromStringCreatesValidReceivedHeader()
     {
@@ -67,7 +68,7 @@ class ReceivedTest extends \PHPUnit_Framework_TestCase
      */
     public function testRaisesExceptionViaFromStringOnDetectionOfCrlfInjection($header)
     {
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
         $received = Header\Received::fromString($header);
     }
 
@@ -87,7 +88,7 @@ class ReceivedTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorRaisesExceptionOnValueWithCRLFInjectionAttempt($value)
     {
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
         new Header\Received($value);
     }
 }

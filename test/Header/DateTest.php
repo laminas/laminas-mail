@@ -9,7 +9,7 @@
 
 namespace ZendTest\Mail\Header;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Header;
 
 /**
@@ -33,7 +33,7 @@ class DateTest extends TestCase
      */
     public function testFromStringRaisesExceptionOnCrlfInjectionAttempt($header)
     {
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
         Header\Date::fromString($header);
     }
 
@@ -42,7 +42,7 @@ class DateTest extends TestCase
      */
     public function testPreventsCRLFInjectionViaConstructor()
     {
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
         $address = new Header\Date("This\ris\r\na\nCRLF Attack");
     }
 }
