@@ -83,7 +83,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         return [
             // Description => [sender address, sender name],
-            'german IDN' => ['öäü@ä-umlaut.de', null],
+            'german IDN' => ['oau@ä-umlaut.de', null],
         ];
     }
 }
