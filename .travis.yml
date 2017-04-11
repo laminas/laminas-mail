@@ -59,10 +59,6 @@ matrix:
   allow_failures:
     - php: hhvm
 
-notifications:
-  irc: "irc.freenode.org#zftalk.dev"
-  email: false
-
 before_install:
   - travis_retry composer self-update
   - if [[ $TRAVIS_PHP_VERSION != "hhvm" && $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini ; fi
@@ -85,3 +81,16 @@ after_success:
 
 after_script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer upload-coverage ; fi
+
+notifications:
+  email: false
+  irc:
+    channels:
+      - "irc.freenode.org#zftalk.dev"
+    on_success: change
+    on_failure: always
+  slack:
+    rooms:
+      - secure: "aqczxxE4+LS3YLt2+WeBwSC26i/q77E0RFQJ8QMlEsZSDucdbMej8r6ntsf9HGevsFbl8qiWbJvTLbKR0yBDcFZF3qnhQ+rayto4jQAUA9u2EAXuZXIJqLvzoBDSXo33DisThM9PMpMeXHQ+1+8VXBW7XYkkIsBF+CMmJpIHax+cv4eeJuxvdA6V095o/xHKbtF4SMaBn+N9rRn24rTq9UVmsbn2eIRgW51PZGQv2ZJcbOmCOdNVEfdA6+q+xSPsS4iEMUW4U48xPoMpBzegfSJFjUsvFLUMf0AidscdDHpVxMlk0HxXI9EG1AY7SeOlkMFamvYMVKxapKq+piI9J6JRNeF+qu8/HwxRcu/WD0UrQ6hGBYhOkpMYoTswnuUfbI6TtTNKHXAS8NcefQPB8GiwgCarhtP2k0VQXEfRfLhMmOeJixaHXvqnStgqOh2nyMJAMKzv6eKkwYJJGQEgej41CjpSsuVxiU2h1MTaml8y6d7ym7Us1Sobgs0iEqxKTJc0EUzLNKdMJGrGQJZ6Pe2KlCIrA+PyQxx6W+BlBtd/Hdl0Tc0V07FSBJROQrBLQ680nb31p5M9MQbk34NGFfepvvjJpHzJ1tuOJn/7A/r2vNmDsqg1eNaTdezlQTNnDDkv52n/IsLQJvUMaQDR/Lw8n1kEpQc5GBFuGWFO/L4="
+    on_success: change
+    on_failure: always
