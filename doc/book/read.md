@@ -392,7 +392,7 @@ use Zend\Mail\Storage\Imap;
 $mail = Folder\Mbox(['dirname' => '/home/test/mail/']);
 
 // mbox with a default folder not called INBOX; also works
-// with the maildir and IMAP implemenations.
+// with the maildir and IMAP implementations.
 $mail = new Folder\Mbox([
     'dirname' => '/home/test/mail/',
     'folder'  => 'Archive',

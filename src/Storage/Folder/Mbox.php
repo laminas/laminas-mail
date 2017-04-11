@@ -42,7 +42,7 @@ class Mbox extends Storage\Mbox implements FolderInterface
      * Supported parameters are:
      *
      * - dirname rootdir of mbox structure
-     * - folder intial selected folder, default is 'INBOX'
+     * - folder initial selected folder, default is 'INBOX'
      *
      * @param  $params array mail reader specific parameters
      * @throws Exception\InvalidArgumentException
