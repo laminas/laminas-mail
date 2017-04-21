@@ -61,7 +61,6 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
             throw new Exception\InvalidArgumentException('Invalid header value detected');
         }
 
-        $parts[0] = $parts[0];
         $parts[1] = ltrim($parts[1]);
 
         return $parts;
