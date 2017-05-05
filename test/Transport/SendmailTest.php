@@ -147,6 +147,21 @@ class SendmailTest extends \PHPUnit_Framework_TestCase
         $this->transport->send($message);
     }
 
+    /**
+     * @ref CVE-2016-10033 which targeted WordPress
+     */
+    public function testSecondCodeInjectionInFromHeader()
+    {
+        $message = $this->getMessage();
+        $message->setBody('This is the text of the email.');
+        $message->setFrom('user@xenial(tmp1 -be ${run{${substr{0}{1}{$spool_directory}}usr${substr{0}{1}{$spool_directory}}bin${substr{0}{1}{$spool_directory}}touch${substr{10}{1}{$tod_log}}${substr{0}{1}{$spool_directory}}tmp${substr{0}{1}{$spool_directory}}test}}  tmp2)', 'Sender\'s name');
+        $message->addTo('hacker@localhost', 'Name of recipient');
+        $message->setSubject('TestSubject');
+
+        $this->setExpectedException(RuntimeException::class);
+        $this->transport->send($message);
+    }
+
     public function testValidEmailLocaDomainInFromHeader()
     {
         $message = $this->getMessage();
