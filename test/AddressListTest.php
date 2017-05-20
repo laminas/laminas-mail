@@ -10,6 +10,7 @@ namespace ZendTest\Mail;
 use PHPUnit\Framework\TestCase;
 use Zend\Mail\Address;
 use Zend\Mail\AddressList;
+use Zend\Mail\Header;
 
 /**
  * @group      Zend_Mail
@@ -104,5 +105,22 @@ class AddressListTest extends TestCase
         $this->assertTrue($this->list->has('zf-devteam@zend.com'));
         $address = $this->list->get('zf-devteam@zend.com');
         $this->assertNull($address->getName());
+    }
+
+
+    /**
+     * Microsoft Outlook sent emails are semicolon separated
+     *
+     * @see https://blogs.msdn.microsoft.com/oldnewthing/20150119-00/?p=44883
+     */
+    public function testSemicolonSeparator()
+    {
+        $header = 'Some User <some.user@example.com>; uzer2.surname@example.org; asda.fasd@example.net, root@example.org';
+
+        // this throws: 'The input exceeds the allowed length'
+        $to = Header\To::fromString('To:' . $header);
+        $addressList = $to->getAddressList();
+
+        $this->assertEquals('Some User', $addressList->get('some.user@example.com')->getName());
     }
 }
