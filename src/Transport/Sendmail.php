@@ -85,9 +85,8 @@ class Sendmail implements TransportInterface
         foreach ($parameters as $param) {
             $string .= ' ' . $param;
         }
-        trim($string);
 
-        $this->parameters = $string;
+        $this->parameters = trim($string);
         return $this;
     }
 

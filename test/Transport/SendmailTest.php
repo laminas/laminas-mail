@@ -9,6 +9,7 @@
 
 namespace ZendTest\Mail\Transport;
 
+use ReflectionProperty;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\Exception\RuntimeException;
 use Zend\Mail\Transport\Sendmail;
@@ -157,5 +158,15 @@ class SendmailTest extends \PHPUnit_Framework_TestCase
 
         $this->transport->send($message);
         $this->assertContains('From: Foo Bar <"foo-bar"@domain>', $this->additional_headers);
+    }
+
+    public function testTrimmedParameters()
+    {
+        $this->transport->setParameters([' -R', 'hdrs ']);
+
+        $r = new ReflectionProperty($this->transport, 'parameters');
+        $r->setAccessible(true);
+
+        $this->assertSame('-R hdrs', $r->getValue($this->transport));
     }
 }
