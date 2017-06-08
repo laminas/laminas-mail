@@ -278,7 +278,7 @@ class Part implements RecursiveIterator, Part\PartInterface
                 $this->headers = new Headers();
             }
         }
-        if (!($this->headers instanceof Headers)) {
+        if (! $this->headers instanceof Headers) {
             throw new Exception\RuntimeException(
                 '$this->headers must be an instance of Headers'
             );
