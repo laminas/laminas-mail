@@ -266,6 +266,7 @@ class Part implements RecursiveIterator, Part\PartInterface
      * Lazy-loads if not already attached.
      *
      * @return Headers
+     * @throws Exception\RuntimeException
      */
     public function getHeaders()
     {
@@ -276,6 +277,11 @@ class Part implements RecursiveIterator, Part\PartInterface
             } else {
                 $this->headers = new Headers();
             }
+        }
+        if (! $this->headers instanceof Headers) {
+            throw new Exception\RuntimeException(
+                '$this->headers must be an instance of Headers'
+            );
         }
 
         return $this->headers;
