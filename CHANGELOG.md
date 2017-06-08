@@ -35,6 +35,15 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
+### Changed
+
+- [#140](https://github.com/zendframework/zend-mail/pull/140) updates the
+  `Sendmail` transport such that `From` and `Sender` addresses are passed to
+  `escapeshellarg()` when forming the `-f` argument for the `sendmail` binary.
+  While malformed addresses should never reach this class, this extra hardening
+  helps ensure safety in cases where a developer codes their own
+  `AddressInterface` implementations for these types of addresses.
+
 ### Deprecated
 
 - Nothing.

@@ -10,6 +10,11 @@
 namespace ZendTest\Mail\Transport;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionMethod;
+use Zend\Mail\Address\AddressInterface;
+use Zend\Mail\AddressList;
+use Zend\Mail\Header;
+use Zend\Mail\Headers;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\Exception\RuntimeException;
 use Zend\Mail\Transport\Sendmail;
@@ -89,7 +94,7 @@ class SendmailTest extends TestCase
         $this->assertContains("From: zf-devteam@zend.com,\n Matthew <matthew@zend.com>\n", $this->additional_headers);
         $this->assertContains("X-Foo-Bar: Matthew\n", $this->additional_headers);
         $this->assertContains("Sender: Ralph Schindler <ralph.schindler@zend.com>\n", $this->additional_headers);
-        $this->assertEquals('-R hdrs -fralph.schindler@zend.com', $this->additional_parameters);
+        $this->assertEquals('-R hdrs -f\'ralph.schindler@zend.com\'', $this->additional_parameters);
     }
 
     public function testReceivesMailArtifactsOnWindowsSystems()
@@ -158,5 +163,54 @@ class SendmailTest extends TestCase
 
         $this->transport->send($message);
         $this->assertContains('From: Foo Bar <"foo-bar"@domain>', $this->additional_headers);
+    }
+
+    /**
+     * @ref CVE-2016-10033 which targeted WordPress
+     */
+    public function testPrepareParametersEscapesSenderUsingEscapeShellArg()
+    {
+        // @codingStandardsIgnoreStart
+        $injectedEmail = 'user@xenial(tmp1 -be ${run{${substr{0}{1}{$spool_directory}}usr${substr{0}{1}{$spool_directory}}bin${substr{0}{1}{$spool_directory}}touch${substr{10}{1}{$tod_log}}${substr{0}{1}{$spool_directory}}tmp${substr{0}{1}{$spool_directory}}test}}  tmp2)';
+        // @codingStandardsIgnoreEnd
+
+        $sender = $this->prophesize(AddressInterface::class);
+        $sender->getEmail()->willReturn($injectedEmail);
+
+        $message = $this->prophesize(Message::class);
+        $message->getSender()->will([$sender, 'reveal']);
+        $message->getFrom()->shouldNotBeCalled();
+
+        $r = new ReflectionMethod($this->transport, 'prepareParameters');
+        $r->setAccessible(true);
+
+        $parameters = $r->invoke($this->transport, $message->reveal());
+        $this->assertEquals(' -f' . escapeshellarg($injectedEmail), $parameters);
+    }
+
+    /**
+     * @ref CVE-2016-10033 which targeted WordPress
+     */
+    public function testPrepareParametersEscapesFromAddressUsingEscapeShellArg()
+    {
+        // @codingStandardsIgnoreStart
+        $injectedEmail = 'user@xenial(tmp1 -be ${run{${substr{0}{1}{$spool_directory}}usr${substr{0}{1}{$spool_directory}}bin${substr{0}{1}{$spool_directory}}touch${substr{10}{1}{$tod_log}}${substr{0}{1}{$spool_directory}}tmp${substr{0}{1}{$spool_directory}}test}}  tmp2)';
+        // @codingStandardsIgnoreEnd
+
+        $address = $this->prophesize(AddressInterface::class);
+        $address->getEmail()->willReturn($injectedEmail)->shouldBeCalledTimes(2);
+
+        $from = new AddressList();
+        $from->add($address->reveal());
+
+        $message = $this->prophesize(Message::class);
+        $message->getSender()->willReturn(null);
+        $message->getFrom()->willReturn($from);
+
+        $r = new ReflectionMethod($this->transport, 'prepareParameters');
+        $r->setAccessible(true);
+
+        $parameters = $r->invoke($this->transport, $message->reveal());
+        $this->assertEquals(' -f' . escapeshellarg($injectedEmail), $parameters);
     }
 }
