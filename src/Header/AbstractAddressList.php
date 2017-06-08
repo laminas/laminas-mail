@@ -80,6 +80,7 @@ abstract class AbstractAddressList implements HeaderInterface
 
         $values = array_filter($values);
 
+        /** @var AddressList $addressList */
         $addressList = $header->getAddressList();
         foreach ($values as $address) {
             $addressList->addFromString($address);
