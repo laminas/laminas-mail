@@ -42,6 +42,8 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#116](https://github.com/zendframework/zend-mail/pull/116) fixes how the
   `AbstractProtocol` handles `stream_socket_client()` errors, ensuring an
   exception is thrown with detailed information regarding the failure.
+- [#151](https://github.com/zendframework/zend-mail/pull/151) fixes a condition
+  in the `Sendmail` transport whereby CLI parameters were not properly trimmed.
 
 ## 2.7.2 - 2016-12-19
 
