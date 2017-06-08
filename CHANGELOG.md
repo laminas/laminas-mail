@@ -19,6 +19,9 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#141](https://github.com/zendframework/zend-mail/pull/141) updates
   `Zend\Mail\Message::getHeaders()` to throw an exception in a case where the
   `$headers` property is not a `Headers` instance.
+- [#150](https://github.com/zendframework/zend-mail/pull/150) updates the
+  `Smtp` protocol to allow an empty or `none` value for the SSL configuration
+  value.
 
 ### Deprecated
 
