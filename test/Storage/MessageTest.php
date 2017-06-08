@@ -240,7 +240,7 @@ class MessageTest extends TestCase
         $this->expectException('Zend\\Mail\\Exception\\InvalidArgumentException');
         $message->subject;
     }
-    
+
     public function testWrongHeaderType()
     {
         // @codingStandardsIgnoreStart
