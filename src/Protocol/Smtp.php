@@ -131,6 +131,10 @@ class Smtp extends AbstractProtocol
                         $port = 465;
                     }
                     break;
+                    
+                case '':
+                case 'none':
+                    break;
 
                 default:
                     throw new Exception\InvalidArgumentException($config['ssl'] . ' is unsupported SSL type');
