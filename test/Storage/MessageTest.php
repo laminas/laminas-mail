@@ -9,6 +9,8 @@
 
 namespace ZendTest\Mail\Storage;
 
+use Exception as GeneralException;
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Exception as MailException;
 use Zend\Mail\Storage;
 use Zend\Mail\Storage\Exception;
@@ -20,7 +22,7 @@ use Zend\Mime\Exception as MimeException;
  * @group      Zend_Mail
  * @covers Zend\Mail\Storage\Message<extended>
  */
-class MessageTest extends \PHPUnit_Framework_TestCase
+class MessageTest extends TestCase
 {
     protected $file;
     protected $file2;
@@ -33,13 +35,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidFile()
     {
-        try {
-            $message = new Message(['file' => '/this/file/does/not/exists']);
-        } catch (\Exception $e) {
-            return; // ok
-        }
-
-        $this->fail('no exception raised while loading unknown file');
+        $this->expectException(GeneralException::class);
+        new Message(['file' => '/this/file/does/not/exists']);
     }
 
     /**
@@ -96,15 +93,9 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
     public function testGetWrongPart()
     {
+        $this->expectException(GeneralException::class);
         $message = new Message(['file' => $this->file]);
-
-        try {
-            $message->getPart(-1);
-        } catch (\Exception $e) {
-            return; // ok
-        }
-
-        $this->fail('no exception raised while fetching unknown part');
+        $message->getPart(-1);
     }
 
     public function testNoHeaderMessage()
@@ -154,37 +145,21 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
     public function testSplitInvalidMessage()
     {
-        try {
-            Mime\Decode::splitMessageStruct("--xxx\n", 'xxx');
-        } catch (MimeException\ExceptionInterface $e) {
-            return; // ok
-        }
-
-        $this->fail('no exception raised while decoding invalid message');
+        $this->expectException(MimeException\ExceptionInterface::class);
+        Mime\Decode::splitMessageStruct("--xxx\n", 'xxx');
     }
 
     public function testInvalidMailHandler()
     {
-        try {
-            $message = new Message(['handler' => 1]);
-        } catch (Exception\InvalidArgumentException $e) {
-            return; // ok
-        }
-
-        $this->fail('no exception raised while using invalid mail handler');
+        $this->expectException(Exception\InvalidArgumentException::class);
+        new Message(['handler' => 1]);
     }
 
     public function testMissingId()
     {
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail = new Storage\Mbox(['filename' => __DIR__ . '/../_files/test.mbox/INBOX']);
-
-        try {
-            $message = new Message(['handler' => $mail]);
-        } catch (Exception\InvalidArgumentException $e) {
-            return; // ok
-        }
-
-        $this->fail('no exception raised while mail handler without id');
+        new Message(['handler' => $mail]);
     }
 
     public function testIterator()
@@ -217,14 +192,9 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
     public function testSplitInvalidHeader()
     {
+        $this->expectException(MimeException\ExceptionInterface::class);
         $header = '';
-        try {
-            Mime\Decode::splitHeaderField($header);
-        } catch (MimeException\ExceptionInterface $e) {
-            return; // ok
-        }
-
-        $this->fail('no exception raised while decoding invalid header field');
+        Mime\Decode::splitHeaderField($header);
     }
 
     public function testSplitMessage()
@@ -254,15 +224,9 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
     public function testNoContent()
     {
+        $this->expectException(Exception\RuntimeException::class);
         $message = new Message(['raw' => 'Subject: test']);
-
-        try {
-            $message->getContent();
-        } catch (Exception\RuntimeException $e) {
-            return; // ok
-        }
-
-        $this->fail('no exception raised while getting content of message without body');
+        $message->getContent();
     }
 
     public function testEmptyHeader()
@@ -273,10 +237,10 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $message = new Message([]);
         $subject = null;
 
-        $this->setExpectedException('Zend\\Mail\\Exception\\InvalidArgumentException');
+        $this->expectException('Zend\\Mail\\Exception\\InvalidArgumentException');
         $message->subject;
     }
-    
+
     public function testWrongHeaderType()
     {
         // @codingStandardsIgnoreStart
@@ -285,7 +249,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         );
         // @codingStandardsIgnoreEnd
 
-        $this->setExpectedException(MailException\RuntimeException::class);
+        $this->expectException(MailException\RuntimeException::class);
         $badMessage->getHeaders();
     }
 
@@ -322,14 +286,9 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
     public function testWrongMultipart()
     {
+        $this->expectException(Exception\RuntimeException::class);
         $message = new Message(['raw' => "Content-Type: multipart/mixed\r\n\r\ncontent"]);
-
-        try {
-            $message->getPart(1);
-        } catch (Exception\RuntimeException $e) {
-            return; // ok
-        }
-        $this->fail('no exception raised while getting part from message without boundary');
+        $message->getPart(1);
     }
 
     public function testLateFetch()
@@ -409,13 +368,9 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
     public function testGetHeaderFieldInvalid()
     {
+        $this->expectException(MailException\ExceptionInterface::class);
         $message = new Message(['file' => $this->file]);
-        try {
-            $message->getHeaderField('fake-header-name', 'foo');
-        } catch (MailException\ExceptionInterface $e) {
-            return;
-        }
-        $this->fail('No exception thrown while requesting invalid field name');
+        $message->getHeaderField('fake-header-name', 'foo');
     }
 
     public function testCaseInsensitiveMultipart()
@@ -443,7 +398,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      */
     public function testStrictParseMessage()
     {
-        $this->setExpectedException('Zend\\Mail\\Exception\\RuntimeException');
+        $this->expectException('Zend\\Mail\\Exception\\RuntimeException');
 
         $raw = file_get_contents($this->file);
         $raw = "From foo@example.com  Sun Jan 01 00:00:00 2000\n" . $raw;

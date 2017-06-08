@@ -9,6 +9,7 @@
 
 namespace ZendTest\Mail;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail;
 use Zend\Mail\Header;
 
@@ -16,7 +17,7 @@ use Zend\Mail\Header;
  * @group      Zend_Mail
  * @covers Zend\Mail\Headers<extended>
  */
-class HeadersTest extends \PHPUnit_Framework_TestCase
+class HeadersTest extends TestCase
 {
     public function testHeadersImplementsProperClasses()
     {
@@ -74,7 +75,8 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
 
     public function testHeadersFromStringFactoryThrowsExceptionOnMalformedHeaderLine()
     {
-        $this->setExpectedException('Zend\Mail\Exception\RuntimeException', 'does not match');
+        $this->expectException('Zend\Mail\Exception\RuntimeException');
+        $this->expectExceptionMessage('does not match');
         Mail\Headers::fromString("Fake = foo-bar\r\n\r\n");
     }
 
@@ -145,10 +147,8 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
 
     public function testHeadersAddHeaderLineThrowsExceptionOnMissingFieldValue()
     {
-        $this->setExpectedException(
-            'Zend\Mail\Header\Exception\InvalidArgumentException',
-            'Header must match with the format "name:value"'
-        );
+        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Header must match with the format "name:value"');
         $headers = new Mail\Headers();
         $headers->addHeaderLine('Foo');
     }
@@ -193,7 +193,8 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
 
     public function testHeadersAddHeadersThrowsExceptionOnInvalidArguments()
     {
-        $this->setExpectedException('Zend\Mail\Exception\InvalidArgumentException', 'Expected array or Trav');
+        $this->expectException('Zend\Mail\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Expected array or Trav');
         $headers = new Mail\Headers();
         $headers->addHeaders('foo');
     }
@@ -405,7 +406,7 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
      */
     public function testHeaderCrLfAttackFromString()
     {
-        $this->setExpectedException('Zend\Mail\Exception\RuntimeException');
+        $this->expectException('Zend\Mail\Exception\RuntimeException');
         Mail\Headers::fromString("Fake: foo-bar\r\n\r\nevilContent");
     }
 
@@ -415,7 +416,7 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
     public function testHeaderCrLfAttackAddHeaderLineSingle()
     {
         $headers = new Mail\Headers();
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
         $headers->addHeaderLine("Fake: foo-bar\r\n\r\nevilContent");
     }
 
@@ -425,7 +426,7 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
     public function testHeaderCrLfAttackAddHeaderLineWithValue()
     {
         $headers = new Mail\Headers();
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
         $headers->addHeaderLine('Fake', "foo-bar\r\n\r\nevilContent");
     }
 
@@ -435,7 +436,7 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
     public function testHeaderCrLfAttackAddHeaderLineMultiple()
     {
         $headers = new Mail\Headers();
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
         $headers->addHeaderLine('Fake', ["foo-bar\r\n\r\nevilContent"]);
         $headers->forceLoading();
     }
@@ -446,7 +447,7 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
     public function testHeaderCrLfAttackAddHeadersSingle()
     {
         $headers = new Mail\Headers();
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
         $headers->addHeaders(["Fake: foo-bar\r\n\r\nevilContent"]);
     }
 
@@ -456,7 +457,7 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
     public function testHeaderCrLfAttackAddHeadersWithValue()
     {
         $headers = new Mail\Headers();
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
         $headers->addHeaders(['Fake' => "foo-bar\r\n\r\nevilContent"]);
     }
 
@@ -466,7 +467,7 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
     public function testHeaderCrLfAttackAddHeadersMultiple()
     {
         $headers = new Mail\Headers();
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
         $headers->addHeaders(['Fake' => ["foo-bar\r\n\r\nevilContent"]]);
         $headers->forceLoading();
     }

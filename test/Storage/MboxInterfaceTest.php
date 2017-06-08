@@ -9,6 +9,7 @@
 
 namespace ZendTest\Mail\Storage;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail;
 use Zend\Mail\Storage;
 use Zend\Mail\Storage\Message;
@@ -17,7 +18,7 @@ use Zend\Mail\Storage\Message;
  * @group      Zend_Mail
  * @covers Zend\Mail\Storage\Mbox<extended>
  */
-class MboxInterfaceTest extends \PHPUnit_Framework_TestCase
+class MboxInterfaceTest extends TestCase
 {
     protected $mboxFile;
 
@@ -60,7 +61,7 @@ class MboxInterfaceTest extends \PHPUnit_Framework_TestCase
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\RuntimeException');
+        $this->expectException('Zend\Mail\Storage\Exception\RuntimeException');
         $list[1] = 'test';
     }
 
@@ -136,7 +137,7 @@ class MboxInterfaceTest extends \PHPUnit_Framework_TestCase
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $list->thisdoesnotexist;
     }
 
@@ -151,7 +152,7 @@ class MboxInterfaceTest extends \PHPUnit_Framework_TestCase
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $list[1]->thisdoesnotexist;
     }
 }

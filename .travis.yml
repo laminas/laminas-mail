@@ -16,7 +16,9 @@ cache:
 
 env:
   global:
-    - SERVICE_MANAGER_VERSION="^3.0.3"
+    - COMPOSER_ARGS="--no-interaction"
+    - COVERAGE_DEPS="satooshi/php-coveralls"
+    - LEGACY_DEPS="phpunit/phpunit"
     - SITE_URL: https://zendframework.github.io/zend-mail
     - GH_USER_NAME: "Matthew Weier O'Phinney"
     - GH_USER_EMAIL: matthew@weierophinney.net
@@ -24,40 +26,51 @@ env:
     - secure: "D/LfNRozbXUjssR19Yi+6luLML1XyVhTLaky2FPlFAuWb80viVzTxhlvX1QgWPSxxTH8zLRlPm/71E8wYHTN94UGLwJorOthA/btaWKPtdgJtlHXErSgofVVOUqAObvGFOW9sSSuRZ5gFN0c47uuWJmYbiI3HUQkFMjpGpFatXO1SajzK+dCpN4cuhgHW3T41PNbiG8RRCYeFwGBJdpIXEm3HYN6bAWRbFnnu4uCVnQYZnDn/Rprr8+WIU5JFOJQ7ttCQuq1RMP3EC1fVIr0N5gFL91KYX9EyCYmLpZNMS6kF9cPTRQbMEOcKMXqqfGA031MlhvveeOiVWiap/ScMwpId0ugTq9O+sUvBHZuk4FSRtiURcPTLKAmQfUie8Zb+/dxKI18oOWVLsUU919wAEU/hGeTOvATl0WcjqZ2LmxOLVm6UE8+5kM1FhM04XjQaFSJVWK+Asto9KRrOSd310SMpluATutO2ZSN0r7+a7S65M38RRh63NOtdrtbbYIx7+MdAmfPwH5+wr3gekD0pDgnfQd1zLQNWMF/2idTjoxO6xAxTLvthThf5ANXadz1A2Dwqn1EdGsTJ2QItGO7TFwDE+Wfi1O6vtm2FgEy98vwC0t4D1op+0QSRMPr6lFkzINOv4aVO/SB1NF3zwiB95ZsvqReU/Zj2+aDzltf5tY="
 
 matrix:
+  fast_finish: true
   include:
-    - php: 5.5
-      env:
-        - CS_CHECK=true
-    - php: 5.5
-      env:
-        - SERVICE_MANAGER_VERSION="^2.7.5"
     - php: 5.6
       env:
+        - DEPS=lowest
+    - php: 5.6
+      env:
+        - DEPS=locked
         - TEST_COVERAGE=true
         - DEPLOY_DOCS="$(if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then echo -n 'true' ; else echo -n 'false' ; fi)"
         - PATH="$HOME/.local/bin:$PATH"
     - php: 5.6
       env:
-        - SERVICE_MANAGER_VERSION="^2.7.5"
-    - php: 7
+        - DEPS=latest
     - php: 7
       env:
-        - SERVICE_MANAGER_VERSION="^2.7.5"
-    - php: hhvm
-    - php: hhvm
+        - DEPS=lowest
+    - php: 7
       env:
-        - SERVICE_MANAGER_VERSION="^2.7.5"
-  allow_failures:
-    - php: hhvm
+        - DEPS=locked
+        - CS_CHECK=true
+    - php: 7
+      env:
+        - DEPS=latest
+    - php: 7.1
+      env:
+        - DEPS=lowest
+    - php: 7.1
+      env:
+        - DEPS=locked
+    - php: 7.1
+      env:
+        - DEPS=latest
 
 before_install:
-  - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
-  - composer self-update
-  - if [[ $TEST_COVERAGE == 'true' ]]; then composer require --dev --no-update satooshi/php-coveralls ; fi
-  - composer require --dev --no-update "zendframework/zend-servicemanager:$SERVICE_MANAGER_VERSION"
+  - travis_retry composer self-update
+  - if [[ $TRAVIS_PHP_VERSION != "hhvm" && $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini ; fi
 
 install:
-  - travis_retry composer install --no-interaction --ignore-platform-reqs
+  - travis_retry composer install $COMPOSER_ARGS
+  - if [[ $TRAVIS_PHP_VERSION =~ ^5.6 ]]; then travis_retry composer update $COMPOSER_ARGS --with-dependencies $LEGACY_DEPS ; fi
+  - if [[ $DEPS == 'latest' ]]; then travis_retry composer update $COMPOSER_ARGS ; fi
+  - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable $COMPOSER_ARGS ; fi
+  - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS $COVERAGE_DEPS ; fi
+  - composer show
 
 script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi

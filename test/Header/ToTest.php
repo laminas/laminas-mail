@@ -9,6 +9,7 @@
 
 namespace ZendTest\Mail\Header;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Header;
 
 /**
@@ -18,7 +19,7 @@ use Zend\Mail\Header;
  * @group      Zend_Mail
  * @covers Zend\Mail\Header\To<extended>
  */
-class ToTest extends \PHPUnit_Framework_TestCase
+class ToTest extends TestCase
 {
     public function testHeaderFoldingOccursProperly()
     {
@@ -48,7 +49,7 @@ class ToTest extends \PHPUnit_Framework_TestCase
      */
     public function testFromStringRaisesExceptionWhenCrlfInjectionIsDetected($header)
     {
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
         Header\To::fromString($header);
     }
 }

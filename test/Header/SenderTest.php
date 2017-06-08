@@ -9,6 +9,7 @@
 
 namespace ZendTest\Mail\Header;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Address;
 use Zend\Mail\Header;
 use Zend\Mail\Exception;
@@ -17,7 +18,7 @@ use Zend\Mail\Exception;
  * @group      Zend_Mail
  * @covers Zend\Mail\Header\Sender<extended>
  */
-class SenderTest extends \PHPUnit_Framework_TestCase
+class SenderTest extends TestCase
 {
     public function testFromStringCreatesValidReceivedHeader()
     {
@@ -54,14 +55,12 @@ class SenderTest extends \PHPUnit_Framework_TestCase
      * @group ZF2015-04
      * @param string $decodedValue
      * @param string $expectedException
-     * @param string|null $expectedExceptionMessage
      */
     public function testParseInvalidSenderHeaderThrowException(
         $decodedValue,
-        $expectedException,
-        $expectedExceptionMessage
+        $expectedException
     ) {
-        $this->setExpectedException($expectedException, $expectedExceptionMessage);
+        $this->expectException($expectedException);
         Header\Sender::fromString('Sender:' . $decodedValue);
     }
 
@@ -93,7 +92,7 @@ class SenderTest extends \PHPUnit_Framework_TestCase
     public function testSetAddressInvalidValue($email, $name)
     {
         $header = new Header\Sender();
-        $this->setExpectedException('Zend\Mail\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Exception\InvalidArgumentException');
         $header->setAddress($email, $name);
     }
 
@@ -190,20 +189,20 @@ class SenderTest extends \PHPUnit_Framework_TestCase
 
         return [
             // Description => [decoded format, exception class, exception message],
-            'Empty' => ['', $mailInvalidArgumentException, null],
-            'any ASCII' => ['azAZ09-_', $mailInvalidArgumentException, null],
-            'any UTF-8' => ['ázÁZ09-_', $mailInvalidArgumentException, null],
-            ["xxx yyy\n", $mailInvalidArgumentException, null],
-            ["xxx yyy\r\n", $mailInvalidArgumentException, null],
-            ["xxx yyy\r\n\r\n", $mailInvalidArgumentException, null],
-            ["xxx\r\ny\r\nyy", $mailInvalidArgumentException, null],
-            ["foo\r\n@\r\nbar", $mailInvalidArgumentException, null],
+            'Empty' => ['', $mailInvalidArgumentException],
+            'any ASCII' => ['azAZ09-_', $mailInvalidArgumentException],
+            'any UTF-8' => ['ázÁZ09-_', $mailInvalidArgumentException],
+            ["xxx yyy\n", $mailInvalidArgumentException],
+            ["xxx yyy\r\n", $mailInvalidArgumentException],
+            ["xxx yyy\r\n\r\n", $mailInvalidArgumentException],
+            ["xxx\r\ny\r\nyy", $mailInvalidArgumentException],
+            ["foo\r\n@\r\nbar", $mailInvalidArgumentException],
 
-            ["ázÁZ09 <foo@bar>", $headerInvalidArgumentException, null],
-            'newline' => ["<foo@bar>\n", $headerInvalidArgumentException, null],
-            'cr-lf' => ["<foo@bar>\r\n", $headerInvalidArgumentException, null],
-            'cr-lf-wsp' => ["<foo@bar>\r\n\r\n", $headerInvalidArgumentException, null],
-            'multiline' => ["<foo\r\n@\r\nbar>", $headerInvalidArgumentException, null],
+            ["ázÁZ09 <foo@bar>", $headerInvalidArgumentException],
+            'newline' => ["<foo@bar>\n", $headerInvalidArgumentException],
+            'cr-lf' => ["<foo@bar>\r\n", $headerInvalidArgumentException],
+            'cr-lf-wsp' => ["<foo@bar>\r\n\r\n", $headerInvalidArgumentException],
+            'multiline' => ["<foo\r\n@\r\nbar>", $headerInvalidArgumentException],
         ];
     }
 
@@ -247,7 +246,8 @@ class SenderTest extends \PHPUnit_Framework_TestCase
      */
     public function testFromStringWithInvalidInput($headerString, $expectedException, $expectedMessagePart = '')
     {
-        $this->setExpectedException($expectedException, $expectedMessagePart);
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedMessagePart);
 
         Header\Sender::fromString($headerString);
     }

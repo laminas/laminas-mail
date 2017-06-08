@@ -9,13 +9,14 @@
 
 namespace ZendTest\Mail;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\MessageFactory;
 
 /**
  * @group      Zend_Mail
  * @covers Zend\Mail\MessageFactory<extended>
  */
-class MessageFactoryTest extends \PHPUnit_Framework_TestCase
+class MessageFactoryTest extends TestCase
 {
     public function testConstructMessageWithOptions()
     {
@@ -117,7 +118,7 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionForOptionsNotArrayOrTraversable($options)
     {
-        $this->setExpectedException('Zend\Mail\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Exception\InvalidArgumentException');
         MessageFactory::getInstance($options);
     }
 }

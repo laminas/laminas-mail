@@ -9,13 +9,13 @@
 
 namespace ZendTest\Mail\Protocol;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Protocol\ProtocolTrait;
 
 /**
- * @group   Zend_Mail
  * @covers  Zend\Mail\Protocol\ProtocolTrait
  */
-class ProtocolTraitTest extends \PHPUnit_Framework_TestCase
+class ProtocolTraitTest extends TestCase
 {
     /**
      * @requires PHP 5.6.7

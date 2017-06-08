@@ -9,6 +9,7 @@
 
 namespace ZendTest\Mail\Transport;
 
+use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use ReflectionProperty;
 use Zend\Mail\Address\AddressInterface;
@@ -22,7 +23,7 @@ use Zend\Mail\Transport\Sendmail;
 /**
  * @covers Zend\Mail\Transport\Sendmail<extended>
  */
-class SendmailTest extends \PHPUnit_Framework_TestCase
+class SendmailTest extends TestCase
 {
     public $transport;
     public $to;
@@ -142,13 +143,13 @@ class SendmailTest extends \PHPUnit_Framework_TestCase
 
     public function testCodeInjectionInFromHeader()
     {
+        $this->expectException(RuntimeException::class);
         $message = $this->getMessage();
         $message->setBody('This is the text of the email.');
         $message->setFrom('"AAA\" code injection"@domain', 'Sender\'s name');
         $message->addTo('hacker@localhost', 'Name of recipient');
         $message->setSubject('TestSubject');
 
-        $this->setExpectedException(RuntimeException::class);
         $this->transport->send($message);
     }
 
