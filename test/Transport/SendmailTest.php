@@ -11,6 +11,7 @@ namespace ZendTest\Mail\Transport;
 
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
+use ReflectionProperty;
 use Zend\Mail\Address\AddressInterface;
 use Zend\Mail\AddressList;
 use Zend\Mail\Header;
@@ -20,7 +21,6 @@ use Zend\Mail\Transport\Exception\RuntimeException;
 use Zend\Mail\Transport\Sendmail;
 
 /**
- * @group      Zend_Mail
  * @covers Zend\Mail\Transport\Sendmail<extended>
  */
 class SendmailTest extends TestCase
@@ -212,5 +212,15 @@ class SendmailTest extends TestCase
 
         $parameters = $r->invoke($this->transport, $message->reveal());
         $this->assertEquals(' -f' . escapeshellarg($injectedEmail), $parameters);
+    }
+
+    public function testTrimmedParameters()
+    {
+        $this->transport->setParameters([' -R', 'hdrs ']);
+
+        $r = new ReflectionProperty($this->transport, 'parameters');
+        $r->setAccessible(true);
+
+        $this->assertSame('-R hdrs', $r->getValue($this->transport));
     }
 }
