@@ -240,6 +240,18 @@ class MessageTest extends TestCase
         $this->expectException('Zend\\Mail\\Exception\\InvalidArgumentException');
         $message->subject;
     }
+    
+    public function testWrongHeaderType()
+    {
+        // @codingStandardsIgnoreStart
+        $badMessage = unserialize(
+            "O:25:\"Zend\Mail\Storage\Message\":9:{s:8:\"\x00*\x00flags\";a:0:{}s:10:\"\x00*\x00headers\";s:16:\"Yellow submarine\";s:10:\"\x00*\x00content\";N;s:11:\"\x00*\x00topLines\";s:0:\"\";s:8:\"\x00*\x00parts\";a:0:{}s:13:\"\x00*\x00countParts\";N;s:15:\"\x00*\x00iterationPos\";i:1;s:7:\"\x00*\x00mail\";N;s:13:\"\x00*\x00messageNum\";i:0;}"
+        );
+        // @codingStandardsIgnoreEnd
+
+        $this->expectException(MailException\RuntimeException::class);
+        $badMessage->getHeaders();
+    }
 
     public function testEmptyBody()
     {

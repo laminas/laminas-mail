@@ -43,6 +43,9 @@ All notable changes to this project will be documented in this file, in reverse 
   While malformed addresses should never reach this class, this extra hardening
   helps ensure safety in cases where a developer codes their own
   `AddressInterface` implementations for these types of addresses.
+- [#141](https://github.com/zendframework/zend-mail/pull/141) updates
+  `Zend\Mail\Message::getHeaders()` to throw an exception in a case where the
+  `$headers` property is not a `Headers` instance.
 
 ### Deprecated
 
