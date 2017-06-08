@@ -24,6 +24,9 @@ class ProtocolTraitTest extends \PHPUnit_Framework_TestCase
     {
         $mock = $this->getMockForTrait(ProtocolTrait::class);
 
-        $this->assertNotEmpty(STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT & $mock->getCryptoMethod(), 'TLSv1.2 must be present in crypto method list');
+        $this->assertNotEmpty(
+            STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT & $mock->getCryptoMethod(),
+            'TLSv1.2 must be present in crypto method list'
+        );
     }
 }
