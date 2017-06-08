@@ -16,24 +16,8 @@ All notable changes to this project will be documented in this file, in reverse 
   requirement on ext/iconv, as it is used internally.
 - [#132](https://github.com/zendframework/zend-mail/pull/132) bumps minimum
   php version to 5.6
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
-
-## 2.7.3 - 2017-02-14
-
-### Added
-
-- Nothing.
+- [#144](https://github.com/zendframework/zend-mail/pull/144) adds support
+  for TLS versions 1.1 and 1.2 for all protocols supporting TLS operations.
 
 ### Changed
 
@@ -60,6 +44,25 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
+- [#151](https://github.com/zendframework/zend-mail/pull/151) fixes a condition
+  in the `Sendmail` transport whereby CLI parameters were not properly trimmed.
+
+## 2.7.3 - 2017-02-14
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
 - [#93](https://github.com/zendframework/zend-mail/pull/93) fixes a situation
   whereby `getSender()` was unintentionally creating a blank `Sender` header,
   instead of returning `null` if none exists, fixing an issue in the SMTP
@@ -69,8 +72,6 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#116](https://github.com/zendframework/zend-mail/pull/116) fixes how the
   `AbstractProtocol` handles `stream_socket_client()` errors, ensuring an
   exception is thrown with detailed information regarding the failure.
-- [#151](https://github.com/zendframework/zend-mail/pull/151) fixes a condition
-  in the `Sendmail` transport whereby CLI parameters were not properly trimmed.
 
 ## 2.7.2 - 2016-12-19
 
