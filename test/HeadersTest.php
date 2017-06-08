@@ -471,6 +471,9 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
         $headers->forceLoading();
     }
 
+    /**
+     * @requires extension intl
+     */
     public function testAddressListGetEncodedFieldValueWithUtf8Domain()
     {
         $to = new Header\To;
