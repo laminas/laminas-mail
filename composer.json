@@ -28,6 +28,7 @@
         "zendframework/zend-coding-standard": "~1.0.0"
     },
     "suggest": {
+        "ext-intl": "Handle IDN in AddressList hostnames",
         "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3 when using SMTP to deliver messages",
         "zendframework/zend-crypt": "Crammd5 support in SMTP Auth"
     },
