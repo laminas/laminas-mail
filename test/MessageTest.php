@@ -862,6 +862,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     {
         $message = new Message();
         $this->setExpectedException(Exception\InvalidArgumentException::class);
+        // @codingStandardsIgnoreStart
         $message->setFrom('user@xenial(tmp1 -be ${run{${substr{0}{1}{$spool_directory}}usr${substr{0}{1}{$spool_directory}}bin${substr{0}{1}{$spool_directory}}touch${substr{10}{1}{$tod_log}}${substr{0}{1}{$spool_directory}}tmp${substr{0}{1}{$spool_directory}}test}}  tmp2)', 'Sender\'s name');
+        // @codingStandardsIgnoreEnd
     }
 }
