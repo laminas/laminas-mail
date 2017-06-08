@@ -13,6 +13,8 @@ use Zend\Stdlib\ErrorHandler;
 
 class Imap
 {
+    use ProtocolTrait;
+
     /**
      * Default timeout in seconds for initiating session
      */
@@ -102,7 +104,7 @@ class Imap
 
         if ($isTls) {
             $result = $this->requestAndResponse('STARTTLS');
-            $result = $result && stream_socket_enable_crypto($this->socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+            $result = $result && stream_socket_enable_crypto($this->socket, true, $this->getCryptoMethod());
             if (! $result) {
                 throw new Exception\RuntimeException('cannot enable TLS');
             }

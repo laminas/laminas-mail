@@ -17,6 +17,8 @@ namespace Zend\Mail\Protocol;
  */
 class Smtp extends AbstractProtocol
 {
+    use ProtocolTrait;
+
     /**
      * The transport method for the socket
      *
@@ -206,7 +208,7 @@ class Smtp extends AbstractProtocol
         if ($this->secure == 'tls') {
             $this->_send('STARTTLS');
             $this->_expect(220, 180);
-            if (! stream_socket_enable_crypto($this->socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+            if (! stream_socket_enable_crypto($this->socket, true, $this->getCryptoMethod())) {
                 throw new Exception\RuntimeException('Unable to connect via TLS');
             }
             $this->ehlo($host);
