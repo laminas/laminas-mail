@@ -131,8 +131,9 @@ class Smtp extends AbstractProtocol
                         $port = 465;
                     }
                     break;
-                    
+
                 case '':
+                    // fall-through
                 case 'none':
                     break;
 
