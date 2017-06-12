@@ -68,6 +68,8 @@ class MessageId implements HeaderInterface
     {
         if ($id === null) {
             $id = $this->createMessageId();
+        } else {
+            $id = trim($id, '<>');
         }
 
         if (! HeaderValue::isValid($id)
