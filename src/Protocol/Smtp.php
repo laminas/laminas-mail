@@ -248,8 +248,6 @@ class Smtp extends AbstractProtocol
         } catch (Exception\ExceptionInterface $e) {
             $this->_send('HELO ' . $host);
             $this->_expect(250, 300); // Timeout set for 5 minutes as per RFC 2821 4.5.3.2
-        } catch (\Exception $e) {
-            throw $e;
         }
     }
 
