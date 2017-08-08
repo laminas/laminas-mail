@@ -10,4 +10,4 @@ transport. Of course, you can also implement your own transport by implementing
 the `Mail\Transport\TransportInterface`.
 
 - File issues at https://github.com/zendframework/zend-mail/issues
-- Documentation is at https://zendframework.github.io/zend-mail/
+- Documentation is at https://docs.zendframework.com/zend-mail/
