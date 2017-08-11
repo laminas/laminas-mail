@@ -11,7 +11,11 @@ class IdentificationFieldTest extends TestCase
     {
         return [
             ["References", "References: <1234@local.machine.example>", ["1234@local.machine.example"]],
-            ["References", "References: <1234@local.machine.example> <3456@example.net>", ["1234@local.machine.example", "3456@example.net"]],
+            [
+                "References",
+                "References: <1234@local.machine.example> <3456@example.net>",
+                ["1234@local.machine.example", "3456@example.net"]
+            ],
             ["InReplyTo", "In-Reply-To: <3456@example.net>", ["3456@example.net"]]
         ];
     }

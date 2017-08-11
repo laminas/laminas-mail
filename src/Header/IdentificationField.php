@@ -43,7 +43,8 @@ abstract class IdentificationField implements HeaderInterface
 
         $value = HeaderWrap::mimeDecodeValue($value);
 
-        $messageIds = array_map([IdentificationField::class, "trimMessageId"],
+        $messageIds = array_map(
+            [IdentificationField::class, "trimMessageId"],
             explode(" ", $value)
         );
 
@@ -95,7 +96,7 @@ abstract class IdentificationField implements HeaderInterface
     public function setIds($ids)
     {
         foreach ($ids as $id) {
-            if (!HeaderValue::isValid($id)
+            if (! HeaderValue::isValid($id)
                 || preg_match("/[\r\n]/", $id)
             ) {
                 throw new Exception\InvalidArgumentException('Invalid ID detected');

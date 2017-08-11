@@ -3,7 +3,6 @@
 
 namespace Zend\Mail\Header;
 
-
 class InReplyTo extends IdentificationField
 {
     protected $fieldName = 'In-Reply-To';
