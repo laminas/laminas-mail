@@ -9,11 +9,25 @@ class IdentificationFieldTest extends TestCase
 {
     public function stringHeadersProvider()
     {
+        return array_merge(
+            [
+                [
+                    "References",
+                    "References: <1234@local.machine.example> <3456@example.net>",
+                    ["1234@local.machine.example", "3456@example.net"]
+                ]
+            ],
+            $this->reversibleStringHeadersProvider()
+        );
+    }
+
+    public function reversibleStringHeadersProvider()
+    {
         return [
             ["References", "References: <1234@local.machine.example>", ["1234@local.machine.example"]],
             [
                 "References",
-                "References: <1234@local.machine.example> <3456@example.net>",
+                "References: <1234@local.machine.example>\r\n <3456@example.net>",
                 ["1234@local.machine.example", "3456@example.net"]
             ],
             ["InReplyTo", "In-Reply-To: <3456@example.net>", ["3456@example.net"]]
@@ -32,7 +46,7 @@ class IdentificationFieldTest extends TestCase
     }
 
     /**
-     * @dataProvider stringHeadersProvider
+     * @dataProvider reversibleStringHeadersProvider
      */
     public function testSerializationToString($className, $headerString, $ids)
     {
