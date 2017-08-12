@@ -58,7 +58,7 @@ abstract class IdentificationField implements HeaderInterface
 
     private static function trimMessageId($id)
     {
-        return trim($id, "\t\n\r\0\xOB<>");
+        return trim($id, "\t\n\r\0\x0B<>");
     }
 
     public function getFieldName()
