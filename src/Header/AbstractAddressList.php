@@ -7,6 +7,7 @@
 
 namespace Zend\Mail\Header;
 
+use TrueBV\Exception\OutOfBoundsException;
 use TrueBV\Punycode;
 use Zend\Mail\Address;
 use Zend\Mail\AddressList;
@@ -40,7 +41,7 @@ abstract class AbstractAddressList implements HeaderInterface
     protected static $type;
 
     /**
-     * @var Punycode
+     * @var Punycode|null
      */
     private static $punycode;
 
@@ -119,7 +120,7 @@ abstract class AbstractAddressList implements HeaderInterface
         }
         try {
             return self::$punycode->encode($domainName);
-        } catch (\Exception $e) {
+        } catch (OutOfBoundsException $e) {
             return $domainName;
         }
     }
