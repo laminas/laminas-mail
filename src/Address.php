@@ -23,7 +23,6 @@ class Address implements Address\AddressInterface
      * @param  string $email
      * @param  null|string $name
      * @throws Exception\InvalidArgumentException
-     * @return Address
      */
     public function __construct($email, $name = null)
     {
