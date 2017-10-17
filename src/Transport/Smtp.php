@@ -373,12 +373,7 @@ class Smtp implements TransportInterface
         $config['host']   = $options->getHost();
         $config['port']   = $options->getPort();
 
-        if ($this->getOptions()->getConnectionTimeLimit() !== null) {
-            $config['use_complete_quit'] = false;
-        }
-
-        $connection       = $this->plugin($options->getConnectionClass(), $config);
-        $this->connection = $connection;
+        $this->setConnection($this->plugin($options->getConnectionClass(), $config));
 
         return $this->connect();
     }
