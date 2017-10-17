@@ -47,6 +47,13 @@ class Smtp implements TransportInterface
     protected $plugins;
 
     /**
+     * When did we connect to the server?
+     *
+     * @var int|null
+     */
+    protected $connectedTime;
+
+    /**
      * Constructor.
      *
      * @param  SmtpOptions $options Optional
@@ -186,6 +193,9 @@ class Smtp implements TransportInterface
     public function setConnection(Protocol\AbstractProtocol $connection)
     {
         $this->connection = $connection;
+        if (($connection instanceof Protocol\Smtp) && ($this->getOptions()->getConnectionTimeLimit() !== null)) {
+            $connection->setUseCompleteQuit(false);
+        }
     }
 
     /**
@@ -195,6 +205,13 @@ class Smtp implements TransportInterface
      */
     public function getConnection()
     {
+        $timeLimit = $this->getOptions()->getConnectionTimeLimit();
+        if (($timeLimit !== null)
+            && ($this->connectedTime !== null)
+            && ((time() - $this->connectedTime) > $timeLimit)
+        ) {
+            $this->connection = null;
+        }
         return $this->connection;
     }
 
@@ -207,6 +224,7 @@ class Smtp implements TransportInterface
     {
         if (! empty($this->connection) && ($this->connection instanceof Protocol\Smtp)) {
             $this->connection->disconnect();
+            $this->connectedTime = null;
         }
     }
 
@@ -354,6 +372,11 @@ class Smtp implements TransportInterface
         $config           = $options->getConnectionConfig();
         $config['host']   = $options->getHost();
         $config['port']   = $options->getPort();
+
+        if ($this->getOptions()->getConnectionTimeLimit() !== null) {
+            $config['use_complete_quit'] = false;
+        }
+
         $connection       = $this->plugin($options->getConnectionClass(), $config);
         $this->connection = $connection;
 
@@ -372,6 +395,9 @@ class Smtp implements TransportInterface
         }
 
         $this->connection->connect();
+
+        $this->connectedTime = time();
+
         $this->connection->helo($this->getOptions()->getName());
 
         return $this->connection;
