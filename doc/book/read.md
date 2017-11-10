@@ -24,7 +24,7 @@ described in the ["Working with messages"](#working-with-messages) section.
 ```php
 use Zend\Mail\Storage\Pop3;
 
-$mail = Pop3([
+$mail = new Pop3([
     'host'     => 'localhost',
     'user'     => 'test',
     'password' => 'test',
@@ -70,7 +70,7 @@ use Zend\Mail\Storage\Imap;
 use Zend\Mail\Storage\Pop3;
 
 // Connecting with Pop3:
-$mail = Pop3([
+$mail = new Pop3([
     'host'     => 'example.com',
     'user'     => 'test',
     'password' => 'test',
@@ -389,7 +389,7 @@ use Zend\Mail\Storage\Folder;
 use Zend\Mail\Storage\Imap;
 
 // mbox with folders:
-$mail = Folder\Mbox(['dirname' => '/home/test/mail/']);
+$mail = new Folder\Mbox(['dirname' => '/home/test/mail/']);
 
 // mbox with a default folder not called INBOX; also works
 // with the maildir and IMAP implementations.
