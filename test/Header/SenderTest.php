@@ -247,7 +247,9 @@ class SenderTest extends TestCase
     public function testFromStringWithInvalidInput($headerString, $expectedException, $expectedMessagePart = '')
     {
         $this->expectException($expectedException);
-        $this->expectExceptionMessage($expectedMessagePart);
+        if ($expectedMessagePart) {
+            $this->expectExceptionMessage($expectedMessagePart);
+        }
 
         Header\Sender::fromString($headerString);
     }
