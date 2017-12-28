@@ -103,6 +103,13 @@ abstract class HeaderWrap
      */
     public static function mimeDecodeValue($value)
     {
+        // unfold first, because iconv_mime_decode is discarding "\n" with no apparent reason
+        // making the resulting value no longer valid.
+
+        // see https://tools.ietf.org/html/rfc2822#section-2.2.3 about unfolding
+        $parts = explode(Headers::FOLDING, $value);
+        $value = implode(' ', $parts);
+
         $decodedValue = iconv_mime_decode($value, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
 
         return $decodedValue;
