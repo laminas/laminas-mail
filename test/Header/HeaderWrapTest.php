@@ -84,16 +84,10 @@ class HeaderWrapTest extends TestCase
     public function testCanBeEncoded()
     {
         // @codingStandardsIgnoreStart
-        $name    = 'Subject';
         $value   = "[#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx, tähtaeg xx.xx, xxxx";
-        $encoded = "Subject: =?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20?=\r\n =?UTF-8?Q?xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx=2C=20t=C3=A4htaeg=20?=\r\n =?UTF-8?Q?xx.xx=2C=20xxxx?=";
         // @codingStandardsIgnoreEnd
         //
         $res = HeaderWrap::canBeEncoded($value);
         $this->assertTrue($res);
-
-        $header = new GenericHeader($name, $value);
-        $res = $header->toString();
-        $this->assertEquals($encoded, $res);
     }
 }
