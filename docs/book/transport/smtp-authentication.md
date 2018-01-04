@@ -132,7 +132,7 @@ By default, every `Zend\Mail\Protocol\Smtp\*` class tries to disconnect from
 the STMP server by sending a `QUIT` command and expecting a `221` (_Service
 closing transmission channel_) response code.  This is done automatically at
 object destruction (via the `__destruct()` method), and can generate errors
-with SMTP servers like [Posftix](http://www.postfix.org/postconf.5.html#smtp_connection_reuse_time_limit)
+with SMTP servers like [Postfix](http://www.postfix.org/postconf.5.html#smtp_connection_reuse_time_limit)
 that implement a reuse time limit:
 
 ```php
