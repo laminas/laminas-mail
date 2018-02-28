@@ -246,15 +246,14 @@ class SendmailTest extends TestCase
         $this->transport->send($message);
     }
 
-    public function testDonotAllowMessageDoesnotHasToAndCcAndBccHeader()
+    public function testDoNotAllowMessageWithoutToAndCcAndBccHeaders()
     {
-        $this->expectException('Zend\Mail\Exception\RuntimeException');
-
         $message = new Message();
         $message->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
                 ->setSubject('Testing Zend\Mail\Transport\Sendmail')
                 ->setBody('This is only a test.');
 
+        $this->expectException(RuntimeException::class);
         $this->transport->send($message);
     }
 }
