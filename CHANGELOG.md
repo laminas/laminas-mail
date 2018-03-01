@@ -2,11 +2,58 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 3.0.0 - TBD
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
+## 2.9.1 - TBD
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 2.9.0 - TBD
 
 ### Added
 
-- Nothing.
+- [#177](https://github.com/zendframework/zend-mail/issues/177)
+  [#181](https://github.com/zendframework/zend-mail/pull/181)
+  [#192](https://github.com/zendframework/zend-mail/pull/192)
+  [#189](https://github.com/zendframework/zend-mail/pull/189) PHP 7.2 support
+- [#73](https://github.com/zendframework/zend-mail/issues/73)
+  [#160](https://github.com/zendframework/zend-mail/pull/160) Support for
+  mails that don't have a `To`, as long as `Cc` or `Bcc` are set.
+- [#161](https://github.com/zendframework/zend-mail/issues/161) removed
+  useless try-catch that just re-throws.
+- [#134](https://github.com/zendframework/zend-mail/issues/134) simplified
+  checks for the existence of some string sub-sequences, which were
+  needlessly performed via regular expressions
 
 ### Deprecated
 
@@ -18,25 +65,14 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
-
-## 2.8.1 - TBD
-
-### Added
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
+- [#188](https://github.com/zendframework/zend-mail/pull/188) split strings
+  before calling `iconv_mime_decode()`, which destroys newlines, rendering
+  DKIM parsing useless.
+- [#156](https://github.com/zendframework/zend-mail/pull/156) fixed a
+  regression in which `<` and `>` would appear doubled in message
+  identifiers.
+- [#143](https://github.com/zendframework/zend-mail/pull/143) fixed parsing
+  of `<` and `>` being part of the email address comment.
 
 ## 2.8.0 - TBD
 
