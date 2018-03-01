@@ -111,6 +111,19 @@ class MessageTest extends TestCase
         $this->assertEquals(substr($message->getContent(), 0, 6), "\t<?php");
     }
 
+    /**
+     * after pull/86 messageId gets double braces
+     *
+     * @see https://github.com/zendframework/zend-mail/pull/86
+     * @see https://github.com/zendframework/zend-mail/pull/156
+     */
+    public function testMessageIdHeader()
+    {
+        $message = new Message(['file' => $this->file]);
+        $messageId = $message->messageId;
+        $this->assertEquals('<CALTvGe4_oYgf9WsYgauv7qXh2-6=KbPLExmJNG7fCs9B=1nOYg@mail.example.com>', $messageId);
+    }
+
     public function testMultipleHeader()
     {
         $raw = file_get_contents($this->file);
