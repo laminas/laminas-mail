@@ -152,6 +152,7 @@ class Sendmail implements TransportInterface
             throw new Exception\RuntimeException('Invalid email; contains no "To" header');
         }
 
+        /** @var Mail\Header\To $to */
         $to   = $headers->get('to');
         $list = $to->getAddressList();
         if (0 == count($list)) {
@@ -225,7 +226,7 @@ class Sendmail implements TransportInterface
         $headers->removeHeader('To');
         $headers->removeHeader('Subject');
 
-        // Sanitize the From header
+        /** @var Mail\Header\From $from Sanitize the From header*/
         $from = $headers->get('From');
         if ($from) {
             foreach ($from->getAddressList() as $address) {

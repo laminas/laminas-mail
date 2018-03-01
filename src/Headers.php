@@ -14,6 +14,8 @@ use Countable;
 use Iterator;
 use Traversable;
 use Zend\Loader\PluginClassLocator;
+use Zend\Mail\Header\GenericHeader;
+use Zend\Mail\Header\HeaderInterface;
 
 /**
  * Basic mail headers collection functionality
@@ -478,6 +480,8 @@ class Headers implements Countable, Iterator
     public function loadHeader($headerLine)
     {
         list($name, ) = Header\GenericHeader::splitHeaderLine($headerLine);
+
+        /** @var HeaderInterface $class */
         $class = $this->getPluginClassLoader()->load($name) ?: Header\GenericHeader::class;
         return $class::fromString($headerLine);
     }
@@ -491,6 +495,8 @@ class Headers implements Countable, Iterator
         $current = $this->headers[$index];
 
         $key   = $this->headersKeys[$index];
+
+        /** @var GenericHeader $class */
         $class = ($this->getPluginClassLoader()->load($key)) ?: 'Zend\Mail\Header\GenericHeader';
 
         $encoding = $current->getEncoding();

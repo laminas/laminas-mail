@@ -30,6 +30,10 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
      */
     protected $encoding;
 
+    /**
+     * @param string $headerLine
+     * @return GenericHeader
+     */
     public static function fromString($headerLine)
     {
         list($name, $value) = self::splitHeaderLine($headerLine);
