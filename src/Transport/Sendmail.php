@@ -148,8 +148,15 @@ class Sendmail implements TransportInterface
     {
         $headers = $message->getHeaders();
 
-        if (! $headers->has('to')) {
-            throw new Exception\RuntimeException('Invalid email; contains no "To" header');
+        $hasTo = $headers->has('to');
+        if (! $hasTo && ! $headers->has('cc') && ! $headers->has('bcc')) {
+            throw new Exception\RuntimeException(
+                'Invalid email; contains no at least one of "To", "Cc", and "Bcc" header'
+            );
+        }
+
+        if (! $hasTo) {
+            return '';
         }
 
         /** @var Mail\Header\To $to */
