@@ -415,7 +415,7 @@ class Message
     /**
      * Return the currently set message body
      *
-     * @return object
+     * @return string|object
      */
     public function getBody()
     {
