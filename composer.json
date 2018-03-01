@@ -18,7 +18,7 @@
         "zendframework/zend-loader": "^2.5",
         "zendframework/zend-mime": "^2.5",
         "zendframework/zend-stdlib": "^2.7 || ^3.0",
-        "zendframework/zend-validator": "^2.8"
+        "zendframework/zend-validator": "^2.10.2"
     },
     "require-dev": {
         "zendframework/zend-config": "^2.6",
