@@ -366,7 +366,7 @@ if (! $message->hasFlag('$SpamTested')) {
 ## Using folders
 
 All storage adapters except POP3 support folders (also called *mailboxes*). The
-interface implemented by all aadapters supporting folders is called
+interface implemented by all adapters supporting folders is called
 `Zend\Mail\Storage\Folder\FolderInterface`. Each also supports an optional
 configuration parameter called `folder`, which is the folder selected after
 login.
