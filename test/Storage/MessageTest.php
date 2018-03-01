@@ -155,7 +155,7 @@ class MessageTest extends TestCase
 
     public function testNotAllowWhitespaceInEmptyMultiLineHeader()
     {
-        $src = "From: user@example.com\nTo: userpal@example.net\nSubject: This is your reminder\n  \n  \nDate: Wed, 20 Oct 2010 20:53:35 -0400\n\nDon't forget to meet us for the tailgate party!\n";
+        $src = "From: user@example.com\nTo: userpal@example.net\nSubject: This is your reminder\n  \n \n  about the football game tonight\nDate: Wed, 20 Oct 2010 20:53:35 -0400\n\nDon't forget to meet us for the tailgate party!\n";
 
         $this->expectException(MailException\RuntimeException::class);
         $message = new Message(array('raw' => $src));
