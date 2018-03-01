@@ -12,6 +12,7 @@ namespace ZendTest\Mail\Header;
 use PHPUnit\Framework\TestCase;
 use Zend\Mail\Header\GenericHeader;
 use Zend\Mail\Header\HeaderWrap;
+use Zend\Mail\Storage;
 
 /**
  * @group      Zend_Mail
@@ -75,6 +76,26 @@ class HeaderWrapTest extends TestCase
     }
 
     /**
+     * Test that header lazy-loading doesn't break later header access
+     * because undocumented behavior in iconv_mime_decode()
+     * @see https://github.com/zendframework/zend-mail/pull/187
+     */
+    public function testMimeDecodeBreakageBug()
+    {
+        $headerValue = "v=1; a=rsa-sha25; c=relaxed/simple; d=example.org; h=\r\n\tcontent-language:content-type:content-type:in-reply-to";
+        $headers = "DKIM-Signature: {$headerValue}";
+
+        $message = new Storage\Message(['headers' => $headers, 'content' => 'irrelevant']);
+        $headers = $message->getHeaders();
+        // calling toString will lazy load all headers
+        // and would break DKIM-Signature header access
+        $headers->toString();
+
+        $header = $headers->get('DKIM-Signature');
+        $this->assertEquals('v=1; a=rsa-sha25; c=relaxed/simple; d=example.org; h= content-language:content-type:content-type:in-reply-to', $header->getFieldValue());
+    }
+
+    /**
      * Test that fails with HeaderWrap::canBeEncoded at lowest level:
      *   iconv_mime_encode(): Unknown error (7)
      *
@@ -84,16 +105,10 @@ class HeaderWrapTest extends TestCase
     public function testCanBeEncoded()
     {
         // @codingStandardsIgnoreStart
-        $name    = 'Subject';
         $value   = "[#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx, tähtaeg xx.xx, xxxx";
-        $encoded = "Subject: =?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20?=\r\n =?UTF-8?Q?xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx,=20t=C3=A4htaeg=20xx.xx,=20xxxx?=";
         // @codingStandardsIgnoreEnd
         //
         $res = HeaderWrap::canBeEncoded($value);
         $this->assertTrue($res);
-
-        $header = new GenericHeader($name, $value);
-        $res = $header->toString();
-        $this->assertEquals($encoded, $res);
     }
 }

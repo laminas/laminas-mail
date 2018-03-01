@@ -148,10 +148,18 @@ class Sendmail implements TransportInterface
     {
         $headers = $message->getHeaders();
 
-        if (! $headers->has('to')) {
-            throw new Exception\RuntimeException('Invalid email; contains no "To" header');
+        $hasTo = $headers->has('to');
+        if (! $hasTo && ! $headers->has('cc') && ! $headers->has('bcc')) {
+            throw new Exception\RuntimeException(
+                'Invalid email; contains no at least one of "To", "Cc", and "Bcc" header'
+            );
         }
 
+        if (! $hasTo) {
+            return '';
+        }
+
+        /** @var Mail\Header\To $to */
         $to   = $headers->get('to');
         $list = $to->getAddressList();
         if (0 == count($list)) {
@@ -225,11 +233,11 @@ class Sendmail implements TransportInterface
         $headers->removeHeader('To');
         $headers->removeHeader('Subject');
 
-        // Sanitize the From header
+        /** @var Mail\Header\From $from Sanitize the From header*/
         $from = $headers->get('From');
         if ($from) {
             foreach ($from->getAddressList() as $address) {
-                if (preg_match('/\\\"/', $address->getEmail())) {
+                if (strpos($address->getEmail(), '\\"') !== false) {
                     throw new Exception\RuntimeException('Potential code injection in From header');
                 }
             }

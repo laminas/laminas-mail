@@ -90,7 +90,7 @@ class AddressList implements Countable, Iterator
      */
     public function addFromString($address)
     {
-        if (! preg_match('/^((?P<name>.*?)<(?P<namedEmail>[^>]+)>|(?P<email>.+))$/', $address, $matches)) {
+        if (! preg_match('/^((?P<name>.*)<(?P<namedEmail>[^>]+)>|(?P<email>.+))$/', $address, $matches)) {
             throw new Exception\InvalidArgumentException('Invalid address format');
         }
 

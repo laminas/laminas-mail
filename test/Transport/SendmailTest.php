@@ -223,4 +223,37 @@ class SendmailTest extends TestCase
 
         $this->assertSame('-R hdrs', $r->getValue($this->transport));
     }
+
+    public function testAllowMessageWithEmptyToHeaderButHasCcHeader()
+    {
+        $message = new Message();
+        $message->addCc('matthew@zend.com')
+                ->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
+                ->setSubject('Testing Zend\Mail\Transport\Sendmail')
+                ->setBody('This is only a test.');
+
+        $this->transport->send($message);
+    }
+
+    public function testAllowMessageWithEmptyToHeaderButHasBccHeader()
+    {
+        $message = new Message();
+        $message->addBcc('zf-crteam@lists.zend.com', 'CR-Team, ZF Project')
+                ->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
+                ->setSubject('Testing Zend\Mail\Transport\Sendmail')
+                ->setBody('This is only a test.');
+
+        $this->transport->send($message);
+    }
+
+    public function testDoNotAllowMessageWithoutToAndCcAndBccHeaders()
+    {
+        $message = new Message();
+        $message->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
+                ->setSubject('Testing Zend\Mail\Transport\Sendmail')
+                ->setBody('This is only a test.');
+
+        $this->expectException(RuntimeException::class);
+        $this->transport->send($message);
+    }
 }

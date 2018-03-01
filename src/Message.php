@@ -10,6 +10,8 @@
 namespace Zend\Mail;
 
 use Traversable;
+use Zend\Mail\Header\ContentType;
+use Zend\Mail\Header\Sender;
 use Zend\Mime;
 
 class Message
@@ -17,7 +19,7 @@ class Message
     /**
      * Content of the message
      *
-     * @var string|object
+     * @var string|object|Mime\Message
      */
     protected $body;
 
@@ -302,6 +304,7 @@ class Message
      */
     public function setSender($emailOrAddress, $name = null)
     {
+        /** @var Sender $header */
         $header = $this->getHeaderByName('sender', __NAMESPACE__ . '\Header\Sender');
         $header->setAddress($emailOrAddress, $name);
         return $this;
@@ -318,6 +321,8 @@ class Message
         if (! $headers->has('sender')) {
             return null;
         }
+
+        /** @var Sender $header */
         $header = $this->getHeaderByName('sender', __NAMESPACE__ . '\Header\Sender');
         return $header->getAddress();
     }
@@ -397,6 +402,8 @@ class Message
         // Multipart content headers
         if ($this->body->isMultiPart()) {
             $mime   = $this->body->getMime();
+
+            /** @var ContentType $header */
             $header = $this->getHeaderByName('content-type', __NAMESPACE__ . '\Header\ContentType');
             $header->setType('multipart/mixed');
             $header->addParameter('boundary', $mime->boundary());
@@ -415,7 +422,7 @@ class Message
     /**
      * Return the currently set message body
      *
-     * @return object
+     * @return object|string|Mime\Message
      */
     public function getBody()
     {
@@ -553,6 +560,8 @@ class Message
     public static function fromString($rawMessage)
     {
         $message = new static();
+
+        /** @var Headers $headers */
         $headers = null;
         $content = null;
         Mime\Decode::splitMessage($rawMessage, $headers, $content, Headers::EOL);

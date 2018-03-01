@@ -50,7 +50,7 @@ To run tests:
 
   ```console
   $ git clone git@github.com:zendframework/zend-mail.git
-  $ cd
+  $ cd zend-mail
   ```
 
 - Install dependencies via composer:
