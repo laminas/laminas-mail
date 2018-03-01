@@ -144,7 +144,12 @@ class MessageTest extends TestCase
     public function testAllowWhitespaceInEmptyLineHeader()
     {
         $src = "From: user@example.com\nTo: userpal@example.net\nSubject: This is your reminder\n  \n  about the football game tonight\nDate: Wed, 20 Oct 2010 20:53:35 -0400\n\nDon't forget to meet us for the tailgate party!\n";
-        new Message(array('raw' => $src));
+        $message = new Message(array('raw' => $src));
+
+        $this->assertEquals(
+            'This is your reminder about the football game tonight',
+            $message->getHeader('subject', 'string')
+        );
     }
 
     public function testContentTypeDecode()
