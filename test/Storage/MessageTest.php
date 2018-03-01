@@ -141,7 +141,7 @@ class MessageTest extends TestCase
         );
     }
 
-    public function testAllowWhitespaceInEmptyLineHeader()
+    public function testAllowWhitespaceInEmptySingleLineHeader()
     {
         $src = "From: user@example.com\nTo: userpal@example.net\nSubject: This is your reminder\n  \n  about the football game tonight\nDate: Wed, 20 Oct 2010 20:53:35 -0400\n\nDon't forget to meet us for the tailgate party!\n";
         $message = new Message(array('raw' => $src));
