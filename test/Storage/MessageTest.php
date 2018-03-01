@@ -21,6 +21,7 @@ use Zend\Mime\Exception as MimeException;
 /**
  * @group      Zend_Mail
  * @covers Zend\Mail\Storage\Message<extended>
+ * @covers Zend\Mail\Headers<extended>
  */
 class MessageTest extends TestCase
 {
