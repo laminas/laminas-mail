@@ -86,7 +86,7 @@ class Headers implements Countable, Iterator
                 continue;
             }
 
-            if ($emptyLine > 0) {
+            if ($emptyLine > 1) {
                 throw new Exception\RuntimeException('Malformed header detected');
             }
 
