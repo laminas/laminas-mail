@@ -230,7 +230,7 @@ class Sendmail implements TransportInterface
         $from = $headers->get('From');
         if ($from) {
             foreach ($from->getAddressList() as $address) {
-                if (preg_match('/\\\"/', $address->getEmail())) {
+                if (strpos($address->getEmail(), '\\"') !== false) {
                     throw new Exception\RuntimeException('Potential code injection in From header');
                 }
             }
