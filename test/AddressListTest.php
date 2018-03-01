@@ -15,10 +15,13 @@ use Zend\Mail\AddressList;
 
 /**
  * @group      Zend_Mail
- * @covers Zend\Mail\AddressList<extended>
+ * @covers \Zend\Mail\AddressList<extended>
  */
 class AddressListTest extends TestCase
 {
+    /** @var AddressList $list */
+    private $list;
+
     public function setUp()
     {
         $this->list = new AddressList();

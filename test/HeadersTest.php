@@ -15,7 +15,7 @@ use Zend\Mail\Header;
 
 /**
  * @group      Zend_Mail
- * @covers Zend\Mail\Headers<extended>
+ * @covers \Zend\Mail\Headers<extended>
  */
 class HeadersTest extends TestCase
 {
@@ -482,5 +482,37 @@ class HeadersTest extends TestCase
         $to->getAddressList()->add('local-part@ä-umlaut.de');
         $encodedValue = $to->getFieldValue(Header\HeaderInterface::FORMAT_ENCODED);
         $this->assertEquals('local-part@xn---umlaut-4wa.de', $encodedValue);
+    }
+
+    /**
+     * Test ">" being part of email "comment".
+     *
+     * Example Email-header:
+     *  "Foo <bar" foo.bar@test.com
+     *
+     * Description:
+     *   The example email-header should be valid
+     *   according to https://tools.ietf.org/html/rfc2822#section-3.4
+     *   but the function AdressList.php/addFromString matches it incorrect.
+     *   The result has the following form:
+     *    "bar <foo.bar@test.com"
+     *   This is clearly not a valid adress and therefore causes
+     *   exceptions in the following code
+     *
+     * @see https://github.com/zendframework/zend-mail/issues/127
+     */
+    public function testEmailNameParser() {
+        $to = Header\To::fromString('To: "=?UTF-8?Q?=C3=B5lu?= <bar" <foo.bar@test.com>');
+
+        $address = $to->getAddressList()->get('foo.bar@test.com');
+        $this->assertEquals('õlu <bar', $address->getName());
+        $this->assertEquals('foo.bar@test.com', $address->getEmail());
+
+        $encodedValue = $to->getFieldValue(Header\HeaderInterface::FORMAT_ENCODED);
+        $this->assertEquals('=?UTF-8?Q?=C3=B5lu=20<bar?= <foo.bar@test.com>', $encodedValue);
+
+        $encodedValue = $to->getFieldValue(Header\HeaderInterface::FORMAT_RAW);
+        // FIXME: shouldn't the "name" part be in quotes?
+        $this->assertEquals('õlu <bar <foo.bar@test.com>', $encodedValue);
     }
 }
