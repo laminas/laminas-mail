@@ -173,14 +173,14 @@ class Smtp implements TransportInterface
      */
     public function __destruct()
     {
-        if ($this->connection instanceof Protocol\Smtp) {
+        if ($this->getConnection() instanceof Protocol\Smtp) {
             try {
-                $this->connection->quit();
+                $this->getConnection()->quit();
             } catch (ProtocolException\ExceptionInterface $e) {
                 // ignore
             }
             if ($this->autoDisconnect) {
-                $this->connection->disconnect();
+                $this->getConnection()->disconnect();
             }
         }
     }
@@ -222,8 +222,8 @@ class Smtp implements TransportInterface
      */
     public function disconnect()
     {
-        if (! empty($this->connection) && ($this->connection instanceof Protocol\Smtp)) {
-            $this->connection->disconnect();
+        if ($this->getConnection() instanceof Protocol\Smtp) {
+            $this->getConnection()->disconnect();
             $this->connectedTime = null;
         }
     }
