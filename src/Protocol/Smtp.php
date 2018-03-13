@@ -159,7 +159,7 @@ class Smtp extends AbstractProtocol
     /**
      * Set whether or not send QUIT command
      *
-     * @param int $useCompleteQuit use complete quit
+     * @param bool $useCompleteQuit use complete quit
      * @return bool
      */
     public function setUseCompleteQuit($useCompleteQuit)
