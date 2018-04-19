@@ -113,4 +113,25 @@ class HeaderWrapTest extends TestCase
         $res = HeaderWrap::canBeEncoded($value);
         $this->assertTrue($res);
     }
+
+    public function testMultilineWithMultibyteSplitAcrossCharacter()
+    {
+        if (! extension_loaded('imap')) {
+            $this->markTestSkipped('works only with imap extension enabled');
+        }
+
+        $originalValue = 'аф';
+
+        $this->assertEquals(strlen($originalValue), 4);
+
+        $part1 = base64_encode(substr($originalValue, 0, 3));
+        $part2 = base64_encode(substr($originalValue, 3));
+
+        $header = '=?utf-8?B?' . $part1 . '?==?utf-8?B?' . $part2 . '?=';
+
+        $this->assertEquals(
+            $originalValue,
+            HeaderWrap::mimeDecodeValue($header)
+        );
+    }
 }
