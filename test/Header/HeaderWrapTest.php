@@ -114,12 +114,11 @@ class HeaderWrapTest extends TestCase
         $this->assertTrue($res);
     }
 
+    /**
+     * @requires extension imap
+     */
     public function testMultilineWithMultibyteSplitAcrossCharacter()
     {
-        if (! extension_loaded('imap')) {
-            $this->markTestSkipped('works only with imap extension enabled');
-        }
-
         $originalValue = 'аф';
 
         $this->assertEquals(strlen($originalValue), 4);

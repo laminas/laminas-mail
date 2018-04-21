@@ -124,12 +124,13 @@ abstract class HeaderWrap
         return $decodedValue;
     }
 
-    private static function isNotDecoded($originalValue, $value) {
+    private static function isNotDecoded($originalValue, $value)
+    {
         return substr($value, 0, 2) == '=?'
             && substr($value, -2, 2) == '?='
             && strpos($originalValue, $value) !== false;
     }
-    
+
     /**
      * Test if is possible apply MIME-encoding
      *
