@@ -114,8 +114,8 @@ abstract class HeaderWrap
         if (self::isNotDecoded($value, $decodedValue) && extension_loaded('imap')) {
             return array_reduce(
                 imap_mime_header_decode(imap_utf8($value)),
-                function ($acc, $item) {
-                    return $acc . $item->text;
+                function ($accumulator, $headerPart) {
+                    return $accumulator . $headerPart->text;
                 },
                 ''
             );
