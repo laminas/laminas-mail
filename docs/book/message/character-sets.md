@@ -10,7 +10,7 @@ sets, you will need to:
 - In multipart messages, set the character set per-part.
 
 > ### Only in text format
-> 
+>
 > Character sets are only applicable for message parts in text format.
 
 ## Example

@@ -573,7 +573,7 @@ namespace Example\Mail\Protocol\Pop3
     class Knock extends Pop3
     {
         private $host
-        
+
         private $port;
 
         public function __construct($host, $port = null)
