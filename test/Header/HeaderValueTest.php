@@ -10,7 +10,6 @@
 namespace ZendTest\Mail\Header;
 
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 use Zend\Mail\Header\HeaderValue;
 
 /**

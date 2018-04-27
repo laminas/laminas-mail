@@ -10,9 +10,9 @@
 namespace ZendTest\Mail\Protocol;
 
 use PHPUnit\Framework\TestCase;
+use Zend\Mail\Protocol\Exception\InvalidArgumentException;
 use Zend\Mail\Protocol\Smtp;
 use Zend\Mail\Protocol\SmtpPluginManager;
-use Zend\Mail\Protocol\Exception\InvalidArgumentException;
 use Zend\ServiceManager\ServiceManager;
 use Zend\ServiceManager\Test\CommonPluginManagerTrait;
 
