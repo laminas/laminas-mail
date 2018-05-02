@@ -24,7 +24,7 @@
         "zendframework/zend-config": "^2.6",
         "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3",
         "zendframework/zend-crypt": "^2.6 || ^3.0",
-        "phpunit/phpunit": "^7.0 || ^6.0.8 || ^5.7.15",
+        "phpunit/phpunit": "^7.1.4",
         "zendframework/zend-coding-standard": "~1.0.0"
     },
     "suggest": {
