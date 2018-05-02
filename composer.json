@@ -1,16 +1,19 @@
 {
     "name": "zendframework/zend-mail",
-    "description": "provides generalized functionality to compose and send both text and MIME-compliant multipart e-mail messages",
+    "description": "Provides generalized functionality to compose and send both text and MIME-compliant multipart e-mail messages",
     "license": "BSD-3-Clause",
     "keywords": [
-        "zf2",
+        "zf",
+        "zendframework",
         "mail"
     ],
-    "homepage": "https://github.com/zendframework/zend-mail",
-    "autoload": {
-        "psr-4": {
-            "Zend\\Mail\\": "src/"
-        }
+    "support": {
+        "docs": "https://docs.zendframework.com/zend-mail/",
+        "issues": "https://github.com/zendframework/zend-mail/issues",
+        "source": "https://github.com/zendframework/zend-mail",
+        "rss": "https://github.com/zendframework/zend-mail/releases.atom",
+        "chat": "https://zendframework-slack.herokuapp.com",
+        "forum": "https://discourse.zendframework.com/c/questions/components"
     },
     "require": {
         "php": "^7.1",
@@ -21,32 +24,38 @@
         "zendframework/zend-validator": "^2.10.2"
     },
     "require-dev": {
-        "zendframework/zend-config": "^2.6",
-        "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3",
-        "zendframework/zend-crypt": "^2.6 || ^3.0",
         "phpunit/phpunit": "^7.1.4",
-        "zendframework/zend-coding-standard": "~1.0.0"
+        "zendframework/zend-coding-standard": "~1.0.0",
+        "zendframework/zend-config": "^2.6",
+        "zendframework/zend-crypt": "^2.6 || ^3.0",
+        "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3"
     },
     "suggest": {
         "ext-intl": "Handle IDN in AddressList hostnames",
-        "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3 when using SMTP to deliver messages",
-        "zendframework/zend-crypt": "Crammd5 support in SMTP Auth"
+        "zendframework/zend-crypt": "Crammd5 support in SMTP Auth",
+        "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3 when using SMTP to deliver messages"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.9-dev",
-            "dev-develop": "3.0-dev"
-        },
-        "zf": {
-            "component": "Zend\\Mail",
-            "config-provider": "Zend\\Mail\\ConfigProvider"
+    "autoload": {
+        "psr-4": {
+            "Zend\\Mail\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "ZendTest\\Mail\\": "test/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.9.x-dev",
+            "dev-develop": "2.10.x-dev"
+        },
+        "zf": {
+            "component": "Zend\\Mail",
+            "config-provider": "Zend\\Mail\\ConfigProvider"
         }
     },
     "scripts": {
