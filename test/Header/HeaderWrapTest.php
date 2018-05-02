@@ -1,16 +1,13 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-mail for the canonical source repository
+ * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
  */
 
 namespace ZendTest\Mail\Header;
 
 use PHPUnit\Framework\TestCase;
-use Zend\Mail\Header\GenericHeader;
 use Zend\Mail\Header\HeaderWrap;
 use Zend\Mail\Storage;
 
@@ -82,7 +79,8 @@ class HeaderWrapTest extends TestCase
      */
     public function testMimeDecodeBreakageBug()
     {
-        $headerValue = "v=1; a=rsa-sha25; c=relaxed/simple; d=example.org; h=\r\n\tcontent-language:content-type:content-type:in-reply-to";
+        $headerValue = 'v=1; a=rsa-sha25; c=relaxed/simple; d=example.org; h='
+            . "\r\n\t" . 'content-language:content-type:content-type:in-reply-to';
         $headers = "DKIM-Signature: {$headerValue}";
 
         $message = new Storage\Message(['headers' => $headers, 'content' => 'irrelevant']);
@@ -92,7 +90,11 @@ class HeaderWrapTest extends TestCase
         $headers->toString();
 
         $header = $headers->get('DKIM-Signature');
-        $this->assertEquals('v=1; a=rsa-sha25; c=relaxed/simple; d=example.org; h= content-language:content-type:content-type:in-reply-to', $header->getFieldValue());
+        $this->assertEquals(
+            'v=1; a=rsa-sha25; c=relaxed/simple; d=example.org;'
+            . ' h= content-language:content-type:content-type:in-reply-to',
+            $header->getFieldValue()
+        );
     }
 
     /**

@@ -1,18 +1,16 @@
 <?php
 /**
- * Zend Framework (http://framework.zend/)
- *
- * @link      http://github/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend)
- * @license   http://framework.zend/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-mail for the canonical source repository
+ * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
  */
 
 namespace ZendTest\Mail\Header;
 
 use PHPUnit\Framework\TestCase;
 use Zend\Mail\Address;
-use Zend\Mail\Header;
 use Zend\Mail\Exception;
+use Zend\Mail\Header;
 
 /**
  * @group      Zend_Mail
