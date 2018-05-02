@@ -178,11 +178,11 @@ $transport->setOptions($options);
 >
 > If you deal with SMTP servers that exhibit this behavior from within
 > long-running scripts, you will need to:
-> 
+>
 > 1. Trace the time elapsed since the creation of the connection.
 > 1. Close and reopen the connection if the elapsed time exceeds the reuse
 >    time limit
-> 
+>
 > As an example, you can perform these steps by applying a proxy class that
 > wraps the real `Zend\Mail\Protocol\Smtp\*` instance to track the construction
 > time, and then close and open the connection when needed.
