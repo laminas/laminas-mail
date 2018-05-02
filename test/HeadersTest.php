@@ -501,7 +501,8 @@ class HeadersTest extends TestCase
      *
      * @see https://github.com/zendframework/zend-mail/issues/127
      */
-    public function testEmailNameParser() {
+    public function testEmailNameParser()
+    {
         $to = Header\To::fromString('To: "=?UTF-8?Q?=C3=B5lu?= <bar" <foo.bar@test.com>');
 
         $address = $to->getAddressList()->get('foo.bar@test.com');

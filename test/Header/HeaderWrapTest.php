@@ -82,7 +82,8 @@ class HeaderWrapTest extends TestCase
      */
     public function testMimeDecodeBreakageBug()
     {
-        $headerValue = "v=1; a=rsa-sha25; c=relaxed/simple; d=example.org; h=\r\n\tcontent-language:content-type:content-type:in-reply-to";
+        $headerValue = 'v=1; a=rsa-sha25; c=relaxed/simple; d=example.org; h='
+            . "\r\n\t" . 'content-language:content-type:content-type:in-reply-to';
         $headers = "DKIM-Signature: {$headerValue}";
 
         $message = new Storage\Message(['headers' => $headers, 'content' => 'irrelevant']);
@@ -92,7 +93,11 @@ class HeaderWrapTest extends TestCase
         $headers->toString();
 
         $header = $headers->get('DKIM-Signature');
-        $this->assertEquals('v=1; a=rsa-sha25; c=relaxed/simple; d=example.org; h= content-language:content-type:content-type:in-reply-to', $header->getFieldValue());
+        $this->assertEquals(
+            'v=1; a=rsa-sha25; c=relaxed/simple; d=example.org;'
+            . ' h= content-language:content-type:content-type:in-reply-to',
+            $header->getFieldValue()
+        );
     }
 
     /**
