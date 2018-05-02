@@ -12,8 +12,6 @@ use ReflectionMethod;
 use ReflectionProperty;
 use Zend\Mail\Address\AddressInterface;
 use Zend\Mail\AddressList;
-use Zend\Mail\Header;
-use Zend\Mail\Headers;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\Exception\RuntimeException;
 use Zend\Mail\Transport\Sendmail;

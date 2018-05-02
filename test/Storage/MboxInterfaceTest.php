@@ -8,9 +8,7 @@
 namespace ZendTest\Mail\Storage;
 
 use PHPUnit\Framework\TestCase;
-use Zend\Mail;
 use Zend\Mail\Storage;
-use Zend\Mail\Storage\Message;
 
 /**
  * @group      Zend_Mail

@@ -8,7 +8,6 @@
 namespace ZendTest\Mail\Header;
 
 use PHPUnit\Framework\TestCase;
-use Zend\Mail\Header\GenericHeader;
 use Zend\Mail\Header\HeaderWrap;
 use Zend\Mail\Storage;
 

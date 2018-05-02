@@ -10,9 +10,9 @@ namespace ZendTest\Mail\Transport;
 use PHPUnit\Framework\TestCase;
 use Zend\Mail\Headers;
 use Zend\Mail\Message;
+use Zend\Mail\Transport\Envelope;
 use Zend\Mail\Transport\Smtp;
 use Zend\Mail\Transport\SmtpOptions;
-use Zend\Mail\Transport\Envelope;
 use ZendTest\Mail\TestAsset\SmtpProtocolSpy;
 
 /**

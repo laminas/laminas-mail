@@ -9,8 +9,8 @@ namespace ZendTest\Mail\Header;
 
 use PHPUnit\Framework\TestCase;
 use Zend\Mail\Address;
-use Zend\Mail\Header;
 use Zend\Mail\Exception;
+use Zend\Mail\Header;
 
 /**
  * @group      Zend_Mail

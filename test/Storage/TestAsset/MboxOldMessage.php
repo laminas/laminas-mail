@@ -7,8 +7,8 @@
 
 namespace ZendTest\Mail\Storage\TestAsset;
 
-use Zend\Mail\Storage\Message;
 use Zend\Mail\Storage\Mbox;
+use Zend\Mail\Storage\Message;
 
 /**
  * Maildir class, which uses old message class
