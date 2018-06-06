@@ -128,5 +128,8 @@ class AddressListTest extends TestCase
         $addressList = $to->getAddressList();
 
         $this->assertEquals('Some User', $addressList->get('some.user@example.com')->getName());
+        $this->assertTrue($addressList->has('uzer2.surname@example.org'));
+        $this->assertTrue($addressList->has('asda.fasd@example.net'));
+        $this->assertTrue($addressList->has('root@example.org'));
     }
 }
