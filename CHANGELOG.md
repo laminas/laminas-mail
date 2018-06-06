@@ -42,6 +42,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
+- [#204](https://github.com/zendframework/zend-mail/pull/204) fixes `HeaderWrap::mimeDecodeValue()` behavior when handling a multiline UTF-8
+  header split across a character. The fix will only work when ext-imap is present, however.
+
 - [#164](https://github.com/zendframework/zend-mail/pull/164) fixes the return value from `Zend\Mail\Protocol\Imap::capability()` when no response is
   returned from the server; previously, it returned `false`, but now correctly returns an empty array.
 
