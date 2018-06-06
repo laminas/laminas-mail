@@ -19,7 +19,7 @@ use Zend\Mail\Header;
  */
 class AddressListTest extends TestCase
 {
-    /** @var AddressList $list */
+    /** @var AddressList */
     private $list;
 
     public function setUp()
@@ -93,6 +93,18 @@ class AddressListTest extends TestCase
         $this->assertTrue($this->list->has('zf-devteam@zend.com'));
         $this->assertTrue($this->list->has('zf-contributors@lists.zend.com'));
         $this->assertTrue($this->list->has('fw-announce@lists.zend.com'));
+    }
+
+    public function testLosesParensInName()
+    {
+        $header = '"Supports (E-mail)" <support@example.org>';
+
+        $to = Header\To::fromString('To:' . $header);
+        $addressList = $to->getAddressList();
+        $address = $addressList->get('support@example.org');
+        $this->assertEquals('Supports', $address->getName());
+        $this->assertEquals('E-mail', $address->getComment());
+        $this->assertEquals('support@example.org', $address->getEmail());
     }
 
     public function testDoesNotStoreDuplicatesAndFirstWins()
