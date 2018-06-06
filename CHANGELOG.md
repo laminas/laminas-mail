@@ -24,6 +24,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
+- [#196](https://github.com/zendframework/zend-mail/pull/196) updates how the `Headers::fromString()` handles header line continuations
+  that include a single empty line, ensuring they are concatenated to the
+  header value.
+
 - [#165](https://github.com/zendframework/zend-mail/pull/165) changes the `AbstractAddressList` IDN&lt;-&gt;ASCII conversion; it now no longer requires
   ext-intl, but instead uses a bundled true/punycode library to accomplish it. This also means that
   the conversions will work on any PHP installation.
