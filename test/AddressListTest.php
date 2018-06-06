@@ -10,6 +10,8 @@ namespace ZendTest\Mail;
 use PHPUnit\Framework\TestCase;
 use Zend\Mail\Address;
 use Zend\Mail\AddressList;
+use Zend\Mail\Exception\InvalidArgumentException;
+use Zend\Mail\Header;
 
 /**
  * @group      Zend_Mail
@@ -104,5 +106,30 @@ class AddressListTest extends TestCase
         $this->assertTrue($this->list->has('zf-devteam@zend.com'));
         $address = $this->list->get('zf-devteam@zend.com');
         $this->assertNull($address->getName());
+    }
+
+    /**
+     * Microsoft Outlook sends emails with semicolon separated To addresses.
+     *
+     * @see https://blogs.msdn.microsoft.com/oldnewthing/20150119-00/?p=44883
+     */
+    public function testSemicolonSeparator()
+    {
+        $header = 'Some User <some.user@example.com>; uzer2.surname@example.org;'
+            . ' asda.fasd@example.net, root@example.org';
+
+        // In previous versions, this throws: 'The input exceeds the allowed
+        // length'; hence the try/catch block, to allow finding the root cause.
+        try {
+            $to = Header\To::fromString('To:' . $header);
+        } catch (InvalidArgumentException $e) {
+            $this->fail('Header\To::fromString should not throw');
+        }
+        $addressList = $to->getAddressList();
+
+        $this->assertEquals('Some User', $addressList->get('some.user@example.com')->getName());
+        $this->assertTrue($addressList->has('uzer2.surname@example.org'));
+        $this->assertTrue($addressList->has('asda.fasd@example.net'));
+        $this->assertTrue($addressList->has('root@example.org'));
     }
 }
