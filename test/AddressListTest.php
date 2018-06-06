@@ -102,7 +102,8 @@ class AddressListTest extends TestCase
         $to = Header\To::fromString('To:' . $header);
         $addressList = $to->getAddressList();
         $address = $addressList->get('support@example.org');
-        $this->assertEquals('Supports (E-mail)', $address->getName());
+        $this->assertEquals('Supports', $address->getName());
+        $this->assertEquals('E-mail', $address->getComment());
         $this->assertEquals('support@example.org', $address->getEmail());
     }
 

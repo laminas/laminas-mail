@@ -88,32 +88,13 @@ class AddressList implements Countable, Iterator
      *  - dev@zf.com
      *
      * @param string $address
+     * @param null|string $comment Comment associated with the address, if any.
      * @throws Exception\InvalidArgumentException
      * @return AddressList
      */
-    public function addFromString($address)
+    public function addFromString($address, $comment = null)
     {
-        if (! preg_match('/^((?P<name>.*)<(?P<namedEmail>[^>]+)>|(?P<email>.+))$/', $address, $matches)) {
-            throw new Exception\InvalidArgumentException('Invalid address format');
-        }
-
-        $name = null;
-        if (isset($matches['name'])) {
-            $name = trim($matches['name']);
-        }
-        if (empty($name)) {
-            $name = null;
-        }
-
-        if (isset($matches['namedEmail'])) {
-            $email = $matches['namedEmail'];
-        }
-        if (isset($matches['email'])) {
-            $email = $matches['email'];
-        }
-        $email = trim($email);
-
-        return $this->add($email, $name);
+        $this->add(Address::fromString($address, $comment));
     }
 
     /**
