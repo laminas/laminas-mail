@@ -9,6 +9,8 @@ namespace ZendTest\Mail\Header;
 
 use PHPUnit\Framework\TestCase;
 use Zend\Mail\Header\IdentificationField;
+use Zend\Mail\Header\InReplyTo;
+use Zend\Mail\Header\References;
 
 class IdentificationFieldTest extends TestCase
 {
@@ -17,9 +19,9 @@ class IdentificationFieldTest extends TestCase
         return array_merge(
             [
                 [
-                    "References",
-                    "References: <1234@local.machine.example> <3456@example.net>",
-                    ["1234@local.machine.example", "3456@example.net"]
+                    References::class,
+                    'References: <1234@local.machine.example> <3456@example.net>',
+                    ['1234@local.machine.example', '3456@example.net']
                 ]
             ],
             $this->reversibleStringHeadersProvider()
@@ -29,35 +31,39 @@ class IdentificationFieldTest extends TestCase
     public function reversibleStringHeadersProvider()
     {
         return [
-            ["References", "References: <1234@local.machine.example>", ["1234@local.machine.example"]],
+            [References::class, 'References: <1234@local.machine.example>', ['1234@local.machine.example']],
             [
-                "References",
+                References::class,
                 "References: <1234@local.machine.example>\r\n <3456@example.net>",
-                ["1234@local.machine.example", "3456@example.net"]
+                ['1234@local.machine.example', '3456@example.net']
             ],
-            ["InReplyTo", "In-Reply-To: <3456@example.net>", ["3456@example.net"]]
+            [InReplyTo::class, 'In-Reply-To: <3456@example.net>', ['3456@example.net']]
         ];
     }
 
     /**
      * @dataProvider stringHeadersProvider
+     * @param string $className
+     * @param string $headerString
+     * @param string[] $ids
      */
     public function testDeserializationFromString($className, $headerString, $ids)
     {
-        $FQCN = "Zend\Mail\Header\\$className";
         /** @var IdentificationField $header */
-        $header = $FQCN::fromString($headerString);
+        $header = $className::fromString($headerString);
         $this->assertEquals($ids, $header->getIds());
     }
 
     /**
      * @dataProvider reversibleStringHeadersProvider
+     * @param string $className
+     * @param string $headerString
+     * @param string[] $ids
      */
     public function testSerializationToString($className, $headerString, $ids)
     {
-        $FQCN = "Zend\Mail\Header\\$className";
         /** @var IdentificationField $header */
-        $header = new $FQCN();
+        $header = new $className();
         $header->setIds($ids);
         $this->assertEquals($headerString, $header->toString());
     }
