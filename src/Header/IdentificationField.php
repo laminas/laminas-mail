@@ -10,9 +10,7 @@ namespace Zend\Mail\Header;
 use Zend\Mail\Headers;
 
 /**
- * Class IdentificationField
- * @package Zend\Mail\Header
- * https://tools.ietf.org/html/rfc5322#section-3.6.4
+ * @see https://tools.ietf.org/html/rfc5322#section-3.6.4
  */
 abstract class IdentificationField implements HeaderInterface
 {
@@ -31,6 +29,10 @@ abstract class IdentificationField implements HeaderInterface
      */
     protected $fieldName;
 
+    /**
+     * @param string $headerLine
+     * @return static
+     */
     public static function fromString($headerLine)
     {
         list($name, $value) = GenericHeader::splitHeaderLine($headerLine);
@@ -54,16 +56,27 @@ abstract class IdentificationField implements HeaderInterface
         return $header;
     }
 
+    /**
+     * @param string $id
+     * @return string
+     */
     private static function trimMessageId($id)
     {
         return trim($id, "\t\n\r\0\x0B<>");
     }
 
+    /**
+     * @return string
+     */
     public function getFieldName()
     {
         return $this->fieldName;
     }
 
+    /**
+     * @param bool $format
+     * @return string
+     */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)
     {
         return implode(Headers::FOLDING, array_map(function ($id) {
@@ -71,27 +84,37 @@ abstract class IdentificationField implements HeaderInterface
         }, $this->messageIds));
     }
 
+    /**
+     * @param string $encoding Ignored; headers of this type MUST always be in
+     *     ASCII.
+     * @return static This method is a no-op, and implements a fluent interface.
+     */
     public function setEncoding($encoding)
     {
-        // This header must be always in US-ASCII
         return $this;
     }
 
+    /**
+     * @return string Always returns ASCII
+     */
     public function getEncoding()
     {
         return 'ASCII';
     }
 
+    /**
+     * @return string
+     */
     public function toString()
     {
-        return $this->fieldName . ': ' . $this->getFieldValue();
+        return sprintf('%s: %s', $this->fieldName, $this->getFieldValue());
     }
 
     /**
      * Set the message ids
      *
      * @param string[] $ids
-     * @return static
+     * @return static This method implements a fluent interface.
      */
     public function setIds($ids)
     {
