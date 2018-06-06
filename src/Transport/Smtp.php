@@ -173,15 +173,18 @@ class Smtp implements TransportInterface
      */
     public function __destruct()
     {
-        if ($this->getConnection() instanceof Protocol\Smtp) {
-            try {
-                $this->getConnection()->quit();
-            } catch (ProtocolException\ExceptionInterface $e) {
-                // ignore
-            }
-            if ($this->autoDisconnect) {
-                $this->getConnection()->disconnect();
-            }
+        if (! $this->getConnection() instanceof Protocol\Smtp) {
+            return;
+        }
+
+        try {
+            $this->getConnection()->quit();
+        } catch (ProtocolException\ExceptionInterface $e) {
+            // ignore
+        }
+
+        if ($this->autoDisconnect) {
+            $this->getConnection()->disconnect();
         }
     }
 
@@ -193,7 +196,9 @@ class Smtp implements TransportInterface
     public function setConnection(Protocol\AbstractProtocol $connection)
     {
         $this->connection = $connection;
-        if (($connection instanceof Protocol\Smtp) && ($this->getOptions()->getConnectionTimeLimit() !== null)) {
+        if (($connection instanceof Protocol\Smtp)
+            && ($this->getOptions()->getConnectionTimeLimit() !== null)
+        ) {
             $connection->setUseCompleteQuit(false);
         }
     }
@@ -206,8 +211,8 @@ class Smtp implements TransportInterface
     public function getConnection()
     {
         $timeLimit = $this->getOptions()->getConnectionTimeLimit();
-        if (($timeLimit !== null)
-            && ($this->connectedTime !== null)
+        if ($timeLimit !== null
+            && $this->connectedTime !== null
             && ((time() - $this->connectedTime) > $timeLimit)
         ) {
             $this->connection = null;

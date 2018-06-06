@@ -329,14 +329,14 @@ class SmtpTest extends TestCase
         self::assertNotNull($connectedTimeProperty);
         $connectedTimeProperty->setAccessible(true);
         $connectedTimeAfterFirstMail = $connectedTimeProperty->getValue($this->transport);
-        self::assertNotNull($connectedTimeAfterFirstMail);
+        $this->assertNotNull($connectedTimeAfterFirstMail);
 
 
         // Send the second email - no new connect()
         $this->transport->send($this->getMessage());
 
         // Make sure that there was no new connect() (and no new timestamp was written)
-        self::assertEquals($connectedTimeAfterFirstMail, $connectedTimeProperty->getValue($this->transport));
+        $this->assertEquals($connectedTimeAfterFirstMail, $connectedTimeProperty->getValue($this->transport));
 
 
         // Manipulate the timestamp to trigger the auto-reconnect

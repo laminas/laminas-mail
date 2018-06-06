@@ -195,16 +195,13 @@ class SmtpOptions extends AbstractOptions
 
     /**
      * @param int|null $seconds
-     *
-     * @return SmtpOptions
+     * @return self
      */
     public function setConnectionTimeLimit($seconds)
     {
-        if ($seconds === null) {
-            $this->connectionTimeLimit = null;
-        } else {
-            $this->connectionTimeLimit = (int) $seconds;
-        }
+        $this->connectionTimeLimit = $seconds === null
+            ? null
+            : (int) $seconds;
 
         return $this;
     }
