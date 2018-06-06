@@ -183,3 +183,7 @@ so the connection with the SMTP server will be closed without the `QUIT` command
 > If you deal with SMTP servers that exhibit this behavior from within
 > long-running scripts, you SHOULD use the flag along with the
 > `connection_time_limit` flag to ensure you recreate the connection.
+
+> ### Since 2.10.0
+>
+> The `connection_time_limit` flag has been available since 2.10.0.
