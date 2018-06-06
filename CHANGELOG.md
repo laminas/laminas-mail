@@ -2,29 +2,12 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 3.0.0 - TBD
-
-### Added
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
-
 ## 2.9.1 - TBD
 
 ### Added
 
-- Nothing.
+- [#213](https://github.com/zendframework/zend-mail/pull/213) re-adds support for PHP 5.6 and 7.0; ZF policy is never
+  to bump the major version of a PHP requirement unless the package is bumping major version.
 
 ### Deprecated
 
@@ -74,7 +57,7 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#143](https://github.com/zendframework/zend-mail/pull/143) fixed parsing
   of `<` and `>` being part of the email address comment.
 
-## 2.8.0 - TBD
+## 2.8.0 - 2017-06-08
 
 ### Added
 
