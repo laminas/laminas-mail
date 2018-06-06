@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
+- [#172](https://github.com/zendframework/zend-mail/pull/172) adds the flag `connection_time_limit` to the possible `Zend\Mail\Transport\Smtp` options.
+  This flag, when provided as a positive integer, and in conjunction with the `use_complete_quit` flag, will
+  reconnect to the server after the specified interval.
+
 - [#166](https://github.com/zendframework/zend-mail/pull/166) adds functionality for handling `References` and `In-Reply-To` headers.
 
 - [#148](https://github.com/zendframework/zend-mail/pull/148) adds the optional constructor argument `$comment` and the method `getComment()` to the class
