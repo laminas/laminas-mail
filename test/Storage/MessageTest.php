@@ -19,6 +19,7 @@ use Zend\Mime\Exception as MimeException;
 /**
  * @group      Zend_Mail
  * @covers Zend\Mail\Storage\Message<extended>
+ * @covers Zend\Mail\Headers<extended>
  */
 class MessageTest extends TestCase
 {
@@ -137,6 +138,25 @@ class MessageTest extends TestCase
             ['test', 'test2', 'multipart'],
             $message->getHeader('subject', 'array')
         );
+    }
+
+    public function testAllowWhitespaceInEmptySingleLineHeader()
+    {
+        $src = "From: user@example.com\nTo: userpal@example.net\nSubject: This is your reminder\n  \n  about the football game tonight\nDate: Wed, 20 Oct 2010 20:53:35 -0400\n\nDon't forget to meet us for the tailgate party!\n";
+        $message = new Message(['raw' => $src]);
+
+        $this->assertEquals(
+            'This is your reminder about the football game tonight',
+            $message->getHeader('subject', 'string')
+        );
+    }
+
+    public function testNotAllowWhitespaceInEmptyMultiLineHeader()
+    {
+        $src = "From: user@example.com\nTo: userpal@example.net\nSubject: This is your reminder\n  \n \n  about the football game tonight\nDate: Wed, 20 Oct 2010 20:53:35 -0400\n\nDon't forget to meet us for the tailgate party!\n";
+
+        $this->expectException(MailException\RuntimeException::class);
+        $message = new Message(['raw' => $src]);
     }
 
     public function testContentTypeDecode()
