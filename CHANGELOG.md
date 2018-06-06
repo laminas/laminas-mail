@@ -2,24 +2,6 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 3.0.0 - TBD
-
-### Added
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
-
 ## 2.9.1 - TBD
 
 ### Added
@@ -74,7 +56,7 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#143](https://github.com/zendframework/zend-mail/pull/143) fixed parsing
   of `<` and `>` being part of the email address comment.
 
-## 2.8.0 - TBD
+## 2.8.0 - 2017-06-08
 
 ### Added
 
