@@ -31,7 +31,9 @@ class AddressList implements Countable, Iterator
     {
         if (is_string($emailOrAddress)) {
             $emailOrAddress = $this->createAddress($emailOrAddress, $name);
-        } elseif (! $emailOrAddress instanceof Address\AddressInterface) {
+        }
+
+        if (! $emailOrAddress instanceof Address\AddressInterface) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects an email address or %s\Address object as its first argument; received "%s"',
                 __METHOD__,
@@ -65,14 +67,17 @@ class AddressList implements Countable, Iterator
         foreach ($addresses as $key => $value) {
             if (is_int($key) || is_numeric($key)) {
                 $this->add($value);
-            } elseif (is_string($key)) {
-                $this->add($key, $value);
-            } else {
+                continue;
+            }
+
+            if (! is_string($key)) {
                 throw new Exception\RuntimeException(sprintf(
                     'Invalid key type in provided addresses array ("%s")',
                     (is_object($key) ? get_class($key) : var_export($key, 1))
                 ));
             }
+
+            $this->add($key, $value);
         }
         return $this;
     }
