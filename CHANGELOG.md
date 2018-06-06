@@ -6,6 +6,13 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
+- [#148](https://github.com/zendframework/zend-mail/pull/148) adds the optional constructor argument `$comment` and the method `getComment()` to the class
+  `Zend\Mail\Address`. When a comment is present, `toString()` will include it in the representation.
+
+- [#148](https://github.com/zendframework/zend-mail/pull/148) adds the method `Zend\Mail\Address::fromString(string $address, $comment = null) : Address`.
+  The method can be used to generate an instance from a string containing a `(name)?<email>` value.
+  The `$comment` argument can be used to associate a comment with the address.
+
 - [#213](https://github.com/zendframework/zend-mail/pull/213) re-adds support for PHP 5.6 and 7.0; ZF policy is never
   to bump the major version of a PHP requirement unless the package is bumping major version.
 
@@ -22,6 +29,9 @@ All notable changes to this project will be documented in this file, in reverse 
 - Nothing.
 
 ### Fixed
+
+- [#148](https://github.com/zendframework/zend-mail/pull/148) fixes how `Zend\Mail\Header\AbstractAddressList` parses address values, ensuring
+  that they now retain any address comment discovered to include in the generated `Zend\Mail\Address` instances.
 
 - [#147](https://github.com/zendframework/zend-mail/pull/147) fixes how address lists are parsed, expanding the functionality to allow either
   `,` or `;` delimiters (or both in combination).

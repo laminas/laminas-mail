@@ -7,6 +7,7 @@
 
 namespace Zend\Mail\Header;
 
+use Zend\Mail\Address;
 use Zend\Mail\AddressList;
 use Zend\Mail\Headers;
 
@@ -53,38 +54,45 @@ abstract class AbstractAddressList implements HeaderInterface
         $values = AddressListParser::parse($fieldValue);
 
         $wasEncoded = false;
-        array_walk(
-            $values,
-            function (&$value) use (&$wasEncoded) {
+        $addresses = array_map(
+            function ($value) use (&$wasEncoded) {
                 $decodedValue = HeaderWrap::mimeDecodeValue($value);
                 $wasEncoded = $wasEncoded || ($decodedValue !== $value);
+
                 $value = trim($decodedValue);
+
+                $comments = self::getComments($value);
                 $value = self::stripComments($value);
+
                 $value = preg_replace(
                     [
-                        '#(?<!\\\)"(.*)(?<!\\\)"#', //quoted-text
-                        '#\\\([\x01-\x09\x0b\x0c\x0e-\x7f])#' //quoted-pair
+                        '#(?<!\\\)"(.*)(?<!\\\)"#',            // quoted-text
+                        '#\\\([\x01-\x09\x0b\x0c\x0e-\x7f])#', // quoted-pair
                     ],
                     [
                         '\\1',
-                        '\\1'
+                        '\\1',
                     ],
                     $value
                 );
-            }
+
+                return empty($value) ? null : Address::fromString($value, $comments);
+            },
+            $values
         );
+        $addresses = array_filter($addresses);
+
         $header = new static();
         if ($wasEncoded) {
             $header->setEncoding('UTF-8');
         }
 
-        $values = array_filter($values);
-
         /** @var AddressList $addressList */
         $addressList = $header->getAddressList();
-        foreach ($values as $address) {
-            $addressList->addFromString($address);
+        foreach ($addresses as $address) {
+            $addressList->add($address);
         }
+
         return $header;
     }
 
@@ -194,7 +202,38 @@ abstract class AbstractAddressList implements HeaderInterface
         return (empty($value)) ? '' : sprintf('%s: %s', $name, $value);
     }
 
-    // Supposed to be private, protected as a workaround for PHP bug 68194
+    /**
+     * Retrieve comments from value, if any.
+     *
+     * Supposed to be private, protected as a workaround for PHP bug 68194
+     *
+     * @param string $value
+     * @return string
+     */
+    protected static function getComments($value)
+    {
+        $matches = [];
+        preg_match_all(
+            '/\\(
+                (?P<comment>(
+                    \\\\.|
+                    [^\\\\)]
+                )+)
+            \\)/x',
+            $value,
+            $matches
+        );
+        return isset($matches['comment']) ? implode(', ', $matches['comment']) : '';
+    }
+
+    /**
+     * Strip all comments from value, if any.
+     *
+     * Supposed to be private, protected as a workaround for PHP bug 68194
+     *
+     * @param string $value
+     * @return void
+     */
     protected static function stripComments($value)
     {
         return preg_replace(
