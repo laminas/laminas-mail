@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
+- [#166](https://github.com/zendframework/zend-mail/pull/166) adds functionality for handling `References` and `In-Reply-To` headers.
+
 - [#148](https://github.com/zendframework/zend-mail/pull/148) adds the optional constructor argument `$comment` and the method `getComment()` to the class
   `Zend\Mail\Address`. When a comment is present, `toString()` will include it in the representation.
 
