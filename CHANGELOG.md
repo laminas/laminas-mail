@@ -18,7 +18,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#165](https://github.com/zendframework/zend-mail/pull/165) changes the `AbstractAddressList` IDN&lt;-&gt;ASCII conversion; it now no longer requires
+  ext-intl, but instead uses a bundled true/punycode library to accomplish it. This also means that
+  the conversions will work on any PHP installation.
 
 ### Deprecated
 

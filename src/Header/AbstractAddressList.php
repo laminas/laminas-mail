@@ -7,6 +7,8 @@
 
 namespace Zend\Mail\Header;
 
+use TrueBV\Exception\OutOfBoundsException;
+use TrueBV\Punycode;
 use Zend\Mail\Address;
 use Zend\Mail\AddressList;
 use Zend\Mail\Headers;
@@ -37,6 +39,11 @@ abstract class AbstractAddressList implements HeaderInterface
      * @var string lower case field name
      */
     protected static $type;
+
+    /**
+     * @var Punycode|null
+     */
+    private static $punycode;
 
     public static function fromString($headerLine)
     {
@@ -103,18 +110,19 @@ abstract class AbstractAddressList implements HeaderInterface
 
     /**
      * Safely convert UTF-8 encoded domain name to ASCII
-     * @param string $domainName  the UTF-8 encoded email
+     * @param string $domainName the UTF-8 encoded email
      * @return string
      */
     protected function idnToAscii($domainName)
     {
-        if (extension_loaded('intl')) {
-            if (defined('INTL_IDNA_VARIANT_UTS46')) {
-                return (idn_to_ascii($domainName, 0, INTL_IDNA_VARIANT_UTS46) ?: $domainName);
-            }
-            return (idn_to_ascii($domainName) ?: $domainName);
+        if (null === self::$punycode) {
+            self::$punycode = new Punycode();
         }
-        return $domainName;
+        try {
+            return self::$punycode->encode($domainName);
+        } catch (OutOfBoundsException $e) {
+            return $domainName;
+        }
     }
 
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)
