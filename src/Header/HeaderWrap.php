@@ -110,7 +110,25 @@ abstract class HeaderWrap
 
         $decodedValue = iconv_mime_decode($value, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
 
+        // imap (unlike iconv) can handle multibyte headers which are splitted across multiple line
+        if (self::isNotDecoded($value, $decodedValue) && extension_loaded('imap')) {
+            return array_reduce(
+                imap_mime_header_decode(imap_utf8($value)),
+                function ($accumulator, $headerPart) {
+                    return $accumulator . $headerPart->text;
+                },
+                ''
+            );
+        }
+
         return $decodedValue;
+    }
+
+    private static function isNotDecoded($originalValue, $value)
+    {
+        return 0 === strpos($value, '=?')
+            && strlen($value) - 2 === strpos($value, '?=')
+            && false !== strpos($originalValue, $value);
     }
 
     /**
