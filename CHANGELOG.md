@@ -9,6 +9,10 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#213](https://github.com/zendframework/zend-mail/pull/213) re-adds support for PHP 5.6 and 7.0; ZF policy is never
   to bump the major version of a PHP requirement unless the package is bumping major version.
 
+### Changed
+
+- Nothing.
+
 ### Deprecated
 
 - Nothing.
@@ -19,7 +23,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#147](https://github.com/zendframework/zend-mail/pull/147) fixes how address lists are parsed, expanding the functionality to allow either
+  `,` or `;` delimiters (or both in combination).
 
 ## 2.9.0 - 2017-03-01
 
