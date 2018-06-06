@@ -40,6 +40,14 @@ class SmtpOptions extends AbstractOptions
     protected $port = 25;
 
     /**
+     * The timeout in seconds for the SMTP connection
+     * (Use null to disable it)
+     *
+     * @var int|null
+     */
+    protected $connectionTimeLimit;
+
+    /**
      * Return the local client hostname
      *
      * @return string
@@ -174,6 +182,27 @@ class SmtpOptions extends AbstractOptions
             ));
         }
         $this->port = $port;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getConnectionTimeLimit()
+    {
+        return $this->connectionTimeLimit;
+    }
+
+    /**
+     * @param int|null $seconds
+     * @return self
+     */
+    public function setConnectionTimeLimit($seconds)
+    {
+        $this->connectionTimeLimit = $seconds === null
+            ? null
+            : (int) $seconds;
+
         return $this;
     }
 }

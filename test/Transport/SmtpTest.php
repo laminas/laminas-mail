@@ -10,6 +10,8 @@ namespace ZendTest\Mail\Transport;
 use PHPUnit\Framework\TestCase;
 use Zend\Mail\Headers;
 use Zend\Mail\Message;
+use Zend\Mail\Protocol\Smtp as SmtpProtocol;
+use Zend\Mail\Protocol\SmtpPluginManager;
 use Zend\Mail\Transport\Envelope;
 use Zend\Mail\Transport\Smtp;
 use Zend\Mail\Transport\SmtpOptions;
@@ -254,5 +256,93 @@ class SmtpTest extends TestCase
         $this->assertFalse($this->connection->hasSession());
         $this->transport->send($this->getMessage());
         $this->assertTrue($this->connection->hasSession());
+    }
+
+    public function testAutoReconnect()
+    {
+        $options = new SmtpOptions();
+        $options->setConnectionTimeLimit(5 * 3600);
+
+        $this->transport->setOptions($options);
+
+        // Mock the connection
+        $connectionMock = $this->getMockBuilder(SmtpProtocol::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['connect', 'helo', 'hasSession', 'mail', 'rcpt', 'data', 'rset'])
+            ->getMock();
+
+        $connectionMock
+            ->expects(self::exactly(2))
+            ->method('hasSession')
+            ->willReturnOnConsecutiveCalls(
+                false,
+                true
+            );
+
+        $connectionMock
+            ->expects(self::exactly(2))
+            ->method('connect');
+
+        $connectionMock
+            ->expects(self::exactly(2))
+            ->method('helo');
+
+        $connectionMock
+            ->expects(self::exactly(3))
+            ->method('mail');
+
+        $connectionMock
+            ->expects(self::exactly(9))
+            ->method('rcpt');
+
+        $connectionMock
+            ->expects(self::exactly(3))
+            ->method('data');
+
+        $connectionMock
+            ->expects(self::exactly(1))
+            ->method('rset');
+
+        $this->transport->setConnection($connectionMock);
+
+        // Mock the plugin manager so that lazyLoadConnection() works
+        $pluginManagerMock = $this->getMockBuilder(SmtpPluginManager::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['get'])
+            ->getMock();
+
+        $pluginManagerMock
+            ->expects(self::once())
+            ->method('get')
+            ->willReturn($connectionMock);
+
+        $this->transport->setPluginManager($pluginManagerMock);
+
+
+        // Send the first email - first connect()
+        $this->transport->send($this->getMessage());
+
+        // Check that the connectedTime was set properly
+        $reflClass             = new \ReflectionClass($this->transport);
+        $connectedTimeProperty = $reflClass->getProperty('connectedTime');
+
+        self::assertNotNull($connectedTimeProperty);
+        $connectedTimeProperty->setAccessible(true);
+        $connectedTimeAfterFirstMail = $connectedTimeProperty->getValue($this->transport);
+        $this->assertNotNull($connectedTimeAfterFirstMail);
+
+
+        // Send the second email - no new connect()
+        $this->transport->send($this->getMessage());
+
+        // Make sure that there was no new connect() (and no new timestamp was written)
+        $this->assertEquals($connectedTimeAfterFirstMail, $connectedTimeProperty->getValue($this->transport));
+
+
+        // Manipulate the timestamp to trigger the auto-reconnect
+        $connectedTimeProperty->setValue($this->transport, time() - 10 * 3600);
+
+        // Send the third email - it should trigger a new connect()
+        $this->transport->send($this->getMessage());
     }
 }
