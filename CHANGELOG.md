@@ -30,6 +30,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
+- [#164](https://github.com/zendframework/zend-mail/pull/164) fixes the return value from `Zend\Mail\Protocol\Imap::capability()` when no response is
+  returned from the server; previously, it returned `false`, but now correctly returns an empty array.
+
 - [#148](https://github.com/zendframework/zend-mail/pull/148) fixes how `Zend\Mail\Header\AbstractAddressList` parses address values, ensuring
   that they now retain any address comment discovered to include in the generated `Zend\Mail\Address` instances.
 
