@@ -46,7 +46,7 @@ class ContentType implements UnstructuredInterface
         $header->setType($parts[0]);
 
         if (isset($parts[1])) {
-            $values = AddressListParser::parse(trim($parts[1]), [';', '=']);
+            $values = ListParser::parse(trim($parts[1]), [';', '=']);
             $length = count($values);
 
             for ($i = 0; $i < $length; $i += 2) {

@@ -9,7 +9,7 @@ namespace Zend\Mail\Header;
 
 use function in_array;
 
-class AddressListParser
+class ListParser
 {
     const CHAR_QUOTES = ['\'', '"'];
     const CHAR_DELIMS = [',', ';'];
@@ -17,7 +17,9 @@ class AddressListParser
 
     /**
      * @param string $value
-     * @param array $delims
+     * @param array $delims Delimiters allowed between values; parser will
+     *     split on these, as long as they are not within quotes. Defaults
+     *     to ListParser::CHAR_DELIMS.
      * @return array
      */
     public static function parse($value, array $delims = self::CHAR_DELIMS)
