@@ -2,9 +2,12 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.9.1 - TBD
+## 2.10.0 - 2018-06-07
 
 ### Added
+
+- [#213](https://github.com/zendframework/zend-mail/pull/213) re-adds support for PHP 5.6 and 7.0; ZF policy is never
+  to bump the major version of a PHP requirement unless the package is bumping major version.
 
 - [#172](https://github.com/zendframework/zend-mail/pull/172) adds the flag `connection_time_limit` to the possible `Zend\Mail\Transport\Smtp` options.
   This flag, when provided as a positive integer, and in conjunction with the `use_complete_quit` flag, will
@@ -18,9 +21,6 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#148](https://github.com/zendframework/zend-mail/pull/148) adds the method `Zend\Mail\Address::fromString(string $address, $comment = null) : Address`.
   The method can be used to generate an instance from a string containing a `(name)?<email>` value.
   The `$comment` argument can be used to associate a comment with the address.
-
-- [#213](https://github.com/zendframework/zend-mail/pull/213) re-adds support for PHP 5.6 and 7.0; ZF policy is never
-  to bump the major version of a PHP requirement unless the package is bumping major version.
 
 ### Changed
 
