@@ -17,9 +17,10 @@ class AddressListParser
 
     /**
      * @param string $value
+     * @param array $delims
      * @return array
      */
-    public static function parse($value)
+    public static function parse($value, $delims = self::CHAR_DELIMS)
     {
         $values            = [];
         $length            = strlen($value);
@@ -40,7 +41,7 @@ class AddressListParser
 
             // If we are not in a quoted string, and have a delimiter, append
             // the current value to the list, and reset the current value.
-            if (in_array($char, self::CHAR_DELIMS, true) && ! $inQuote) {
+            if (in_array($char, $delims, true) && ! $inQuote) {
                 $values [] = $currentValue;
                 $currentValue = '';
                 continue;
