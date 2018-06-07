@@ -9,6 +9,9 @@ namespace Zend\Mail\Header;
 
 use function in_array;
 
+/**
+ * @internal
+ */
 class ListParser
 {
     const CHAR_QUOTES = ['\'', '"'];
