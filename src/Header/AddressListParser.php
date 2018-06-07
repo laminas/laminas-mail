@@ -20,7 +20,7 @@ class AddressListParser
      * @param array $delims
      * @return array
      */
-    public static function parse($value, $delims = self::CHAR_DELIMS)
+    public static function parse($value, array $delims = self::CHAR_DELIMS)
     {
         $values            = [];
         $length            = strlen($value);
