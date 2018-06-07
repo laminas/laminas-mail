@@ -45,6 +45,29 @@ class ContentTypeTest extends TestCase
         $this->assertEquals($header->getParameters(), ['name' => 'foo.pdf']);
     }
 
+    public static function getLiteralData()
+    {
+        return [
+            [
+                ['name' => 'foo; bar.txt'],
+                'text/plain; name="foo; bar.txt"'
+            ],
+            [
+                ['name' => 'foo&bar.txt'],
+                'text/plain; name="foo&bar.txt"'
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getLiteralData
+     */
+    public function testHandlesLiterals(array $expected, $header)
+    {
+        $header = ContentType::fromString('Content-Type: '.$header);
+        $this->assertEquals($expected, $header->getParameters());
+    }
+
     /**
      * @dataProvider setTypeProvider
      */
