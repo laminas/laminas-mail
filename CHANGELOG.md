@@ -42,6 +42,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
+- [#211](https://github.com/zendframework/zend-mail/pull/211) fixes how the `ContentType` header class parses the value it receives. Previously,
+  it was incorrectly splitting the value on semi-colons that were inside quotes; in now correctly
+  ignores them.
+
 - [#204](https://github.com/zendframework/zend-mail/pull/204) fixes `HeaderWrap::mimeDecodeValue()` behavior when handling a multiline UTF-8
   header split across a character. The fix will only work when ext-imap is present, however.
 
