@@ -29,7 +29,7 @@ $template->setBody('... Your message here ...');
 foreach ($recipients as $address) {
     // Clone the message and add a recipient:
     $message = clone $template;
-    $message->addTo($template);
+    $message->addTo($address);
 
     $transport->send($message);
 }
