@@ -17,6 +17,6 @@ pages:
             - "File Transport Options": transport/file-options.md
         - "Reading and Storing Mail": read.md
 site_name: zend-mail
-site_description: zend-mail
+site_description: 'Parse, create, store, and send email messages, using a variety of storage and transport protocols.'
 repo_url: 'https://github.com/zendframework/zend-mail'
 copyright: 'Copyright (c) 2005-2018 <a href="https://www.zend.com/">Zend Technologies USA Inc.</a>'
