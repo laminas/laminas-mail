@@ -35,6 +35,15 @@ $transport->send($message);
 
 ### SMTP Transport Usage
 
+> ### Installation requirements
+>
+> The SMTP transport depends on the zend-servicemanager component, so be sure to
+> have it installed before getting started:
+>
+> ```bash
+> $ composer require zendframework/zend-servicemanager
+> ```
+
 ```php
 use Zend\Mail\Message;
 use Zend\Mail\Transport\Smtp as SmtpTransport;
