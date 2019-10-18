@@ -85,6 +85,15 @@ $transport->setOptions($options);
 
 ### SMTP Transport Usage with CRAM-MD5 AUTH
 
+> ### Installation requirements
+>
+> The CRAM-MD5 authentication depends on the zend-crypt component, so be sure to
+> have it installed before getting started:
+>
+> ```bash
+> $ composer require zendframework/zend-crypt
+> ```
+
 ```php
 use Zend\Mail\Transport\Smtp as SmtpTransport;
 use Zend\Mail\Transport\SmtpOptions;
