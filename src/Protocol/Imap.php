@@ -20,6 +20,12 @@ class Imap
     const TIMEOUT_CONNECTION = 30;
 
     /**
+     * If set to true, do not validate the SSL certificate
+     * @var null|bool
+     */
+    protected $novalidatecert;
+
+    /**
      * socket to imap server
      * @var resource|null
      */
@@ -34,13 +40,16 @@ class Imap
     /**
      * Public constructor
      *
-     * @param  string   $host  hostname or IP address of IMAP server, if given connect() is called
-     * @param  int|null $port  port of IMAP server, null for default (143 or 993 for ssl)
-     * @param  bool     $ssl   use ssl? 'SSL', 'TLS' or false
+     * @param  string   $host            hostname or IP address of IMAP server, if given connect() is called
+     * @param  int|null $port            port of IMAP server, null for default (143 or 993 for ssl)
+     * @param  bool     $ssl             use ssl? 'SSL', 'TLS' or false
+     * @param  bool     $novalidatecert  set to true to skip SSL certificate validation
      * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
      */
-    public function __construct($host = '', $port = null, $ssl = false)
+    public function __construct($host = '', $port = null, $ssl = false, $novalidatecert = false)
     {
+        $this->novalidatecert = $novalidatecert;
+
         if ($host) {
             $this->connect($host, $port, $ssl);
         }
@@ -52,6 +61,14 @@ class Imap
     public function __destruct()
     {
         $this->logout();
+    }
+
+    public function setNoValidateCert($novalidatecert)
+    {
+
+        if (is_bool($novalidatecert)) {
+            $this->novalidatecert = $novalidatecert;
+        }
     }
 
     /**
@@ -87,8 +104,29 @@ class Imap
                 }
         }
 
+        $socket_options = [];
+
+        if ($this->novalidatecert) {
+            $socket_options = [
+                'ssl' => [
+                    'verify_peer_name' => false,
+                    'verify_peer'      => false,
+                ]
+            ];
+        }
+
+        $socket_context = stream_context_create($socket_options);
+
         ErrorHandler::start();
-        $this->socket = fsockopen($host, $port, $errno, $errstr, self::TIMEOUT_CONNECTION);
+        $this->socket = stream_socket_client(
+            $host . ":" . $port,
+            $errno,
+            $errstr,
+            self::TIMEOUT_CONNECTION,
+            STREAM_CLIENT_CONNECT,
+            $socket_context
+        );
+
         $error = ErrorHandler::stop();
         if (! $this->socket) {
             throw new Exception\RuntimeException(sprintf(
