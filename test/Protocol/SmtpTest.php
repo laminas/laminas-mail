@@ -1,25 +1,23 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Mail
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Protocol;
+namespace LaminasTest\Mail\Protocol;
 
-use Zend\Mail\Headers;
-use Zend\Mail\Message;
-use Zend\Mail\Transport\Smtp;
-use ZendTest\Mail\TestAsset\SmtpProtocolSpy;
+use Laminas\Mail\Headers;
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\Smtp;
+use LaminasTest\Mail\TestAsset\SmtpProtocolSpy;
 
 /**
- * @category   Zend
- * @package    Zend_Mail
+ * @category   Laminas
+ * @package    Laminas_Mail
  * @subpackage UnitTests
- * @group      Zend_Mail
+ * @group      Laminas_Mail
  */
 class SmtpTest extends \PHPUnit_Framework_TestCase
 {
@@ -44,14 +42,14 @@ class SmtpTest extends \PHPUnit_Framework_TestCase
             ->setHeaders($headers)
             ->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
             ->setBody('testSendMailWithoutMinimalHeaders')
-            ->addTo('zf-devteam@zend.com', 'ZF DevTeam')
+            ->addTo('api-tools-devteam@zend.com', 'Laminas DevTeam')
         ;
         $expectedMessage = "EHLO localhost\r\n"
                            . "MAIL FROM:<ralph.schindler@zend.com>\r\n"
                            . "DATA\r\n"
                            . "Date: Sun, 10 Jun 2012 20:07:24 +0200\r\n"
                            . "Sender: Ralph Schindler <ralph.schindler@zend.com>\r\n"
-                           . "To: ZF DevTeam <zf-devteam@zend.com>\r\n"
+                           . "To: Laminas DevTeam <api-tools-devteam@zend.com>\r\n"
                            . "\r\n"
                            . "testSendMailWithoutMinimalHeaders\r\n"
                            . ".\r\n";
