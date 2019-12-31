@@ -1,29 +1,27 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Mail
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Header;
+namespace LaminasTest\Mail\Header;
 
-use Zend\Mail\Header\HeaderWrap;
+use Laminas\Mail\Header\HeaderWrap;
 
 /**
- * @category   Zend
- * @package    Zend_Mail
+ * @category   Laminas
+ * @package    Laminas_Mail
  * @subpackage UnitTests
- * @group      Zend_Mail
+ * @group      Laminas_Mail
  */
 class HeaderWrapTest extends \PHPUnit_Framework_TestCase
 {
     public function testWrapUnstructuredHeaderAscii()
     {
         $string = str_repeat('foobarblahblahblah baz bat', 4);
-        $header = $this->getMock('Zend\Mail\Header\UnstructuredInterface');
+        $header = $this->getMock('Laminas\Mail\Header\UnstructuredInterface');
         $header->expects($this->any())
             ->method('getEncoding')
             ->will($this->returnValue('ASCII'));
@@ -34,12 +32,12 @@ class HeaderWrapTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF2-258
+     * @group Laminas-258
      */
     public function testWrapUnstructuredHeaderMime()
     {
         $string = str_repeat('foobarblahblahblah baz bat', 3);
-        $header = $this->getMock('Zend\Mail\Header\UnstructuredInterface');
+        $header = $this->getMock('Laminas\Mail\Header\UnstructuredInterface');
         $header->expects($this->any())
             ->method('getEncoding')
             ->will($this->returnValue('UTF-8'));
@@ -52,7 +50,7 @@ class HeaderWrapTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF2-359
+     * @group Laminas-359
      */
     public function testMimeEncoding()
     {
