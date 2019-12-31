@@ -1,15 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Storage;
+namespace Laminas\Mail\Storage;
 
-use Zend\Stdlib\ErrorHandler;
+use Laminas\Stdlib\ErrorHandler;
 
 class Message extends Part implements Message\MessageInterface
 {
@@ -24,7 +23,7 @@ class Message extends Part implements Message\MessageInterface
      *
      * In addition to the parameters of Part::__construct() this constructor supports:
      * - file  filename or file handle of a file with raw message content
-     * - flags array with flags for message, keys are ignored, use constants defined in \Zend\Mail\Storage
+     * - flags array with flags for message, keys are ignored, use constants defined in \Laminas\Mail\Storage
      *
      * @param array $params
      * @throws Exception\RuntimeException
@@ -65,7 +64,7 @@ class Message extends Part implements Message\MessageInterface
     /**
      * check if flag is set
      *
-     * @param mixed $flag a flag name, use constants defined in \Zend\Mail\Storage
+     * @param mixed $flag a flag name, use constants defined in \Laminas\Mail\Storage
      * @return bool true if set, otherwise false
      */
     public function hasFlag($flag)
