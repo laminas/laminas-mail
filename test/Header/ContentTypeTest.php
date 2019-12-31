@@ -1,26 +1,25 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Header;
+namespace LaminasTest\Mail\Header;
 
-use Zend\Mail\Header\ContentType;
+use Laminas\Mail\Header\ContentType;
 
 /**
- * @group      Zend_Mail
+ * @group      Laminas_Mail
  */
 class ContentTypeTest extends \PHPUnit_Framework_TestCase
 {
     public function testContentTypeFromStringCreatesValidContentTypeHeader()
     {
         $contentTypeHeader = ContentType::fromString('Content-Type: xxx/yyy');
-        $this->assertInstanceOf('Zend\Mail\Header\HeaderInterface', $contentTypeHeader);
-        $this->assertInstanceOf('Zend\Mail\Header\ContentType', $contentTypeHeader);
+        $this->assertInstanceOf('Laminas\Mail\Header\HeaderInterface', $contentTypeHeader);
+        $this->assertInstanceOf('Laminas\Mail\Header\ContentType', $contentTypeHeader);
     }
 
     public function testContentTypeGetFieldNameReturnsHeaderName()
@@ -108,7 +107,7 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
      */
     public function testFromStringRaisesExceptionForInvalidName()
     {
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException', 'header name');
+        $this->setExpectedException('Laminas\Mail\Header\Exception\InvalidArgumentException', 'header name');
         $header = ContentType::fromString('Content-Type' . chr(32) . ': text/html');
     }
 
@@ -127,7 +126,7 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
      */
     public function testFromStringRaisesExceptionForNonFoldingMultilineValues($headerLine)
     {
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException', 'header value');
+        $this->setExpectedException('Laminas\Mail\Header\Exception\InvalidArgumentException', 'header value');
         $header = ContentType::fromString($headerLine);
     }
 
@@ -148,7 +147,7 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
     {
         $header = new ContentType();
         $header->setType('text/html');
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException', 'parameter name');
+        $this->setExpectedException('Laminas\Mail\Header\Exception\InvalidArgumentException', 'parameter name');
         $header->addParameter("b\r\na\rr\n", "baz");
     }
 
@@ -159,7 +158,7 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
     {
         $header = new ContentType();
         $header->setType('text/html');
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException', 'parameter value');
+        $this->setExpectedException('Laminas\Mail\Header\Exception\InvalidArgumentException', 'parameter value');
         $header->addParameter('foo', "\nbar\r\nbaz\r");
     }
 }
