@@ -1,23 +1,22 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Storage\Folder;
+namespace Laminas\Mail\Storage\Folder;
 
-use Zend\Mail\Storage;
-use Zend\Mail\Storage\Exception;
-use Zend\Stdlib\ErrorHandler;
+use Laminas\Mail\Storage;
+use Laminas\Mail\Storage\Exception;
+use Laminas\Stdlib\ErrorHandler;
 
 class Mbox extends Storage\Mbox implements FolderInterface
 {
     /**
-     * \Zend\Mail\Storage\Folder root folder for folder structure
-     * @var \Zend\Mail\Storage\Folder
+     * \Laminas\Mail\Storage\Folder root folder for folder structure
+     * @var \Laminas\Mail\Storage\Folder
      */
     protected $rootFolder;
 
@@ -37,13 +36,13 @@ class Mbox extends Storage\Mbox implements FolderInterface
      * Create instance with parameters
      *
      * Disallowed parameters are:
-     *   - filename use \Zend\Mail\Storage\Mbox for a single file
+     *   - filename use \Laminas\Mail\Storage\Mbox for a single file
      * Supported parameters are:
      *   - dirname rootdir of mbox structure
      *   - folder intial selected folder, default is 'INBOX'
      *
      * @param  $params array mail reader specific parameters
-     * @throws \Zend\Mail\Storage\Exception\InvalidArgumentException
+     * @throws \Laminas\Mail\Storage\Exception\InvalidArgumentException
      */
     public function __construct($params)
     {
@@ -52,7 +51,7 @@ class Mbox extends Storage\Mbox implements FolderInterface
         }
 
         if (isset($params->filename)) {
-            throw new Exception\InvalidArgumentException('use \Zend\Mail\Storage\Mbox for a single file');
+            throw new Exception\InvalidArgumentException('use \Laminas\Mail\Storage\Mbox for a single file');
         }
 
         if (!isset($params->dirname) || !is_dir($params->dirname)) {
@@ -70,13 +69,13 @@ class Mbox extends Storage\Mbox implements FolderInterface
     /**
      * find all subfolders and mbox files for folder structure
      *
-     * Result is save in \Zend\Mail\Storage\Folder instances with the root in $this->rootFolder.
+     * Result is save in \Laminas\Mail\Storage\Folder instances with the root in $this->rootFolder.
      * $parentFolder and $parentGlobalName are only used internally for recursion.
      *
      * @param string $currentDir call with root dir, also used for recursion.
-     * @param \Zend\Mail\Storage\Folder|null $parentFolder used for recursion
+     * @param \Laminas\Mail\Storage\Folder|null $parentFolder used for recursion
      * @param string $parentGlobalName used for recursion
-     * @throws \Zend\Mail\Storage\Exception\InvalidArgumentException
+     * @throws \Laminas\Mail\Storage\Exception\InvalidArgumentException
      */
     protected function _buildFolderTree($currentDir, $parentFolder = null, $parentGlobalName = '')
     {
@@ -117,8 +116,8 @@ class Mbox extends Storage\Mbox implements FolderInterface
      * get root folder or given folder
      *
      * @param string $rootFolder get folder structure for given folder, else root
-     * @throws \Zend\Mail\Storage\Exception\InvalidArgumentException
-     * @return \Zend\Mail\Storage\Folder root or wanted folder
+     * @throws \Laminas\Mail\Storage\Exception\InvalidArgumentException
+     * @return \Laminas\Mail\Storage\Folder root or wanted folder
      */
     public function getFolders($rootFolder = null)
     {
@@ -149,8 +148,8 @@ class Mbox extends Storage\Mbox implements FolderInterface
      *
      * folder must be selectable!
      *
-     * @param \Zend\Mail\Storage\Folder|string $globalName global name of folder or instance for subfolder
-     * @throws \Zend\Mail\Storage\Exception\RuntimeException
+     * @param \Laminas\Mail\Storage\Folder|string $globalName global name of folder or instance for subfolder
+     * @throws \Laminas\Mail\Storage\Exception\RuntimeException
      */
     public function selectFolder($globalName)
     {
@@ -174,10 +173,10 @@ class Mbox extends Storage\Mbox implements FolderInterface
     }
 
     /**
-     * get \Zend\Mail\Storage\Folder instance for current folder
+     * get \Laminas\Mail\Storage\Folder instance for current folder
      *
-     * @return \Zend\Mail\Storage\Folder instance of current folder
-     * @throws \Zend\Mail\Storage\Exception\ExceptionInterface
+     * @return \Laminas\Mail\Storage\Folder instance of current folder
+     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
      */
     public function getCurrentFolder()
     {
