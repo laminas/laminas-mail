@@ -1,5 +1,3 @@
-sudo: false
-
 language: php
 
 branches:
@@ -12,18 +10,19 @@ cache:
     - $HOME/.composer/cache
     - vendor
     - $HOME/.local
-    - zf-mkdoc-theme
+    - laminas-mkdoc-theme
 
 env:
   global:
     - SERVICE_MANAGER_VERSION="^3.0.3"
-    - SITE_URL: https://zendframework.github.io/zend-mail
+    - SITE_URL: https://docs.laminas.dev/laminas-mail
     - GH_USER_NAME: "Matthew Weier O'Phinney"
     - GH_USER_EMAIL: matthew@weierophinney.net
-    - GH_REF: github.com/zendframework/zend-mail.git
+    - GH_REF: github.com/laminas/laminas-mail.git
     - secure: "D/LfNRozbXUjssR19Yi+6luLML1XyVhTLaky2FPlFAuWb80viVzTxhlvX1QgWPSxxTH8zLRlPm/71E8wYHTN94UGLwJorOthA/btaWKPtdgJtlHXErSgofVVOUqAObvGFOW9sSSuRZ5gFN0c47uuWJmYbiI3HUQkFMjpGpFatXO1SajzK+dCpN4cuhgHW3T41PNbiG8RRCYeFwGBJdpIXEm3HYN6bAWRbFnnu4uCVnQYZnDn/Rprr8+WIU5JFOJQ7ttCQuq1RMP3EC1fVIr0N5gFL91KYX9EyCYmLpZNMS6kF9cPTRQbMEOcKMXqqfGA031MlhvveeOiVWiap/ScMwpId0ugTq9O+sUvBHZuk4FSRtiURcPTLKAmQfUie8Zb+/dxKI18oOWVLsUU919wAEU/hGeTOvATl0WcjqZ2LmxOLVm6UE8+5kM1FhM04XjQaFSJVWK+Asto9KRrOSd310SMpluATutO2ZSN0r7+a7S65M38RRh63NOtdrtbbYIx7+MdAmfPwH5+wr3gekD0pDgnfQd1zLQNWMF/2idTjoxO6xAxTLvthThf5ANXadz1A2Dwqn1EdGsTJ2QItGO7TFwDE+Wfi1O6vtm2FgEy98vwC0t4D1op+0QSRMPr6lFkzINOv4aVO/SB1NF3zwiB95ZsvqReU/Zj2+aDzltf5tY="
 
 matrix:
+  fast_finish: true
   include:
     - php: 5.5
       env:
@@ -51,14 +50,13 @@ matrix:
     - php: hhvm
 
 notifications:
-  irc: "irc.freenode.org#zftalk.dev"
   email: false
 
 before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
   - composer self-update
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer require --dev --no-update satooshi/php-coveralls ; fi
-  - composer require --dev --no-update "zendframework/zend-servicemanager:$SERVICE_MANAGER_VERSION"
+  - composer require --dev --no-update "laminas/laminas-servicemanager:$SERVICE_MANAGER_VERSION"
 
 install:
   - travis_retry composer install --no-interaction --ignore-platform-reqs
@@ -66,10 +64,10 @@ install:
 script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
   - if [[ $CS_CHECK == 'true' ]]; then composer cs-check ; fi
-  - if [[ $DEPLOY_DOCS == "true" && "$TRAVIS_TEST_RESULT" == "0" ]]; then wget -O theme-installer.sh "https://raw.githubusercontent.com/zendframework/zf-mkdoc-theme/master/theme-installer.sh" ; chmod 755 theme-installer.sh ; ./theme-installer.sh ; fi
+  - if [[ $DEPLOY_DOCS == "true" && "$TRAVIS_TEST_RESULT" == "0" ]]; then wget -O theme-installer.sh "https://raw.githubusercontent.com/laminas/laminas-mkdoc-theme/master/theme-installer.sh" ; chmod 755 theme-installer.sh ; ./theme-installer.sh ; fi
 
 after_success:
-  - if [[ $DEPLOY_DOCS == "true" ]]; then echo "Preparing to build and deploy documentation" ; ./zf-mkdoc-theme/deploy.sh ; echo "Completed deploying documentation" ; fi
+  - if [[ $DEPLOY_DOCS == "true" ]]; then echo "Preparing to build and deploy documentation" ; ./laminas-mkdoc-theme/deploy.sh ; echo "Completed deploying documentation" ; fi
 
 after_script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer upload-coverage ; fi

@@ -1,24 +1,23 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Storage;
+namespace LaminasTest\Mail\Storage;
 
-use Zend\Mail\Exception as MailException;
-use Zend\Mail\Storage;
-use Zend\Mail\Storage\Exception;
-use Zend\Mail\Storage\Message;
-use Zend\Mime;
-use Zend\Mime\Exception as MimeException;
+use Laminas\Mail\Exception as MailException;
+use Laminas\Mail\Storage;
+use Laminas\Mail\Storage\Exception;
+use Laminas\Mail\Storage\Message;
+use Laminas\Mime;
+use Laminas\Mime\Exception as MimeException;
 
 /**
- * @group      Zend_Mail
- * @covers Zend\Mail\Storage\Message<extended>
+ * @group      Laminas_Mail
+ * @covers Laminas\Mail\Storage\Message<extended>
  */
 class MessageTest extends \PHPUnit_Framework_TestCase
 {
@@ -273,7 +272,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $message = new Message([]);
         $subject = null;
 
-        $this->setExpectedException('Zend\\Mail\\Exception\\InvalidArgumentException');
+        $this->setExpectedException('Laminas\\Mail\\Exception\\InvalidArgumentException');
         $message->subject;
     }
 
@@ -295,7 +294,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-5209
+     * @group Laminas-5209
      */
     public function testCheckingHasHeaderFunctionality()
     {
@@ -427,11 +426,11 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF2-372
+     * @group Laminas-372
      */
     public function testStrictParseMessage()
     {
-        $this->setExpectedException('Zend\\Mail\\Exception\\RuntimeException');
+        $this->setExpectedException('Laminas\\Mail\\Exception\\RuntimeException');
 
         $raw = file_get_contents($this->file);
         $raw = "From foo@example.com  Sun Jan 01 00:00:00 2000\n" . $raw;
@@ -441,7 +440,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     public function testMultivalueToHeader()
     {
         $message = new Message(['file' => $this->file2]);
-        /** @var \Zend\Mail\Header\To $header */
+        /** @var \Laminas\Mail\Header\To $header */
         $header = $message->getHeader('to');
         $addressList = $header->getAddressList();
         $this->assertEquals(2, $addressList->count());
