@@ -1,14 +1,15 @@
 <?php
+
 /**
- * @link      http://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Storage\TestAsset;
+namespace LaminasTest\Mail\Storage\TestAsset;
 
-use Zend\Mail\Storage\Maildir;
-use Zend\Mail\Storage\Message;
+use Laminas\Mail\Storage\Maildir;
+use Laminas\Mail\Storage\Message;
 
 /**
  * Maildir class, which uses old message class

@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Storage\Folder;
+namespace Laminas\Mail\Storage\Folder;
 
-use Zend\Mail\Storage;
-use Zend\Mail\Storage\Exception;
-use Zend\Stdlib\ErrorHandler;
+use Laminas\Mail\Storage;
+use Laminas\Mail\Storage\Exception;
+use Laminas\Stdlib\ErrorHandler;
 
 class Mbox extends Storage\Mbox implements FolderInterface
 {
@@ -37,7 +36,7 @@ class Mbox extends Storage\Mbox implements FolderInterface
      * Create instance with parameters
      *
      * Disallowed parameters are:
-     * - filename use \Zend\Mail\Storage\Mbox for a single file
+     * - filename use \Laminas\Mail\Storage\Mbox for a single file
      *
      * Supported parameters are:
      *
@@ -54,7 +53,7 @@ class Mbox extends Storage\Mbox implements FolderInterface
         }
 
         if (isset($params->filename)) {
-            throw new Exception\InvalidArgumentException('use \Zend\Mail\Storage\Mbox for a single file');
+            throw new Exception\InvalidArgumentException('use \Laminas\Mail\Storage\Mbox for a single file');
         }
 
         if (!isset($params->dirname) || !is_dir($params->dirname)) {
