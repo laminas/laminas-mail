@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Storage\Folder;
+namespace Laminas\Mail\Storage\Folder;
 
-use Zend\Mail\Storage;
-use Zend\Mail\Storage\Exception;
-use Zend\Stdlib\ErrorHandler;
+use Laminas\Mail\Storage;
+use Laminas\Mail\Storage\Exception;
+use Laminas\Stdlib\ErrorHandler;
 
 class Maildir extends Storage\Maildir implements FolderInterface
 {
@@ -139,8 +138,8 @@ class Maildir extends Storage\Maildir implements FolderInterface
      * get root folder or given folder
      *
      * @param string $rootFolder get folder structure for given folder, else root
-     * @throws \Zend\Mail\Storage\Exception\InvalidArgumentException
-     * @return \Zend\Mail\Storage\Folder root or wanted folder
+     * @throws \Laminas\Mail\Storage\Exception\InvalidArgumentException
+     * @return \Laminas\Mail\Storage\Folder root or wanted folder
      */
     public function getFolders($rootFolder = null)
     {

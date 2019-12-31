@@ -3,13 +3,13 @@
 Transports take care of the actual delivery of mail. Typically, you only need to
 worry about two possibilities: using PHP's native `mail()` functionality, which
 uses system resources to deliver mail, or using the SMTP protocol for delivering
-mail via a remote server. Zend Framework also includes a "File" transport, which
+mail via a remote server. Laminas also includes a "File" transport, which
 creates a mail file for each message sent; these can later be introspected as
 logs or consumed for the purposes of sending via an alternate transport
 mechanism later.
 
-The `Zend\Mail\Transport` interface defines exactly one method, `send()`. This
-method accepts a `Zend\Mail\Message` instance, which it then introspects and
+The `Laminas\Mail\Transport` interface defines exactly one method, `send()`. This
+method accepts a `Laminas\Mail\Message` instance, which it then introspects and
 serializes in order to send.
 
 ## Quick Start
@@ -20,8 +20,8 @@ then passing a message to it.
 ### Sendmail Transport Usage
 
 ```php
-use Zend\Mail\Message;
-use Zend\Mail\Transport\Sendmail as SendmailTransport;
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\Sendmail as SendmailTransport;
 
 $message = new Message();
 $message->addTo('matthew@example.org');
@@ -36,9 +36,9 @@ $transport->send($message);
 ### SMTP Transport Usage
 
 ```php
-use Zend\Mail\Message;
-use Zend\Mail\Transport\Smtp as SmtpTransport;
-use Zend\Mail\Transport\SmtpOptions;
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\Smtp as SmtpTransport;
+use Laminas\Mail\Transport\SmtpOptions;
 
 $message = new Message();
 $message->addTo('matthew@example.org');
@@ -64,10 +64,10 @@ $transport->send($message);
 ### File Transport Usage
 
 ```php
-use Zend\Mail\Message;
-use Zend\Mail\Transport\File as FileTransport;
-use Zend\Mail\Transport\FileOptions;
-use Zend\Math\Rand;
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\File as FileTransport;
+use Laminas\Mail\Transport\FileOptions;
+use Laminas\Math\Rand;
 
 $message = new Message();
 $message->addTo('matthew@example.org');
@@ -94,8 +94,8 @@ $transport->send($message);
 ### InMemory Transport Usage
 
 ```php
-use Zend\Mail\Message;
-use Zend\Mail\Transport\InMemory as InMemoryTransport;
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\InMemory as InMemoryTransport;
 
 $message = new Message();
 $message->addTo('matthew@example.org');
@@ -123,7 +123,7 @@ notice on instantiation. Please update your code to refer to the `InMemory`
 class instead.
 
 Users pulling their `Null` transport instance from the transport factory
-(`Zend\Mail\Transport\Factory`) receive an `InMemory` instance instead starting
+(`Laminas\Mail\Transport\Factory`) receive an `InMemory` instance instead starting
 in 2.4.0.
 
 ## Configuration Options
@@ -139,7 +139,7 @@ transport-specific options.
 ### send
 
 ```php
-send(Zend\Mail\Message $message) : void
+send(Laminas\Mail\Message $message) : void
 ```
 
 Send a mail message.

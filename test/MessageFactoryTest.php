@@ -1,19 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail;
+namespace LaminasTest\Mail;
 
-use Zend\Mail\MessageFactory;
+use Laminas\Mail\MessageFactory;
 
 /**
- * @group      Zend_Mail
- * @covers Zend\Mail\MessageFactory<extended>
+ * @group      Laminas_Mail
+ * @covers Laminas\Mail\MessageFactory<extended>
  */
 class MessageFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,9 +21,9 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
         $options = [
             'encoding'  => 'UTF-8',
             'from'      => 'matthew@example.com',
-            'to'        => 'zf-devteam@example.com',
-            'cc'        => 'zf-contributors@example.com',
-            'bcc'       => 'zf-devteam@example.com',
+            'to'        => 'api-tools-devteam@example.com',
+            'cc'        => 'api-tools-contributors@example.com',
+            'bcc'       => 'api-tools-devteam@example.com',
             'reply-to'  => 'matthew@example.com',
             'sender'    => 'matthew@example.com',
             'subject'   => 'subject',
@@ -33,11 +32,11 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
 
         $message = MessageFactory::getInstance($options);
 
-        $this->assertInstanceOf('Zend\Mail\Message', $message);
+        $this->assertInstanceOf('Laminas\Mail\Message', $message);
         $this->assertEquals('UTF-8', $message->getEncoding());
         $this->assertEquals('subject', $message->getSubject());
         $this->assertEquals('body', $message->getBody());
-        $this->assertInstanceOf('Zend\Mail\Address', $message->getSender());
+        $this->assertInstanceOf('Laminas\Mail\Address', $message->getSender());
         $this->assertEquals($options['sender'], $message->getSender()->getEmail());
 
         $getMethods = [
@@ -50,7 +49,7 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
 
         foreach ($getMethods as $key => $method) {
             $value = $message->{$method}();
-            $this->assertInstanceOf('Zend\Mail\AddressList', $value);
+            $this->assertInstanceOf('Laminas\Mail\AddressList', $value);
             $this->assertEquals(1, count($value));
             $this->assertTrue($value->has($options[$key]));
         }
@@ -61,24 +60,24 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
         $options = [
             'from' => ['matthew@example.com' => 'Matthew'],
             'to'   => [
-                'zf-devteam@example.com',
-                'zf-contributors@example.com',
+                'api-tools-devteam@example.com',
+                'api-tools-contributors@example.com',
             ],
         ];
 
         $message = MessageFactory::getInstance($options);
 
         $from = $message->getFrom();
-        $this->assertInstanceOf('Zend\Mail\AddressList', $from);
+        $this->assertInstanceOf('Laminas\Mail\AddressList', $from);
         $this->assertEquals(1, count($from));
         $this->assertTrue($from->has('matthew@example.com'));
         $this->assertEquals('Matthew', $from->get('matthew@example.com')->getName());
 
         $to = $message->getTo();
-        $this->assertInstanceOf('Zend\Mail\AddressList', $to);
+        $this->assertInstanceOf('Laminas\Mail\AddressList', $to);
         $this->assertEquals(2, count($to));
-        $this->assertTrue($to->has('zf-devteam@example.com'));
-        $this->assertTrue($to->has('zf-contributors@example.com'));
+        $this->assertTrue($to->has('api-tools-devteam@example.com'));
+        $this->assertTrue($to->has('api-tools-contributors@example.com'));
     }
 
     public function testIgnoresUnreconizedOptions()
@@ -87,14 +86,14 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
             'foo' => 'bar',
         ];
         $mail = MessageFactory::getInstance($options);
-        $this->assertInstanceOf('Zend\Mail\Message', $mail);
+        $this->assertInstanceOf('Laminas\Mail\Message', $mail);
     }
 
     public function testEmptyOption()
     {
         $options = [];
         $mail = MessageFactory::getInstance();
-        $this->assertInstanceOf('Zend\Mail\Message', $mail);
+        $this->assertInstanceOf('Laminas\Mail\Message', $mail);
     }
 
     public function invalidMessageOptions()
@@ -117,7 +116,7 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionForOptionsNotArrayOrTraversable($options)
     {
-        $this->setExpectedException('Zend\Mail\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Exception\InvalidArgumentException');
         MessageFactory::getInstance($options);
     }
 }

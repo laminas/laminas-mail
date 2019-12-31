@@ -1,24 +1,25 @@
 <?php
+
 /**
- * @author Stefano Torresi (http://stefanotorresi.it)
- * @license See the file LICENSE.txt for copying permission.
- * ************************************************
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Transport;
+namespace LaminasTest\Mail\Transport;
 
+use Laminas\Mail\Transport\Factory;
+use Laminas\Stdlib\ArrayObject;
 use PHPUnit_Framework_TestCase;
-use Zend\Mail\Transport\Factory;
-use Zend\Stdlib\ArrayObject;
 
 /**
- * @covers Zend\Mail\Transport\Factory<extended>
+ * @covers Laminas\Mail\Transport\Factory<extended>
  */
 class FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider invalidSpecTypeProvider
-     * @expectedException \Zend\Mail\Transport\Exception\InvalidArgumentException
+     * @expectedException \Laminas\Mail\Transport\Exception\InvalidArgumentException
      * @param $spec
      */
     public function testInvalidSpecThrowsInvalidArgumentException($spec)
@@ -41,7 +42,7 @@ class FactoryTest extends PHPUnit_Framework_TestCase
     {
         $transport = Factory::create();
 
-        $this->assertInstanceOf('Zend\Mail\Transport\Sendmail', $transport);
+        $this->assertInstanceOf('Laminas\Mail\Transport\Sendmail', $transport);
     }
 
     /**
@@ -65,14 +66,14 @@ class FactoryTest extends PHPUnit_Framework_TestCase
     public function typeProvider()
     {
         $types = [
-            ['Zend\Mail\Transport\File'],
-            ['Zend\Mail\Transport\InMemory'],
-            ['Zend\Mail\Transport\Sendmail'],
-            ['Zend\Mail\Transport\Smtp'],
+            ['Laminas\Mail\Transport\File'],
+            ['Laminas\Mail\Transport\InMemory'],
+            ['Laminas\Mail\Transport\Sendmail'],
+            ['Laminas\Mail\Transport\Smtp'],
         ];
 
         if (version_compare(PHP_VERSION, '7.0', '<')) {
-            $types[] = ['Zend\Mail\Transport\Null'];
+            $types[] = ['Laminas\Mail\Transport\Null'];
         }
 
         return $types;
@@ -95,20 +96,20 @@ class FactoryTest extends PHPUnit_Framework_TestCase
     public function typeAliasProvider()
     {
         return [
-            ['file', 'Zend\Mail\Transport\File'],
-            ['null', 'Zend\Mail\Transport\InMemory'],
-            ['memory', 'Zend\Mail\Transport\InMemory'],
-            ['inmemory', 'Zend\Mail\Transport\InMemory'],
-            ['InMemory', 'Zend\Mail\Transport\InMemory'],
-            ['sendmail', 'Zend\Mail\Transport\Sendmail'],
-            ['smtp', 'Zend\Mail\Transport\Smtp'],
-            ['File', 'Zend\Mail\Transport\File'],
-            ['Null', 'Zend\Mail\Transport\InMemory'],
-            ['NULL', 'Zend\Mail\Transport\InMemory'],
-            ['Sendmail', 'Zend\Mail\Transport\Sendmail'],
-            ['SendMail', 'Zend\Mail\Transport\Sendmail'],
-            ['Smtp', 'Zend\Mail\Transport\Smtp'],
-            ['SMTP', 'Zend\Mail\Transport\Smtp'],
+            ['file', 'Laminas\Mail\Transport\File'],
+            ['null', 'Laminas\Mail\Transport\InMemory'],
+            ['memory', 'Laminas\Mail\Transport\InMemory'],
+            ['inmemory', 'Laminas\Mail\Transport\InMemory'],
+            ['InMemory', 'Laminas\Mail\Transport\InMemory'],
+            ['sendmail', 'Laminas\Mail\Transport\Sendmail'],
+            ['smtp', 'Laminas\Mail\Transport\Smtp'],
+            ['File', 'Laminas\Mail\Transport\File'],
+            ['Null', 'Laminas\Mail\Transport\InMemory'],
+            ['NULL', 'Laminas\Mail\Transport\InMemory'],
+            ['Sendmail', 'Laminas\Mail\Transport\Sendmail'],
+            ['SendMail', 'Laminas\Mail\Transport\Sendmail'],
+            ['Smtp', 'Laminas\Mail\Transport\Smtp'],
+            ['SMTP', 'Laminas\Mail\Transport\Smtp'],
         ];
     }
 
@@ -123,12 +124,12 @@ class FactoryTest extends PHPUnit_Framework_TestCase
 
         $transport = Factory::create($spec);
 
-        $this->assertInstanceOf('Zend\Mail\Transport\InMemory', $transport);
+        $this->assertInstanceOf('Laminas\Mail\Transport\InMemory', $transport);
     }
 
     /**
      * @dataProvider invalidClassProvider
-     * @expectedException \Zend\Mail\Transport\Exception\DomainException
+     * @expectedException \Laminas\Mail\Transport\Exception\DomainException
      * @param $class
      */
     public function testInvalidClassThrowsDomainException($class)
