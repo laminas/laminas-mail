@@ -1,18 +1,19 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Header;
+namespace LaminasTest\Mail\Header;
 
+use Laminas\Mail\Header;
 use PHPUnit\Framework\TestCase;
-use Zend\Mail\Header;
 
 /**
- * @group      Zend_Mail
- * @covers Zend\Mail\Header\MessageId<extended>
+ * @group      Laminas_Mail
+ * @covers Laminas\Mail\Header\MessageId<extended>
  */
 class MessageIdTest extends TestCase
 {
@@ -51,7 +52,7 @@ class MessageIdTest extends TestCase
      */
     public function testFromStringPreventsCrlfInjectionOnDetection($header)
     {
-        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $messageid = Header\MessageId::fromString($header);
     }
 
@@ -73,7 +74,7 @@ class MessageIdTest extends TestCase
     public function testInvalidIdentifierRaisesException($id)
     {
         $header = new Header\MessageId();
-        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $header->setId($id);
     }
 }

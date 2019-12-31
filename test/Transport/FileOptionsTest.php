@@ -1,18 +1,19 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Transport;
+namespace LaminasTest\Mail\Transport;
 
+use Laminas\Mail\Transport\FileOptions;
 use PHPUnit\Framework\TestCase;
-use Zend\Mail\Transport\FileOptions;
 
 /**
- * @group      Zend_Mail
- * @covers Zend\Mail\Transport\FileOptions<extended>
+ * @group      Laminas_Mail
+ * @covers Laminas\Mail\Transport\FileOptions<extended>
  */
 class FileOptionsTest extends TestCase
 {
@@ -31,7 +32,7 @@ class FileOptionsTest extends TestCase
         $callback = $this->options->getCallback();
         $this->assertInternalType('callable', $callback);
         $test     = call_user_func($callback, '');
-        $this->assertRegExp('#^ZendMail_\d+_\d+\.eml$#', $test);
+        $this->assertRegExp('#^LaminasMail_\d+_\d+\.eml$#', $test);
     }
 
     public function testPathIsMutable()

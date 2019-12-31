@@ -1,11 +1,12 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Storage\Folder;
+namespace Laminas\Mail\Storage\Folder;
 
 interface FolderInterface
 {
@@ -23,15 +24,15 @@ interface FolderInterface
      * folder must be selectable!
      *
      * @param FolderInterface|string $globalName global name of folder or instance for subfolder
-     * @throws \Zend\Mail\Storage\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
      */
     public function selectFolder($globalName);
 
     /**
-     * get Zend\Mail\Storage\Folder instance for current folder
+     * get Laminas\Mail\Storage\Folder instance for current folder
      *
      * @return FolderInterface instance of current folder
-     * @throws \Zend\Mail\Storage\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
      */
     public function getCurrentFolder();
 }

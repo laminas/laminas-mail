@@ -1,23 +1,24 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Transport;
+namespace Laminas\Mail\Transport;
 
-use Zend\Mail\Address;
-use Zend\Mail\Headers;
-use Zend\Mail\Message;
-use Zend\Mail\Protocol;
-use Zend\Mail\Protocol\Exception as ProtocolException;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\Mail\Address;
+use Laminas\Mail\Headers;
+use Laminas\Mail\Message;
+use Laminas\Mail\Protocol;
+use Laminas\Mail\Protocol\Exception as ProtocolException;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * SMTP connection object
  *
- * Loads an instance of Zend\Mail\Protocol\Smtp and forwards smtp transactions
+ * Loads an instance of Laminas\Mail\Protocol\Smtp and forwards smtp transactions
  */
 class Smtp implements TransportInterface
 {

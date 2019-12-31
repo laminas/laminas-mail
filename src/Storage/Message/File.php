@@ -1,13 +1,14 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Storage\Message;
+namespace Laminas\Mail\Storage\Message;
 
-use Zend\Mail\Storage\Part;
+use Laminas\Mail\Storage\Part;
 
 class File extends Part\File implements MessageInterface
 {
@@ -20,11 +21,11 @@ class File extends Part\File implements MessageInterface
     /**
      * Public constructor
      *
-     * In addition to the parameters of Zend\Mail\Storage\Part::__construct() this constructor supports:
-     * - flags array with flags for message, keys are ignored, use constants defined in Zend\Mail\Storage
+     * In addition to the parameters of Laminas\Mail\Storage\Part::__construct() this constructor supports:
+     * - flags array with flags for message, keys are ignored, use constants defined in Laminas\Mail\Storage
      *
      * @param  array $params
-     * @throws \Zend\Mail\Storage\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
      */
     public function __construct(array $params)
     {
@@ -49,7 +50,7 @@ class File extends Part\File implements MessageInterface
     /**
      * check if flag is set
      *
-     * @param mixed $flag a flag name, use constants defined in \Zend\Mail\Storage
+     * @param mixed $flag a flag name, use constants defined in \Laminas\Mail\Storage
      * @return bool true if set, otherwise false
      */
     public function hasFlag($flag)
