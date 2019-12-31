@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Header;
+namespace LaminasTest\Mail\Header;
 
-use Zend\Mail\Header\ContentTransferEncoding;
+use Laminas\Mail\Header\ContentTransferEncoding;
 
 /**
- * @group      Zend_Mail
+ * @group      Laminas_Mail
  */
 class ContentTransferEncodingTest extends \PHPUnit_Framework_TestCase
 {
@@ -40,8 +39,8 @@ class ContentTransferEncodingTest extends \PHPUnit_Framework_TestCase
     public function testContentTransferEncodingFromStringCreatesValidContentTransferEncodingHeader($encoding)
     {
         $contentTransferEncodingHeader = ContentTransferEncoding::fromString('Content-Transfer-Encoding: '.$encoding);
-        $this->assertInstanceOf('Zend\Mail\Header\HeaderInterface', $contentTransferEncodingHeader);
-        $this->assertInstanceOf('Zend\Mail\Header\ContentTransferEncoding', $contentTransferEncodingHeader);
+        $this->assertInstanceOf('Laminas\Mail\Header\HeaderInterface', $contentTransferEncodingHeader);
+        $this->assertInstanceOf('Laminas\Mail\Header\ContentTransferEncoding', $contentTransferEncodingHeader);
     }
 
     /**
@@ -49,7 +48,7 @@ class ContentTransferEncodingTest extends \PHPUnit_Framework_TestCase
      */
     public function testContentTransferEncodingFromStringCreateExcaption($encoding)
     {
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $contentTransferEncodingHeader = ContentTransferEncoding::fromString('Content-Transfer-Encoding: '.$encoding);
     }
 
@@ -103,7 +102,7 @@ class ContentTransferEncodingTest extends \PHPUnit_Framework_TestCase
      */
     public function testFromStringRaisesExceptionOnInvalidHeaderName()
     {
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         ContentTransferEncoding::fromString('Content-Transfer-Encoding' . chr(32) . ': 8bit');
     }
 
@@ -119,11 +118,11 @@ class ContentTransferEncodingTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider headerLines
      * @group ZF2015-04
-     * @expectedException Zend\Mail\Header\Exception\InvalidArgumentException
+     * @expectedException Laminas\Mail\Header\Exception\InvalidArgumentException
      */
     public function testFromStringRaisesExceptionForInvalidMultilineValues($headerLine)
     {
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         ContentTransferEncoding::fromString($headerLine);
     }
 
@@ -132,7 +131,7 @@ class ContentTransferEncodingTest extends \PHPUnit_Framework_TestCase
      */
     public function testFromStringRaisesExceptionForContinuations()
     {
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException', 'expects');
+        $this->setExpectedException('Laminas\Mail\Header\Exception\InvalidArgumentException', 'expects');
         ContentTransferEncoding::fromString("Content-Transfer-Encoding: 8bit\r\n 7bit");
     }
 
@@ -142,7 +141,7 @@ class ContentTransferEncodingTest extends \PHPUnit_Framework_TestCase
     public function testSetTransferEncodingRaisesExceptionForInvalidValues()
     {
         $header = new ContentTransferEncoding();
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException', 'expects');
+        $this->setExpectedException('Laminas\Mail\Header\Exception\InvalidArgumentException', 'expects');
         $header->setTransferEncoding("8bit\r\n 7bit");
     }
 }
