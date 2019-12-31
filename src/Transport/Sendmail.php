@@ -1,26 +1,24 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Mail
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Transport;
+namespace Laminas\Mail\Transport;
 
+use Laminas\Mail;
+use Laminas\Mail\Address\AddressInterface;
+use Laminas\Mail\Exception;
+use Laminas\Mail\Header\HeaderInterface;
 use Traversable;
-use Zend\Mail;
-use Zend\Mail\Address\AddressInterface;
-use Zend\Mail\Exception;
-use Zend\Mail\Header\HeaderInterface;
 
 /**
  * Class for sending email via the PHP internal mail() function
  *
- * @category   Zend
- * @package    Zend_Mail
+ * @category   Laminas
+ * @package    Laminas_Mail
  * @subpackage Transport
  */
 class Sendmail implements TransportInterface
@@ -69,7 +67,7 @@ class Sendmail implements TransportInterface
      * Used to populate the additional_parameters argument to mail()
      *
      * @param  null|string|array|Traversable $parameters
-     * @throws \Zend\Mail\Exception\InvalidArgumentException
+     * @throws \Laminas\Mail\Exception\InvalidArgumentException
      * @return Sendmail
      */
     public function setParameters($parameters)
@@ -103,7 +101,7 @@ class Sendmail implements TransportInterface
      * Primarily for testing purposes, but could be used to curry arguments.
      *
      * @param  callable $callable
-     * @throws \Zend\Mail\Exception\InvalidArgumentException
+     * @throws \Laminas\Mail\Exception\InvalidArgumentException
      * @return Sendmail
      */
     public function setCallable($callable)
@@ -122,7 +120,7 @@ class Sendmail implements TransportInterface
     /**
      * Send a message
      *
-     * @param  \Zend\Mail\Message $message
+     * @param  \Laminas\Mail\Message $message
      */
     public function send(Mail\Message $message)
     {
@@ -138,8 +136,8 @@ class Sendmail implements TransportInterface
     /**
      * Prepare recipients list
      *
-     * @param  \Zend\Mail\Message $message
-     * @throws \Zend\Mail\Exception\RuntimeException
+     * @param  \Laminas\Mail\Message $message
+     * @throws \Laminas\Mail\Exception\RuntimeException
      * @return string
      */
     protected function prepareRecipients(Mail\Message $message)
@@ -173,7 +171,7 @@ class Sendmail implements TransportInterface
     /**
      * Prepare the subject line string
      *
-     * @param  \Zend\Mail\Message $message
+     * @param  \Laminas\Mail\Message $message
      * @return string
      */
     protected function prepareSubject(Mail\Message $message)
@@ -189,7 +187,7 @@ class Sendmail implements TransportInterface
     /**
      * Prepare the body string
      *
-     * @param  \Zend\Mail\Message $message
+     * @param  \Laminas\Mail\Message $message
      * @return string
      */
     protected function prepareBody(Mail\Message $message)
@@ -208,7 +206,7 @@ class Sendmail implements TransportInterface
     /**
      * Prepare the textual representation of headers
      *
-     * @param  \Zend\Mail\Message $message
+     * @param  \Laminas\Mail\Message $message
      * @return string
      */
     protected function prepareHeaders(Mail\Message $message)
@@ -231,7 +229,7 @@ class Sendmail implements TransportInterface
      * Basically, overrides the MAIL FROM envelope with either the Sender or
      * From address.
      *
-     * @param  \Zend\Mail\Message $message
+     * @param  \Laminas\Mail\Message $message
      * @return string
      */
     protected function prepareParameters(Mail\Message $message)
@@ -267,7 +265,7 @@ class Sendmail implements TransportInterface
      * @param  string $message
      * @param  string $headers
      * @param  $parameters
-     * @throws \Zend\Mail\Exception\RuntimeException
+     * @throws \Laminas\Mail\Exception\RuntimeException
      */
     public function mailHandler($to, $subject, $message, $headers, $parameters)
     {
