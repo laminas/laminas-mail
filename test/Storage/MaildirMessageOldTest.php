@@ -1,22 +1,20 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Mail
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Storage;
+namespace LaminasTest\Mail\Storage;
 
-use Zend\Mail\Storage;
+use Laminas\Mail\Storage;
 
 /**
  * Maildir class, which uses old message class
  *
- * @category   Zend
- * @package    Zend_Mail
+ * @category   Laminas
+ * @package    Laminas_Mail
  * @subpackage UnitTests
  */
 class MaildirOldMessage extends Storage\Maildir
@@ -25,14 +23,14 @@ class MaildirOldMessage extends Storage\Maildir
      * used message class
      * @var string
      */
-    protected $_messageClass = 'Zend\Mail\Storage\Message';
+    protected $_messageClass = 'Laminas\Mail\Storage\Message';
 }
 
 /**
- * @category   Zend
- * @package    Zend_Mail
+ * @category   Laminas
+ * @package    Laminas_Mail
  * @subpackage UnitTests
- * @group      Zend_Mail
+ * @group      Laminas_Mail
  */
 class MaildirMessageOldTest extends \PHPUnit_Framework_TestCase
 {
@@ -43,15 +41,15 @@ class MaildirMessageOldTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_originalMaildir = __DIR__ . '/../_files/test.maildir/';
-        if (!constant('TESTS_ZEND_MAIL_MAILDIR_ENABLED')) {
-            $this->markTestSkipped('You have to unpack maildir.tar in Zend/Mail/_files/test.maildir/ '
+        if (!constant('TESTS_LAMINAS_MAIL_MAILDIR_ENABLED')) {
+            $this->markTestSkipped('You have to unpack maildir.tar in Laminas/Mail/_files/test.maildir/ '
                                  . 'directory before enabling the maildir tests');
             return;
         }
 
         if ($this->_tmpdir == null) {
-            if (TESTS_ZEND_MAIL_TEMPDIR != null) {
-                $this->_tmpdir = TESTS_ZEND_MAIL_TEMPDIR;
+            if (TESTS_LAMINAS_MAIL_TEMPDIR != null) {
+                $this->_tmpdir = TESTS_LAMINAS_MAIL_TEMPDIR;
             } else {
                 $this->_tmpdir = __DIR__ . '/../_files/test.tmp/';
             }
