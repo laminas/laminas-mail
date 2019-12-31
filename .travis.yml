@@ -1,5 +1,3 @@
-sudo: false
-
 language: php
 
 branches:
@@ -42,14 +40,13 @@ matrix:
     - php: hhvm
 
 notifications:
-  irc: "irc.freenode.org#zftalk.dev"
   email: false
 
 before_install:
   - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
   - composer self-update
   - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then composer require --dev --no-update satooshi/php-coveralls ; fi
-  - composer require --dev --no-update "zendframework/zend-servicemanager:$SERVICE_MANAGER_VERSION"
+  - composer require --dev --no-update "laminas/laminas-servicemanager:$SERVICE_MANAGER_VERSION"
 
 install:
   - travis_retry composer install --no-interaction --ignore-platform-reqs
