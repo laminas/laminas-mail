@@ -1,16 +1,17 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Header;
+namespace LaminasTest\Mail\Header;
 
+use Laminas\Mail\Header\IdentificationField;
+use Laminas\Mail\Header\InReplyTo;
+use Laminas\Mail\Header\References;
 use PHPUnit\Framework\TestCase;
-use Zend\Mail\Header\IdentificationField;
-use Zend\Mail\Header\InReplyTo;
-use Zend\Mail\Header\References;
 
 class IdentificationFieldTest extends TestCase
 {

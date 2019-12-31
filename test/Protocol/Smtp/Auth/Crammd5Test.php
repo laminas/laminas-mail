@@ -1,19 +1,20 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Protocol\Smtp\Auth;
+namespace LaminasTest\Mail\Protocol\Smtp\Auth;
 
+use Laminas\Mail\Protocol\Smtp\Auth\Crammd5;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use Zend\Mail\Protocol\Smtp\Auth\Crammd5;
 
 /**
- * @group      Zend_Mail
- * @covers Zend\Mail\Protocol\Smtp\Auth\Crammd5<extended>
+ * @group      Laminas_Mail
+ * @covers Laminas\Mail\Protocol\Smtp\Auth\Crammd5<extended>
  */
 class Crammd5Test extends TestCase
 {
@@ -29,7 +30,7 @@ class Crammd5Test extends TestCase
 
     public function testHmacMd5ReturnsExpectedHash()
     {
-        $class = new ReflectionClass('Zend\Mail\Protocol\Smtp\Auth\Crammd5');
+        $class = new ReflectionClass('Laminas\Mail\Protocol\Smtp\Auth\Crammd5');
         $method = $class->getMethod('hmacMd5');
         $method->setAccessible(true);
 

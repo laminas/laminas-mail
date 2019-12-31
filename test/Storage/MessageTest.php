@@ -1,25 +1,26 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Storage;
+namespace LaminasTest\Mail\Storage;
 
 use Exception as GeneralException;
+use Laminas\Mail\Exception as MailException;
+use Laminas\Mail\Storage;
+use Laminas\Mail\Storage\Exception;
+use Laminas\Mail\Storage\Message;
+use Laminas\Mime;
+use Laminas\Mime\Exception as MimeException;
 use PHPUnit\Framework\TestCase;
-use Zend\Mail\Exception as MailException;
-use Zend\Mail\Storage;
-use Zend\Mail\Storage\Exception;
-use Zend\Mail\Storage\Message;
-use Zend\Mime;
-use Zend\Mime\Exception as MimeException;
 
 /**
- * @group      Zend_Mail
- * @covers Zend\Mail\Storage\Message<extended>
- * @covers Zend\Mail\Headers<extended>
+ * @group      Laminas_Mail
+ * @covers Laminas\Mail\Storage\Message<extended>
+ * @covers Laminas\Mail\Headers<extended>
  */
 class MessageTest extends TestCase
 {
@@ -276,7 +277,7 @@ class MessageTest extends TestCase
         $message = new Message([]);
         $subject = null;
 
-        $this->expectException('Zend\\Mail\\Exception\\InvalidArgumentException');
+        $this->expectException('Laminas\\Mail\\Exception\\InvalidArgumentException');
         $message->subject;
     }
 
@@ -284,7 +285,7 @@ class MessageTest extends TestCase
     {
         // @codingStandardsIgnoreStart
         $badMessage = unserialize(
-            "O:25:\"Zend\Mail\Storage\Message\":9:{s:8:\"\x00*\x00flags\";a:0:{}s:10:\"\x00*\x00headers\";s:16:\"Yellow submarine\";s:10:\"\x00*\x00content\";N;s:11:\"\x00*\x00topLines\";s:0:\"\";s:8:\"\x00*\x00parts\";a:0:{}s:13:\"\x00*\x00countParts\";N;s:15:\"\x00*\x00iterationPos\";i:1;s:7:\"\x00*\x00mail\";N;s:13:\"\x00*\x00messageNum\";i:0;}"
+            "O:28:\"Laminas\Mail\Storage\Message\":9:{s:8:\"\x00*\x00flags\";a:0:{}s:10:\"\x00*\x00headers\";s:16:\"Yellow submarine\";s:10:\"\x00*\x00content\";N;s:11:\"\x00*\x00topLines\";s:0:\"\";s:8:\"\x00*\x00parts\";a:0:{}s:13:\"\x00*\x00countParts\";N;s:15:\"\x00*\x00iterationPos\";i:1;s:7:\"\x00*\x00mail\";N;s:13:\"\x00*\x00messageNum\";i:0;}"
         );
         // @codingStandardsIgnoreEnd
 
@@ -310,7 +311,7 @@ class MessageTest extends TestCase
     }
 
     /**
-     * @group ZF-5209
+     * @group Laminas-5209
      */
     public function testCheckingHasHeaderFunctionality()
     {
@@ -433,11 +434,11 @@ class MessageTest extends TestCase
     }
 
     /**
-     * @group ZF2-372
+     * @group Laminas-372
      */
     public function testStrictParseMessage()
     {
-        $this->expectException('Zend\\Mail\\Exception\\RuntimeException');
+        $this->expectException('Laminas\\Mail\\Exception\\RuntimeException');
 
         $raw = file_get_contents($this->file);
         $raw = "From foo@example.com  Sun Jan 01 00:00:00 2000\n" . $raw;
@@ -447,7 +448,7 @@ class MessageTest extends TestCase
     public function testMultivalueToHeader()
     {
         $message = new Message(['file' => $this->file2]);
-        /** @var \Zend\Mail\Header\To $header */
+        /** @var \Laminas\Mail\Header\To $header */
         $header = $message->getHeader('to');
         $addressList = $header->getAddressList();
         $this->assertEquals(2, $addressList->count());

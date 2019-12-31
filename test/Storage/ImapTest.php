@@ -1,19 +1,20 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Storage;
+namespace LaminasTest\Mail\Storage;
 
+use Laminas\Config;
+use Laminas\Mail\Protocol;
+use Laminas\Mail\Storage;
 use PHPUnit\Framework\TestCase;
-use Zend\Config;
-use Zend\Mail\Protocol;
-use Zend\Mail\Storage;
 
 /**
- * @covers Zend\Mail\Storage\Imap<extended>
+ * @covers Laminas\Mail\Storage\Imap<extended>
  */
 class ImapTest extends TestCase
 {
@@ -21,28 +22,28 @@ class ImapTest extends TestCase
 
     public function setUp()
     {
-        if (! getenv('TESTS_ZEND_MAIL_IMAP_ENABLED')) {
-            $this->markTestSkipped('Zend_Mail IMAP tests are not enabled');
+        if (! getenv('TESTS_LAMINAS_MAIL_IMAP_ENABLED')) {
+            $this->markTestSkipped('Laminas_Mail IMAP tests are not enabled');
         }
-        $this->params = ['host'     => getenv('TESTS_ZEND_MAIL_IMAP_HOST'),
-                               'user'     => getenv('TESTS_ZEND_MAIL_IMAP_USER'),
-                               'password' => getenv('TESTS_ZEND_MAIL_IMAP_PASSWORD')];
-        if (getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') && getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR')) {
-            if (! file_exists(getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'inbox')
-                && ! file_exists(getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'INBOX')
+        $this->params = ['host'     => getenv('TESTS_LAMINAS_MAIL_IMAP_HOST'),
+                               'user'     => getenv('TESTS_LAMINAS_MAIL_IMAP_USER'),
+                               'password' => getenv('TESTS_LAMINAS_MAIL_IMAP_PASSWORD')];
+        if (getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR') && getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR')) {
+            if (! file_exists(getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'inbox')
+                && ! file_exists(getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'INBOX')
             ) {
                 $this->markTestSkipped(
                     'There is no file name "inbox" or "INBOX" in '
-                    . getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') . '. I won\'t use it for testing. '
+                    . getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR') . '. I won\'t use it for testing. '
                     . 'This is you safety net. If you think it is the right directory just '
                     . 'create an empty file named INBOX or remove/deactived this message.'
                 );
             }
 
-            $this->cleanDir(getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR'));
+            $this->cleanDir(getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR'));
             $this->copyDir(
-                __DIR__ . '/../_files/test.' . getenv('TESTS_ZEND_MAIL_SERVER_FORMAT'),
-                getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR')
+                __DIR__ . '/../_files/test.' . getenv('TESTS_LAMINAS_MAIL_SERVER_FORMAT'),
+                getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR')
             );
         }
     }
@@ -97,20 +98,20 @@ class ImapTest extends TestCase
     public function testConnectFailure()
     {
         $this->params['host'] = 'example.example';
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Imap($this->params);
     }
 
     public function testNoParams()
     {
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Imap([]);
     }
 
 
     public function testConnectSSL()
     {
-        if (! getenv('TESTS_ZEND_MAIL_IMAP_SSL')) {
+        if (! getenv('TESTS_LAMINAS_MAIL_IMAP_SSL')) {
             return;
         }
 
@@ -120,7 +121,7 @@ class ImapTest extends TestCase
 
     public function testConnectTLS()
     {
-        if (! getenv('TESTS_ZEND_MAIL_IMAP_TLS')) {
+        if (! getenv('TESTS_LAMINAS_MAIL_IMAP_TLS')) {
             return;
         }
 
@@ -130,15 +131,15 @@ class ImapTest extends TestCase
 
     public function testInvalidService()
     {
-        $this->params['port'] = getenv('TESTS_ZEND_MAIL_IMAP_INVALID_PORT');
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->params['port'] = getenv('TESTS_LAMINAS_MAIL_IMAP_INVALID_PORT');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Imap($this->params);
     }
 
     public function testWrongService()
     {
-        $this->params['port'] = getenv('TESTS_ZEND_MAIL_IMAP_WRONG_PORT');
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->params['port'] = getenv('TESTS_LAMINAS_MAIL_IMAP_WRONG_PORT');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Imap($this->params);
     }
 
@@ -146,7 +147,7 @@ class ImapTest extends TestCase
     {
         // this also triggers ...{chars}<NL>token for coverage
         $this->params['user'] = "there is no\nnobody";
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Imap($this->params);
     }
 
@@ -161,14 +162,14 @@ class ImapTest extends TestCase
     public function testWithNotConnectedInstance()
     {
         $protocol = new Protocol\Imap();
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Imap($protocol);
     }
 
     public function testWithNotLoggedInstance()
     {
         $protocol = new Protocol\Imap($this->params['host']);
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Imap($protocol);
     }
 
@@ -176,7 +177,7 @@ class ImapTest extends TestCase
     {
         $this->params['folder'] = 'this folder does not exist on your server';
 
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Imap($this->params);
     }
 
@@ -286,14 +287,14 @@ class ImapTest extends TestCase
         $mail->close();
         // after closing we can't count messages
 
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->countMessages();
     }
 
     public function testLoadUnkownFolder()
     {
         $this->params['folder'] = 'UnknownFolder';
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Imap($this->params);
     }
 
@@ -308,7 +309,7 @@ class ImapTest extends TestCase
     public function testUnknownFolder()
     {
         $mail = new Storage\Imap($this->params);
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->selectFolder('/Unknown/Folder/');
     }
 
@@ -434,7 +435,7 @@ class ImapTest extends TestCase
     public function testWrongUniqueId()
     {
         $mail = new Storage\Imap($this->params);
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->getNumberByUniqueId('this_is_an_invalid_id');
     }
 
@@ -454,7 +455,7 @@ class ImapTest extends TestCase
     {
         $mail = new Storage\Imap($this->params);
 
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->createFolder('subfolder/test');
     }
 
@@ -463,7 +464,7 @@ class ImapTest extends TestCase
         $mail = new Storage\Imap($this->params);
         $mail->removeFolder('subfolder/test');
 
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->getFolders()->subfolder->test;
     }
 
@@ -472,7 +473,7 @@ class ImapTest extends TestCase
         $mail = new Storage\Imap($this->params);
         $mail->removeFolder($mail->getFolders()->subfolder->test);
 
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->getFolders()->subfolder->test;
     }
 
@@ -480,7 +481,7 @@ class ImapTest extends TestCase
     {
         $mail = new Storage\Imap($this->params);
 
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->removeFolder('thisFolderDoestNotExist');
     }
 
@@ -491,7 +492,7 @@ class ImapTest extends TestCase
         $mail->renameFolder('subfolder/test', 'subfolder/test1');
         $mail->renameFolder($mail->getFolders()->subfolder->test1, 'subfolder/test');
 
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->renameFolder('subfolder/test', 'INBOX');
     }
 
@@ -511,7 +512,7 @@ class ImapTest extends TestCase
         $this->assertEquals($count + 1, $mail->countMessages());
         $this->assertEquals($mail->getMessage($count + 1)->subject, 'append test');
 
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->appendMessage('');
     }
 
@@ -531,7 +532,7 @@ class ImapTest extends TestCase
         $this->assertEquals($mail->getMessage($count + 1)->from, $message->from);
         $this->assertEquals($mail->getMessage($count + 1)->to, $message->to);
 
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->copyMessage(1, 'justARandomFolder');
     }
 
@@ -560,7 +561,7 @@ class ImapTest extends TestCase
         $this->assertFalse($message->hasFlag(Storage::FLAG_FLAGGED));
         $this->assertTrue($message->hasFlag('myflag'));
 
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->setFlags(1, [Storage::FLAG_RECENT]);
     }
 
@@ -609,7 +610,7 @@ class ImapTest extends TestCase
         $protocol->login($this->params['user'], $this->params['password']);
         $protocol->logout();
 
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $protocol->select("foo\nbar");
     }
 
@@ -644,7 +645,7 @@ class ImapTest extends TestCase
             $this->assertInternalType('array', $v['FLAGS']);
         }
 
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $protocol->fetch('UID', 99);
     }
 

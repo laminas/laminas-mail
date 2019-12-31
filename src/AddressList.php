@@ -1,11 +1,12 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail;
+namespace Laminas\Mail;
 
 use Countable;
 use Iterator;
@@ -84,8 +85,8 @@ class AddressList implements Countable, Iterator
 
     /**
      * Add an address to the list from any valid string format, such as
-     *  - "ZF Dev" <dev@zf.com>
-     *  - dev@zf.com
+     *  - "Laminas Dev" <dev@laminas.com>
+     *  - dev@laminas.com
      *
      * @param string $address
      * @param null|string $comment Comment associated with the address, if any.

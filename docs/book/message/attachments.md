@@ -1,8 +1,8 @@
 # Adding Attachments
 
-zend-mail does not directly provide the ability to create and use mail
-attachments. However, it allows using `Zend\Mime\Message` instances, from the
-[zend-mime](https://github.com/zendframework/zend-mime) component, for message
+laminas-mail does not directly provide the ability to create and use mail
+attachments. However, it allows using `Laminas\Mime\Message` instances, from the
+[laminas-mime](https://github.com/laminas/laminas-mime) component, for message
 bodies, allowing you to create multipart emails.
 
 ## Basic multipart content
@@ -11,10 +11,10 @@ The following example creates an email with two parts, HTML content and an
 image.
 
 ```php
-use Zend\Mail\Message;
-use Zend\Mime\Message as MimeMessage;
-use Zend\Mime\Mime;
-use Zend\Mime\Part as MimePart;
+use Laminas\Mail\Message;
+use Laminas\Mime\Message as MimeMessage;
+use Laminas\Mime\Mime;
+use Laminas\Mime\Part as MimePart;
 
 $html = new MimePart($htmlMarkup);
 $html->type = Mime::TYPE_HTML;
@@ -38,8 +38,8 @@ $contentTypeHeader->setType('multipart/related');
 ```
 
 Note that the above code requires us to manually specify the message content
-type; zend-mime does not automatically select the multipart type for us, nor
-does zend-mail populate it by default.
+type; laminas-mime does not automatically select the multipart type for us, nor
+does laminas-mail populate it by default.
 
 ## multipart/alternative content
 
@@ -47,10 +47,10 @@ One of the most common email types sent by web applications is
 `multipart/alternative` messages with both text and HTML parts.
 
 ```php
-use Zend\Mail\Message;
-use Zend\Mime\Message as MimeMessage;
-use Zend\Mime\Mime;
-use Zend\Mime\Part as MimePart;
+use Laminas\Mail\Message;
+use Laminas\Mime\Message as MimeMessage;
+use Laminas\Mime\Mime;
+use Laminas\Mime\Part as MimePart;
 
 $text = new MimePart($textContent);
 $text->type = Mime::TYPE_TEXT;
@@ -84,21 +84,21 @@ content refers to assets attachments (images, CSS, etc.).
 
 To accomplish this, we need to:
 
-- Create a `Zend\Mime\Part` instance containing our `multipart/alternative`
+- Create a `Laminas\Mime\Part` instance containing our `multipart/alternative`
   message.
-- Add that part to a `Zend\Mime\Message`.
-- Add additional `Zend\Mime\Part` instances to the MIME message.
-- Attach the MIME message as the `Zend\Mail\Message` content body.
+- Add that part to a `Laminas\Mime\Message`.
+- Add additional `Laminas\Mime\Part` instances to the MIME message.
+- Attach the MIME message as the `Laminas\Mail\Message` content body.
 - Mark the message as `multipart/related` content.
 
 The following example creates a MIME message with three parts: text and HTML
 alternative versions of an email, and an image attachment.
 
 ```php
-use Zend\Mail\Message;
-use Zend\Mime\Message as MimeMessage;
-use Zend\Mime\Mime;
-use Zend\Mime\Part as MimePart;
+use Laminas\Mail\Message;
+use Laminas\Mime\Message as MimeMessage;
+use Laminas\Mime\Mime;
+use Laminas\Mime\Part as MimePart;
 
 $body = new MimeMessage();
 
@@ -139,10 +139,10 @@ $contentTypeHeader->setType('multipart/related');
 In a multipart message, a MIME boundary for separating the different parts of
 the message is normally generated at random. In some cases, however, you might
 want to specify the MIME boundary that is used. This can be done by injecting a
-new `Zend\Mime\Mime` instance into the MIME message.
+new `Laminas\Mime\Mime` instance into the MIME message.
 
 ```php
-use Zend\Mime\Mime;
+use Laminas\Mime\Mime;
 
 $mimeMessage->setMime(new Mime($customBoundary));
 ```

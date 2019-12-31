@@ -1,17 +1,18 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Header;
+namespace LaminasTest\Mail\Header;
 
+use Laminas\Mail\Header\HeaderValue;
 use PHPUnit\Framework\TestCase;
-use Zend\Mail\Header\HeaderValue;
 
 /**
- * @covers Zend\Mail\Header\HeaderValue<extended>
+ * @covers Laminas\Mail\Header\HeaderValue<extended>
  */
 class HeaderValueTest extends TestCase
 {
@@ -98,7 +99,7 @@ class HeaderValueTest extends TestCase
      */
     public function testAssertValidRaisesExceptionForInvalidValues($value)
     {
-        $this->expectException('Zend\Mail\Header\Exception\RuntimeException');
+        $this->expectException('Laminas\Mail\Header\Exception\RuntimeException');
         $this->expectExceptionMessage('Invalid');
         HeaderValue::assertValid($value);
     }
