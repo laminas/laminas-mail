@@ -1,20 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Storage;
+namespace Laminas\Mail\Storage;
 
 use RecursiveIterator;
 
 class Folder implements RecursiveIterator
 {
     /**
-     * subfolders of folder array(localName => \Zend\Mail\Storage\Folder folder)
+     * subfolders of folder array(localName => \Laminas\Mail\Storage\Folder folder)
      * @var array
      */
     protected $folders;
@@ -43,7 +42,7 @@ class Folder implements RecursiveIterator
      * @param string $localName  name of folder in current subdirectory
      * @param string $globalName absolute name of folder
      * @param bool   $selectable if true folder holds messages, if false it's just a parent for subfolders (Default: true)
-     * @param array  $folders    init with given instances of \Zend\Mail\Storage\Folder as subfolders
+     * @param array  $folders    init with given instances of \Laminas\Mail\Storage\Folder as subfolders
      */
     public function __construct($localName, $globalName = '', $selectable = true, array $folders = [])
     {
@@ -67,7 +66,7 @@ class Folder implements RecursiveIterator
     /**
      * implements RecursiveIterator::getChildren()
      *
-     * @return \Zend\Mail\Storage\Folder same as self::current()
+     * @return \Laminas\Mail\Storage\Folder same as self::current()
      */
     public function getChildren()
     {
@@ -105,7 +104,7 @@ class Folder implements RecursiveIterator
     /**
      * implements Iterator::current()
      *
-     * @return \Zend\Mail\Storage\Folder current folder
+     * @return \Laminas\Mail\Storage\Folder current folder
      */
     public function current()
     {
@@ -125,7 +124,7 @@ class Folder implements RecursiveIterator
      *
      * @param  string $name wanted subfolder
      * @throws Exception\InvalidArgumentException
-     * @return \Zend\Mail\Storage\Folder folder named $folder
+     * @return \Laminas\Mail\Storage\Folder folder named $folder
      */
     public function __get($name)
     {
@@ -140,7 +139,7 @@ class Folder implements RecursiveIterator
      * add or replace subfolder named $name
      *
      * @param string $name local name of subfolder
-     * @param \Zend\Mail\Storage\Folder $folder instance for new subfolder
+     * @param \Laminas\Mail\Storage\Folder $folder instance for new subfolder
      */
     public function __set($name, Folder $folder)
     {

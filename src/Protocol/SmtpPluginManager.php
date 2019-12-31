@@ -1,15 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Protocol;
+namespace Laminas\Mail\Protocol;
 
-use Zend\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\AbstractPluginManager;
 
 /**
  * Plugin manager implementation for SMTP extensions.
@@ -25,10 +24,10 @@ class SmtpPluginManager extends AbstractPluginManager
      * @var array
      */
     protected $invokableClasses = [
-        'crammd5' => 'Zend\Mail\Protocol\Smtp\Auth\Crammd5',
-        'login'   => 'Zend\Mail\Protocol\Smtp\Auth\Login',
-        'plain'   => 'Zend\Mail\Protocol\Smtp\Auth\Plain',
-        'smtp'    => 'Zend\Mail\Protocol\Smtp',
+        'crammd5' => 'Laminas\Mail\Protocol\Smtp\Auth\Crammd5',
+        'login'   => 'Laminas\Mail\Protocol\Smtp\Auth\Login',
+        'plain'   => 'Laminas\Mail\Protocol\Smtp\Auth\Plain',
+        'smtp'    => 'Laminas\Mail\Protocol\Smtp',
     ];
 
     /**

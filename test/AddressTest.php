@@ -1,36 +1,35 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail;
+namespace LaminasTest\Mail;
 
-use Zend\Mail\Address;
+use Laminas\Mail\Address;
 
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
     public function testDoesNotRequireNameForInstantiation()
     {
-        $address = new Address('zf-devteam@zend.com');
-        $this->assertEquals('zf-devteam@zend.com', $address->getEmail());
+        $address = new Address('api-tools-devteam@zend.com');
+        $this->assertEquals('api-tools-devteam@zend.com', $address->getEmail());
         $this->assertNull($address->getName());
     }
 
     public function testAcceptsNameViaConstructor()
     {
-        $address = new Address('zf-devteam@zend.com', 'ZF DevTeam');
-        $this->assertEquals('zf-devteam@zend.com', $address->getEmail());
-        $this->assertEquals('ZF DevTeam', $address->getName());
+        $address = new Address('api-tools-devteam@zend.com', 'Laminas DevTeam');
+        $this->assertEquals('api-tools-devteam@zend.com', $address->getEmail());
+        $this->assertEquals('Laminas DevTeam', $address->getName());
     }
 
     public function testToStringCreatesStringRepresentation()
     {
-        $address = new Address('zf-devteam@zend.com', 'ZF DevTeam');
-        $this->assertEquals('ZF DevTeam <zf-devteam@zend.com>', $address->toString());
+        $address = new Address('api-tools-devteam@zend.com', 'Laminas DevTeam');
+        $this->assertEquals('Laminas DevTeam <api-tools-devteam@zend.com>', $address->toString());
     }
 
     /**
@@ -41,7 +40,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetAddressInvalidAddressObject($email, $name)
     {
-        $this->setExpectedException('Zend\Mail\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Exception\InvalidArgumentException');
         new Address($email, $name);
     }
 
