@@ -1,11 +1,11 @@
 {
-    "title": "Zend\\Mail",
+    "title": "Laminas\\Mail",
     "target": "html/",
     "content": [
-        "book/zend.mail.introduction.md",
-        "book/zend.mail.message.md",
-        "book/zend.mail.transport.md",
-        "book/zend.mail.smtp.options.md",
-        "book/zend.mail.file.options.md"
+        "book/laminas.mail.introduction.md",
+        "book/laminas.mail.message.md",
+        "book/laminas.mail.transport.md",
+        "book/laminas.mail.smtp.options.md",
+        "book/laminas.mail.file.options.md"
     ]
 }

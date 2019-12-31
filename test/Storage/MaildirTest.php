@@ -1,19 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Storage;
+namespace LaminasTest\Mail\Storage;
 
-use Zend\Config;
-use Zend\Mail\Storage;
+use Laminas\Config;
+use Laminas\Mail\Storage;
 
 /**
- * @group      Zend_Mail
+ * @group      Laminas_Mail
  */
 class MaildirTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,15 +23,15 @@ class MaildirTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_originalMaildir = __DIR__ . '/../_files/test.maildir/';
-        if (!getenv('TESTS_ZEND_MAIL_MAILDIR_ENABLED')) {
-            $this->markTestSkipped('You have to unpack maildir.tar in Zend/Mail/_files/test.maildir/ '
+        if (!getenv('TESTS_LAMINAS_MAIL_MAILDIR_ENABLED')) {
+            $this->markTestSkipped('You have to unpack maildir.tar in Laminas/Mail/_files/test.maildir/ '
                                  . 'directory before enabling the maildir tests');
             return;
         }
 
         if ($this->_tmpdir == null) {
-            if (getenv('TESTS_ZEND_MAIL_TEMPDIR') != null) {
-                $this->_tmpdir = getenv('TESTS_ZEND_MAIL_TEMPDIR');
+            if (getenv('TESTS_LAMINAS_MAIL_TEMPDIR') != null) {
+                $this->_tmpdir = getenv('TESTS_LAMINAS_MAIL_TEMPDIR');
             } else {
                 $this->_tmpdir = __DIR__ . '/../_files/test.tmp/';
             }
@@ -98,13 +97,13 @@ class MaildirTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadFailure()
     {
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Maildir(['dirname' => '/This/Dir/Does/Not/Exist']);
     }
 
     public function testLoadInvalid()
     {
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Maildir(['dirname' => __DIR__]);
     }
 
@@ -200,7 +199,7 @@ class MaildirTest extends \PHPUnit_Framework_TestCase
     {
         $mail = new Storage\Maildir(['dirname' => $this->_maildir]);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->getSize(0);
     }
 
@@ -208,7 +207,7 @@ class MaildirTest extends \PHPUnit_Framework_TestCase
     {
         $mail = new Storage\Maildir(['dirname' => $this->_maildir]);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->getMessage(0);
     }
 
@@ -216,7 +215,7 @@ class MaildirTest extends \PHPUnit_Framework_TestCase
     {
         $mail = new Storage\Maildir(['dirname' => $this->_maildir]);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->removeMessage(1);
     }
 
@@ -262,7 +261,7 @@ class MaildirTest extends \PHPUnit_Framework_TestCase
     {
         $mail = new Storage\Maildir(['dirname' => $this->_maildir]);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->getNumberByUniqueId('this_is_an_invalid_id');
     }
 

@@ -1,22 +1,21 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Header;
+namespace LaminasTest\Mail\Header;
 
-use Zend\Mail\Header\ContentType;
-use Zend\Mail\Header\Exception\InvalidArgumentException;
-use Zend\Mail\Header\HeaderInterface;
-use Zend\Mail\Header\UnstructuredInterface;
+use Laminas\Mail\Header\ContentType;
+use Laminas\Mail\Header\Exception\InvalidArgumentException;
+use Laminas\Mail\Header\HeaderInterface;
+use Laminas\Mail\Header\UnstructuredInterface;
 
 /**
- * @group      Zend_Mail
- * @covers Zend\Mail\Header\ContentType<extended>
+ * @group      Laminas_Mail
+ * @covers Laminas\Mail\Header\ContentType<extended>
  */
 class ContentTypeTest extends \PHPUnit_Framework_TestCase
 {

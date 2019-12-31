@@ -1,15 +1,15 @@
-# Zend\\Mail\\Transport\\FileOptions
+# Laminas\\Mail\\Transport\\FileOptions
 
 ## Overview
 
-This document details the various options available to the `Zend\Mail\Transport\File` mail
+This document details the various options available to the `Laminas\Mail\Transport\File` mail
 transport.
 
 ## Quick Start
 
 ```php
-use Zend\Mail\Transport\File as FileTransport;
-use Zend\Mail\Transport\FileOptions;
+use Laminas\Mail\Transport\File as FileTransport;
+use Laminas\Mail\Transport\FileOptions;
 
 // Setup File transport
 $transport = new FileTransport();
@@ -34,14 +34,14 @@ A PHP callable to be invoked in order to generate a unique name for a message fi
 following is used:
 
 ```php
-function (Zend\Mail\FileTransport $transport) {
-    return 'ZendMail_' . time() . '_' . mt_rand() . '.tmp';
+function (Laminas\Mail\FileTransport $transport) {
+    return 'LaminasMail_' . time() . '_' . mt_rand() . '.tmp';
 }
 ```
 
 ## Available Methods
 
-`Zend\Mail\Transport\FileOptions` extends `Zend\Stdlib\AbstractOptions`, and inherits all
+`Laminas\Mail\Transport\FileOptions` extends `Laminas\Stdlib\AbstractOptions`, and inherits all
 functionality from that class; this includes property overloading. Additionally, the following
 explicit setters and getters are provided.
 
@@ -85,4 +85,4 @@ instance.
 
 ## Examples
 
-Please see the [Quick Start](zend.mail.file.options.md) for examples.
+Please see the [Quick Start](laminas.mail.file.options.md) for examples.

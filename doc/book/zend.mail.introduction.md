@@ -1,19 +1,19 @@
-# Introduction to Zend\\Mail
+# Introduction to Laminas\\Mail
 
 ## Getting started
 
-`Zend\Mail` provides generalized functionality to compose and send both text and *MIME*-compliant
-multipart email messages. Mail can be sent with `Zend\Mail` via the `Mail\Transport\Sendmail`,
+`Laminas\Mail` provides generalized functionality to compose and send both text and *MIME*-compliant
+multipart email messages. Mail can be sent with `Laminas\Mail` via the `Mail\Transport\Sendmail`,
 `Mail\Transport\Smtp` or the `Mail\Transport\File` transport. Of course, you can also implement your
 own transport by implementing the `Mail\Transport\TransportInterface`.
 
-### Simple email with Zend\\Mail
+### Simple email with Laminas\\Mail
 
 A simple email consists of one or more recipients, a subject, a body and a sender. To send such a
-mail using `Zend\Mail\Transport\Sendmail`, do the following:
+mail using `Laminas\Mail\Transport\Sendmail`, do the following:
 
 ```php
-use Zend\Mail;
+use Laminas\Mail;
 
 $mail = new Mail\Message();
 $mail->setBody('This is the text of the email.');
@@ -27,7 +27,7 @@ $transport->send($mail);
 
 > #### Minimum definitions
 >
-> In order to send an email using `Zend\Mail` you have to specify at least one
+> In order to send an email using `Laminas\Mail` you have to specify at least one
 > recipient as well as a message body. Please note that each Transport may
 > require additional parameters to be set.
 
@@ -37,7 +37,7 @@ object. for further details, please refer to the *API* documentation.
 You also can use most methods of the `Mail\Message` object with a convenient fluent interface.
 
 ```php
-use Zend\Mail;
+use Laminas\Mail;
 
 $mail = new Mail\Message();
 $mail->setBody('This is the text of the mail.')
@@ -58,7 +58,7 @@ pass your parameters to the constructor.
 This example shows how to change the Return-Path of the [mail()](http://php.net/mail) function.
 
 ```php
-use Zend\Mail;
+use Laminas\Mail;
 
 $mail = new Mail\Message();
 $mail->setBody('This is the text of the email.');
@@ -82,7 +82,7 @@ $transport->send($mail);
 > configuration, it may not be suitable for your production environment. This is
 > because emails sent using the sendmail transport will be more often delivered
 > to SPAM-boxes. This can partly be remedied by using the [SMTP
-> Transport](zend.mail.transport.quick-start.smtp-usage.md) combined with an
+> Transport](laminas.mail.transport.quick-start.smtp-usage.md) combined with an
 > SMTP server that has an overall good reputation. Additionally, techniques such
 > as SPF and DKIM may be employed to ensure even more email messages are
 > delivered as should.
