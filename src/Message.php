@@ -1,21 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Mail
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail;
+namespace Laminas\Mail;
 
+use Laminas\Mime;
 use Traversable;
-use Zend\Mime;
 
 /**
- * @category   Zend
- * @package    Zend_Mail
+ * @category   Laminas
+ * @package    Laminas_Mail
  */
 class Message
 {
@@ -360,7 +358,7 @@ class Message
     /**
      * Set the message body
      *
-     * @param  null|string|\Zend\Mime\Message|object $body
+     * @param  null|string|\Laminas\Mime\Message|object $body
      * @throws Exception\InvalidArgumentException
      * @return Message
      */
@@ -377,7 +375,7 @@ class Message
             if (!$body instanceof Mime\Message) {
                 if (!method_exists($body, '__toString')) {
                     throw new Exception\InvalidArgumentException(sprintf(
-                        '%s expects object arguments of type Zend\Mime\Message or implementing __toString(); object of type "%s" received',
+                        '%s expects object arguments of type Laminas\Mime\Message or implementing __toString(); object of type "%s" received',
                         __METHOD__,
                         get_class($body)
                     ));
@@ -443,7 +441,7 @@ class Message
      *
      * @param  string $headerName
      * @param  string $headerClass
-     * @return \Zend\Mail\Header\HeaderInterface
+     * @return \Laminas\Mail\Header\HeaderInterface
      */
     protected function getHeaderByName($headerName, $headerClass)
     {

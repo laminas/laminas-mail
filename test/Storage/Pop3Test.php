@@ -1,24 +1,22 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Mail
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Storage;
+namespace LaminasTest\Mail\Storage;
 
-use Zend\Config;
-use Zend\Mail\Protocol;
-use Zend\Mail\Storage;
+use Laminas\Config;
+use Laminas\Mail\Protocol;
+use Laminas\Mail\Storage;
 
 /**
- * @category   Zend
- * @package    Zend_Mail
+ * @category   Laminas
+ * @package    Laminas_Mail
  * @subpackage UnitTests
- * @group      Zend_Mail
+ * @group      Laminas_Mail
  */
 class Pop3Test extends \PHPUnit_Framework_TestCase
 {
@@ -26,26 +24,26 @@ class Pop3Test extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        if (!constant('TESTS_ZEND_MAIL_POP3_ENABLED')) {
-            $this->markTestSkipped('Zend_Mail POP3 tests are not enabled');
+        if (!constant('TESTS_LAMINAS_MAIL_POP3_ENABLED')) {
+            $this->markTestSkipped('Laminas_Mail POP3 tests are not enabled');
         }
 
-        $this->_params = array('host'     => TESTS_ZEND_MAIL_POP3_HOST,
-                               'user'     => TESTS_ZEND_MAIL_POP3_USER,
-                               'password' => TESTS_ZEND_MAIL_POP3_PASSWORD);
+        $this->_params = array('host'     => TESTS_LAMINAS_MAIL_POP3_HOST,
+                               'user'     => TESTS_LAMINAS_MAIL_POP3_USER,
+                               'password' => TESTS_LAMINAS_MAIL_POP3_PASSWORD);
 
-        if (defined('TESTS_ZEND_MAIL_SERVER_TESTDIR') && TESTS_ZEND_MAIL_SERVER_TESTDIR) {
-            if (!file_exists(TESTS_ZEND_MAIL_SERVER_TESTDIR . DIRECTORY_SEPARATOR . 'inbox')
-             && !file_exists(TESTS_ZEND_MAIL_SERVER_TESTDIR . DIRECTORY_SEPARATOR . 'INBOX')) {
+        if (defined('TESTS_LAMINAS_MAIL_SERVER_TESTDIR') && TESTS_LAMINAS_MAIL_SERVER_TESTDIR) {
+            if (!file_exists(TESTS_LAMINAS_MAIL_SERVER_TESTDIR . DIRECTORY_SEPARATOR . 'inbox')
+             && !file_exists(TESTS_LAMINAS_MAIL_SERVER_TESTDIR . DIRECTORY_SEPARATOR . 'INBOX')) {
                 $this->markTestSkipped('There is no file name "inbox" or "INBOX" in '
-                                       . TESTS_ZEND_MAIL_SERVER_TESTDIR . '. I won\'t use it for testing. '
+                                       . TESTS_LAMINAS_MAIL_SERVER_TESTDIR . '. I won\'t use it for testing. '
                                        . 'This is you safety net. If you think it is the right directory just '
                                        . 'create an empty file named INBOX or remove/deactived this message.');
             }
 
-            $this->_cleanDir(TESTS_ZEND_MAIL_SERVER_TESTDIR);
-            $this->_copyDir(__DIR__ . '/../_files/test.' . TESTS_ZEND_MAIL_SERVER_FORMAT,
-                            TESTS_ZEND_MAIL_SERVER_TESTDIR);
+            $this->_cleanDir(TESTS_LAMINAS_MAIL_SERVER_TESTDIR);
+            $this->_copyDir(__DIR__ . '/../_files/test.' . TESTS_LAMINAS_MAIL_SERVER_FORMAT,
+                            TESTS_LAMINAS_MAIL_SERVER_TESTDIR);
         }
     }
 
@@ -101,19 +99,19 @@ class Pop3Test extends \PHPUnit_Framework_TestCase
     {
         $this->_params['host'] = 'example.example';
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Pop3($this->_params);
     }
 
     public function testNoParams()
     {
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Pop3(array());
     }
 
     public function testConnectSSL()
     {
-        if (!TESTS_ZEND_MAIL_POP3_SSL) {
+        if (!TESTS_LAMINAS_MAIL_POP3_SSL) {
             return;
         }
 
@@ -124,7 +122,7 @@ class Pop3Test extends \PHPUnit_Framework_TestCase
 
     public function testConnectTLS()
     {
-        if (!TESTS_ZEND_MAIL_POP3_TLS) {
+        if (!TESTS_LAMINAS_MAIL_POP3_TLS) {
             return;
         }
 
@@ -135,17 +133,17 @@ class Pop3Test extends \PHPUnit_Framework_TestCase
 
     public function testInvalidService()
     {
-        $this->_params['port'] = TESTS_ZEND_MAIL_POP3_INVALID_PORT;
+        $this->_params['port'] = TESTS_LAMINAS_MAIL_POP3_INVALID_PORT;
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Pop3($this->_params);
     }
 
     public function testWrongService()
     {
-        $this->_params['port'] = TESTS_ZEND_MAIL_POP3_WRONG_PORT;
+        $this->_params['port'] = TESTS_LAMINAS_MAIL_POP3_WRONG_PORT;
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Pop3($this->_params);
     }
 
@@ -241,7 +239,7 @@ class Pop3Test extends \PHPUnit_Framework_TestCase
 /*
     public function testFailedRemove()
     {
-        $mail = new Zend_Mail_Storage_Pop3($this->_params);
+        $mail = new Laminas_Mail_Storage_Pop3($this->_params);
 
         try {
             $mail->removeMessage(1);
@@ -258,7 +256,7 @@ class Pop3Test extends \PHPUnit_Framework_TestCase
         $protocol = new Protocol\Pop3($this->_params['host']);
         $mail = new Storage\Pop3($protocol);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         // because we did no login this has to throw an exception
         $mail->getMessage(1);
     }
@@ -268,7 +266,7 @@ class Pop3Test extends \PHPUnit_Framework_TestCase
         $mail = new Storage\Pop3($this->_params);
         $mail->close();
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->getMessage(1);
     }
 
@@ -324,7 +322,7 @@ class Pop3Test extends \PHPUnit_Framework_TestCase
     {
         $mail = new Storage\Pop3($this->_params);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->getNumberByUniqueId('this_is_an_invalid_id');
     }
 
@@ -333,7 +331,7 @@ class Pop3Test extends \PHPUnit_Framework_TestCase
         $protocol = new Protocol\Pop3($this->_params['host']);
         $protocol->logout();
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $protocol->readResponse();
     }
 

@@ -1,29 +1,27 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Mail
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Storage;
+namespace Laminas\Mail\Storage;
 
-use Zend\Mail\Exception as MailException;
-use Zend\Mail\Protocol;
-use Zend\Mime;
+use Laminas\Mail\Exception as MailException;
+use Laminas\Mail\Protocol;
+use Laminas\Mime;
 
 /**
- * @category   Zend
- * @package    Zend_Mail
+ * @category   Laminas
+ * @package    Laminas_Mail
  * @subpackage Storage
  */
 class Pop3 extends AbstractStorage
 {
     /**
      * protocol handler
-     * @var null|\Zend\Mail\Protocol\Pop3
+     * @var null|\Laminas\Mail\Protocol\Pop3
      */
     protected $protocol;
 
@@ -32,8 +30,8 @@ class Pop3 extends AbstractStorage
      * Count messages all messages in current box
      *
      * @return int number of messages
-     * @throws \Zend\Mail\Storage\Exception\ExceptionInterface
-     * @throws \Zend\Mail\Protocol\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
      */
     public function countMessages()
     {
@@ -48,7 +46,7 @@ class Pop3 extends AbstractStorage
      *
      * @param int $id number of message
      * @return int|array size of given message of list with all messages as array(num => size)
-     * @throws \Zend\Mail\Protocol\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
      */
     public function getSize($id = 0)
     {
@@ -60,8 +58,8 @@ class Pop3 extends AbstractStorage
      * Fetch a message
      *
      * @param int $id number of message
-     * @return \Zend\Mail\Storage\Message
-     * @throws \Zend\Mail\Protocol\Exception\ExceptionInterface
+     * @return \Laminas\Mail\Storage\Message
+     * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
      */
     public function getMessage($id)
     {
@@ -79,8 +77,8 @@ class Pop3 extends AbstractStorage
      * @param  null|array|string $part     path to part or null for message header
      * @param  int               $topLines include this many lines with header (after an empty line)
      * @return string raw header
-     * @throws \Zend\Mail\Protocol\Exception\ExceptionInterface
-     * @throws \Zend\Mail\Storage\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
      */
     public function getRawHeader($id, $part = null, $topLines = 0)
     {
@@ -98,8 +96,8 @@ class Pop3 extends AbstractStorage
      * @param  int               $id   number of message
      * @param  null|array|string $part path to part or null for message content
      * @return string raw content
-     * @throws \Zend\Mail\Protocol\Exception\ExceptionInterface
-     * @throws \Zend\Mail\Storage\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
      */
     public function getRawContent($id, $part = null)
     {
@@ -126,8 +124,8 @@ class Pop3 extends AbstractStorage
      *   - ssl 'SSL' or 'TLS' for secure sockets
      *
      * @param  $params array  mail reader specific parameters
-     * @throws \Zend\Mail\Storage\Exception\InvalidArgumentException
-     * @throws \Zend\Mail\Protocol\Exception\RuntimeException
+     * @throws \Laminas\Mail\Storage\Exception\InvalidArgumentException
+     * @throws \Laminas\Mail\Protocol\Exception\RuntimeException
      */
     public function __construct($params)
     {
@@ -170,7 +168,7 @@ class Pop3 extends AbstractStorage
     /**
      * Keep the server busy.
      *
-     * @throws \Zend\Mail\Protocol\Exception\RuntimeException
+     * @throws \Laminas\Mail\Protocol\Exception\RuntimeException
      */
     public function noop()
     {
@@ -183,7 +181,7 @@ class Pop3 extends AbstractStorage
      * identify the message.
      *
      * @param  int $id number of message
-     * @throws \Zend\Mail\Protocol\Exception\RuntimeException
+     * @throws \Laminas\Mail\Protocol\Exception\RuntimeException
      */
     public function removeMessage($id)
     {
@@ -197,7 +195,7 @@ class Pop3 extends AbstractStorage
      *
      * @param int|null $id message number
      * @return array|string message number for given message or all messages as array
-     * @throws \Zend\Mail\Storage\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
      */
     public function getUniqueId($id = null)
     {

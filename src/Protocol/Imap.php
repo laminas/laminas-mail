@@ -1,20 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Mail
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Protocol;
+namespace Laminas\Mail\Protocol;
 
-use Zend\Stdlib\ErrorHandler;
+use Laminas\Stdlib\ErrorHandler;
 
 /**
- * @category   Zend
- * @package    Zend_Mail
+ * @category   Laminas
+ * @package    Laminas_Mail
  * @subpackage Protocol
  */
 class Imap
@@ -42,7 +40,7 @@ class Imap
      * @param  string   $host  hostname or IP address of IMAP server, if given connect() is called
      * @param  int|null $port  port of IMAP server, null for default (143 or 993 for ssl)
      * @param  bool     $ssl   use ssl? 'SSL', 'TLS' or false
-     * @throws \Zend\Mail\Protocol\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
      */
     public function __construct($host = '', $port = null, $ssl = false)
     {
@@ -427,7 +425,7 @@ class Imap
      * Get capabilities from IMAP server
      *
      * @return array list of capabilities
-     * @throws \Zend\Mail\Protocol\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
      */
     public function capability()
     {
@@ -452,7 +450,7 @@ class Imap
      * @param  string $box which folder to change to or examine
      * @return bool|array false if error, array with returned information
      *                    otherwise (flags, exists, recent, uidvalidity)
-     * @throws \Zend\Mail\Protocol\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
      */
     public function examineOrSelect($command = 'EXAMINE', $box = 'INBOX')
     {
@@ -491,7 +489,7 @@ class Imap
      *
      * @param  string $box change to this folder
      * @return bool|array see examineOrselect()
-     * @throws \Zend\Mail\Protocol\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
      */
     public function select($box = 'INBOX')
     {
@@ -503,7 +501,7 @@ class Imap
      *
      * @param  string $box examine this folder
      * @return bool|array see examineOrselect()
-     * @throws \Zend\Mail\Protocol\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
      */
     public function examine($box = 'INBOX')
     {
@@ -600,7 +598,7 @@ class Imap
      * @param  string $reference mailbox reference for list
      * @param  string $mailbox   mailbox name match with wildcards
      * @return array mailboxes that matched $mailbox as array(globalName => array('delim' => .., 'flags' => ..))
-     * @throws \Zend\Mail\Protocol\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
      */
     public function listMailbox($reference = '', $mailbox = '*')
     {
@@ -630,7 +628,7 @@ class Imap
      * @param  string|null $mode   '+' to add flags, '-' to remove flags, everything else sets the flags as given
      * @param  bool        $silent if false the return values are the new flags for the wanted messages
      * @return bool|array new flags if $silent is false, else true or false depending on success
-     * @throws \Zend\Mail\Protocol\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
      */
     public function store(array $flags, $from, $to = null, $mode = null, $silent = true)
     {
@@ -674,7 +672,7 @@ class Imap
      * @param array  $flags   flags for new message
      * @param string $date    date for new message
      * @return bool success
-     * @throws \Zend\Mail\Protocol\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
      */
     public function append($folder, $message, $flags = null, $date = null)
     {
