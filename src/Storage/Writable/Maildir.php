@@ -1,18 +1,19 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Storage\Writable;
+namespace Laminas\Mail\Storage\Writable;
 
+use Laminas\Mail\Exception as MailException;
+use Laminas\Mail\Storage;
+use Laminas\Mail\Storage\Exception as StorageException;
+use Laminas\Mail\Storage\Folder;
+use Laminas\Stdlib\ErrorHandler;
 use RecursiveIteratorIterator;
-use Zend\Mail\Exception as MailException;
-use Zend\Mail\Storage;
-use Zend\Mail\Storage\Exception as StorageException;
-use Zend\Mail\Storage\Folder;
-use Zend\Stdlib\ErrorHandler;
 
 class Maildir extends Folder\Maildir implements WritableInterface
 {
@@ -31,8 +32,8 @@ class Maildir extends Folder\Maildir implements WritableInterface
      * If the given dir is already a valid maildir this will not fail.
      *
      * @param string $dir directory for the new maildir (may already exist)
-     * @throws \Zend\Mail\Storage\Exception\RuntimeException
-     * @throws \Zend\Mail\Storage\Exception\InvalidArgumentException
+     * @throws \Laminas\Mail\Storage\Exception\RuntimeException
+     * @throws \Laminas\Mail\Storage\Exception\InvalidArgumentException
      */
     public static function initMaildir($dir)
     {
@@ -75,7 +76,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
      *   - create if true a new maildir is create if none exists
      *
      * @param  $params array mail reader specific parameters
-     * @throws \Zend\Mail\Storage\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
      */
     public function __construct($params)
     {
@@ -100,8 +101,8 @@ class Maildir extends Folder\Maildir implements WritableInterface
      * may be used as parent or which chars may be used in the folder name
      *
      * @param   string                           $name         global name of folder, local name if $parentFolder is set
-     * @param   string|\Zend\Mail\Storage\Folder $parentFolder parent folder for new folder, else root folder is parent
-     * @throws \Zend\Mail\Storage\Exception\RuntimeException
+     * @param   string|\Laminas\Mail\Storage\Folder $parentFolder parent folder for new folder, else root folder is parent
+     * @throws \Laminas\Mail\Storage\Exception\RuntimeException
      * @return  string only used internally (new created maildir)
      */
     public function createFolder($name, $parentFolder = null)
@@ -181,7 +182,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
      * remove a folder
      *
      * @param  string|Folder $name      name or instance of folder
-     * @throws \Zend\Mail\Storage\Exception\RuntimeException
+     * @throws \Laminas\Mail\Storage\Exception\RuntimeException
      */
     public function removeFolder($name)
     {
@@ -254,9 +255,9 @@ class Maildir extends Folder\Maildir implements WritableInterface
      *
      * The new name has the same restrictions as in createFolder()
      *
-     * @param  string|\Zend\Mail\Storage\Folder $oldName name or instance of folder
+     * @param  string|\Laminas\Mail\Storage\Folder $oldName name or instance of folder
      * @param  string                           $newName new global name of folder
-     * @throws \Zend\Mail\Storage\Exception\RuntimeException
+     * @throws \Laminas\Mail\Storage\Exception\RuntimeException
      */
     public function renameFolder($oldName, $newName)
     {
@@ -345,7 +346,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
      * you should close the returned filehandle!
      *
      * @param   string $folder name of current folder without leading .
-     * @throws \Zend\Mail\Storage\Exception\RuntimeException
+     * @throws \Laminas\Mail\Storage\Exception\RuntimeException
      * @return  array array('dirname' => dir of maildir folder, 'uniq' => unique id, 'filename' => name of create file
      *                     'handle'  => file opened for writing)
      */
@@ -506,8 +507,8 @@ class Maildir extends Folder\Maildir implements WritableInterface
      * copy an existing message
      *
      * @param  int                              $id     number of message
-     * @param  string|\Zend\Mail\Storage\Folder $folder name or instance of targer folder
-     * @throws \Zend\Mail\Storage\Exception\RuntimeException
+     * @param  string|\Laminas\Mail\Storage\Folder $folder name or instance of targer folder
+     * @throws \Laminas\Mail\Storage\Exception\RuntimeException
      */
     public function copyMessage($id, $folder)
     {
@@ -576,8 +577,8 @@ class Maildir extends Folder\Maildir implements WritableInterface
      * move an existing message
      *
      * @param  int                              $id     number of message
-     * @param  string|\Zend\Mail\Storage\Folder $folder name or instance of targer folder
-     * @throws \Zend\Mail\Storage\Exception\RuntimeException
+     * @param  string|\Laminas\Mail\Storage\Folder $folder name or instance of targer folder
+     * @throws \Laminas\Mail\Storage\Exception\RuntimeException
      */
     public function moveMessage($id, $folder)
     {
@@ -640,7 +641,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
      *
      * @param   int   $id    number of message
      * @param   array $flags new flags for message
-     * @throws \Zend\Mail\Storage\Exception\RuntimeException
+     * @throws \Laminas\Mail\Storage\Exception\RuntimeException
      */
     public function setFlags($id, $flags)
     {
@@ -672,7 +673,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
      * stub for not supported message deletion
      *
      * @param $id
-     * @throws \Zend\Mail\Storage\Exception\RuntimeException
+     * @throws \Laminas\Mail\Storage\Exception\RuntimeException
      */
     public function removeMessage($id)
     {
@@ -714,9 +715,9 @@ class Maildir extends Folder\Maildir implements WritableInterface
     /**
      * get currently set quota
      *
-     * @see \Zend\Mail\Storage\Writable\Maildir::setQuota()
+     * @see \Laminas\Mail\Storage\Writable\Maildir::setQuota()
      * @param bool $fromStorage
-     * @throws \Zend\Mail\Storage\Exception\RuntimeException
+     * @throws \Laminas\Mail\Storage\Exception\RuntimeException
      * @return bool|array
      */
     public function getQuota($fromStorage = false)
@@ -747,7 +748,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
 
     /**
      * @see http://www.inter7.com/courierimap/README.maildirquota.html "Calculating maildirsize"
-     * @throws \Zend\Mail\Storage\Exception\RuntimeException
+     * @throws \Laminas\Mail\Storage\Exception\RuntimeException
      * @return array
      */
     protected function calculateMaildirsize()

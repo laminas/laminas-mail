@@ -1,26 +1,27 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Header;
+namespace LaminasTest\Mail\Header;
 
+use Laminas\Mail\Header\HeaderWrap;
+use Laminas\Mail\Storage;
 use PHPUnit\Framework\TestCase;
-use Zend\Mail\Header\HeaderWrap;
-use Zend\Mail\Storage;
 
 /**
- * @group      Zend_Mail
- * @covers Zend\Mail\Header\HeaderWrap<extended>
+ * @group      Laminas_Mail
+ * @covers Laminas\Mail\Header\HeaderWrap<extended>
  */
 class HeaderWrapTest extends TestCase
 {
     public function testWrapUnstructuredHeaderAscii()
     {
         $string = str_repeat('foobarblahblahblah baz bat', 4);
-        $header = $this->createMock('Zend\Mail\Header\UnstructuredInterface');
+        $header = $this->createMock('Laminas\Mail\Header\UnstructuredInterface');
         $header->expects($this->any())
             ->method('getEncoding')
             ->will($this->returnValue('ASCII'));
@@ -31,12 +32,12 @@ class HeaderWrapTest extends TestCase
     }
 
     /**
-     * @group ZF2-258
+     * @group Laminas-258
      */
     public function testWrapUnstructuredHeaderMime()
     {
         $string = str_repeat('foobarblahblahblah baz bat', 3);
-        $header = $this->createMock('Zend\Mail\Header\UnstructuredInterface');
+        $header = $this->createMock('Laminas\Mail\Header\UnstructuredInterface');
         $header->expects($this->any())
             ->method('getEncoding')
             ->will($this->returnValue('UTF-8'));
@@ -49,7 +50,7 @@ class HeaderWrapTest extends TestCase
     }
 
     /**
-     * @group ZF2-359
+     * @group Laminas-359
      */
     public function testMimeEncoding()
     {
