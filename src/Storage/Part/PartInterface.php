@@ -1,13 +1,12 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Storage\Part;
+namespace Laminas\Mail\Storage\Part;
 
 use RecursiveIterator;
 
@@ -61,7 +60,7 @@ interface PartInterface extends RecursiveIterator
      * The returned headers are as saved internally. All names are lowercased. The value is a string or an array
      * if a header with the same name occurs more than once.
      *
-     * @return \Zend\Mail\Headers
+     * @return \Laminas\Mail\Headers
      */
     public function getHeaders();
 
@@ -69,11 +68,11 @@ interface PartInterface extends RecursiveIterator
      * Get a header in specified format
      *
      * Internally headers that occur more than once are saved as array, all other as string. If $format
-     * is set to string implode is used to concat the values (with Zend\Mime\Mime::LINEEND as delim).
+     * is set to string implode is used to concat the values (with Laminas\Mime\Mime::LINEEND as delim).
      *
      * @param  string $name   name of header, matches case-insensitive, but camel-case is replaced with dashes
      * @param  string $format change type of return value to 'string' or 'array'
-     * @return string|array|\Zend\Mail\Header\HeaderInterface|\ArrayIterator value of header in wanted or internal format
+     * @return string|array|\Laminas\Mail\Header\HeaderInterface|\ArrayIterator value of header in wanted or internal format
      * @throws Exception\ExceptionInterface
      */
     public function getHeader($name, $format = null);

@@ -4,7 +4,7 @@
          bootstrap="./test/bootstrap.php"
          colors="true">
     <testsuites>
-        <testsuite name="zend-mail Test Suite">
+        <testsuite name="laminas-mail Test Suite">
             <directory>./test/</directory>
         </testsuite>
     </testsuites>
@@ -26,66 +26,66 @@
 
         <!-- OB_ENABLED should be enabled for some tests to check if all
              functionality works as expected. Such tests include those for
-             Zend\Soap and Zend\Session, which require that headers not be sent
+             Laminas\Soap and Laminas\Session, which require that headers not be sent
              in order to work. -->
-        <const name="TESTS_ZEND_OB_ENABLED" value="false" />
+        <const name="TESTS_LAMINAS_OB_ENABLED" value="false" />
 
 
-        <!-- Zend\Mail\Storage tests
+        <!-- Laminas\Mail\Storage tests
 
-             TESTS_ZEND_MAIL_SERVER_TESTDIR and TESTS_ZEND_MAIL_SERVER_FORMAT
-             are used for POP3 and IMAP tests.  TESTS_ZEND_MAIL_SERVER_FORMAT
+             TESTS_LAMINAS_MAIL_SERVER_TESTDIR and TESTS_LAMINAS_MAIL_SERVER_FORMAT
+             are used for POP3 and IMAP tests.  TESTS_LAMINAS_MAIL_SERVER_FORMAT
              is the format your test mail server uses: 'mbox' or 'maildir'. The
              mail storage for the user specified in your POP3 or IMAP tests
-             should be TESTS_ZEND_MAIL_SERVER_TESTDIR. Be careful: it's cleared
+             should be TESTS_LAMINAS_MAIL_SERVER_TESTDIR. Be careful: it's cleared
              before copying the files. If you want to copy the files manually
              set the dir to null (or anything == null).
 
-             TESTS_ZEND_MAIL_TEMPDIR is used for testing write operations in
+             TESTS_LAMINAS_MAIL_TEMPDIR is used for testing write operations in
              local storages. If not set (== null) tempnam() is used. -->
-        <const name="TESTS_ZEND_MAIL_SERVER_TESTDIR" value="" />
-        <const name="TESTS_ZEND_MAIL_SERVER_FORMAT" value="mbox" />
-        <const name="TESTS_ZEND_MAIL_TEMPDIR" value="" />
+        <const name="TESTS_LAMINAS_MAIL_SERVER_TESTDIR" value="" />
+        <const name="TESTS_LAMINAS_MAIL_SERVER_FORMAT" value="mbox" />
+        <const name="TESTS_LAMINAS_MAIL_TEMPDIR" value="" />
 
-        <!-- Zend\Mail\Storage\Pop3 / Zend\Mail\Transport\Pop3
+        <!-- Laminas\Mail\Storage\Pop3 / Laminas\Mail\Transport\Pop3
 
-             IMPORTANT: you need to copy tests/Zend/Mail/_files/test.mbox to
-             your mail if you haven't set TESTS_ZEND_MAIL_SERVER_TESTDIR -->
-        <const name="TESTS_ZEND_MAIL_POP3_ENABLED" value="false" />
-        <const name="TESTS_ZEND_MAIL_POP3_HOST" value="localhost" />
-        <const name="TESTS_ZEND_MAIL_POP3_USER" value="test" />
-        <const name="TESTS_ZEND_MAIL_POP3_PASSWORD" value="" />
-        <const name="TESTS_ZEND_MAIL_POP3_SSL" value="true" />
-        <const name="TESTS_ZEND_MAIL_POP3_TLS" value="true" />
-        <const name="TESTS_ZEND_MAIL_POP3_WRONG_PORT" value="80" />
-        <const name="TESTS_ZEND_MAIL_POP3_INVALID_PORT" value="3141" />
+             IMPORTANT: you need to copy tests/Laminas/Mail/_files/test.mbox to
+             your mail if you haven't set TESTS_LAMINAS_MAIL_SERVER_TESTDIR -->
+        <const name="TESTS_LAMINAS_MAIL_POP3_ENABLED" value="false" />
+        <const name="TESTS_LAMINAS_MAIL_POP3_HOST" value="localhost" />
+        <const name="TESTS_LAMINAS_MAIL_POP3_USER" value="test" />
+        <const name="TESTS_LAMINAS_MAIL_POP3_PASSWORD" value="" />
+        <const name="TESTS_LAMINAS_MAIL_POP3_SSL" value="true" />
+        <const name="TESTS_LAMINAS_MAIL_POP3_TLS" value="true" />
+        <const name="TESTS_LAMINAS_MAIL_POP3_WRONG_PORT" value="80" />
+        <const name="TESTS_LAMINAS_MAIL_POP3_INVALID_PORT" value="3141" />
 
-        <!-- Zend\Mail\Storage\Imap / Zend\Mail\Transport\Imap
+        <!-- Laminas\Mail\Storage\Imap / Laminas\Mail\Transport\Imap
 
-             IMPORTANT: you need to copy tests/Zend/Mail/_files/test.mbox to
-             your mail if you haven't set TESTS_ZEND_MAIL_SERVER_TESTDIR -->
-        <const name="TESTS_ZEND_MAIL_IMAP_ENABLED" value="false" />
-        <const name="TESTS_ZEND_MAIL_IMAP_HOST" value="localhost" />
-        <const name="TESTS_ZEND_MAIL_IMAP_USER" value="test" />
-        <const name="TESTS_ZEND_MAIL_IMAP_PASSWORD" value="" />
-        <const name="TESTS_ZEND_MAIL_IMAP_SSL" value="true" />
-        <const name="TESTS_ZEND_MAIL_IMAP_TLS" value="true" />
-        <const name="TESTS_ZEND_MAIL_IMAP_WRONG_PORT" value="80" />
-        <const name="TESTS_ZEND_MAIL_IMAP_INVALID_PORT" value="3141" />
+             IMPORTANT: you need to copy tests/Laminas/Mail/_files/test.mbox to
+             your mail if you haven't set TESTS_LAMINAS_MAIL_SERVER_TESTDIR -->
+        <const name="TESTS_LAMINAS_MAIL_IMAP_ENABLED" value="false" />
+        <const name="TESTS_LAMINAS_MAIL_IMAP_HOST" value="localhost" />
+        <const name="TESTS_LAMINAS_MAIL_IMAP_USER" value="test" />
+        <const name="TESTS_LAMINAS_MAIL_IMAP_PASSWORD" value="" />
+        <const name="TESTS_LAMINAS_MAIL_IMAP_SSL" value="true" />
+        <const name="TESTS_LAMINAS_MAIL_IMAP_TLS" value="true" />
+        <const name="TESTS_LAMINAS_MAIL_IMAP_WRONG_PORT" value="80" />
+        <const name="TESTS_LAMINAS_MAIL_IMAP_INVALID_PORT" value="3141" />
 
-        <!-- Zend\Mail\Storage\Maildir test
+        <!-- Laminas\Mail\Storage\Maildir test
 
              Before enabling this test you have to unpack messages.tar in
              test/_files/test.maildir/cur/ and remove the tar for this test to
              work. That's because the messages files have a colon in the
              filename and that's a forbidden character on Windows. -->
-        <const name="TESTS_ZEND_MAIL_MAILDIR_ENABLED" value="false" />
+        <const name="TESTS_LAMINAS_MAIL_MAILDIR_ENABLED" value="false" />
 
-        <const name="TESTS_ZEND_MAIL_SMTP_ENABLED" value="false" />
-        <const name="TESTS_ZEND_MAIL_SMTP_HOST" value="localhost" />
-        <const name="TESTS_ZEND_MAIL_SMTP_PORT" value="25" />
-        <const name="TESTS_ZEND_MAIL_SMTP_USER" value="testuser" />
-        <const name="TESTS_ZEND_MAIL_SMTP_PASSWORD" value="testpassword" />
-        <const name="TESTS_ZEND_MAIL_SMTP_AUTH" value="false" />
+        <const name="TESTS_LAMINAS_MAIL_SMTP_ENABLED" value="false" />
+        <const name="TESTS_LAMINAS_MAIL_SMTP_HOST" value="localhost" />
+        <const name="TESTS_LAMINAS_MAIL_SMTP_PORT" value="25" />
+        <const name="TESTS_LAMINAS_MAIL_SMTP_USER" value="testuser" />
+        <const name="TESTS_LAMINAS_MAIL_SMTP_PASSWORD" value="testpassword" />
+        <const name="TESTS_LAMINAS_MAIL_SMTP_AUTH" value="false" />
     </php>
 </phpunit>
