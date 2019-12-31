@@ -1,20 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Mail
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Storage;
+namespace Laminas\Mail\Storage;
 
-use Zend\Stdlib\ErrorHandler;
+use Laminas\Stdlib\ErrorHandler;
 
 /**
- * @category   Zend
- * @package    Zend_Mail
+ * @category   Laminas
+ * @package    Laminas_Mail
  * @subpackage Storage
  */
 class Mbox extends AbstractStorage
@@ -47,13 +45,13 @@ class Mbox extends AbstractStorage
      * used message class, change it in an extended class to extend the returned message class
      * @var string
      */
-    protected $messageClass = '\Zend\Mail\Storage\Message\File';
+    protected $messageClass = '\Laminas\Mail\Storage\Message\File';
 
     /**
      * Count messages all messages in current box
      *
      * @return int number of messages
-     * @throws \Zend\Mail\Storage\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
      */
     public function countMessages()
     {
@@ -104,14 +102,14 @@ class Mbox extends AbstractStorage
      * Fetch a message
      *
      * @param  int $id number of message
-     * @return \Zend\Mail\Storage\Message\File
-     * @throws \Zend\Mail\Storage\Exception\ExceptionInterface
+     * @return \Laminas\Mail\Storage\Message\File
+     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
      */
     public function getMessage($id)
     {
         // TODO that's ugly, would be better to let the message class decide
-        if (strtolower($this->messageClass) == '\zend\mail\storage\message\file'
-            || is_subclass_of($this->messageClass, '\Zend\Mail\Storage\Message\File')) {
+        if (strtolower($this->messageClass) == '\laminas\mail\storage\message\file'
+            || is_subclass_of($this->messageClass, '\Laminas\Mail\Storage\Message\File')) {
             // TODO top/body lines
             $messagePos = $this->getPos($id);
             return new $this->messageClass(array('file' => $this->fh, 'startPos' => $messagePos['start'],
@@ -139,8 +137,8 @@ class Mbox extends AbstractStorage
      * @param  null|array|string $part     path to part or null for message header
      * @param  int               $topLines include this many lines with header (after an empty line)
      * @return string raw header
-     * @throws \Zend\Mail\Protocol\Exception\ExceptionInterface
-     * @throws \Zend\Mail\Storage\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
      */
     public function getRawHeader($id, $part = null, $topLines = 0)
     {
@@ -159,8 +157,8 @@ class Mbox extends AbstractStorage
      * @param  int               $id   number of message
      * @param  null|array|string $part path to part or null for message content
      * @return string raw content
-     * @throws \Zend\Mail\Protocol\Exception\ExceptionInterface
-     * @throws \Zend\Mail\Storage\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
      */
     public function getRawContent($id, $part = null)
     {
@@ -329,7 +327,7 @@ class Mbox extends AbstractStorage
      *
      * @param int|null $id message number
      * @return array|string message number for given message or all messages as array
-     * @throws \Zend\Mail\Storage\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
      */
     public function getUniqueId($id = null)
     {
@@ -351,7 +349,7 @@ class Mbox extends AbstractStorage
      *
      * @param string $id unique id
      * @return int message number
-     * @throws \Zend\Mail\Storage\Exception\ExceptionInterface
+     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
      */
     public function getNumberByUniqueId($id)
     {

@@ -1,23 +1,21 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Mail
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Header;
+namespace Laminas\Mail\Header;
 
-use Zend\Mail\AddressList;
-use Zend\Mail\Headers;
+use Laminas\Mail\AddressList;
+use Laminas\Mail\Headers;
 
 /**
  * Base class for headers composing address lists (to, from, cc, bcc, reply-to)
  *
- * @category   Zend
- * @package    Zend_Mail
+ * @category   Laminas
+ * @package    Laminas_Mail
  * @subpackage Header
  */
 abstract class AbstractAddressList implements HeaderInterface
