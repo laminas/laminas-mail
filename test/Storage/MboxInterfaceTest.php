@@ -1,20 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Storage;
+namespace LaminasTest\Mail\Storage;
 
-use Zend\Mail;
-use Zend\Mail\Storage;
-use Zend\Mail\Storage\Message;
+use Laminas\Mail;
+use Laminas\Mail\Storage;
+use Laminas\Mail\Storage\Message;
 
 /**
- * @group      Zend_Mail
+ * @group      Laminas_Mail
  */
 class MboxInterfaceTest extends \PHPUnit_Framework_TestCase
 {
@@ -59,7 +58,7 @@ class MboxInterfaceTest extends \PHPUnit_Framework_TestCase
     {
         $list = new Storage\Mbox(array('filename' => $this->_mboxFile));
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\RuntimeException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\RuntimeException');
         $list[1] = 'test';
     }
 
@@ -131,7 +130,7 @@ class MboxInterfaceTest extends \PHPUnit_Framework_TestCase
     {
         $list = new Storage\Mbox(array('filename' => $this->_mboxFile));
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $list->thisdoesnotexist;
     }
 
@@ -146,7 +145,7 @@ class MboxInterfaceTest extends \PHPUnit_Framework_TestCase
     {
         $list = new Storage\Mbox(array('filename' => $this->_mboxFile));
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $list[1]->thisdoesnotexist;
     }
 }
