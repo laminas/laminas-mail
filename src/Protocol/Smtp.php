@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Protocol;
+namespace Laminas\Mail\Protocol;
 
 /**
- * SMTP implementation of Zend\Mail\Protocol\AbstractProtocol
+ * SMTP implementation of Laminas\Mail\Protocol\AbstractProtocol
  *
  * Minimum implementation according to RFC2821: EHLO, MAIL FROM, RCPT TO, DATA, RSET, NOOP, QUIT
  */
@@ -310,7 +309,7 @@ class Smtp extends AbstractProtocol
     public function rset()
     {
         $this->_send('RSET');
-        // MS ESMTP doesn't follow RFC, see [ZF-1377]
+        // MS ESMTP doesn't follow RFC, see [Laminas-1377]
         $this->_expect(array(250, 220));
 
         $this->mail = false;
@@ -322,7 +321,7 @@ class Smtp extends AbstractProtocol
     /**
      * Issues the NOOP command end validates answer
      *
-     * Not used by Zend\Mail, could be used to keep a connection alive or check if it is still open.
+     * Not used by Laminas\Mail, could be used to keep a connection alive or check if it is still open.
      *
      */
     public function noop()
@@ -335,7 +334,7 @@ class Smtp extends AbstractProtocol
     /**
      * Issues the VRFY command end validates answer
      *
-     * Not used by Zend\Mail.
+     * Not used by Laminas\Mail.
      *
      * @param  string $user User Name or eMail to verify
      */
