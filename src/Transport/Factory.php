@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Transport;
+namespace Laminas\Mail\Transport;
 
+use Laminas\Stdlib\ArrayUtils;
 use Traversable;
-use Zend\Stdlib\ArrayUtils;
 
 abstract class Factory
 {
@@ -18,12 +17,12 @@ abstract class Factory
      * @var array Known transport types
      */
     protected static $classMap = array(
-        'file'      => 'Zend\Mail\Transport\File',
-        'inmemory'  => 'Zend\Mail\Transport\InMemory',
-        'memory'    => 'Zend\Mail\Transport\InMemory',
-        'null'      => 'Zend\Mail\Transport\InMemory',
-        'sendmail'  => 'Zend\Mail\Transport\Sendmail',
-        'smtp'      => 'Zend\Mail\Transport\Smtp',
+        'file'      => 'Laminas\Mail\Transport\File',
+        'inmemory'  => 'Laminas\Mail\Transport\InMemory',
+        'memory'    => 'Laminas\Mail\Transport\InMemory',
+        'null'      => 'Laminas\Mail\Transport\InMemory',
+        'sendmail'  => 'Laminas\Mail\Transport\Sendmail',
+        'smtp'      => 'Laminas\Mail\Transport\Smtp',
     );
 
     /**
@@ -67,7 +66,7 @@ abstract class Factory
         if (! $transport instanceof TransportInterface) {
             throw new Exception\DomainException(sprintf(
                 '%s expects the "type" attribute to resolve to a valid'
-                . ' Zend\Mail\Transport\TransportInterface instance; received "%s"',
+                . ' Laminas\Mail\Transport\TransportInterface instance; received "%s"',
                 __METHOD__,
                 $type
             ));
