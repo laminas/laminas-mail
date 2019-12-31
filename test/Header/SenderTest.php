@@ -1,28 +1,29 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Header;
+namespace LaminasTest\Mail\Header;
 
+use Laminas\Mail\Address;
+use Laminas\Mail\Exception;
+use Laminas\Mail\Header;
 use PHPUnit\Framework\TestCase;
-use Zend\Mail\Address;
-use Zend\Mail\Exception;
-use Zend\Mail\Header;
 
 /**
- * @group      Zend_Mail
- * @covers Zend\Mail\Header\Sender<extended>
+ * @group      Laminas_Mail
+ * @covers Laminas\Mail\Header\Sender<extended>
  */
 class SenderTest extends TestCase
 {
     public function testFromStringCreatesValidReceivedHeader()
     {
         $sender = Header\Sender::fromString('Sender: <foo@bar>');
-        $this->assertInstanceOf('Zend\Mail\Header\HeaderInterface', $sender);
-        $this->assertInstanceOf('Zend\Mail\Header\Sender', $sender);
+        $this->assertInstanceOf('Laminas\Mail\Header\HeaderInterface', $sender);
+        $this->assertInstanceOf('Laminas\Mail\Header\Sender', $sender);
     }
 
     public function testGetFieldNameReturnsHeaderName()
@@ -90,7 +91,7 @@ class SenderTest extends TestCase
     public function testSetAddressInvalidValue($email, $name)
     {
         $header = new Header\Sender();
-        $this->expectException('Zend\Mail\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
         $header->setAddress($email, $name);
     }
 
@@ -160,7 +161,7 @@ class SenderTest extends TestCase
 
     public function invalidSenderDataProvider()
     {
-        $mailInvalidArgumentException = 'Zend\Mail\Exception\InvalidArgumentException';
+        $mailInvalidArgumentException = 'Laminas\Mail\Exception\InvalidArgumentException';
 
         return [
             // Description => [sender address, sender name, exception class, exception message],
@@ -182,8 +183,8 @@ class SenderTest extends TestCase
 
     public function invalidSenderEncodedDataProvider()
     {
-        $mailInvalidArgumentException = 'Zend\Mail\Exception\InvalidArgumentException';
-        $headerInvalidArgumentException = 'Zend\Mail\Header\Exception\InvalidArgumentException';
+        $mailInvalidArgumentException = 'Laminas\Mail\Exception\InvalidArgumentException';
+        $headerInvalidArgumentException = 'Laminas\Mail\Header\Exception\InvalidArgumentException';
 
         return [
             // Description => [decoded format, exception class, exception message],

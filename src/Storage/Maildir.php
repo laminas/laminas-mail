@@ -1,14 +1,15 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Storage;
+namespace Laminas\Mail\Storage;
 
-use Zend\Mail;
-use Zend\Stdlib\ErrorHandler;
+use Laminas\Mail;
+use Laminas\Stdlib\ErrorHandler;
 
 class Maildir extends AbstractStorage
 {
@@ -16,7 +17,7 @@ class Maildir extends AbstractStorage
      * used message class, change it in an extended class to extend the returned message class
      * @var string
      */
-    protected $messageClass = '\Zend\Mail\Storage\Message\File';
+    protected $messageClass = '\Laminas\Mail\Storage\Message\File';
 
     /**
      * data of found message files in maildir dir
@@ -126,8 +127,8 @@ class Maildir extends AbstractStorage
      * Fetch a message
      *
      * @param  int $id number of message
-     * @return \Zend\Mail\Storage\Message\File
-     * @throws \Zend\Mail\Storage\Exception\ExceptionInterface
+     * @return \Laminas\Mail\Storage\Message\File
+     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
      */
     public function getMessage($id)
     {

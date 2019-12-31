@@ -1,18 +1,19 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Storage;
+namespace LaminasTest\Mail\Storage;
 
+use Laminas\Config;
+use Laminas\Mail\Storage;
 use PHPUnit\Framework\TestCase;
-use Zend\Config;
-use Zend\Mail\Storage;
 
 /**
- * @group      Zend_Mail
+ * @group      Laminas_Mail
  */
 class MboxTest extends TestCase
 {
@@ -24,8 +25,8 @@ class MboxTest extends TestCase
     public function setUp()
     {
         if ($this->tmpdir == null) {
-            if (getenv('TESTS_ZEND_MAIL_TEMPDIR') != null) {
-                $this->tmpdir = getenv('TESTS_ZEND_MAIL_TEMPDIR');
+            if (getenv('TESTS_LAMINAS_MAIL_TEMPDIR') != null) {
+                $this->tmpdir = getenv('TESTS_LAMINAS_MAIL_TEMPDIR');
             } else {
                 $this->tmpdir = __DIR__ . '/../_files/test.tmp/';
             }
@@ -73,19 +74,19 @@ class MboxTest extends TestCase
 
     public function testNoParams()
     {
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Mbox([]);
     }
 
     public function testLoadFailure()
     {
-        $this->expectException('Zend\Mail\Storage\Exception\RuntimeException');
+        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
         new Storage\Mbox(['filename' => 'ThisFileDoesNotExist']);
     }
 
     public function testLoadInvalid()
     {
-        $this->expectException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Storage\Mbox(['filename' => __FILE__]);
     }
 
@@ -206,7 +207,7 @@ class MboxTest extends TestCase
     {
         $mail = new Storage\Mbox(['filename' => $this->mboxFile]);
 
-        $this->expectException('Zend\Mail\Storage\Exception\RuntimeException');
+        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
         $mail->removeMessage(1);
     }
 
@@ -231,7 +232,7 @@ class MboxTest extends TestCase
     {
         $mail = new Storage\Mbox(['filename' => $this->mboxFile]);
 
-        $this->expectException('Zend\Mail\Storage\Exception\OutOfBoundsException');
+        $this->expectException('Laminas\Mail\Storage\Exception\OutOfBoundsException');
         $mail->seek(INF);
     }
 

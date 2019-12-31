@@ -1,20 +1,21 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Transport;
+namespace LaminasTest\Mail\Transport;
 
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\File;
+use Laminas\Mail\Transport\FileOptions;
 use PHPUnit\Framework\TestCase;
-use Zend\Mail\Message;
-use Zend\Mail\Transport\File;
-use Zend\Mail\Transport\FileOptions;
 
 /**
- * @group      Zend_Mail
- * @covers Zend\Mail\Transport\File<extended>
+ * @group      Laminas_Mail
+ * @covers Laminas\Mail\Transport\File<extended>
  */
 class FileTest extends TestCase
 {
@@ -49,15 +50,15 @@ class FileTest extends TestCase
     public function getMessage()
     {
         $message = new Message();
-        $message->addTo('zf-devteam@zend.com', 'ZF DevTeam')
+        $message->addTo('api-tools-devteam@zend.com', 'Laminas DevTeam')
                 ->addCc('matthew@zend.com')
-                ->addBcc('zf-crteam@lists.zend.com', 'CR-Team, ZF Project')
+                ->addBcc('api-tools-crteam@lists.zend.com', 'CR-Team, Laminas Project')
                 ->addFrom([
-                    'zf-devteam@zend.com',
+                    'api-tools-devteam@zend.com',
                     'matthew@zend.com' => 'Matthew',
                 ])
                 ->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
-                ->setSubject('Testing Zend\Mail\Transport\Sendmail')
+                ->setSubject('Testing Laminas\Mail\Transport\Sendmail')
                 ->setBody('This is only a test.');
         $message->getHeaders()->addHeaders([
             'X-Foo-Bar' => 'Matthew',

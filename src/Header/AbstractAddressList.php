@@ -1,17 +1,18 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Header;
+namespace Laminas\Mail\Header;
 
+use Laminas\Mail\Address;
+use Laminas\Mail\AddressList;
+use Laminas\Mail\Headers;
 use TrueBV\Exception\OutOfBoundsException;
 use TrueBV\Punycode;
-use Zend\Mail\Address;
-use Zend\Mail\AddressList;
-use Zend\Mail\Headers;
 
 /**
  * Base class for headers composing address lists (to, from, cc, bcc, reply-to)
