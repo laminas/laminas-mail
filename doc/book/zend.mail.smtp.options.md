@@ -1,8 +1,8 @@
-# Zend\\Mail\\Transport\\SmtpOptions
+# Laminas\\Mail\\Transport\\SmtpOptions
 
 ## Overview
 
-This document details the various options available to the `Zend\Mail\Transport\Smtp` mail
+This document details the various options available to the `Laminas\Mail\Transport\Smtp` mail
 transport.
 
 ## Quick Start
@@ -10,8 +10,8 @@ transport.
 ### Basic SMTP Transport Usage
 
 ```php
-use Zend\Mail\Transport\Smtp as SmtpTransport;
-use Zend\Mail\Transport\SmtpOptions;
+use Laminas\Mail\Transport\Smtp as SmtpTransport;
+use Laminas\Mail\Transport\SmtpOptions;
 
 // Setup SMTP transport
 $transport = new SmtpTransport();
@@ -26,8 +26,8 @@ $transport->setOptions($options);
 ### SMTP Transport Usage with PLAIN AUTH
 
 ```php
-use Zend\Mail\Transport\Smtp as SmtpTransport;
-use Zend\Mail\Transport\SmtpOptions;
+use Laminas\Mail\Transport\Smtp as SmtpTransport;
+use Laminas\Mail\Transport\SmtpOptions;
 
 // Setup SMTP transport using PLAIN authentication
 $transport = new SmtpTransport();
@@ -46,8 +46,8 @@ $transport->setOptions($options);
 ### SMTP Transport Usage with LOGIN AUTH
 
 ```php
-use Zend\Mail\Transport\Smtp as SmtpTransport;
-use Zend\Mail\Transport\SmtpOptions;
+use Laminas\Mail\Transport\Smtp as SmtpTransport;
+use Laminas\Mail\Transport\SmtpOptions;
 
 // Setup SMTP transport using LOGIN authentication
 $transport = new SmtpTransport();
@@ -66,8 +66,8 @@ $transport->setOptions($options);
 ### SMTP Transport Usage with CRAM-MD5 AUTH
 
 ```php
-use Zend\Mail\Transport\Smtp as SmtpTransport;
-use Zend\Mail\Transport\SmtpOptions;
+use Laminas\Mail\Transport\Smtp as SmtpTransport;
+use Laminas\Mail\Transport\SmtpOptions;
 
 // Setup SMTP transport using CRAM-MD5 authentication
 $transport = new SmtpTransport();
@@ -86,8 +86,8 @@ $transport->setOptions($options);
 ### SMTP Transport Usage with PLAIN AUTH over TLS
 
 ```php
-use Zend\Mail\Transport\Smtp as SmtpTransport;
-use Zend\Mail\Transport\SmtpOptions;
+use Laminas\Mail\Transport\Smtp as SmtpTransport;
+use Laminas\Mail\Transport\SmtpOptions;
 
 // Setup SMTP transport using PLAIN authentication over TLS
 $transport = new SmtpTransport();
@@ -121,10 +121,10 @@ Port on which the remote host is listening; defaults to "25".
 
 ### connection\_class
 
-Fully-qualified classname or short name resolvable via `Zend\Mail\Protocol\SmtpLoader`. Typically,
+Fully-qualified classname or short name resolvable via `Laminas\Mail\Protocol\SmtpLoader`. Typically,
 this will be one of "smtp", "plain", "login", or "crammd5", and defaults to "smtp".
 
-Typically, the connection class should extend the `Zend\Mail\Protocol\AbstractProtocol` class, and
+Typically, the connection class should extend the `Laminas\Mail\Protocol\AbstractProtocol` class, and
 specifically the SMTP variant.
 
 ### connection\_config
@@ -220,4 +220,4 @@ Instantiate the class, and optionally configure it with values provided.
 
 ## Examples
 
-Please see the [Quick Start](zend.mail.smtp.options.md) for examples.
+Please see the [Quick Start](laminas.mail.smtp.options.md) for examples.

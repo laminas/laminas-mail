@@ -1,4 +1,4 @@
-# Zend\\Mail\\Message
+# Laminas\\Mail\\Message
 
 ## Overview
 
@@ -7,20 +7,20 @@ The `Message` class encapsulates a single email message as described in RFCs
 basically as a value object for setting mail headers and content.
 
 If desired, multi-part email messages may also be created. This is as trivial as creating the
-message body using the [Zend\\Mime](https://github.com/zendframework/zend-mime) component, assigning it to 
+message body using the [Laminas\\Mime](https://github.com/laminas/laminas-mime) component, assigning it to 
 the mail message body.
 
 The `Message` class is simply a value object. It is not capable of sending or storing itself; for
-those purposes, you will need to use, respectively, a [Transport adapter](zend.mail.transport.md) or
+those purposes, you will need to use, respectively, a [Transport adapter](laminas.mail.transport.md) or
 Storage adapter
-&lt;zend.mail.read&gt;.
+&lt;laminas.mail.read&gt;.
 
 ## Quick Start
 
 Creating a `Message` is simple: simply instantiate it.
 
 ```php
-use Zend\Mail\Message;
+use Laminas\Mail\Message;
 
 $message = new Message();
 ```
@@ -31,7 +31,7 @@ mail is from, who it's addressed to, a subject, and some content:
 ```php
 $message->addFrom('matthew@example.org', 'Matthew Somelli')
         ->addTo('foobar@example.com')
-        ->setSubject('Sending an email from Zend\Mail!');
+        ->setSubject('Sending an email from Laminas\Mail!');
 $message->setBody('This is the message body.');
 ```
 
@@ -86,12 +86,12 @@ so, the `Message` class will automatically set a "MIME-Version" header, as well 
 "Content-Type" header.
 
 In addition you can check how to add attachment to your message E-mail
-Attachments&lt;zend.mail.attachments&gt;.
+Attachments&lt;laminas.mail.attachments&gt;.
 
 ```php
-use Zend\Mail\Message;
-use Zend\Mime\Message as MimeMessage;
-use Zend\Mime\Part as MimePart;
+use Laminas\Mail\Message;
+use Laminas\Mime\Message as MimeMessage;
+use Laminas\Mime\Part as MimePart;
 
 $text       = new MimePart($textContent);
 $text->type = 'text/plain';
@@ -153,7 +153,7 @@ echo $message->getBody();     // raw body, or MIME object
 echo $message->getBodyText(); // body as it will be sent
 ```
 
-Once your message is shaped to your liking, pass it to a \[mail transport\](zend.mail.transport) in
+Once your message is shaped to your liking, pass it to a \[mail transport\](laminas.mail.transport) in
 order to send it!
 
 ```php
@@ -194,7 +194,7 @@ Returns string.
 
 ### setHeaders
 
-`setHeaders(Zend\Mail\Headers $headers)`
+`setHeaders(Laminas\Mail\Headers $headers)`
 
 Compose headers.
 
@@ -206,13 +206,13 @@ Implements a fluent interface.
 
 Access headers collection.
 
-Lazy-loads a Zend\\Mail\\Headers instance if none is already attached.
+Lazy-loads a Laminas\\Mail\\Headers instance if none is already attached.
 
-Returns a Zend\\Mail\\Headers instance.
+Returns a Laminas\\Mail\\Headers instance.
 
 ### setFrom
 
-`setFrom(string|AddressDescription|array|Zend\Mail\AddressList|Traversable $emailOrAddressList,
+`setFrom(string|AddressDescription|array|Laminas\Mail\AddressList|Traversable $emailOrAddressList,
 string|null $name)`
 
 Set (overwrite) From addresses.
@@ -221,7 +221,7 @@ Implements a fluent interface.
 
 ### addFrom
 
-`addFrom(string|Zend\Mail\Address|array|Zend\Mail\AddressList|Traversable $emailOrAddressOrList,
+`addFrom(string|Laminas\Mail\Address|array|Laminas\Mail\AddressList|Traversable $emailOrAddressOrList,
 string|null $name)`
 
 Add a "From" address.
@@ -234,11 +234,11 @@ Implements a fluent interface.
 
 Retrieve list of From senders
 
-Returns Zend\\Mail\\AddressList instance.
+Returns Laminas\\Mail\\AddressList instance.
 
 ### setTo
 
-`setTo(string|AddressDescription|array|Zend\Mail\AddressList|Traversable $emailOrAddressList,
+`setTo(string|AddressDescription|array|Laminas\Mail\AddressList|Traversable $emailOrAddressList,
 null|string $name)`
 
 Overwrite the address list in the To recipients.
@@ -247,7 +247,7 @@ Implements a fluent interface.
 
 ### addTo
 
-`addTo(string|AddressDescription|array|Zend\Mail\AddressList|Traversable $emailOrAddressOrList,
+`addTo(string|AddressDescription|array|Laminas\Mail\AddressList|Traversable $emailOrAddressOrList,
 null|string $name)`
 
 Add one or more addresses to the To recipients.
@@ -262,13 +262,13 @@ Implements a fluent interface.
 
 Access the address list of the To header.
 
-Lazy-loads a Zend\\Mail\\AddressList and populates the To header if not previously done.
+Lazy-loads a Laminas\\Mail\\AddressList and populates the To header if not previously done.
 
-Returns a Zend\\Mail\\AddressList instance.
+Returns a Laminas\\Mail\\AddressList instance.
 
 ### setCc
 
-`setCc(string|AddressDescription|array|Zend\Mail\AddressList|Traversable $emailOrAddressList,
+`setCc(string|AddressDescription|array|Laminas\Mail\AddressList|Traversable $emailOrAddressList,
 string|null $name)`
 
 Set (overwrite) CC addresses.
@@ -277,7 +277,7 @@ Implements a fluent interface.
 
 ### addCc
 
-`addCc(string|Zend\Mail\Address|array|Zend\Mail\AddressList|Traversable $emailOrAddressOrList,
+`addCc(string|Laminas\Mail\Address|array|Laminas\Mail\AddressList|Traversable $emailOrAddressOrList,
 string|null $name)`
 
 Add a "Cc" address.
@@ -290,13 +290,13 @@ Implements a fluent interface.
 
 Retrieve list of CC recipients
 
-Lazy-loads a Zend\\Mail\\AddressList and populates the Cc header if not previously done.
+Lazy-loads a Laminas\\Mail\\AddressList and populates the Cc header if not previously done.
 
-Returns a Zend\\Mail\\AddressList instance.
+Returns a Laminas\\Mail\\AddressList instance.
 
 ### setBcc
 
-`setBcc(string|AddressDescription|array|Zend\Mail\AddressList|Traversable $emailOrAddressList,
+`setBcc(string|AddressDescription|array|Laminas\Mail\AddressList|Traversable $emailOrAddressList,
 string|null $name)`
 
 Set (overwrite) BCC addresses.
@@ -305,7 +305,7 @@ Implements a fluent interface.
 
 ### addBcc
 
-`addBcc(string|Zend\Mail\Address|array|Zend\Mail\AddressList|Traversable $emailOrAddressOrList,
+`addBcc(string|Laminas\Mail\Address|array|Laminas\Mail\AddressList|Traversable $emailOrAddressOrList,
 string|null $name)`
 
 Add a "Bcc" address.
@@ -318,13 +318,13 @@ Implements a fluent interface.
 
 Retrieve list of BCC recipients.
 
-Lazy-loads a Zend\\Mail\\AddressList and populates the Bcc header if not previously done.
+Lazy-loads a Laminas\\Mail\\AddressList and populates the Bcc header if not previously done.
 
-Returns a Zend\\Mail\\AddressList instance.
+Returns a Laminas\\Mail\\AddressList instance.
 
 ### setReplyTo
 
-`setReplyTo(string|AddressDescription|array|Zend\Mail\AddressList|Traversable $emailOrAddressList,
+`setReplyTo(string|AddressDescription|array|Laminas\Mail\AddressList|Traversable $emailOrAddressList,
 null|string $name)`
 
 Overwrite the address list in the Reply-To recipients.
@@ -333,7 +333,7 @@ Implements a fluent interface.
 
 ### addReplyTo
 
-`addReplyTo(string|AddressDescription|array|Zend\Mail\AddressList|Traversable $emailOrAddressOrList,
+`addReplyTo(string|AddressDescription|array|Laminas\Mail\AddressList|Traversable $emailOrAddressOrList,
 null|string $name)`
 
 Add one or more addresses to the Reply-To recipients.
@@ -346,9 +346,9 @@ Implements a fluent interface.
 
 Access the address list of the Reply-To header.
 
-Lazy-loads a Zend\\Mail\\AddressList and populates the Reply-To header if not previously done.
+Lazy-loads a Laminas\\Mail\\AddressList and populates the Reply-To header if not previously done.
 
-Returns a Zend\\Mail\\AddressList instance.
+Returns a Laminas\\Mail\\AddressList instance.
 
 ### setSender
 
@@ -364,7 +364,7 @@ Implements a fluent interface.
 
 Retrieve the sender address, if any.
 
-Returns null or a Zend\\Mail\\AddressDescription instance.
+Returns null or a Laminas\\Mail\\AddressDescription instance.
 
 ### setSubject
 
@@ -384,7 +384,7 @@ Returns null or a string.
 
 ### setBody
 
-`setBody(null|string|Zend\Mime\Message|object $body)`
+`setBody(null|string|Laminas\Mime\Message|object $body)`
 
 Set the message body.
 
@@ -416,4 +416,4 @@ Returns string.
 
 ## Examples
 
-Please [see the Quick Start section](zend.mail.message.md).
+Please [see the Quick Start section](laminas.mail.message.md).

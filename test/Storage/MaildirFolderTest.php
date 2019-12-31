@@ -1,19 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Storage;
+namespace LaminasTest\Mail\Storage;
 
-use Zend\Config;
-use Zend\Mail\Storage\Folder;
+use Laminas\Config;
+use Laminas\Mail\Storage\Folder;
 
 /**
- * @group      Zend_Mail
+ * @group      Laminas_Mail
  */
 class MaildirFolderTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,15 +25,15 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_originalDir = __DIR__ . '/../_files/test.maildir/';
 
-        if (!getenv('TESTS_ZEND_MAIL_MAILDIR_ENABLED')) {
-            $this->markTestSkipped('You have to unpack maildir.tar in Zend/Mail/_files/test.maildir/ '
+        if (!getenv('TESTS_LAMINAS_MAIL_MAILDIR_ENABLED')) {
+            $this->markTestSkipped('You have to unpack maildir.tar in Laminas/Mail/_files/test.maildir/ '
                                  . 'directory before enabling the maildir tests');
             return;
         }
 
         if ($this->_tmpdir == null) {
-            if (getenv('TESTS_ZEND_MAIL_TEMPDIR') != null) {
-                $this->_tmpdir = getenv('TESTS_ZEND_MAIL_TEMPDIR');
+            if (getenv('TESTS_LAMINAS_MAIL_TEMPDIR') != null) {
+                $this->_tmpdir = getenv('TESTS_LAMINAS_MAIL_TEMPDIR');
             } else {
                 $this->_tmpdir = __DIR__ . '/../_files/test.tmp/';
             }
@@ -117,20 +116,20 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
 
     public function testNoParams()
     {
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Folder\Maildir([]);
     }
 
     public function testLoadFailure()
     {
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Folder\Maildir(['dirname' => 'This/Folder/Does/Not/Exist']);
     }
 
     public function testLoadUnkownFolder()
     {
         $this->_params['folder'] = 'UnknownFolder';
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         new Folder\Maildir($this->_params);
     }
 
@@ -148,7 +147,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
     {
         $mail = new Folder\Maildir($this->_params);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->selectFolder('/Unknown/Folder/');
     }
 
@@ -347,7 +346,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
         $root = $mail->getFolders();
         $root->foobar = new Folder('foobar', DIRECTORY_SEPARATOR . 'foobar');
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->selectFolder('foobar');
     }
 
@@ -357,7 +356,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
         $root = $mail->getFolders();
         $root->foobar = new Folder('foobar', 'foobar');
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->selectFolder('foobar');
     }
 
@@ -367,7 +366,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
         $root = $mail->getFolders();
         $root->foobar = new Folder('foobar', 'foobar', false);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
         $mail->selectFolder('foobar');
     }
 
