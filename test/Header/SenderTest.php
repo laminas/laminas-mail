@@ -1,27 +1,26 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Header;
+namespace LaminasTest\Mail\Header;
 
-use Zend\Mail\Address;
-use Zend\Mail\Header;
+use Laminas\Mail\Address;
+use Laminas\Mail\Header;
 
 /**
- * @group      Zend_Mail
+ * @group      Laminas_Mail
  */
 class SenderTest extends \PHPUnit_Framework_TestCase
 {
     public function testFromStringCreatesValidReceivedHeader()
     {
         $sender = Header\Sender::fromString('Sender: xxx');
-        $this->assertInstanceOf('Zend\Mail\Header\HeaderInterface', $sender);
-        $this->assertInstanceOf('Zend\Mail\Header\Sender', $sender);
+        $this->assertInstanceOf('Laminas\Mail\Header\HeaderInterface', $sender);
+        $this->assertInstanceOf('Laminas\Mail\Header\Sender', $sender);
     }
 
     public function testGetFieldNameReturnsHeaderName()
@@ -63,7 +62,7 @@ class SenderTest extends \PHPUnit_Framework_TestCase
      */
     public function testFromStringRaisesExceptionOnCrlfInjectionDetection($header)
     {
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         Header\Sender::fromString($header);
     }
 
@@ -76,7 +75,7 @@ class SenderTest extends \PHPUnit_Framework_TestCase
         $header  = new Header\Sender();
         $header->setAddress($address);
 
-        $this->setExpectedException('Zend\Mail\Header\Exception\RuntimeException');
+        $this->setExpectedException('Laminas\Mail\Header\Exception\RuntimeException');
         $headerLine = $header->toString();
     }
 }
