@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Storage\Part\Exception;
+namespace Laminas\Mail\Storage\Part\Exception;
 
-use Zend\Mail\Storage\Exception;
+use Laminas\Mail\Storage\Exception;
 
 /**
- * Exception for Zend\Mail component.
+ * Exception for Laminas\Mail component.
  */
 class RuntimeException extends Exception\RuntimeException implements
     ExceptionInterface
