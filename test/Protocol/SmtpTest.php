@@ -1,23 +1,22 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Protocol;
+namespace LaminasTest\Mail\Protocol;
 
+use Laminas\Mail\Headers;
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\Smtp;
+use LaminasTest\Mail\TestAsset\SmtpProtocolSpy;
 use PHPUnit\Framework\TestCase;
-use Zend\Mail\Headers;
-use Zend\Mail\Message;
-use Zend\Mail\Transport\Smtp;
-use ZendTest\Mail\TestAsset\SmtpProtocolSpy;
 
 /**
- * @group      Zend_Mail
- * @covers Zend\Mail\Protocol\Smtp<extended>
+ * @group      Laminas_Mail
+ * @covers Laminas\Mail\Protocol\Smtp<extended>
  */
 class SmtpTest extends TestCase
 {
@@ -42,15 +41,15 @@ class SmtpTest extends TestCase
         $message->setHeaders($headers);
         $message->setSender('ralph.schindler@zend.com', 'Ralph Schindler');
         $message->setBody('testSendMailWithoutMinimalHeaders');
-        $message->addTo('zf-devteam@zend.com', 'ZF DevTeam');
+        $message->addTo('api-tools-devteam@zend.com', 'Laminas DevTeam');
 
         $expectedMessage = "EHLO localhost\r\n"
             . "MAIL FROM:<ralph.schindler@zend.com>\r\n"
-            . "RCPT TO:<zf-devteam@zend.com>\r\n"
+            . "RCPT TO:<api-tools-devteam@zend.com>\r\n"
             . "DATA\r\n"
             . "Date: Sun, 10 Jun 2012 20:07:24 +0200\r\n"
             . "Sender: Ralph Schindler <ralph.schindler@zend.com>\r\n"
-            . "To: ZF DevTeam <zf-devteam@zend.com>\r\n"
+            . "To: Laminas DevTeam <api-tools-devteam@zend.com>\r\n"
             . "\r\n"
             . "testSendMailWithoutMinimalHeaders\r\n"
             . ".\r\n";
@@ -69,15 +68,15 @@ class SmtpTest extends TestCase
         $message->setHeaders($headers);
         $message->setSender('ralph.schindler@zend.com', 'Ralph Schindler');
         $message->setBody("This is a test\n.");
-        $message->addTo('zf-devteam@zend.com', 'ZF DevTeam');
+        $message->addTo('api-tools-devteam@zend.com', 'Laminas DevTeam');
 
         $expectedMessage = "EHLO localhost\r\n"
             . "MAIL FROM:<ralph.schindler@zend.com>\r\n"
-            . "RCPT TO:<zf-devteam@zend.com>\r\n"
+            . "RCPT TO:<api-tools-devteam@zend.com>\r\n"
             . "DATA\r\n"
             . "Date: Sun, 10 Jun 2012 20:07:24 +0200\r\n"
             . "Sender: Ralph Schindler <ralph.schindler@zend.com>\r\n"
-            . "To: ZF DevTeam <zf-devteam@zend.com>\r\n"
+            . "To: Laminas DevTeam <api-tools-devteam@zend.com>\r\n"
             . "\r\n"
             . "This is a test\r\n"
             . "..\r\n"
@@ -108,7 +107,7 @@ class SmtpTest extends TestCase
     {
         $smtp = new TestAsset\ErroneousSmtp();
 
-        $this->expectException('Zend\Mail\Protocol\Exception\RuntimeException');
+        $this->expectException('Laminas\Mail\Protocol\Exception\RuntimeException');
         $this->expectExceptionMessageRegExp('/nonexistentremote/');
 
         $smtp->connect('nonexistentremote');

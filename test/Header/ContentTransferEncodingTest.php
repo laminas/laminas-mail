@@ -1,20 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Header;
+namespace LaminasTest\Mail\Header;
 
+use Laminas\Mail\Header\ContentTransferEncoding;
 use PHPUnit\Framework\TestCase;
-use Zend\Mail\Header\ContentTransferEncoding;
 
 /**
- * @group      Zend_Mail
- * @covers Zend\Mail\Header\ContentTransferEncoding<extended>
+ * @group      Laminas_Mail
+ * @covers Laminas\Mail\Header\ContentTransferEncoding<extended>
  */
 class ContentTransferEncodingTest extends TestCase
 {
@@ -42,8 +41,8 @@ class ContentTransferEncodingTest extends TestCase
     public function testContentTransferEncodingFromStringCreatesValidContentTransferEncodingHeader($encoding)
     {
         $contentTransferEncodingHeader = ContentTransferEncoding::fromString('Content-Transfer-Encoding: '.$encoding);
-        $this->assertInstanceOf('Zend\Mail\Header\HeaderInterface', $contentTransferEncodingHeader);
-        $this->assertInstanceOf('Zend\Mail\Header\ContentTransferEncoding', $contentTransferEncodingHeader);
+        $this->assertInstanceOf('Laminas\Mail\Header\HeaderInterface', $contentTransferEncodingHeader);
+        $this->assertInstanceOf('Laminas\Mail\Header\ContentTransferEncoding', $contentTransferEncodingHeader);
     }
 
     /**
@@ -51,7 +50,7 @@ class ContentTransferEncodingTest extends TestCase
      */
     public function testContentTransferEncodingFromStringRaisesException($encoding)
     {
-        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $contentTransferEncodingHeader = ContentTransferEncoding::fromString('Content-Transfer-Encoding: '.$encoding);
     }
 
@@ -105,7 +104,7 @@ class ContentTransferEncodingTest extends TestCase
      */
     public function testFromStringRaisesExceptionOnInvalidHeaderName()
     {
-        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         ContentTransferEncoding::fromString('Content-Transfer-Encoding' . chr(32) . ': 8bit');
     }
 
@@ -124,7 +123,7 @@ class ContentTransferEncodingTest extends TestCase
      */
     public function testFromStringRaisesExceptionForInvalidMultilineValues($headerLine)
     {
-        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         ContentTransferEncoding::fromString($headerLine);
     }
 
@@ -133,7 +132,7 @@ class ContentTransferEncodingTest extends TestCase
      */
     public function testFromStringRaisesExceptionForContinuations()
     {
-        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('expects');
         ContentTransferEncoding::fromString("Content-Transfer-Encoding: 8bit\r\n 7bit");
     }
@@ -144,7 +143,7 @@ class ContentTransferEncodingTest extends TestCase
     public function testSetTransferEncodingRaisesExceptionForInvalidValues()
     {
         $header = new ContentTransferEncoding();
-        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('expects');
         $header->setTransferEncoding("8bit\r\n 7bit");
     }

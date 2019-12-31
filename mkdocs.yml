@@ -1,6 +1,6 @@
 docs_dir: doc/book
 site_dir: doc/html
-pages:
+nav:
     - index.md
     - Intro: intro.md
     - Reference:
@@ -16,7 +16,6 @@ pages:
                 - Authentication: transport/smtp-authentication.md
             - "File Transport Options": transport/file-options.md
         - "Reading and Storing Mail": read.md
-site_name: zend-mail
-site_description: zend-mail
-repo_url: 'https://github.com/zendframework/zend-mail'
-copyright: 'Copyright (c) 2016 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a>'
+site_name: laminas-mail
+site_description: laminas-mail
+repo_url: 'https://github.com/laminas/laminas-mail'

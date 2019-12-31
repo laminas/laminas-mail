@@ -1,28 +1,27 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Header;
+namespace LaminasTest\Mail\Header;
 
+use Laminas\Mail\Header;
 use PHPUnit\Framework\TestCase;
-use Zend\Mail\Header;
 
 /**
- * @group      Zend_Mail
- * @covers Zend\Mail\Header\Received<extended>
+ * @group      Laminas_Mail
+ * @covers Laminas\Mail\Header\Received<extended>
  */
 class ReceivedTest extends TestCase
 {
     public function testFromStringCreatesValidReceivedHeader()
     {
         $receivedHeader = Header\Received::fromString('Received: xxx');
-        $this->assertInstanceOf('Zend\Mail\Header\HeaderInterface', $receivedHeader);
-        $this->assertInstanceOf('Zend\Mail\Header\Received', $receivedHeader);
+        $this->assertInstanceOf('Laminas\Mail\Header\HeaderInterface', $receivedHeader);
+        $this->assertInstanceOf('Laminas\Mail\Header\Received', $receivedHeader);
     }
 
     public function testGetFieldNameReturnsHeaderName()
@@ -68,7 +67,7 @@ class ReceivedTest extends TestCase
      */
     public function testRaisesExceptionViaFromStringOnDetectionOfCrlfInjection($header)
     {
-        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $received = Header\Received::fromString($header);
     }
 
@@ -88,7 +87,7 @@ class ReceivedTest extends TestCase
      */
     public function testConstructorRaisesExceptionOnValueWithCRLFInjectionAttempt($value)
     {
-        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         new Header\Received($value);
     }
 }

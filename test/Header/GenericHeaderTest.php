@@ -1,19 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Header;
+namespace LaminasTest\Mail\Header;
 
+use Laminas\Mail\Header\GenericHeader;
 use PHPUnit\Framework\TestCase;
-use Zend\Mail\Header\GenericHeader;
 
 /**
- * @covers Zend\Mail\Header\GenericHeader<extended>
+ * @covers Laminas\Mail\Header\GenericHeader<extended>
  */
 class GenericHeaderTest extends TestCase
 {
@@ -22,7 +21,7 @@ class GenericHeaderTest extends TestCase
      */
     public function testSplitHeaderLineRaisesExceptionOnInvalidHeader()
     {
-        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         GenericHeader::splitHeaderLine(
             'Content-Type' . chr(32) . ': text/html; charset = "iso-8859-1"' . "\nThis is a test"
         );
@@ -43,7 +42,7 @@ class GenericHeaderTest extends TestCase
     public function testRaisesExceptionOnInvalidFieldName($fieldName)
     {
         $header = new GenericHeader();
-        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('name');
         $header->setFieldName($fieldName);
     }
