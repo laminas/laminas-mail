@@ -1,26 +1,25 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail;
+namespace LaminasTest\Mail;
 
+use Laminas\Mail\Address;
+use Laminas\Mail\AddressList;
+use Laminas\Mail\Header;
+use Laminas\Mail\Headers;
+use Laminas\Mail\Message;
+use Laminas\Mime\Message as MimeMessage;
+use Laminas\Mime\Mime;
+use Laminas\Mime\Part as MimePart;
 use stdClass;
-use Zend\Mail\Address;
-use Zend\Mail\AddressList;
-use Zend\Mail\Header;
-use Zend\Mail\Headers;
-use Zend\Mail\Message;
-use Zend\Mime\Message as MimeMessage;
-use Zend\Mime\Mime;
-use Zend\Mime\Part as MimePart;
 
 /**
- * @group      Zend_Mail
+ * @group      Laminas_Mail
  */
 class MessageTest extends \PHPUnit_Framework_TestCase
 {
@@ -40,7 +39,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     public function testSetsOrigDateHeaderByDefault()
     {
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Zend\Mail\Headers', $headers);
+        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
         $this->assertTrue($headers->has('date'));
         $header  = $headers->get('date');
         $date    = date('r');
@@ -52,29 +51,29 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
     public function testAddingFromAddressMarksAsValid()
     {
-        $this->message->addFrom('zf-devteam@example.com');
+        $this->message->addFrom('api-tools-devteam@example.com');
         $this->assertTrue($this->message->isValid());
     }
 
     public function testHeadersMethodReturnsHeadersObject()
     {
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Zend\Mail\Headers', $headers);
+        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
     }
 
     public function testToMethodReturnsAddressListObject()
     {
-        $this->message->addTo('zf-devteam@example.com');
+        $this->message->addTo('api-tools-devteam@example.com');
         $to = $this->message->getTo();
-        $this->assertInstanceOf('Zend\Mail\AddressList', $to);
+        $this->assertInstanceOf('Laminas\Mail\AddressList', $to);
     }
 
     public function testToAddressListLivesInHeaders()
     {
-        $this->message->addTo('zf-devteam@example.com');
+        $this->message->addTo('api-tools-devteam@example.com');
         $to      = $this->message->getTo();
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Zend\Mail\Headers', $headers);
+        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
         $this->assertTrue($headers->has('to'));
         $header  = $headers->get('to');
         $this->assertSame($header->getAddressList(), $to);
@@ -82,17 +81,17 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
     public function testFromMethodReturnsAddressListObject()
     {
-        $this->message->addFrom('zf-devteam@example.com');
+        $this->message->addFrom('api-tools-devteam@example.com');
         $from = $this->message->getFrom();
-        $this->assertInstanceOf('Zend\Mail\AddressList', $from);
+        $this->assertInstanceOf('Laminas\Mail\AddressList', $from);
     }
 
     public function testFromAddressListLivesInHeaders()
     {
-        $this->message->addFrom('zf-devteam@example.com');
+        $this->message->addFrom('api-tools-devteam@example.com');
         $from    = $this->message->getFrom();
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Zend\Mail\Headers', $headers);
+        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
         $this->assertTrue($headers->has('from'));
         $header  = $headers->get('from');
         $this->assertSame($header->getAddressList(), $from);
@@ -100,17 +99,17 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
     public function testCcMethodReturnsAddressListObject()
     {
-        $this->message->addCc('zf-devteam@example.com');
+        $this->message->addCc('api-tools-devteam@example.com');
         $cc = $this->message->getCc();
-        $this->assertInstanceOf('Zend\Mail\AddressList', $cc);
+        $this->assertInstanceOf('Laminas\Mail\AddressList', $cc);
     }
 
     public function testCcAddressListLivesInHeaders()
     {
-        $this->message->addCc('zf-devteam@example.com');
+        $this->message->addCc('api-tools-devteam@example.com');
         $cc      = $this->message->getCc();
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Zend\Mail\Headers', $headers);
+        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
         $this->assertTrue($headers->has('cc'));
         $header  = $headers->get('cc');
         $this->assertSame($header->getAddressList(), $cc);
@@ -118,17 +117,17 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
     public function testBccMethodReturnsAddressListObject()
     {
-        $this->message->addBcc('zf-devteam@example.com');
+        $this->message->addBcc('api-tools-devteam@example.com');
         $bcc = $this->message->getBcc();
-        $this->assertInstanceOf('Zend\Mail\AddressList', $bcc);
+        $this->assertInstanceOf('Laminas\Mail\AddressList', $bcc);
     }
 
     public function testBccAddressListLivesInHeaders()
     {
-        $this->message->addBcc('zf-devteam@example.com');
+        $this->message->addBcc('api-tools-devteam@example.com');
         $bcc     = $this->message->getBcc();
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Zend\Mail\Headers', $headers);
+        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
         $this->assertTrue($headers->has('bcc'));
         $header  = $headers->get('bcc');
         $this->assertSame($header->getAddressList(), $bcc);
@@ -136,17 +135,17 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
     public function testReplyToMethodReturnsAddressListObject()
     {
-        $this->message->addReplyTo('zf-devteam@example.com');
+        $this->message->addReplyTo('api-tools-devteam@example.com');
         $replyTo = $this->message->getReplyTo();
-        $this->assertInstanceOf('Zend\Mail\AddressList', $replyTo);
+        $this->assertInstanceOf('Laminas\Mail\AddressList', $replyTo);
     }
 
     public function testReplyToAddressListLivesInHeaders()
     {
-        $this->message->addReplyTo('zf-devteam@example.com');
+        $this->message->addReplyTo('api-tools-devteam@example.com');
         $replyTo = $this->message->getReplyTo();
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Zend\Mail\Headers', $headers);
+        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
         $this->assertTrue($headers->has('reply-to'));
         $header  = $headers->get('reply-to');
         $this->assertSame($header->getAddressList(), $replyTo);
@@ -159,22 +158,22 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingSenderCreatesAddressObject()
     {
-        $this->message->setSender('zf-devteam@example.com');
+        $this->message->setSender('api-tools-devteam@example.com');
         $sender = $this->message->getSender();
-        $this->assertInstanceOf('Zend\Mail\Address', $sender);
+        $this->assertInstanceOf('Laminas\Mail\Address', $sender);
     }
 
     public function testCanSpecifyNameWhenSettingSender()
     {
-        $this->message->setSender('zf-devteam@example.com', 'ZF DevTeam');
+        $this->message->setSender('api-tools-devteam@example.com', 'Laminas DevTeam');
         $sender = $this->message->getSender();
-        $this->assertInstanceOf('Zend\Mail\Address', $sender);
-        $this->assertEquals('ZF DevTeam', $sender->getName());
+        $this->assertInstanceOf('Laminas\Mail\Address', $sender);
+        $this->assertEquals('Laminas DevTeam', $sender->getName());
     }
 
     public function testCanProvideAddressObjectWhenSettingSender()
     {
-        $sender = new Address('zf-devteam@example.com');
+        $sender = new Address('api-tools-devteam@example.com');
         $this->message->setSender($sender);
         $test = $this->message->getSender();
         $this->assertSame($sender, $test);
@@ -184,24 +183,24 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     {
         $header = new Header\Sender();
         $this->message->getHeaders()->addHeader($header);
-        $address = new Address('zf-devteam@example.com', 'ZF DevTeam');
+        $address = new Address('api-tools-devteam@example.com', 'Laminas DevTeam');
         $this->message->setSender($address);
         $this->assertSame($address, $header->getAddress());
     }
 
     public function testCanAddFromAddressUsingName()
     {
-        $this->message->addFrom('zf-devteam@example.com', 'ZF DevTeam');
+        $this->message->addFrom('api-tools-devteam@example.com', 'Laminas DevTeam');
         $addresses = $this->message->getFrom();
         $this->assertEquals(1, count($addresses));
         $address = $addresses->current();
-        $this->assertEquals('zf-devteam@example.com', $address->getEmail());
-        $this->assertEquals('ZF DevTeam', $address->getName());
+        $this->assertEquals('api-tools-devteam@example.com', $address->getEmail());
+        $this->assertEquals('Laminas DevTeam', $address->getName());
     }
 
     public function testCanAddFromAddressUsingAddressObject()
     {
-        $address = new Address('zf-devteam@example.com', 'ZF DevTeam');
+        $address = new Address('api-tools-devteam@example.com', 'Laminas DevTeam');
         $this->message->addFrom($address);
 
         $addresses = $this->message->getFrom();
@@ -213,59 +212,59 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     public function testCanAddManyFromAddressesUsingArray()
     {
         $addresses = array(
-            'zf-devteam@example.com',
-            'zf-contributors@example.com' => 'ZF Contributors List',
-            new Address('fw-announce@example.com', 'ZF Announce List'),
+            'api-tools-devteam@example.com',
+            'api-tools-contributors@example.com' => 'Laminas Contributors List',
+            new Address('fw-announce@example.com', 'Laminas Announce List'),
         );
         $this->message->addFrom($addresses);
 
         $from = $this->message->getFrom();
         $this->assertEquals(3, count($from));
 
-        $this->assertTrue($from->has('zf-devteam@example.com'));
-        $this->assertTrue($from->has('zf-contributors@example.com'));
+        $this->assertTrue($from->has('api-tools-devteam@example.com'));
+        $this->assertTrue($from->has('api-tools-contributors@example.com'));
         $this->assertTrue($from->has('fw-announce@example.com'));
     }
 
     public function testCanAddManyFromAddressesUsingAddressListObject()
     {
         $list = new AddressList();
-        $list->add('zf-devteam@example.com');
+        $list->add('api-tools-devteam@example.com');
 
         $this->message->addFrom('fw-announce@example.com');
         $this->message->addFrom($list);
         $from = $this->message->getFrom();
         $this->assertEquals(2, count($from));
         $this->assertTrue($from->has('fw-announce@example.com'));
-        $this->assertTrue($from->has('zf-devteam@example.com'));
+        $this->assertTrue($from->has('api-tools-devteam@example.com'));
     }
 
     public function testCanSetFromListFromAddressList()
     {
         $list = new AddressList();
-        $list->add('zf-devteam@example.com');
+        $list->add('api-tools-devteam@example.com');
 
         $this->message->addFrom('fw-announce@example.com');
         $this->message->setFrom($list);
         $from = $this->message->getFrom();
         $this->assertEquals(1, count($from));
         $this->assertFalse($from->has('fw-announce@example.com'));
-        $this->assertTrue($from->has('zf-devteam@example.com'));
+        $this->assertTrue($from->has('api-tools-devteam@example.com'));
     }
 
     public function testCanAddCcAddressUsingName()
     {
-        $this->message->addCc('zf-devteam@example.com', 'ZF DevTeam');
+        $this->message->addCc('api-tools-devteam@example.com', 'Laminas DevTeam');
         $addresses = $this->message->getCc();
         $this->assertEquals(1, count($addresses));
         $address = $addresses->current();
-        $this->assertEquals('zf-devteam@example.com', $address->getEmail());
-        $this->assertEquals('ZF DevTeam', $address->getName());
+        $this->assertEquals('api-tools-devteam@example.com', $address->getEmail());
+        $this->assertEquals('Laminas DevTeam', $address->getName());
     }
 
     public function testCanAddCcAddressUsingAddressObject()
     {
-        $address = new Address('zf-devteam@example.com', 'ZF DevTeam');
+        $address = new Address('api-tools-devteam@example.com', 'Laminas DevTeam');
         $this->message->addCc($address);
 
         $addresses = $this->message->getCc();
@@ -277,59 +276,59 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     public function testCanAddManyCcAddressesUsingArray()
     {
         $addresses = array(
-            'zf-devteam@example.com',
-            'zf-contributors@example.com' => 'ZF Contributors List',
-            new Address('fw-announce@example.com', 'ZF Announce List'),
+            'api-tools-devteam@example.com',
+            'api-tools-contributors@example.com' => 'Laminas Contributors List',
+            new Address('fw-announce@example.com', 'Laminas Announce List'),
         );
         $this->message->addCc($addresses);
 
         $cc = $this->message->getCc();
         $this->assertEquals(3, count($cc));
 
-        $this->assertTrue($cc->has('zf-devteam@example.com'));
-        $this->assertTrue($cc->has('zf-contributors@example.com'));
+        $this->assertTrue($cc->has('api-tools-devteam@example.com'));
+        $this->assertTrue($cc->has('api-tools-contributors@example.com'));
         $this->assertTrue($cc->has('fw-announce@example.com'));
     }
 
     public function testCanAddManyCcAddressesUsingAddressListObject()
     {
         $list = new AddressList();
-        $list->add('zf-devteam@example.com');
+        $list->add('api-tools-devteam@example.com');
 
         $this->message->addCc('fw-announce@example.com');
         $this->message->addCc($list);
         $cc = $this->message->getCc();
         $this->assertEquals(2, count($cc));
         $this->assertTrue($cc->has('fw-announce@example.com'));
-        $this->assertTrue($cc->has('zf-devteam@example.com'));
+        $this->assertTrue($cc->has('api-tools-devteam@example.com'));
     }
 
     public function testCanSetCcListFromAddressList()
     {
         $list = new AddressList();
-        $list->add('zf-devteam@example.com');
+        $list->add('api-tools-devteam@example.com');
 
         $this->message->addCc('fw-announce@example.com');
         $this->message->setCc($list);
         $cc = $this->message->getCc();
         $this->assertEquals(1, count($cc));
         $this->assertFalse($cc->has('fw-announce@example.com'));
-        $this->assertTrue($cc->has('zf-devteam@example.com'));
+        $this->assertTrue($cc->has('api-tools-devteam@example.com'));
     }
 
     public function testCanAddBccAddressUsingName()
     {
-        $this->message->addBcc('zf-devteam@example.com', 'ZF DevTeam');
+        $this->message->addBcc('api-tools-devteam@example.com', 'Laminas DevTeam');
         $addresses = $this->message->getBcc();
         $this->assertEquals(1, count($addresses));
         $address = $addresses->current();
-        $this->assertEquals('zf-devteam@example.com', $address->getEmail());
-        $this->assertEquals('ZF DevTeam', $address->getName());
+        $this->assertEquals('api-tools-devteam@example.com', $address->getEmail());
+        $this->assertEquals('Laminas DevTeam', $address->getName());
     }
 
     public function testCanAddBccAddressUsingAddressObject()
     {
-        $address = new Address('zf-devteam@example.com', 'ZF DevTeam');
+        $address = new Address('api-tools-devteam@example.com', 'Laminas DevTeam');
         $this->message->addBcc($address);
 
         $addresses = $this->message->getBcc();
@@ -341,59 +340,59 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     public function testCanAddManyBccAddressesUsingArray()
     {
         $addresses = array(
-            'zf-devteam@example.com',
-            'zf-contributors@example.com' => 'ZF Contributors List',
-            new Address('fw-announce@example.com', 'ZF Announce List'),
+            'api-tools-devteam@example.com',
+            'api-tools-contributors@example.com' => 'Laminas Contributors List',
+            new Address('fw-announce@example.com', 'Laminas Announce List'),
         );
         $this->message->addBcc($addresses);
 
         $bcc = $this->message->getBcc();
         $this->assertEquals(3, count($bcc));
 
-        $this->assertTrue($bcc->has('zf-devteam@example.com'));
-        $this->assertTrue($bcc->has('zf-contributors@example.com'));
+        $this->assertTrue($bcc->has('api-tools-devteam@example.com'));
+        $this->assertTrue($bcc->has('api-tools-contributors@example.com'));
         $this->assertTrue($bcc->has('fw-announce@example.com'));
     }
 
     public function testCanAddManyBccAddressesUsingAddressListObject()
     {
         $list = new AddressList();
-        $list->add('zf-devteam@example.com');
+        $list->add('api-tools-devteam@example.com');
 
         $this->message->addBcc('fw-announce@example.com');
         $this->message->addBcc($list);
         $bcc = $this->message->getBcc();
         $this->assertEquals(2, count($bcc));
         $this->assertTrue($bcc->has('fw-announce@example.com'));
-        $this->assertTrue($bcc->has('zf-devteam@example.com'));
+        $this->assertTrue($bcc->has('api-tools-devteam@example.com'));
     }
 
     public function testCanSetBccListFromAddressList()
     {
         $list = new AddressList();
-        $list->add('zf-devteam@example.com');
+        $list->add('api-tools-devteam@example.com');
 
         $this->message->addBcc('fw-announce@example.com');
         $this->message->setBcc($list);
         $bcc = $this->message->getBcc();
         $this->assertEquals(1, count($bcc));
         $this->assertFalse($bcc->has('fw-announce@example.com'));
-        $this->assertTrue($bcc->has('zf-devteam@example.com'));
+        $this->assertTrue($bcc->has('api-tools-devteam@example.com'));
     }
 
     public function testCanAddReplyToAddressUsingName()
     {
-        $this->message->addReplyTo('zf-devteam@example.com', 'ZF DevTeam');
+        $this->message->addReplyTo('api-tools-devteam@example.com', 'Laminas DevTeam');
         $addresses = $this->message->getReplyTo();
         $this->assertEquals(1, count($addresses));
         $address = $addresses->current();
-        $this->assertEquals('zf-devteam@example.com', $address->getEmail());
-        $this->assertEquals('ZF DevTeam', $address->getName());
+        $this->assertEquals('api-tools-devteam@example.com', $address->getEmail());
+        $this->assertEquals('Laminas DevTeam', $address->getName());
     }
 
     public function testCanAddReplyToAddressUsingAddressObject()
     {
-        $address = new Address('zf-devteam@example.com', 'ZF DevTeam');
+        $address = new Address('api-tools-devteam@example.com', 'Laminas DevTeam');
         $this->message->addReplyTo($address);
 
         $addresses = $this->message->getReplyTo();
@@ -405,44 +404,44 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     public function testCanAddManyReplyToAddressesUsingArray()
     {
         $addresses = array(
-            'zf-devteam@example.com',
-            'zf-contributors@example.com' => 'ZF Contributors List',
-            new Address('fw-announce@example.com', 'ZF Announce List'),
+            'api-tools-devteam@example.com',
+            'api-tools-contributors@example.com' => 'Laminas Contributors List',
+            new Address('fw-announce@example.com', 'Laminas Announce List'),
         );
         $this->message->addReplyTo($addresses);
 
         $replyTo = $this->message->getReplyTo();
         $this->assertEquals(3, count($replyTo));
 
-        $this->assertTrue($replyTo->has('zf-devteam@example.com'));
-        $this->assertTrue($replyTo->has('zf-contributors@example.com'));
+        $this->assertTrue($replyTo->has('api-tools-devteam@example.com'));
+        $this->assertTrue($replyTo->has('api-tools-contributors@example.com'));
         $this->assertTrue($replyTo->has('fw-announce@example.com'));
     }
 
     public function testCanAddManyReplyToAddressesUsingAddressListObject()
     {
         $list = new AddressList();
-        $list->add('zf-devteam@example.com');
+        $list->add('api-tools-devteam@example.com');
 
         $this->message->addReplyTo('fw-announce@example.com');
         $this->message->addReplyTo($list);
         $replyTo = $this->message->getReplyTo();
         $this->assertEquals(2, count($replyTo));
         $this->assertTrue($replyTo->has('fw-announce@example.com'));
-        $this->assertTrue($replyTo->has('zf-devteam@example.com'));
+        $this->assertTrue($replyTo->has('api-tools-devteam@example.com'));
     }
 
     public function testCanSetReplyToListFromAddressList()
     {
         $list = new AddressList();
-        $list->add('zf-devteam@example.com');
+        $list->add('api-tools-devteam@example.com');
 
         $this->message->addReplyTo('fw-announce@example.com');
         $this->message->setReplyTo($list);
         $replyTo = $this->message->getReplyTo();
         $this->assertEquals(1, count($replyTo));
         $this->assertFalse($replyTo->has('fw-announce@example.com'));
-        $this->assertTrue($replyTo->has('zf-devteam@example.com'));
+        $this->assertTrue($replyTo->has('api-tools-devteam@example.com'));
     }
 
     public function testSubjectIsEmptyByDefault()
@@ -461,7 +460,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     {
         $this->message->setSubject('test subject');
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Zend\Mail\Headers', $headers);
+        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
         $this->assertTrue($headers->has('subject'));
         $header = $headers->get('subject');
         $this->assertEquals('test subject', $header->getFieldValue());
@@ -514,7 +513,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingNonScalarNonMimeNonStringSerializableValueForBodyRaisesException($body)
     {
-        $this->setExpectedException('Zend\Mail\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Exception\InvalidArgumentException');
         $this->message->setBody($body);
     }
 
@@ -529,7 +528,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
         $this->message->setBody($body);
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Zend\Mail\Headers', $headers);
+        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
 
         $this->assertTrue($headers->has('mime-version'));
         $header = $headers->get('mime-version');
@@ -575,7 +574,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
         $this->message->setBody($body);
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Zend\Mail\Headers', $headers);
+        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
 
         $this->assertTrue($headers->has('mime-version'));
         $header = $headers->get('mime-version');
@@ -628,37 +627,37 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingNonAsciiEncodingForcesMimeEncodingOfSomeHeaders()
     {
-        $this->message->addTo('zf-devteam@example.com', 'ZF DevTeam');
+        $this->message->addTo('api-tools-devteam@example.com', 'Laminas DevTeam');
         $this->message->addFrom('matthew@example.com', "Matthew Weier O'Phinney");
-        $this->message->addCc('zf-contributors@example.com', 'ZF Contributors List');
-        $this->message->addBcc('zf-crteam@example.com', 'ZF CR Team');
+        $this->message->addCc('api-tools-contributors@example.com', 'Laminas Contributors List');
+        $this->message->addBcc('api-tools-crteam@example.com', 'Laminas CR Team');
         $this->message->setSubject('This is a subject');
         $this->message->setEncoding('UTF-8');
 
         $test = $this->message->getHeaders()->toString();
 
-        $expected = '=?UTF-8?Q?ZF=20DevTeam?=';
+        $expected = '=?UTF-8?Q?Laminas=20DevTeam?=';
         $this->assertContains($expected, $test);
-        $this->assertContains('<zf-devteam@example.com>', $test);
+        $this->assertContains('<api-tools-devteam@example.com>', $test);
 
         $expected = "=?UTF-8?Q?Matthew=20Weier=20O'Phinney?=";
         $this->assertContains($expected, $test, $test);
         $this->assertContains('<matthew@example.com>', $test);
 
-        $expected = '=?UTF-8?Q?ZF=20Contributors=20List?=';
+        $expected = '=?UTF-8?Q?Laminas=20Contributors=20List?=';
         $this->assertContains($expected, $test);
-        $this->assertContains('<zf-contributors@example.com>', $test);
+        $this->assertContains('<api-tools-contributors@example.com>', $test);
 
-        $expected = '=?UTF-8?Q?ZF=20CR=20Team?=';
+        $expected = '=?UTF-8?Q?Laminas=20CR=20Team?=';
         $this->assertContains($expected, $test);
-        $this->assertContains('<zf-crteam@example.com>', $test);
+        $this->assertContains('<api-tools-crteam@example.com>', $test);
 
         $expected = 'Subject: =?UTF-8?Q?This=20is=20a=20subject?=';
         $this->assertContains($expected, $test);
     }
 
     /**
-     * @group ZF2-507
+     * @group Laminas-507
      */
     public function testDefaultDateHeaderEncodingIsAlwaysAscii()
     {
@@ -674,9 +673,9 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
     public function testRestoreFromSerializedString()
     {
-        $this->message->addTo('zf-devteam@example.com', 'ZF DevTeam');
+        $this->message->addTo('api-tools-devteam@example.com', 'Laminas DevTeam');
         $this->message->addFrom('matthew@example.com', "Matthew Weier O'Phinney");
-        $this->message->addCc('zf-contributors@example.com', 'ZF Contributors List');
+        $this->message->addCc('api-tools-contributors@example.com', 'Laminas Contributors List');
         $this->message->setSubject('This is a subject');
         $this->message->setBody('foo');
         $serialized      = $this->message->toString();
@@ -685,7 +684,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF2-5962
+     * @group Laminas-5962
      */
     public function testPassEmptyArrayIntoSetPartsOfMimeMessageShouldReturnEmptyBodyString()
     {
@@ -724,7 +723,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
             '',
             '<html><body><iframe src="http://example.com/"></iframe></body></html> <!--',
         );
-        $this->setExpectedException('Zend\Mail\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Mail\Exception\InvalidArgumentException');
         $this->message->{$recipientMethod}(implode(Headers::EOL, $subject));
     }
 
@@ -776,7 +775,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $this->message->setBody($message);
 
         $contentType = $this->message->getHeaders()->get('Content-Type');
-        $this->assertInstanceOf('Zend\Mail\Header\ContentType', $contentType);
+        $this->assertInstanceOf('Laminas\Mail\Header\ContentType', $contentType);
         $this->assertContains('multipart/alternative', $contentType->getFieldValue());
         $this->assertContains($multipartContent->getMime()->boundary(), $contentType->getFieldValue());
     }
