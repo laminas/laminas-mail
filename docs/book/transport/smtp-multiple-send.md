@@ -10,8 +10,8 @@ the correct SMTP handshake is followed.
 ### Sending Multiple Mails per SMTP Connection
 
 ```php
-use Zend\Mail\Message;
-use Zend\Mail\Transport\Smtp;
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\Smtp;
 
 // Create transport
 $transport = new Smtp([
@@ -45,9 +45,9 @@ You can manipulate the connection between each delivery by accessing the
 transport's protocol object.
 
 ```php
-use Zend\Mail\Message;
-use Zend\Mail\Protocol\Smtp as SmtpProtocol;
-use Zend\Mail\Transport\Smtp as SmtpTransport;
+use Laminas\Mail\Message;
+use Laminas\Mail\Protocol\Smtp as SmtpProtocol;
+use Laminas\Mail\Transport\Smtp as SmtpTransport;
 
 // Create transport
 $transport = new SmtpTransport();

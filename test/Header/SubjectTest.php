@@ -1,18 +1,19 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Header;
+namespace LaminasTest\Mail\Header;
 
+use Laminas\Mail\Header;
 use PHPUnit\Framework\TestCase;
-use Zend\Mail\Header;
 
 /**
- * @group      Zend_Mail
- * @covers Zend\Mail\Header\Subject<extended>
+ * @group      Laminas_Mail
+ * @covers Laminas\Mail\Header\Subject<extended>
  */
 class SubjectTest extends TestCase
 {
@@ -96,7 +97,7 @@ class SubjectTest extends TestCase
 
     public function invalidSubjectValuesProvider()
     {
-        $invalidArgumentException = 'Zend\Mail\Header\Exception\InvalidArgumentException';
+        $invalidArgumentException = 'Laminas\Mail\Header\Exception\InvalidArgumentException';
         $invalidHeaderValueDetected = 'Invalid header value detected';
 
         return [

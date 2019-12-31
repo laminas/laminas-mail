@@ -1,20 +1,21 @@
 <?php
+
 /**
- * @link      http://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Protocol;
+namespace Laminas\Mail\Protocol;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class SmtpPluginManagerFactory implements FactoryInterface
 {
     /**
-     * zend-servicemanager v2 support for invocation options.
+     * laminas-servicemanager v2 support for invocation options.
      *
      * @param array
      */
@@ -41,7 +42,7 @@ class SmtpPluginManagerFactory implements FactoryInterface
     }
 
     /**
-     * zend-servicemanager v2 support for invocation options.
+     * laminas-servicemanager v2 support for invocation options.
      *
      * @param array $options
      * @return void

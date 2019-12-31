@@ -1,23 +1,24 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Transport;
+namespace LaminasTest\Mail\Transport;
 
+use Laminas\Mail\Address\AddressInterface;
+use Laminas\Mail\AddressList;
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\Exception\RuntimeException;
+use Laminas\Mail\Transport\Sendmail;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use ReflectionProperty;
-use Zend\Mail\Address\AddressInterface;
-use Zend\Mail\AddressList;
-use Zend\Mail\Message;
-use Zend\Mail\Transport\Exception\RuntimeException;
-use Zend\Mail\Transport\Sendmail;
 
 /**
- * @covers Zend\Mail\Transport\Sendmail<extended>
+ * @covers Laminas\Mail\Transport\Sendmail<extended>
  */
 class SendmailTest extends TestCase
 {
@@ -55,15 +56,15 @@ class SendmailTest extends TestCase
     public function getMessage()
     {
         $message = new Message();
-        $message->addTo('zf-devteam@zend.com', 'ZF DevTeam')
+        $message->addTo('api-tools-devteam@zend.com', 'Laminas DevTeam')
                 ->addCc('matthew@zend.com')
-                ->addBcc('zf-crteam@lists.zend.com', 'CR-Team, ZF Project')
+                ->addBcc('api-tools-crteam@lists.zend.com', 'CR-Team, Laminas Project')
                 ->addFrom([
-                    'zf-devteam@zend.com',
+                    'api-tools-devteam@zend.com',
                     'matthew@zend.com' => 'Matthew',
                 ])
                 ->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
-                ->setSubject('Testing Zend\Mail\Transport\Sendmail')
+                ->setSubject('Testing Laminas\Mail\Transport\Sendmail')
                 ->setBody('This is only a test.');
         $message->getHeaders()->addHeaders([
             'X-Foo-Bar' => 'Matthew',
@@ -81,13 +82,13 @@ class SendmailTest extends TestCase
         $this->transport->setParameters('-R hdrs');
 
         $this->transport->send($message);
-        $this->assertEquals('ZF DevTeam <zf-devteam@zend.com>', $this->to);
-        $this->assertEquals('Testing Zend\Mail\Transport\Sendmail', $this->subject);
+        $this->assertEquals('Laminas DevTeam <api-tools-devteam@zend.com>', $this->to);
+        $this->assertEquals('Testing Laminas\Mail\Transport\Sendmail', $this->subject);
         $this->assertEquals('This is only a test.', trim($this->message));
-        $this->assertNotContains("To: ZF DevTeam <zf-devteam@zend.com>\n", $this->additional_headers);
+        $this->assertNotContains("To: Laminas DevTeam <api-tools-devteam@zend.com>\n", $this->additional_headers);
         $this->assertContains("Cc: matthew@zend.com\n", $this->additional_headers);
-        $this->assertContains("Bcc: \"CR-Team, ZF Project\" <zf-crteam@lists.zend.com>\n", $this->additional_headers);
-        $this->assertContains("From: zf-devteam@zend.com,\n Matthew <matthew@zend.com>\n", $this->additional_headers);
+        $this->assertContains("Bcc: \"CR-Team, Laminas Project\" <api-tools-crteam@lists.zend.com>\n", $this->additional_headers);
+        $this->assertContains("From: api-tools-devteam@zend.com,\n Matthew <matthew@zend.com>\n", $this->additional_headers);
         $this->assertContains("X-Foo-Bar: Matthew\n", $this->additional_headers);
         $this->assertContains("Sender: Ralph Schindler <ralph.schindler@zend.com>\n", $this->additional_headers);
         $this->assertEquals('-R hdrs -f\'ralph.schindler@zend.com\'', $this->additional_parameters);
@@ -102,14 +103,14 @@ class SendmailTest extends TestCase
         $message = $this->getMessage();
 
         $this->transport->send($message);
-        $this->assertEquals('zf-devteam@zend.com', $this->to);
-        $this->assertEquals('Testing Zend\Mail\Transport\Sendmail', $this->subject);
+        $this->assertEquals('api-tools-devteam@zend.com', $this->to);
+        $this->assertEquals('Testing Laminas\Mail\Transport\Sendmail', $this->subject);
         $this->assertEquals('This is only a test.', trim($this->message));
-        $this->assertContains("To: ZF DevTeam <zf-devteam@zend.com>\r\n", $this->additional_headers);
+        $this->assertContains("To: Laminas DevTeam <api-tools-devteam@zend.com>\r\n", $this->additional_headers);
         $this->assertContains("Cc: matthew@zend.com\r\n", $this->additional_headers);
-        $this->assertContains("Bcc: \"CR-Team, ZF Project\" <zf-crteam@lists.zend.com>\r\n", $this->additional_headers);
+        $this->assertContains("Bcc: \"CR-Team, Laminas Project\" <api-tools-crteam@lists.zend.com>\r\n", $this->additional_headers);
         $this->assertContains(
-            "From: zf-devteam@zend.com,\r\n Matthew <matthew@zend.com>\r\n",
+            "From: api-tools-devteam@zend.com,\r\n Matthew <matthew@zend.com>\r\n",
             $this->additional_headers
         );
         $this->assertContains("X-Foo-Bar: Matthew\r\n", $this->additional_headers);
@@ -134,7 +135,7 @@ class SendmailTest extends TestCase
         $message = $this->getMessage();
         $message->setEncoding('UTF-8');
         $this->transport->send($message);
-        $this->assertEquals('=?UTF-8?Q?Testing=20Zend\Mail\Transport\Sendmail?=', $this->subject);
+        $this->assertEquals('=?UTF-8?Q?Testing=20Laminas\Mail\Transport\Sendmail?=', $this->subject);
     }
 
     public function testCodeInjectionInFromHeader()
@@ -225,7 +226,7 @@ class SendmailTest extends TestCase
         $message = new Message();
         $message->addCc('matthew@zend.com')
                 ->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
-                ->setSubject('Testing Zend\Mail\Transport\Sendmail')
+                ->setSubject('Testing Laminas\Mail\Transport\Sendmail')
                 ->setBody('This is only a test.');
 
         $this->transport->send($message);
@@ -234,9 +235,9 @@ class SendmailTest extends TestCase
     public function testAllowMessageWithEmptyToHeaderButHasBccHeader()
     {
         $message = new Message();
-        $message->addBcc('zf-crteam@lists.zend.com', 'CR-Team, ZF Project')
+        $message->addBcc('api-tools-crteam@lists.zend.com', 'CR-Team, Laminas Project')
                 ->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
-                ->setSubject('Testing Zend\Mail\Transport\Sendmail')
+                ->setSubject('Testing Laminas\Mail\Transport\Sendmail')
                 ->setBody('This is only a test.');
 
         $this->transport->send($message);
@@ -246,7 +247,7 @@ class SendmailTest extends TestCase
     {
         $message = new Message();
         $message->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
-                ->setSubject('Testing Zend\Mail\Transport\Sendmail')
+                ->setSubject('Testing Laminas\Mail\Transport\Sendmail')
                 ->setBody('This is only a test.');
 
         $this->expectException(RuntimeException::class);

@@ -1,16 +1,17 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Transport;
+namespace Laminas\Mail\Transport;
 
+use Laminas\Mail;
+use Laminas\Mail\Address\AddressInterface;
+use Laminas\Mail\Header\HeaderInterface;
 use Traversable;
-use Zend\Mail;
-use Zend\Mail\Address\AddressInterface;
-use Zend\Mail\Header\HeaderInterface;
 
 /**
  * Class for sending email via the PHP internal mail() function
@@ -61,7 +62,7 @@ class Sendmail implements TransportInterface
      * Used to populate the additional_parameters argument to mail()
      *
      * @param  null|string|array|Traversable $parameters
-     * @throws \Zend\Mail\Transport\Exception\InvalidArgumentException
+     * @throws \Laminas\Mail\Transport\Exception\InvalidArgumentException
      * @return Sendmail
      */
     public function setParameters($parameters)
@@ -94,7 +95,7 @@ class Sendmail implements TransportInterface
      * Primarily for testing purposes, but could be used to curry arguments.
      *
      * @param  callable $callable
-     * @throws \Zend\Mail\Transport\Exception\InvalidArgumentException
+     * @throws \Laminas\Mail\Transport\Exception\InvalidArgumentException
      * @return Sendmail
      */
     public function setCallable($callable)
@@ -113,7 +114,7 @@ class Sendmail implements TransportInterface
     /**
      * Send a message
      *
-     * @param  \Zend\Mail\Message $message
+     * @param  \Laminas\Mail\Message $message
      */
     public function send(Mail\Message $message)
     {
@@ -138,8 +139,8 @@ class Sendmail implements TransportInterface
     /**
      * Prepare recipients list
      *
-     * @param  \Zend\Mail\Message $message
-     * @throws \Zend\Mail\Transport\Exception\RuntimeException
+     * @param  \Laminas\Mail\Message $message
+     * @throws \Laminas\Mail\Transport\Exception\RuntimeException
      * @return string
      */
     protected function prepareRecipients(Mail\Message $message)
@@ -181,7 +182,7 @@ class Sendmail implements TransportInterface
     /**
      * Prepare the subject line string
      *
-     * @param  \Zend\Mail\Message $message
+     * @param  \Laminas\Mail\Message $message
      * @return string
      */
     protected function prepareSubject(Mail\Message $message)
@@ -197,7 +198,7 @@ class Sendmail implements TransportInterface
     /**
      * Prepare the body string
      *
-     * @param  \Zend\Mail\Message $message
+     * @param  \Laminas\Mail\Message $message
      * @return string
      */
     protected function prepareBody(Mail\Message $message)
@@ -216,7 +217,7 @@ class Sendmail implements TransportInterface
     /**
      * Prepare the textual representation of headers
      *
-     * @param  \Zend\Mail\Message $message
+     * @param  \Laminas\Mail\Message $message
      * @return string
      */
     protected function prepareHeaders(Mail\Message $message)
@@ -249,7 +250,7 @@ class Sendmail implements TransportInterface
      * Basically, overrides the MAIL FROM envelope with either the Sender or
      * From address.
      *
-     * @param  \Zend\Mail\Message $message
+     * @param  \Laminas\Mail\Message $message
      * @return string
      */
     protected function prepareParameters(Mail\Message $message)
@@ -285,7 +286,7 @@ class Sendmail implements TransportInterface
      * @param  string $message
      * @param  string $headers
      * @param  $parameters
-     * @throws \Zend\Mail\Transport\Exception\RuntimeException
+     * @throws \Laminas\Mail\Transport\Exception\RuntimeException
      */
     public function mailHandler($to, $subject, $message, $headers, $parameters)
     {

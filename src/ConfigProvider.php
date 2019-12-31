@@ -1,16 +1,17 @@
 <?php
+
 /**
- * @link      http://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail;
+namespace Laminas\Mail;
 
 class ConfigProvider
 {
     /**
-     * Retrieve configuration for zend-mail package.
+     * Retrieve configuration for laminas-mail package.
      *
      * @return array
      */
@@ -22,13 +23,17 @@ class ConfigProvider
     }
 
     /**
-     * Retrieve dependency settings for zend-mail package.
+     * Retrieve dependency settings for laminas-mail package.
      *
      * @return array
      */
     public function getDependencyConfig()
     {
         return [
+            // Legacy Zend Framework aliases
+            'aliases' => [
+                \Zend\Mail\Protocol\SmtpPluginManager::class => Protocol\SmtpPluginManager::class,
+            ],
             'factories' => [
                 Protocol\SmtpPluginManager::class => Protocol\SmtpPluginManagerFactory::class,
             ],

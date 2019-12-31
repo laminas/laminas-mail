@@ -1,19 +1,20 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-mail/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail;
+namespace LaminasTest\Mail;
 
+use Laminas\Mail;
+use Laminas\Mail\Header;
 use PHPUnit\Framework\TestCase;
-use Zend\Mail;
-use Zend\Mail\Header;
 
 /**
- * @group      Zend_Mail
- * @covers \Zend\Mail\Headers<extended>
+ * @group      Laminas_Mail
+ * @covers \Laminas\Mail\Headers<extended>
  */
 class HeadersTest extends TestCase
 {
@@ -30,7 +31,7 @@ class HeadersTest extends TestCase
         $this->assertEquals(1, $headers->count());
 
         $header = $headers->get('fake');
-        $this->assertInstanceOf('Zend\Mail\Header\GenericHeader', $header);
+        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
         $this->assertEquals('Fake', $header->getFieldName());
         $this->assertEquals('foo-bar', $header->getFieldValue());
     }
@@ -41,7 +42,7 @@ class HeadersTest extends TestCase
         $this->assertEquals(1, $headers->count());
 
         $header = $headers->get('fake');
-        $this->assertInstanceOf('Zend\Mail\Header\GenericHeader', $header);
+        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
         $this->assertEquals('Fake', $header->getFieldName());
         $this->assertEquals('foo-bar', $header->getFieldValue());
     }
@@ -55,7 +56,7 @@ class HeadersTest extends TestCase
         $this->assertEquals(1, $headers->count());
 
         $header = $headers->get('fake');
-        $this->assertInstanceOf('Zend\Mail\Header\GenericHeader', $header);
+        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
         $this->assertEquals('Fake', $header->getFieldName());
         $this->assertEquals('foo-bar, blah-blah', $header->getFieldValue());
     }
@@ -66,14 +67,14 @@ class HeadersTest extends TestCase
         $this->assertEquals(1, $headers->count());
 
         $header = $headers->get('fake');
-        $this->assertInstanceOf('Zend\Mail\Header\GenericHeader', $header);
+        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
         $this->assertEquals('Fake', $header->getFieldName());
         $this->assertEquals('foo-bar', $header->getFieldValue());
     }
 
     public function testHeadersFromStringFactoryThrowsExceptionOnMalformedHeaderLine()
     {
-        $this->expectException('Zend\Mail\Exception\RuntimeException');
+        $this->expectException('Laminas\Mail\Exception\RuntimeException');
         $this->expectExceptionMessage('does not match');
         Mail\Headers::fromString("Fake = foo-bar\r\n\r\n");
     }
@@ -84,12 +85,12 @@ class HeadersTest extends TestCase
         $this->assertEquals(2, $headers->count());
 
         $header = $headers->get('fake');
-        $this->assertInstanceOf('Zend\Mail\Header\GenericHeader', $header);
+        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
         $this->assertEquals('Fake', $header->getFieldName());
         $this->assertEquals('foo-bar', $header->getFieldValue());
 
         $header = $headers->get('anotherfake');
-        $this->assertInstanceOf('Zend\Mail\Header\GenericHeader', $header);
+        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
         $this->assertEquals('Another-Fake', $header->getFieldName());
         $this->assertEquals('boo-baz', $header->getFieldValue());
     }
@@ -97,9 +98,9 @@ class HeadersTest extends TestCase
     public function testHeadersFromStringMultiHeaderWillAggregateLazyLoadedHeaders()
     {
         $headers = new Mail\Headers();
-        /* @var $pcl \Zend\Loader\PluginClassLoader */
+        /* @var $pcl \Laminas\Loader\PluginClassLoader */
         $pcl = $headers->getPluginClassLoader();
-        $pcl->registerPlugin('foo', 'Zend\Mail\Header\GenericMultiHeader');
+        $pcl->registerPlugin('foo', 'Laminas\Mail\Header\GenericMultiHeader');
         $headers->addHeaderLine('foo: bar1,bar2,bar3');
         $headers->forceLoading();
         $this->assertEquals(3, $headers->count());
@@ -132,7 +133,7 @@ class HeadersTest extends TestCase
         $headers = new Mail\Headers();
         $headers->addHeader(new Header\GenericHeader('Fake', 'bar'));
         $this->assertEquals(1, $headers->count());
-        $this->assertInstanceOf('Zend\Mail\Header\GenericHeader', $headers->get('Fake'));
+        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $headers->get('Fake'));
     }
 
     public function testHeadersAggregatesHeaderThroughAddHeaderLine()
@@ -140,12 +141,12 @@ class HeadersTest extends TestCase
         $headers = new Mail\Headers();
         $headers->addHeaderLine('Fake', 'bar');
         $this->assertEquals(1, $headers->count());
-        $this->assertInstanceOf('Zend\Mail\Header\GenericHeader', $headers->get('Fake'));
+        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $headers->get('Fake'));
     }
 
     public function testHeadersAddHeaderLineThrowsExceptionOnMissingFieldValue()
     {
-        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Header must match with the format "name:value"');
         $headers = new Mail\Headers();
         $headers->addHeaderLine('Foo');
@@ -156,42 +157,42 @@ class HeadersTest extends TestCase
         $headers = new Mail\Headers();
         $headers->addHeaders([new Header\GenericHeader('Foo', 'bar'), new Header\GenericHeader('Baz', 'baz')]);
         $this->assertEquals(2, $headers->count());
-        $this->assertInstanceOf('Zend\Mail\Header\GenericHeader', $headers->get('Foo'));
+        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $headers->get('Foo'));
         $this->assertEquals('bar', $headers->get('foo')->getFieldValue());
         $this->assertEquals('baz', $headers->get('baz')->getFieldValue());
 
         $headers = new Mail\Headers();
         $headers->addHeaders(['Foo: bar', 'Baz: baz']);
         $this->assertEquals(2, $headers->count());
-        $this->assertInstanceOf('Zend\Mail\Header\GenericHeader', $headers->get('Foo'));
+        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $headers->get('Foo'));
         $this->assertEquals('bar', $headers->get('foo')->getFieldValue());
         $this->assertEquals('baz', $headers->get('baz')->getFieldValue());
 
         $headers = new Mail\Headers();
         $headers->addHeaders([['Foo' => 'bar'], ['Baz' => 'baz']]);
         $this->assertEquals(2, $headers->count());
-        $this->assertInstanceOf('Zend\Mail\Header\GenericHeader', $headers->get('Foo'));
+        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $headers->get('Foo'));
         $this->assertEquals('bar', $headers->get('foo')->getFieldValue());
         $this->assertEquals('baz', $headers->get('baz')->getFieldValue());
 
         $headers = new Mail\Headers();
         $headers->addHeaders([['Foo', 'bar'], ['Baz', 'baz']]);
         $this->assertEquals(2, $headers->count());
-        $this->assertInstanceOf('Zend\Mail\Header\GenericHeader', $headers->get('Foo'));
+        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $headers->get('Foo'));
         $this->assertEquals('bar', $headers->get('foo')->getFieldValue());
         $this->assertEquals('baz', $headers->get('baz')->getFieldValue());
 
         $headers = new Mail\Headers();
         $headers->addHeaders(['Foo' => 'bar', 'Baz' => 'baz']);
         $this->assertEquals(2, $headers->count());
-        $this->assertInstanceOf('Zend\Mail\Header\GenericHeader', $headers->get('Foo'));
+        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $headers->get('Foo'));
         $this->assertEquals('bar', $headers->get('foo')->getFieldValue());
         $this->assertEquals('baz', $headers->get('baz')->getFieldValue());
     }
 
     public function testHeadersAddHeadersThrowsExceptionOnInvalidArguments()
     {
-        $this->expectException('Zend\Mail\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Expected array or Trav');
         $headers = new Mail\Headers();
         $headers->addHeaders('foo');
@@ -247,7 +248,7 @@ class HeadersTest extends TestCase
         $iterations = 0;
         foreach ($headers as $index => $header) {
             $iterations++;
-            $this->assertInstanceOf('Zend\Mail\Header\GenericHeader', $header);
+            $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
             switch ($index) {
                 case 0:
                     $this->assertEquals('bar', $header->getFieldValue());
@@ -281,8 +282,8 @@ class HeadersTest extends TestCase
         $headers = new Mail\Headers();
 
         // @codingStandardsIgnoreStart
-        $received1 = Header\Received::fromString("Received: from framework (localhost [127.0.0.1])\r\n by framework (Postfix) with ESMTP id BBBBBBBBBBB\r\n for <zend@framework>; Mon, 21 Nov 2011 12:50:27 -0600 (CST)");
-        $received2 = Header\Received::fromString("Received: from framework (localhost [127.0.0.1])\r\n by framework (Postfix) with ESMTP id AAAAAAAAAAA\r\n for <zend@framework>; Mon, 21 Nov 2011 12:50:29 -0600 (CST)");
+        $received1 = Header\Received::fromString("Received: from framework (localhost [127.0.0.1])\r\n by framework (Postfix) with ESMTP id BBBBBBBBBBB\r\n for <laminas@framework>; Mon, 21 Nov 2011 12:50:27 -0600 (CST)");
+        $received2 = Header\Received::fromString("Received: from framework (localhost [127.0.0.1])\r\n by framework (Postfix) with ESMTP id AAAAAAAAAAA\r\n for <laminas@framework>; Mon, 21 Nov 2011 12:50:29 -0600 (CST)");
         // @codingStandardsIgnoreEnd
 
         $headers->addHeader($received1);
@@ -302,8 +303,8 @@ class HeadersTest extends TestCase
         $headers = new Mail\Headers();
 
         // @codingStandardsIgnoreStart
-        $received1 = Header\Received::fromString("Received: from framework (localhost [127.0.0.1])\r\n by framework (Postfix) with ESMTP id BBBBBBBBBBB\r\n for <zend@framework>; Mon, 21 Nov 2011 12:50:27 -0600 (CST)");
-        $received2 = Header\Received::fromString("Received: from framework (localhost [127.0.0.1])\r\n by framework (Postfix) with ESMTP id AAAAAAAAAAA\r\n for <zend@framework>; Mon, 21 Nov 2011 12:50:29 -0600 (CST)");
+        $received1 = Header\Received::fromString("Received: from framework (localhost [127.0.0.1])\r\n by framework (Postfix) with ESMTP id BBBBBBBBBBB\r\n for <laminas@framework>; Mon, 21 Nov 2011 12:50:27 -0600 (CST)");
+        $received2 = Header\Received::fromString("Received: from framework (localhost [127.0.0.1])\r\n by framework (Postfix) with ESMTP id AAAAAAAAAAA\r\n for <laminas@framework>; Mon, 21 Nov 2011 12:50:29 -0600 (CST)");
         // @codingStandardsIgnoreEnd
 
         $headers->addHeader($received1);
@@ -357,23 +358,23 @@ class HeadersTest extends TestCase
     public static function expectedHeaders()
     {
         return [
-            ['bcc', 'Zend\Mail\Header\Bcc'],
-            ['cc', 'Zend\Mail\Header\Cc'],
-            ['contenttype', 'Zend\Mail\Header\ContentType'],
-            ['content_type', 'Zend\Mail\Header\ContentType'],
-            ['content-type', 'Zend\Mail\Header\ContentType'],
-            ['date', 'Zend\Mail\Header\Date'],
-            ['from', 'Zend\Mail\Header\From'],
-            ['mimeversion', 'Zend\Mail\Header\MimeVersion'],
-            ['mime_version', 'Zend\Mail\Header\MimeVersion'],
-            ['mime-version', 'Zend\Mail\Header\MimeVersion'],
-            ['received', 'Zend\Mail\Header\Received'],
-            ['replyto', 'Zend\Mail\Header\ReplyTo'],
-            ['reply_to', 'Zend\Mail\Header\ReplyTo'],
-            ['reply-to', 'Zend\Mail\Header\ReplyTo'],
-            ['sender', 'Zend\Mail\Header\Sender'],
-            ['subject', 'Zend\Mail\Header\Subject'],
-            ['to', 'Zend\Mail\Header\To'],
+            ['bcc', 'Laminas\Mail\Header\Bcc'],
+            ['cc', 'Laminas\Mail\Header\Cc'],
+            ['contenttype', 'Laminas\Mail\Header\ContentType'],
+            ['content_type', 'Laminas\Mail\Header\ContentType'],
+            ['content-type', 'Laminas\Mail\Header\ContentType'],
+            ['date', 'Laminas\Mail\Header\Date'],
+            ['from', 'Laminas\Mail\Header\From'],
+            ['mimeversion', 'Laminas\Mail\Header\MimeVersion'],
+            ['mime_version', 'Laminas\Mail\Header\MimeVersion'],
+            ['mime-version', 'Laminas\Mail\Header\MimeVersion'],
+            ['received', 'Laminas\Mail\Header\Received'],
+            ['replyto', 'Laminas\Mail\Header\ReplyTo'],
+            ['reply_to', 'Laminas\Mail\Header\ReplyTo'],
+            ['reply-to', 'Laminas\Mail\Header\ReplyTo'],
+            ['sender', 'Laminas\Mail\Header\Sender'],
+            ['subject', 'Laminas\Mail\Header\Subject'],
+            ['to', 'Laminas\Mail\Header\To'],
         ];
     }
 
@@ -404,7 +405,7 @@ class HeadersTest extends TestCase
      */
     public function testHeaderCrLfAttackFromString()
     {
-        $this->expectException('Zend\Mail\Exception\RuntimeException');
+        $this->expectException('Laminas\Mail\Exception\RuntimeException');
         Mail\Headers::fromString("Fake: foo-bar\r\n\r\nevilContent");
     }
 
@@ -414,7 +415,7 @@ class HeadersTest extends TestCase
     public function testHeaderCrLfAttackAddHeaderLineSingle()
     {
         $headers = new Mail\Headers();
-        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $headers->addHeaderLine("Fake: foo-bar\r\n\r\nevilContent");
     }
 
@@ -424,7 +425,7 @@ class HeadersTest extends TestCase
     public function testHeaderCrLfAttackAddHeaderLineWithValue()
     {
         $headers = new Mail\Headers();
-        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $headers->addHeaderLine('Fake', "foo-bar\r\n\r\nevilContent");
     }
 
@@ -434,7 +435,7 @@ class HeadersTest extends TestCase
     public function testHeaderCrLfAttackAddHeaderLineMultiple()
     {
         $headers = new Mail\Headers();
-        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $headers->addHeaderLine('Fake', ["foo-bar\r\n\r\nevilContent"]);
         $headers->forceLoading();
     }
@@ -445,7 +446,7 @@ class HeadersTest extends TestCase
     public function testHeaderCrLfAttackAddHeadersSingle()
     {
         $headers = new Mail\Headers();
-        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $headers->addHeaders(["Fake: foo-bar\r\n\r\nevilContent"]);
     }
 
@@ -455,7 +456,7 @@ class HeadersTest extends TestCase
     public function testHeaderCrLfAttackAddHeadersWithValue()
     {
         $headers = new Mail\Headers();
-        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $headers->addHeaders(['Fake' => "foo-bar\r\n\r\nevilContent"]);
     }
 
@@ -465,7 +466,7 @@ class HeadersTest extends TestCase
     public function testHeaderCrLfAttackAddHeadersMultiple()
     {
         $headers = new Mail\Headers();
-        $this->expectException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $headers->addHeaders(['Fake' => ["foo-bar\r\n\r\nevilContent"]]);
         $headers->forceLoading();
     }
