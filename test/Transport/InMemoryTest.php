@@ -1,34 +1,33 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Transport;
+namespace LaminasTest\Mail\Transport;
 
-use Zend\Mail\Message;
-use Zend\Mail\Transport\InMemory;
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\InMemory;
 
 /**
- * @group      Zend_Mail
+ * @group      Laminas_Mail
  */
 class InMemoryTest extends \PHPUnit_Framework_TestCase
 {
     public function getMessage()
     {
         $message = new Message();
-        $message->addTo('zf-devteam@zend.com', 'ZF DevTeam')
+        $message->addTo('api-tools-devteam@zend.com', 'Laminas DevTeam')
                 ->addCc('matthew@zend.com')
-                ->addBcc('zf-crteam@lists.zend.com', 'CR-Team, ZF Project')
+                ->addBcc('api-tools-crteam@lists.zend.com', 'CR-Team, Laminas Project')
                 ->addFrom(array(
-                    'zf-devteam@zend.com',
+                    'api-tools-devteam@zend.com',
                     'matthew@zend.com' => 'Matthew',
                 ))
                 ->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
-                ->setSubject('Testing Zend\Mail\Transport\Sendmail')
+                ->setSubject('Testing Laminas\Mail\Transport\Sendmail')
                 ->setBody('This is only a test.');
         $message->getHeaders()->addHeaders(array(
             'X-Foo-Bar' => 'Matthew',
