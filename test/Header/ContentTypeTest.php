@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Header;
+namespace LaminasTest\Mail\Header;
 
-use Zend\Mail\Header\ContentType;
+use Laminas\Mail\Header\ContentType;
 
 /**
- * @group      Zend_Mail
+ * @group      Laminas_Mail
  */
 class ContentTypeTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,8 +19,8 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
     {
         $header = new ContentType();
 
-        $this->assertInstanceOf('Zend\Mail\Header\UnstructuredInterface', $header);
-        $this->assertInstanceOf('Zend\Mail\Header\HeaderInterface', $header);
+        $this->assertInstanceOf('Laminas\Mail\Header\UnstructuredInterface', $header);
+        $this->assertInstanceOf('Laminas\Mail\Header\HeaderInterface', $header);
     }
 
     /**
@@ -49,7 +48,7 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
     {
         $header = ContentType::fromString($expectedToString);
 
-        $this->assertInstanceOf('Zend\Mail\Header\ContentType', $header);
+        $this->assertInstanceOf('Laminas\Mail\Header\ContentType', $header);
         $this->assertEquals('Content-Type', $header->getFieldName(), 'getFieldName() value not match');
         $this->assertEquals($type, $header->getType(), 'getType() value not match');
         $this->assertEquals($fieldValue, $header->getFieldValue(), 'getFieldValue() value not match');
@@ -130,7 +129,7 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
 
     public function invalidParametersProvider()
     {
-        $invalidArgumentException = 'Zend\Mail\Header\Exception\InvalidArgumentException';
+        $invalidArgumentException = 'Laminas\Mail\Header\Exception\InvalidArgumentException';
 
         // @codingStandardsIgnoreStart
         return array(
@@ -144,7 +143,7 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
 
     public function invalidHeaderLinesProvider()
     {
-        $invalidArgumentException = 'Zend\Mail\Header\Exception\InvalidArgumentException';
+        $invalidArgumentException = 'Laminas\Mail\Header\Exception\InvalidArgumentException';
 
         // @codingStandardsIgnoreStart
         return array(
