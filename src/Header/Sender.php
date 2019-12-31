@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Header;
+namespace Laminas\Mail\Header;
 
-use Zend\Mail;
-use Zend\Mime\Mime;
+use Laminas\Mail;
+use Laminas\Mime\Mime;
 
 /**
  * Sender header class methods.
@@ -21,7 +20,7 @@ use Zend\Mime\Mime;
 class Sender implements HeaderInterface
 {
     /**
-     * @var \Zend\Mail\Address\AddressInterface
+     * @var \Laminas\Mail\Address\AddressInterface
      */
     protected $address;
 
@@ -114,7 +113,7 @@ class Sender implements HeaderInterface
     /**
      * Set the address used in this header
      *
-     * @param  string|\Zend\Mail\Address\AddressInterface $emailOrAddress
+     * @param  string|\Laminas\Mail\Address\AddressInterface $emailOrAddress
      * @param  null|string $name
      * @throws Exception\InvalidArgumentException
      * @return Sender
@@ -137,7 +136,7 @@ class Sender implements HeaderInterface
     /**
      * Retrieve the internal address from this header
      *
-     * @return \Zend\Mail\Address\AddressInterface|null
+     * @return \Laminas\Mail\Address\AddressInterface|null
      */
     public function getAddress()
     {
