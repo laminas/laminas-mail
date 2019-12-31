@@ -1,21 +1,20 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail;
+namespace Laminas\Mail;
 
 use ArrayIterator;
 use Countable;
 use Iterator;
+use Laminas\Loader\PluginClassLocator;
+use Laminas\Mail\Header\GenericHeader;
+use Laminas\Mail\Header\HeaderInterface;
 use Traversable;
-use Zend\Loader\PluginClassLocator;
-use Zend\Mail\Header\GenericHeader;
-use Zend\Mail\Header\HeaderInterface;
 
 /**
  * Basic mail headers collection functionality
@@ -31,7 +30,7 @@ class Headers implements Countable, Iterator
     const FOLDING = "\r\n ";
 
     /**
-     * @var \Zend\Loader\PluginClassLoader
+     * @var \Laminas\Loader\PluginClassLoader
      */
     protected $pluginClassLoader = null;
 
@@ -497,7 +496,7 @@ class Headers implements Countable, Iterator
         $key   = $this->headersKeys[$index];
 
         /** @var GenericHeader $class */
-        $class = ($this->getPluginClassLoader()->load($key)) ?: 'Zend\Mail\Header\GenericHeader';
+        $class = ($this->getPluginClassLoader()->load($key)) ?: 'Laminas\Mail\Header\GenericHeader';
 
         $encoding = $current->getEncoding();
         $headers  = $class::fromString($current->toString());

@@ -1,18 +1,19 @@
 <?php
+
 /**
- * @link      http://github.com/zendframework/zend-mail for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Protocol;
+namespace LaminasTest\Mail\Protocol;
 
 use Interop\Container\ContainerInterface;
+use Laminas\Mail\Protocol\Smtp;
+use Laminas\Mail\Protocol\SmtpPluginManager;
+use Laminas\Mail\Protocol\SmtpPluginManagerFactory;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use PHPUnit\Framework\TestCase;
-use Zend\Mail\Protocol\Smtp;
-use Zend\Mail\Protocol\SmtpPluginManager;
-use Zend\Mail\Protocol\SmtpPluginManagerFactory;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class SmtpPluginManagerFactoryTest extends TestCase
 {
@@ -25,10 +26,10 @@ class SmtpPluginManagerFactoryTest extends TestCase
         $this->assertInstanceOf(SmtpPluginManager::class, $plugins);
 
         if (method_exists($plugins, 'configure')) {
-            // zend-servicemanager v3
+            // laminas-servicemanager v3
             $this->assertAttributeSame($container, 'creationContext', $plugins);
         } else {
-            // zend-servicemanager v2
+            // laminas-servicemanager v2
             $this->assertSame($container, $plugins->getServiceLocator());
         }
     }

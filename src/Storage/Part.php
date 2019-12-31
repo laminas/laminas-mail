@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Storage;
+namespace Laminas\Mail\Storage;
 
+use Laminas\Mail\Header\HeaderInterface;
+use Laminas\Mail\Headers;
+use Laminas\Mime;
 use RecursiveIterator;
-use Zend\Mail\Headers;
-use Zend\Mail\Header\HeaderInterface;
-use Zend\Mime;
 
 class Part implements RecursiveIterator, Part\PartInterface
 {
@@ -354,7 +353,7 @@ class Part implements RecursiveIterator, Part\PartInterface
      * @param  string $wantedPart the wanted part, default is first, if null an array with all parts is returned
      * @param  string $firstName  key name for the first part
      * @return string|array wanted part or all parts as array($firstName => firstPart, partname => value)
-     * @throws \Zend\Mime\Exception\RuntimeException
+     * @throws \Laminas\Mime\Exception\RuntimeException
      */
     public function getHeaderField($name, $wantedPart = '0', $firstName = '0')
     {

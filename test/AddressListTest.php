@@ -1,21 +1,20 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail;
+namespace LaminasTest\Mail;
 
+use Laminas\Mail\Address;
+use Laminas\Mail\AddressList;
 use PHPUnit\Framework\TestCase;
-use Zend\Mail\Address;
-use Zend\Mail\AddressList;
 
 /**
- * @group      Zend_Mail
- * @covers \Zend\Mail\AddressList<extended>
+ * @group      Laminas_Mail
+ * @covers \Laminas\Mail\AddressList<extended>
  */
 class AddressListTest extends TestCase
 {
@@ -39,7 +38,7 @@ class AddressListTest extends TestCase
 
     public function testAddingEmailsIncreasesCount()
     {
-        $this->list->add('zf-devteam@zend.com');
+        $this->list->add('api-tools-devteam@zend.com');
         $this->assertEquals(1, count($this->list));
     }
 
@@ -55,8 +54,8 @@ class AddressListTest extends TestCase
 
     public function testHasReturnsTrueWhenAddressInList()
     {
-        $this->list->add('zf-devteam@zend.com');
-        $this->assertTrue($this->list->has('zf-devteam@zend.com'));
+        $this->list->add('api-tools-devteam@zend.com');
+        $this->assertTrue($this->list->has('api-tools-devteam@zend.com'));
     }
 
     public function testGetReturnsFalseWhenEmailNotFound()
@@ -66,45 +65,45 @@ class AddressListTest extends TestCase
 
     public function testGetReturnsAddressObjectWhenEmailFound()
     {
-        $this->list->add('zf-devteam@zend.com');
-        $address = $this->list->get('zf-devteam@zend.com');
-        $this->assertInstanceOf('Zend\Mail\Address', $address);
-        $this->assertEquals('zf-devteam@zend.com', $address->getEmail());
+        $this->list->add('api-tools-devteam@zend.com');
+        $address = $this->list->get('api-tools-devteam@zend.com');
+        $this->assertInstanceOf('Laminas\Mail\Address', $address);
+        $this->assertEquals('api-tools-devteam@zend.com', $address->getEmail());
     }
 
     public function testCanAddAddressWithName()
     {
-        $this->list->add('zf-devteam@zend.com', 'ZF DevTeam');
-        $address = $this->list->get('zf-devteam@zend.com');
-        $this->assertInstanceOf('Zend\Mail\Address', $address);
-        $this->assertEquals('zf-devteam@zend.com', $address->getEmail());
-        $this->assertEquals('ZF DevTeam', $address->getName());
+        $this->list->add('api-tools-devteam@zend.com', 'Laminas DevTeam');
+        $address = $this->list->get('api-tools-devteam@zend.com');
+        $this->assertInstanceOf('Laminas\Mail\Address', $address);
+        $this->assertEquals('api-tools-devteam@zend.com', $address->getEmail());
+        $this->assertEquals('Laminas DevTeam', $address->getName());
     }
 
     public function testCanAddManyAddressesAtOnce()
     {
         $addresses = [
-            'zf-devteam@zend.com',
-            'zf-contributors@lists.zend.com' => 'ZF Contributors List',
-            new Address('fw-announce@lists.zend.com', 'ZF Announce List'),
+            'api-tools-devteam@zend.com',
+            'api-tools-contributors@lists.zend.com' => 'Laminas Contributors List',
+            new Address('fw-announce@lists.zend.com', 'Laminas Announce List'),
         ];
         $this->list->addMany($addresses);
         $this->assertEquals(3, count($this->list));
-        $this->assertTrue($this->list->has('zf-devteam@zend.com'));
-        $this->assertTrue($this->list->has('zf-contributors@lists.zend.com'));
+        $this->assertTrue($this->list->has('api-tools-devteam@zend.com'));
+        $this->assertTrue($this->list->has('api-tools-contributors@lists.zend.com'));
         $this->assertTrue($this->list->has('fw-announce@lists.zend.com'));
     }
 
     public function testDoesNotStoreDuplicatesAndFirstWins()
     {
         $addresses = [
-            'zf-devteam@zend.com',
-            new Address('zf-devteam@zend.com', 'ZF DevTeam'),
+            'api-tools-devteam@zend.com',
+            new Address('api-tools-devteam@zend.com', 'Laminas DevTeam'),
         ];
         $this->list->addMany($addresses);
         $this->assertEquals(1, count($this->list));
-        $this->assertTrue($this->list->has('zf-devteam@zend.com'));
-        $address = $this->list->get('zf-devteam@zend.com');
+        $this->assertTrue($this->list->has('api-tools-devteam@zend.com'));
+        $address = $this->list->get('api-tools-devteam@zend.com');
         $this->assertNull($address->getName());
     }
 }

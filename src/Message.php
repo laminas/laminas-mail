@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail;
+namespace Laminas\Mail;
 
+use Laminas\Mail\Header\ContentType;
+use Laminas\Mail\Header\Sender;
+use Laminas\Mime;
 use Traversable;
-use Zend\Mail\Header\ContentType;
-use Zend\Mail\Header\Sender;
-use Zend\Mime;
 
 class Message
 {
@@ -364,7 +363,7 @@ class Message
     /**
      * Set the message body
      *
-     * @param  null|string|\Zend\Mime\Message|object $body
+     * @param  null|string|\Laminas\Mime\Message|object $body
      * @throws Exception\InvalidArgumentException
      * @return Message
      */
@@ -381,7 +380,7 @@ class Message
             if (! $body instanceof Mime\Message) {
                 if (! method_exists($body, '__toString')) {
                     throw new Exception\InvalidArgumentException(sprintf(
-                        '%s expects object arguments of type Zend\Mime\Message or implementing __toString();'
+                        '%s expects object arguments of type Laminas\Mime\Message or implementing __toString();'
                         . ' object of type "%s" received',
                         __METHOD__,
                         get_class($body)

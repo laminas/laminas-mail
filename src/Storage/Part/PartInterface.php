@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Storage\Part;
+namespace Laminas\Mail\Storage\Part;
 
 use ArrayIterator;
+use Laminas\Mail\Header\HeaderInterface;
+use Laminas\Mail\Headers;
 use RecursiveIterator;
-use Zend\Mail\Header\HeaderInterface;
-use Zend\Mail\Headers;
 
 interface PartInterface extends RecursiveIterator
 {
@@ -73,7 +72,7 @@ interface PartInterface extends RecursiveIterator
      *
      * Internally headers that occur more than once are saved as array, all
      * other as string. If $format is set to string implode is used to concat
-     * the values (with Zend\Mime\Mime::LINEEND as delim).
+     * the values (with Laminas\Mime\Mime::LINEEND as delim).
      *
      * @param string $name name of header, matches case-insensitive, but
      *     camel-case is replaced with dashes

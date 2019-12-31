@@ -1,6 +1,6 @@
 # Character Sets
 
-`Zend\Mail\Message` assumes a default ASCII character set, and headers and
+`Laminas\Mail\Message` assumes a default ASCII character set, and headers and
 content are quoted accordingly. If you wish to specify alternate characters
 sets, you will need to:
 
@@ -15,14 +15,14 @@ sets, you will need to:
 
 ## Example
 
-The following example is how to use `Zend\Mail\Message` to send a message in
+The following example is how to use `Laminas\Mail\Message` to send a message in
 Japanese.
 
 ```php
-use Zend\Mail\Message;
-use Zend\Mime\Message as MimeMessage;
-use Zend\Mime\Mime;
-use Zend\Mime\Part as MimePart;
+use Laminas\Mail\Message;
+use Laminas\Mime\Message as MimeMessage;
+use Laminas\Mime\Mime;
+use Laminas\Mime\Part as MimePart;
 
 // Typically, PHP will use UTF-8 internally; the following converts
 // the text to a Japanese encoding.
