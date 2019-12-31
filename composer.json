@@ -1,35 +1,22 @@
 {
-    "name": "zendframework/zend-mail",
+    "name": "laminas/laminas-mail",
     "description": "provides generalized functionality to compose and send both text and MIME-compliant multipart e-mail messages",
     "license": "BSD-3-Clause",
     "keywords": [
-        "zf2",
+        "laminas",
         "mail"
     ],
-    "homepage": "https://github.com/zendframework/zend-mail",
-    "autoload": {
-        "psr-4": {
-            "Zend\\Mail\\": "src/"
-        }
+    "homepage": "https://laminas.dev",
+    "support": {
+        "docs": "https://docs.laminas.dev/laminas-mail/",
+        "issues": "https://github.com/laminas/laminas-mail/issues",
+        "source": "https://github.com/laminas/laminas-mail",
+        "rss": "https://github.com/laminas/laminas-mail/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
     },
-    "require": {
-        "php": ">=5.3.23",
-        "zendframework/zend-crypt": "self.version",
-        "zendframework/zend-loader": "self.version",
-        "zendframework/zend-mime": "self.version",
-        "zendframework/zend-stdlib": "self.version",
-        "zendframework/zend-validator": "self.version"
-    },
-    "require-dev": {
-        "zendframework/zend-servicemanager": "self.version",
-        "zendframework/zend-validator": "self.version",
-        "fabpot/php-cs-fixer": "1.7.*",
-        "satooshi/php-coveralls": "dev-master",
-        "phpunit/PHPUnit": "~4.0"
-    },
-    "suggest": {
-        "zendframework/zend-servicemanager": "Zend\\ServiceManager component",
-        "zendframework/zend-validator": "Zend\\Validator component"
+    "config": {
+        "sort-packages": true
     },
     "extra": {
         "branch-alias": {
@@ -37,9 +24,37 @@
             "dev-develop": "2.3-dev"
         }
     },
+    "require": {
+        "php": ">=5.3.23",
+        "laminas/laminas-crypt": "self.version",
+        "laminas/laminas-loader": "self.version",
+        "laminas/laminas-mime": "self.version",
+        "laminas/laminas-stdlib": "self.version",
+        "laminas/laminas-validator": "self.version",
+        "laminas/laminas-zendframework-bridge": "^1.0"
+    },
+    "require-dev": {
+        "fabpot/php-cs-fixer": "1.7.*",
+        "laminas/laminas-servicemanager": "self.version",
+        "laminas/laminas-validator": "self.version",
+        "phpunit/phpunit": "~4.0",
+        "satooshi/php-coveralls": "dev-master"
+    },
+    "suggest": {
+        "laminas/laminas-servicemanager": "Laminas\\ServiceManager component",
+        "laminas/laminas-validator": "Laminas\\Validator component"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\Mail\\": "src/"
+        }
+    },
     "autoload-dev": {
         "psr-4": {
-            "ZendTest\\Mail\\": "test/"
+            "LaminasTest\\Mail\\": "test/"
         }
+    },
+    "replace": {
+        "zendframework/zend-mail": "self.version"
     }
 }
