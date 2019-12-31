@@ -1,29 +1,27 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Mail
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Mail\Header;
+namespace LaminasTest\Mail\Header;
 
-use Zend\Mail\Address;
-use Zend\Mail\AddressList;
-use Zend\Mail\Header\AbstractAddressList;
-use Zend\Mail\Header\Bcc;
-use Zend\Mail\Header\Cc;
-use Zend\Mail\Header\From;
-use Zend\Mail\Header\ReplyTo;
-use Zend\Mail\Header\To;
+use Laminas\Mail\Address;
+use Laminas\Mail\AddressList;
+use Laminas\Mail\Header\AbstractAddressList;
+use Laminas\Mail\Header\Bcc;
+use Laminas\Mail\Header\Cc;
+use Laminas\Mail\Header\From;
+use Laminas\Mail\Header\ReplyTo;
+use Laminas\Mail\Header\To;
 
 /**
- * @category   Zend
- * @package    Zend_Mail
+ * @category   Laminas
+ * @package    Laminas_Mail
  * @subpackage UnitTests
- * @group      Zend_Mail
+ * @group      Laminas_Mail
  */
 class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -43,7 +41,7 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testConcreteHeadersExtendAbstractAddressListHeader($header)
     {
-        $this->assertInstanceOf('Zend\Mail\Header\AbstractAddressList', $header);
+        $this->assertInstanceOf('Laminas\Mail\Header\AbstractAddressList', $header);
     }
 
     /**
@@ -60,7 +58,7 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
     public function testConcreteHeadersComposeAddressLists($header)
     {
         $list = $header->getAddressList();
-        $this->assertInstanceOf('Zend\Mail\AddressList', $list);
+        $this->assertInstanceOf('Laminas\Mail\AddressList', $list);
     }
 
     public function testFieldValueIsEmptyByDefault()
@@ -80,15 +78,15 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
 
     public function populateAddressList(AddressList $list)
     {
-        $address = new Address('zf-devteam@zend.com', 'ZF DevTeam');
+        $address = new Address('api-tools-devteam@zend.com', 'Laminas DevTeam');
         $list->add($address);
-        $list->add('zf-contributors@lists.zend.com');
-        $list->add('fw-announce@lists.zend.com', 'ZF Announce List');
+        $list->add('api-tools-contributors@lists.zend.com');
+        $list->add('fw-announce@lists.zend.com', 'Laminas Announce List');
     }
 
     public function getExpectedFieldValue()
     {
-        return "ZF DevTeam <zf-devteam@zend.com>,\r\n zf-contributors@lists.zend.com,\r\n ZF Announce List <fw-announce@lists.zend.com>";
+        return "Laminas DevTeam <api-tools-devteam@zend.com>,\r\n api-tools-contributors@lists.zend.com,\r\n Laminas Announce List <fw-announce@lists.zend.com>";
     }
 
     /**
@@ -105,11 +103,11 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
     {
         $value = $this->getExpectedFieldValue();
         return array(
-            array('Cc: ' . $value, 'Zend\Mail\Header\Cc'),
-            array('Bcc: ' . $value, 'Zend\Mail\Header\Bcc'),
-            array('From: ' . $value, 'Zend\Mail\Header\From'),
-            array('Reply-To: ' . $value, 'Zend\Mail\Header\ReplyTo'),
-            array('To: ' . $value, 'Zend\Mail\Header\To'),
+            array('Cc: ' . $value, 'Laminas\Mail\Header\Cc'),
+            array('Bcc: ' . $value, 'Laminas\Mail\Header\Bcc'),
+            array('From: ' . $value, 'Laminas\Mail\Header\From'),
+            array('Reply-To: ' . $value, 'Laminas\Mail\Header\ReplyTo'),
+            array('To: ' . $value, 'Laminas\Mail\Header\To'),
         );
     }
 
@@ -123,14 +121,14 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf($class, $header);
         $list = $header->getAddressList();
         $this->assertEquals(3, count($list));
-        $this->assertTrue($list->has('zf-devteam@zend.com'));
-        $this->assertTrue($list->has('zf-contributors@lists.zend.com'));
+        $this->assertTrue($list->has('api-tools-devteam@zend.com'));
+        $this->assertTrue($list->has('api-tools-contributors@lists.zend.com'));
         $this->assertTrue($list->has('fw-announce@lists.zend.com'));
-        $address = $list->get('zf-devteam@zend.com');
-        $this->assertEquals('ZF DevTeam', $address->getName());
-        $address = $list->get('zf-contributors@lists.zend.com');
+        $address = $list->get('api-tools-devteam@zend.com');
+        $this->assertEquals('Laminas DevTeam', $address->getName());
+        $address = $list->get('api-tools-contributors@lists.zend.com');
         $this->assertNull($address->getName());
         $address = $list->get('fw-announce@lists.zend.com');
-        $this->assertEquals('ZF Announce List', $address->getName());
+        $this->assertEquals('Laminas Announce List', $address->getName());
     }
 }

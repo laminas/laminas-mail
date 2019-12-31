@@ -1,22 +1,20 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Mail
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Header;
+namespace Laminas\Mail\Header;
 
-use Zend\Loader\PluginClassLoader;
+use Laminas\Loader\PluginClassLoader;
 
 /**
  * Plugin Class Loader implementation for HTTP headers
  *
- * @category   Zend
- * @package    Zend_Mail
+ * @category   Laminas
+ * @package    Laminas_Mail
  * @subpackage Header
  */
 class HeaderLoader extends PluginClassLoader
@@ -25,23 +23,23 @@ class HeaderLoader extends PluginClassLoader
      * @var array Pre-aliased Header plugins
      */
     protected $plugins = array(
-        'bcc'          => 'Zend\Mail\Header\Bcc',
-        'cc'           => 'Zend\Mail\Header\Cc',
-        'contenttype'  => 'Zend\Mail\Header\ContentType',
-        'content_type' => 'Zend\Mail\Header\ContentType',
-        'content-type' => 'Zend\Mail\Header\ContentType',
-        'date'         => 'Zend\Mail\Header\Date',
-        'from'         => 'Zend\Mail\Header\From',
-        'message-id'   => 'Zend\Mail\Header\MessageId',
-        'mimeversion'  => 'Zend\Mail\Header\MimeVersion',
-        'mime_version' => 'Zend\Mail\Header\MimeVersion',
-        'mime-version' => 'Zend\Mail\Header\MimeVersion',
-        'received'     => 'Zend\Mail\Header\Received',
-        'replyto'      => 'Zend\Mail\Header\ReplyTo',
-        'reply_to'     => 'Zend\Mail\Header\ReplyTo',
-        'reply-to'     => 'Zend\Mail\Header\ReplyTo',
-        'sender'       => 'Zend\Mail\Header\Sender',
-        'subject'      => 'Zend\Mail\Header\Subject',
-        'to'           => 'Zend\Mail\Header\To',
+        'bcc'          => 'Laminas\Mail\Header\Bcc',
+        'cc'           => 'Laminas\Mail\Header\Cc',
+        'contenttype'  => 'Laminas\Mail\Header\ContentType',
+        'content_type' => 'Laminas\Mail\Header\ContentType',
+        'content-type' => 'Laminas\Mail\Header\ContentType',
+        'date'         => 'Laminas\Mail\Header\Date',
+        'from'         => 'Laminas\Mail\Header\From',
+        'message-id'   => 'Laminas\Mail\Header\MessageId',
+        'mimeversion'  => 'Laminas\Mail\Header\MimeVersion',
+        'mime_version' => 'Laminas\Mail\Header\MimeVersion',
+        'mime-version' => 'Laminas\Mail\Header\MimeVersion',
+        'received'     => 'Laminas\Mail\Header\Received',
+        'replyto'      => 'Laminas\Mail\Header\ReplyTo',
+        'reply_to'     => 'Laminas\Mail\Header\ReplyTo',
+        'reply-to'     => 'Laminas\Mail\Header\ReplyTo',
+        'sender'       => 'Laminas\Mail\Header\Sender',
+        'subject'      => 'Laminas\Mail\Header\Subject',
+        'to'           => 'Laminas\Mail\Header\To',
     );
 }
