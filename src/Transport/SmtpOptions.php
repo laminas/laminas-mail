@@ -1,21 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Mail
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Mail\Transport;
+namespace Laminas\Mail\Transport;
 
-use Zend\Mail\Exception;
-use Zend\Stdlib\AbstractOptions;
+use Laminas\Mail\Exception;
+use Laminas\Stdlib\AbstractOptions;
 
 /**
- * @category   Zend
- * @package    Zend_Mail
+ * @category   Laminas
+ * @package    Laminas_Mail
  * @subpackage Transport
  */
 class SmtpOptions extends AbstractOptions
@@ -62,7 +60,7 @@ class SmtpOptions extends AbstractOptions
      *
      * @todo   hostname/IP validation
      * @param  string $name
-     * @throws \Zend\Mail\Exception\InvalidArgumentException
+     * @throws \Laminas\Mail\Exception\InvalidArgumentException
      * @return SmtpOptions
      */
     public function setName($name)
@@ -80,8 +78,8 @@ class SmtpOptions extends AbstractOptions
     /**
      * Get connection class
      *
-     * This should be either the class Zend\Mail\Protocol\Smtp or a class
-     * extending it -- typically a class in the Zend\Mail\Protocol\Smtp\Auth
+     * This should be either the class Laminas\Mail\Protocol\Smtp or a class
+     * extending it -- typically a class in the Laminas\Mail\Protocol\Smtp\Auth
      * namespace.
      *
      * @return string
@@ -95,7 +93,7 @@ class SmtpOptions extends AbstractOptions
      * Set connection class
      *
      * @param  string $connectionClass the value to be set
-     * @throws \Zend\Mail\Exception\InvalidArgumentException
+     * @throws \Laminas\Mail\Exception\InvalidArgumentException
      * @return SmtpOptions
      */
     public function setConnectionClass($connectionClass)
@@ -169,7 +167,7 @@ class SmtpOptions extends AbstractOptions
      * Set the port the SMTP server runs on
      *
      * @param  int $port
-     * @throws \Zend\Mail\Exception\InvalidArgumentException
+     * @throws \Laminas\Mail\Exception\InvalidArgumentException
      * @return SmtpOptions
      */
     public function setPort($port)
