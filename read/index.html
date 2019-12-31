@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Parse, create, store, and send email messages, using a variety of storage and transport protocols.">  
+    <link rel="canonical" href="https://docs.laminas.dev/read/">
+    <link rel="shortcut icon" href="/img/trademark-laminas-foundation-rgb.svg">
+
+    <title>Reading and Storing Mail - laminas-mail - Laminas Docs</title>
+
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body id="page-top" class="components">
+
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        
+        <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+        </a>
+        <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
+            Documentation
+        </a>
+
+        
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
+                </li>
+            </ul>
+
+            
+            
+                <div class="d-block d-sm-none">
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="..">laminas-mail</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item ">
+                                <a href="../intro/" class="subnavigation__link">Introduction</a>
+                            </li>
+                        
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item">
+                                <span class="subnavigation__headline">Reference</span>
+                                <ul class="subnavigation__list">
+                                    
+                                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Messages</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../message/intro/" class="subnavigation__link">Intro and Usage</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../message/attachments/" class="subnavigation__link">Attachments</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../message/character-sets/" class="subnavigation__link">Character Sets</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Transports</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../transport/intro/" class="subnavigation__link">Usage</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">SMTP</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../transport/smtp-options/" class="subnavigation__link">SMTP Options</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../transport/smtp-multiple-send/" class="subnavigation__link">Sending multiple messages</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../transport/smtp-authentication/" class="subnavigation__link">Authentication</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../transport/file-options/" class="subnavigation__link">File Transport Options</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Reading and Storing Mail</a>
+    </li>
+
+                                    
+                                </ul>
+                            </li>
+                        
+                    
+                
+            
+        </ul>
+    </div>
+
+                </div>
+            
+
+            
+            <div class="d-block d-sm-none">
+                <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <header class="header">
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="col-6 offset-md-2">
+                <h1 class="header__title">
+                    Components
+
+                    
+                        <small class="header__subtitle">laminas-mail</small>
+                    
+                </h1>
+            </div>
+
+            
+            <div class="col-4 text-sm-right">
+                
+                    
+
+                    <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                    <a href="https://github.com/laminas/laminas-mail/" class="header__link header__link--github" title="Go to repository of laminas-mail">
+                        <i class="fa fa-github"></i> GitHub
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 col-sm-12">
+                
+    
+
+    
+    
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#basic-pop3-example" class="toc__link">Basic POP3 example</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#using-local-storage-via-mbox-and-maildir" class="toc__link">Using local storage via mbox and maildir</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#using-remote-storage-protocols" class="toc__link">Using remote storage protocols</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#fetching-counting-and-removing-messages" class="toc__link">Fetching, counting, and removing messages</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#working-with-messages" class="toc__link">Working with messages</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#checking-for-flags" class="toc__link">Checking for flags</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#using-folders" class="toc__link">Using folders</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#advanced-use" class="toc__link">Advanced Use</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+            </div>
+            <div class="col-md-7 col-sm-12 content" role="main" data-spy="scroll" data-target=".toc">
+                
+                    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        
+            <li class="breadcrumb-item"><a href="">Overview</a></li>
+
+            
+                <li class="breadcrumb-item"><a href="..">laminas-mail</a></li>
+
+                
+                    
+                        
+                        
+                            <li class="breadcrumb-item">Reference</li>
+                        
+                    
+                
+
+                <li class="breadcrumb-item active" aria-current="page">Reading and Storing Mail</li>
+            
+        
+    </ol>
+</nav>
+
+
+
+
+
+
+    
+    
+        <h2 class="chapter__headline">Reference</h2>
+    
+
+    <h1 id="reading-and-storing-mail">Reading and Storing Mail</h1>
+<p>laminas-mail can read mail messages from several local or remote mail storage
+types. Storage adapters share the same API for counting and fetching messages,
+and some of them implement additional interfaces for less common features. For a
+feature overview of the implemented storages, see the following table.</p>
+<div class="table-responsive"><table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Mbox</th>
+<th>Maildir</th>
+<th>Pop3</th>
+<th>IMAP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Storage type</td>
+<td>local</td>
+<td>local</td>
+<td>remote</td>
+<td>remote</td>
+</tr>
+<tr>
+<td>Fetch message</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Fetch MIME-part</td>
+<td>emulated</td>
+<td>emulated</td>
+<td>emulated</td>
+<td>emulated</td>
+</tr>
+<tr>
+<td>Folders</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Create message/folder</td>
+<td>No</td>
+<td>todo</td>
+<td>No</td>
+<td>todo</td>
+</tr>
+<tr>
+<td>Flags</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Quota</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+</tbody>
+</table></div>
+<p>Storage adapters return instances of <code>Laminas\Mail\Storage\Message</code>, which has a
+different API than <a href="../message/intro/">messages used when sending</a>; the API is
+described in the <a href="#working-with-messages">"Working with messages"</a> section.</p>
+<h2 id="basic-pop3-example">Basic POP3 example</h2>
+<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Storage\Pop3;</span>
+
+<span class=x>$mail = new Pop3([</span>
+<span class=x>    &#39;host&#39;     =&gt; &#39;localhost&#39;,</span>
+<span class=x>    &#39;user&#39;     =&gt; &#39;test&#39;,</span>
+<span class=x>    &#39;password&#39; =&gt; &#39;test&#39;,</span>
+<span class=x>]);</span>
+
+<span class=x>echo $mail-&gt;countMessages() . &quot; messages found\n&quot;;</span>
+<span class=x>foreach ($mail as $message) {</span>
+<span class=x>    printf(&quot;Mail from &#39;%s&#39;: %s\n&quot;, $message-&gt;from, $message-&gt;subject);</span>
+<span class=x>}</span>
+</pre></div></p>
+<h2 id="using-local-storage-via-mbox-and-maildir">Using local storage via mbox and maildir</h2>
+<p>Mbox and Maildir are the two supported formats for local mail storage.</p>
+<p>If you want to read from an mbox file, provide the filename to the constructor
+of <code>Laminas\Mail\Storage\Mbox</code>:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Storage\Mbox;</span>
+
+<span class=x>$mail = new Mbox([&#39;filename&#39; =&gt; &#39;/home/test/mail/inbox&#39;]);</span>
+</pre></div></p>
+<p>Maildir operates similarly, but requires a dirname instead:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Storage\Maildir;</span>
+<span class=x>$mail = new Maildir([&#39;dirname&#39; =&gt; &#39;/home/test/mail/&#39;]);</span>
+</pre></div></p>
+<p>Both constructors throw a <code>Laminas\Mail\Exception</code> if the storage can't be read.</p>
+<h2 id="using-remote-storage-protocols">Using remote storage protocols</h2>
+<p>For remote storage, the two most popular protocols are supported: POP3 and IMAP.
+Both need at least a host and a user to connect and login. The default password
+is an empty string, and the default port for the protocol is used if none is
+provided.</p>
+<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Storage\Imap;</span>
+<span class=x>use Laminas\Mail\Storage\Pop3;</span>
+
+<span class=x>// Connecting with Pop3:</span>
+<span class=x>$mail = new Pop3([</span>
+<span class=x>    &#39;host&#39;     =&gt; &#39;example.com&#39;,</span>
+<span class=x>    &#39;user&#39;     =&gt; &#39;test&#39;,</span>
+<span class=x>    &#39;password&#39; =&gt; &#39;test&#39;,</span>
+<span class=x>]);</span>
+
+<span class=x>// Connecting with Imap:</span>
+<span class=x>$mail = new Imap([</span>
+<span class=x>    &#39;host&#39;     =&gt; &#39;example.com&#39;,</span>
+<span class=x>    &#39;user&#39;     =&gt; &#39;test&#39;,</span>
+<span class=x>    &#39;password&#39; =&gt; &#39;test&#39;,</span>
+<span class=x>]);</span>
+
+<span class=x>// Example of using POP3 on a non-standard port:</span>
+<span class=x>$mail = new Pop3([</span>
+<span class=x>    &#39;host&#39;     =&gt; &#39;example.com&#39;,</span>
+<span class=x>    &#39;port&#39;     =&gt; 1120,</span>
+<span class=x>    &#39;user&#39;     =&gt; &#39;test&#39;,</span>
+<span class=x>    &#39;password&#39; =&gt; &#39;test&#39;,</span>
+<span class=x>]);</span>
+</pre></div></p>
+<p>Both storage adapters support SSL and TLS. If you use SSL, the default port
+changes as specified in the relevant RFC.</p>
+<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Storage\Pop3;</span>
+
+<span class=x>// Examples use Pop3; the same configuration works for Imap.</span>
+
+<span class=x>// Use SSL on a non-standard port (default is 995 for Pop3 and 993 for Imap)</span>
+<span class=x>$mail = new Pop3([</span>
+<span class=x>    &#39;host&#39;     =&gt; &#39;example.com&#39;,</span>
+<span class=x>    &#39;user&#39;     =&gt; &#39;test&#39;,</span>
+<span class=x>    &#39;password&#39; =&gt; &#39;test&#39;,</span>
+<span class=x>    &#39;ssl&#39;      =&gt; &#39;SSL&#39;,</span>
+<span class=x>]);</span>
+
+<span class=x>// use TLS on the default port:</span>
+<span class=x>$mail = new Pop3([</span>
+<span class=x>    &#39;host&#39;     =&gt; &#39;example.com&#39;,</span>
+<span class=x>    &#39;user&#39;     =&gt; &#39;test&#39;,</span>
+<span class=x>    &#39;password&#39; =&gt; &#39;test&#39;,</span>
+<span class=x>    &#39;ssl&#39;      =&gt; &#39;TLS&#39;,</span>
+<span class=x>]);</span>
+</pre></div></p>
+<p>Both constructors throw <code>Laminas\Mail\Exception</code> or <code>Laminas\Mail\Protocol\Exception</code>
+(extends <code>Laminas\Mail\Exception</code>) for connection errors, depending on the type of
+error encountered.</p>
+<h2 id="fetching-counting-and-removing-messages">Fetching, counting, and removing messages</h2>
+<p>Once you have opened the mail storage, you may fetch messages. To do so, you
+need the message number, which is a counter starting with 1 for the first
+message. To fetch the message, you use the method <code>getMessage()</code>:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$message = $mail-&gt;getMessage($messageNum);</span>
+</pre></div></p>
+<p>Array access is also supported, but this access method does not support any
+additional parameters that could be added to <code>getMessage()</code>. As long as you
+don't mind, and can live with the default values, you may use:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$message = $mail[$messageNum];</span>
+</pre></div></p>
+<p>For iterating over all messages the <code>Iterator</code> interface is implemented:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>foreach ($mail as $messageNum =&gt; $message) {</span>
+<span class=x>    // do stuff ...</span>
+<span class=x>}</span>
+</pre></div></p>
+<p>To count the messages in the storage, you can use the method
+<code>countMessages()</code>; alternately, storage adapters implement <code>Countable</code>, allowing
+you to <code>count()</code> the instance.</p>
+<p> <div class=codehilite><pre><span></span><span class=x>// method</span>
+<span class=x>$maxMessage = $mail-&gt;countMessages();</span>
+
+<span class=x>// array access</span>
+<span class=x>$maxMessage = count($mail);</span>
+</pre></div></p>
+<p>To remove a mail, use the method <code>removeMessage()</code>, or rely on array access and
+use <code>unset()</code>:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>// method</span>
+<span class=x>$mail-&gt;removeMessage($messageNum);</span>
+
+<span class=x>// array access</span>
+<span class=x>unset($mail[$messageNum]);</span>
+</pre></div></p>
+<h2 id="working-with-messages">Working with messages</h2>
+<p>After you fetch a message, you can:</p>
+<ul>
+<li>fetch headers</li>
+<li>fetch the message content</li>
+<li>fetch individual parts of multipart messages</li>
+</ul>
+<p>All headers can be accessed as message instance properties or via the method
+<code>getHeader()</code>; use the latter for messages with compound names.  Header names
+are normalized to lowercase internally, but may be fetched using any case
+structure; dash-separated headers may be fetched using camelCase notation. If no
+header matching the name is found, an exception is thrown; use the
+<code>headerExists()</code> method (or <code>isset($message-&gt;headerName)</code>) to test for header
+existence prior to retrieval.</p>
+<p> <div class=codehilite><pre><span></span><span class=x>// get the message object</span>
+<span class=x>$message = $mail-&gt;getMessage(1);</span>
+
+<span class=x>// output subject of message</span>
+<span class=x>echo $message-&gt;subject . &quot;\n&quot;;</span>
+
+<span class=x>// get content-type header</span>
+<span class=x>$type = $message-&gt;contentType;</span>
+
+<span class=x>// check if CC isset:</span>
+<span class=x>if (isset($message-&gt;cc)) { // or $message-&gt;headerExists(&#39;cc&#39;);</span>
+<span class=x>    $cc = $message-&gt;cc;</span>
+<span class=x>}</span>
+</pre></div></p>
+<p>If you have multiple headers with the same name &mdash; e.g. the <code>Received</code>
+headers &mdash; you will want an array of values. Property access always returns
+a string, so use <code>getHeader()</code> instead for these situations:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>// get header as property - the result is always a string,</span>
+<span class=x>// with new lines between each value.</span>
+<span class=x>$received = $message-&gt;received;</span>
+
+<span class=x>// The same via getHeader() method:</span>
+<span class=x>$received = $message-&gt;getHeader(&#39;received&#39;, &#39;string&#39;);</span>
+
+<span class=x>// To retrieve an array of values:</span>
+<span class=x>$received = $message-&gt;getHeader(&#39;received&#39;, &#39;array&#39;);</span>
+<span class=x>foreach ($received as $line) {</span>
+<span class=x>    // do stuff</span>
+<span class=x>}</span>
+
+<span class=x>// If you don&#39;t define a format you&#39;ll get the internal representation</span>
+<span class=x>// (string for single headers, array for multiple):</span>
+<span class=x>$received = $message-&gt;getHeader(&#39;received&#39;);</span>
+<span class=x>if (is_string($received)) {</span>
+<span class=x>    // only one received header found in message</span>
+<span class=x>}</span>
+</pre></div></p>
+<p>The method <code>getHeaders()</code> returns all headers as an array with the lower-cased
+name as the key and the value as an array for multiple headers or as string for
+single headers.</p>
+<p> <div class=codehilite><pre><span></span><span class=x>// dump all headers</span>
+<span class=x>foreach ($message-&gt;getHeaders() as $name =&gt; $value) {</span>
+<span class=x>    if (is_string($value)) {</span>
+<span class=x>        echo &quot;$name: $value\n&quot;;</span>
+<span class=x>        continue;</span>
+<span class=x>    }</span>
+<span class=x>    foreach ($value as $entry) {</span>
+<span class=x>        echo &quot;$name: $entry\n&quot;;</span>
+<span class=x>    }</span>
+<span class=x>}</span>
+</pre></div></p>
+<p>If you don't have a multipart message, fetch the content via <code>getContent()</code>.
+Unlike headers, the content is only fetched when needed (aka late-fetch).</p>
+<p> <div class=codehilite><pre><span></span><span class=x>// output message content for HTML</span>
+<span class=x>echo &#39;&lt;pre&gt;&#39;;</span>
+<span class=x>echo $message-&gt;getContent();</span>
+<span class=x>echo &#39;&lt;/pre&gt;&#39;;</span>
+</pre></div></p>
+<p>Checking for multipart messages is done with the method <code>isMultipart()</code>. If you
+have a multipart message you, can get retrieve the individual
+<code>Laminas\Mail\Storage\Part</code> instances making up the message via the <code>getPart()</code>
+method, which accepts the part index as a parameter (indices start with 1).
+<code>Laminas\Mail\Storage\Part</code> is the base class of <code>Laminas\Mail\Storage\Message</code>, and
+thus exposes the same API with regards to headers, content, and retrieving
+nested parts.</p>
+<p> <div class=codehilite><pre><span></span><span class=x>// get the first non-multipart part</span>
+<span class=x>$part = $message;</span>
+<span class=x>while ($part-&gt;isMultipart()) {</span>
+<span class=x>    $part = $message-&gt;getPart(1);</span>
+<span class=x>}</span>
+<span class=x>echo &#39;Type of this part is &#39; . strtok($part-&gt;contentType, &#39;;&#39;) . &quot;\n&quot;;</span>
+<span class=x>echo &quot;Content:\n&quot;;</span>
+<span class=x>echo $part-&gt;getContent();</span>
+</pre></div></p>
+<p><code>Laminas\Mail\Storage\Part</code> also implements <code>RecursiveIterator</code>, which allows iterating
+through all parts, even when nested. Additionally, it implements the magic
+method <code>__toString()</code>, which returns the content.</p>
+<p> <div class=codehilite><pre><span></span><span class=x>use RecursiveIteratorIterator;</span>
+<span class=x>use Laminas\Mail\Exception;</span>
+
+<span class=x>// output first text/plain part</span>
+<span class=x>$foundPart = null;</span>
+<span class=x>foreach (new RecursiveIteratorIterator($mail-&gt;getMessage(1)) as $part) {</span>
+<span class=x>    try {</span>
+<span class=x>        if (strtok($part-&gt;contentType, &#39;;&#39;) == &#39;text/plain&#39;) {</span>
+<span class=x>            $foundPart = $part;</span>
+<span class=x>            break;</span>
+<span class=x>        }</span>
+<span class=x>    } catch (Exception $e) {</span>
+<span class=x>        // ignore</span>
+<span class=x>    }</span>
+<span class=x>}</span>
+<span class=x>if (! $foundPart) {</span>
+<span class=x>    echo &#39;no plain text part found&#39;;</span>
+<span class=x>} else {</span>
+<span class=x>    echo &quot;plain text part: \n&quot; . $foundPart;</span>
+<span class=x>}</span>
+</pre></div></p>
+<h2 id="checking-for-flags">Checking for flags</h2>
+<p>Maildir and IMAP support storing flags with messages. The <code>Laminas\Mail\Storage</code>
+class defines constants for all known maildir and IMAP system flags, named
+<code>FLAG_&lt;flagname&gt;</code>. To check for flags, <code>Laminas\Mail\Storage\Message</code> has
+a method called <code>hasFlag()</code>. With <code>getFlags()</code> you'll get all flags.</p>
+<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Storage;</span>
+
+<span class=x>// Find unread messages:</span>
+<span class=x>echo &quot;Unread mails:\n&quot;;</span>
+<span class=x>foreach ($mail as $message) {</span>
+<span class=x>    if ($message-&gt;hasFlag(Storage::FLAG_SEEN)) {</span>
+<span class=x>        continue;</span>
+<span class=x>    }</span>
+
+<span class=x>    // mark recent/new mails</span>
+<span class=x>    echo ($message-&gt;hasFlag(Storage::FLAG_RECENT))</span>
+<span class=x>        ? &#39;! &#39;</span>
+<span class=x>        : &#39;  &#39;;</span>
+
+<span class=x>    echo $message-&gt;subject . &quot;\n&quot;;</span>
+<span class=x>}</span>
+
+<span class=x>// Check for known flags</span>
+<span class=x>$flags = $message-&gt;getFlags();</span>
+<span class=x>echo &#39;Message is flagged as: &#39;;</span>
+<span class=x>foreach ($flags as $flag) {</span>
+<span class=x>    switch ($flag) {</span>
+<span class=x>        case Storage::FLAG_ANSWERED:</span>
+<span class=x>            echo &#39;Answered &#39;;</span>
+<span class=x>            break;</span>
+<span class=x>        case Storage::FLAG_FLAGGED:</span>
+<span class=x>            echo &#39;Flagged &#39;;</span>
+<span class=x>            break;</span>
+
+<span class=x>        // ...</span>
+<span class=x>        // check for other flags</span>
+<span class=x>        // ...</span>
+
+<span class=x>        default:</span>
+<span class=x>            echo $flag . &#39;(unknown flag) &#39;;</span>
+<span class=x>    }</span>
+<span class=x>}</span>
+</pre></div></p>
+<p>As IMAP allows user or client defined flags, you could get flags that don't have
+a constant in <code>Laminas\Mail\Storage</code>. Instead, they are returned as strings and can
+be checked the same way with <code>hasFlag()</code>.</p>
+<p> <div class=codehilite><pre><span></span><span class=x>// check message for client defined flags $IsSpam, $SpamTested</span>
+<span class=x>if (! $message-&gt;hasFlag(&#39;$SpamTested&#39;)) {</span>
+<span class=x>    echo &#39;message has not been tested for spam&#39;;</span>
+<span class=x>} elseif ($message-&gt;hasFlag(&#39;$IsSpam&#39;)) {</span>
+<span class=x>    echo &#39;this message is spam&#39;;</span>
+<span class=x>} else {</span>
+<span class=x>    echo &#39;this message is ham&#39;;</span>
+<span class=x>}</span>
+</pre></div></p>
+<h2 id="using-folders">Using folders</h2>
+<p>All storage adapters except POP3 support folders (also called <em>mailboxes</em>). The
+interface implemented by all adapters supporting folders is called
+<code>Laminas\Mail\Storage\Folder\FolderInterface</code>. Each also supports an optional
+configuration parameter called <code>folder</code>, which is the folder selected after
+login.</p>
+<p>For the local storage adapters, you need to use the adapter-specific folder
+classes, <code>Laminas\Mail\Storage\Folder\Mbox</code> and <code>Laminas\Mail\Storage\Folder\Maildir</code>.
+Each accepts a single parameter, <code>dirname</code>, with the name of the base direcor.
+The format for maildir is as defined in
+<a href="https://en.wikipedia.org/wiki/Maildir#Maildir.2B.2B">maildir++</a> (with a dot as
+default delimiter); mbox uses a directory hierarchy of mbox files. If you don't
+have an mbox file called <code>INBOX</code> in your mbox base directory, you need to
+specify another folder via the constructor.</p>
+<p><code>Laminas\Mail\Storage\Imap</code> supports folders by default.</p>
+<p>Examples for opening folders with each adapter:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Storage\Folder;</span>
+<span class=x>use Laminas\Mail\Storage\Imap;</span>
+
+<span class=x>// mbox with folders:</span>
+<span class=x>$mail = new Folder\Mbox([&#39;dirname&#39; =&gt; &#39;/home/test/mail/&#39;]);</span>
+
+<span class=x>// mbox with a default folder not called INBOX; also works</span>
+<span class=x>// with the maildir and IMAP implementations.</span>
+<span class=x>$mail = new Folder\Mbox([</span>
+<span class=x>    &#39;dirname&#39; =&gt; &#39;/home/test/mail/&#39;,</span>
+<span class=x>    &#39;folder&#39;  =&gt; &#39;Archive&#39;,</span>
+<span class=x>]);</span>
+
+<span class=x>// maildir with folders:</span>
+<span class=x>$mail = new Folder\Maildir([&#39;dirname&#39; =&gt; &#39;/home/test/mail/&#39;]);</span>
+
+<span class=x>// maildir with colon as delimiter, as suggested in Maildir++:</span>
+<span class=x>$mail = new Folder\Maildir([</span>
+<span class=x>    &#39;dirname&#39; =&gt; &#39;/home/test/mail/&#39;,</span>
+<span class=x>    &#39;delim&#39;   =&gt; &#39;:&#39;,</span>
+<span class=x>]);</span>
+
+<span class=x>// IMAP is the same with and without folders:</span>
+<span class=x>$mail = new Imap([</span>
+<span class=x>    &#39;host&#39;     =&gt; &#39;example.com&#39;,</span>
+<span class=x>    &#39;user&#39;     =&gt; &#39;test&#39;,</span>
+<span class=x>    &#39;password&#39; =&gt; &#39;test&#39;,</span>
+<span class=x>]);</span>
+</pre></div></p>
+<p>With the method <code>getFolders($root = null)</code>, you can get the folder hierarchy
+starting with the root folder, or the given folder. The method returns an
+instance of <code>Laminas\Mail\Storage\Folder</code>, which implements <code>RecursiveIterator</code>,
+and all children are also instances of <code>Folder</code>. Each of these instances has a
+local and a global name returned by the methods <code>getLocalName()</code> and
+<code>getGlobalName()</code>. The global name is the absolute name from the root folder
+(including delimiters); the local name is the name in the parent folder.</p>
+<p>If you use the iterator, the key of the current element is the local name. The
+global name is also returned by the magic method <code>__toString()</code>. Some folders
+may not be selectable, which means they can't store messages; selecting them
+results in an error. This can be checked with the method <code>isSelectable()</code>.</p>
+<p>The following demonstrates providing a tree view of a folder:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>use RecursiveIteratorIterator;</span>
+
+<span class=x>$folders = new RecursiveIteratorIterator(</span>
+<span class=x>    $this-&gt;mail-&gt;getFolders(),</span>
+<span class=x>    RecursiveIteratorIterator::SELF_FIRST</span>
+<span class=x>);</span>
+
+<span class=x>echo &#39;&lt;select name=&quot;folder&quot;&gt;&#39;;</span>
+<span class=x>foreach ($folders as $localName =&gt; $folder) {</span>
+<span class=x>    $localName = str_pad(&#39;&#39;, $folders-&gt;getDepth(), &#39;-&#39;, STR_PAD_LEFT)</span>
+<span class=x>        .  $localName;</span>
+<span class=x>    echo &#39;&lt;option&#39;;</span>
+
+<span class=x>    if (! $folder-&gt;isSelectable()) {</span>
+<span class=x>        echo &#39; disabled=&quot;disabled&quot;&#39;;</span>
+<span class=x>    }</span>
+
+<span class=x>    printf(</span>
+<span class=x>        &#39; value=&quot;%s&quot;&gt;%s&lt;/option&gt;&#39;,</span>
+<span class=x>        htmlspecialchars($folder),</span>
+<span class=x>        htmlspecialchars($localName)</span>
+<span class=x>    );</span>
+<span class=x>}</span>
+<span class=x>echo &#39;&lt;/select&gt;&#39;;</span>
+</pre></div></p>
+<p>The current selected folder is returned by the method <code>getSelectedFolder()</code>.
+Changing the folder is done with the method <code>selectFolder()</code>, which needs the
+<em>global name</em> as a parameter. If you want to avoid writing delimiters, you can
+also use the properties of a <code>Folder</code> instance:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>// depending on your mail storage and its settings $rootFolder-&gt;Archive-&gt;2005</span>
+<span class=x>// is the same as:</span>
+<span class=x>//  /Archive/2005</span>
+<span class=x>//  Archive:2005</span>
+<span class=x>//  INBOX.Archive.2005</span>
+<span class=x>//  ...</span>
+<span class=x>$folder = $mail-&gt;getFolders()-&gt;Archive-&gt;2005;</span>
+<span class=x>printf(&quot;Last folder was %s; new folder is %s\n&quot;, $mail-&gt;getSelectedFolder(), $folder);</span>
+<span class=x>$mail-&gt;selectFolder($folder);</span>
+</pre></div></p>
+<h2 id="advanced-use">Advanced Use</h2>
+<h3>Using NOOP</h3>
+<p>If you're using a remote storage and have some long tasks, you might need to
+keep the connection alive via noop:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>foreach ($mail as $message) {</span>
+
+<span class=x>    // do some calculations ...</span>
+
+<span class=x>    $mail-&gt;noop(); // keep alive</span>
+
+<span class=x>    // do something else ...</span>
+
+<span class=x>    $mail-&gt;noop(); // keep alive</span>
+<span class=x>}</span>
+</pre></div></p>
+<h3>Caching instances</h3>
+<p><code>Laminas\Mail\Storage\Mbox</code>, <code>Laminas\Mail\Storage\Folder\Mbox</code>,
+<code>Laminas\Mail\Storage\Maildir</code>, and <code>Laminas\Mail\Storage\Folder\Maildir</code> implement the
+magic methods <code>__sleep()</code> and <code>__wakeup()</code>, which means they are serializable.</p>
+<p>Serialization avoids parsing files and directory trees multiple times. The
+disadvantage is that your mbox or maildir storage should not change; as such,
+its best used with static storage.</p>
+<p>You can combine serialization with writable storage in a number of ways:</p>
+<ul>
+<li>Check the current mbox file for modification time changes.</li>
+<li>Reparse the folder structure if a folder has vanished (which still results in
+  an error, but you can search for another folder afterwards).</li>
+<li>Create a signal file whenever a change is made; check for that signal file,
+  reparse if present, and remove it afterwards.</li>
+</ul>
+<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Storage\Folder\Mbox;</span>
+
+<span class=x>// There&#39;s no specific cache handler/class used here,</span>
+<span class=x>// change the code to match your cache handler.</span>
+<span class=x>$signalFile  = &#39;/home/test/.mail.last_change&#39;;</span>
+<span class=x>$mboxBasedir = &#39;/home/test/mail/&#39;;</span>
+<span class=x>$cacheId     = &#39;example mail cache &#39; . $mboxBasedir . $signalFile;</span>
+<span class=x>$cache       = new Cache();</span>
+<span class=x>$hasCache    = ($cache-&gt;has($cacheId)</span>
+<span class=x>    &amp;&amp; filemtime($signalFile) &lt;= $cache-&gt;getMTime($cacheId)</span>
+<span class=x>);</span>
+
+<span class=x>$mail        = $hasCache</span>
+<span class=x>    ? $cache-&gt;get($cacheId)</span>
+<span class=x>    : new Mbox([&#39;dirname&#39; =&gt; $mboxBasedir]);</span>
+
+<span class=x>// do stuff ...</span>
+
+<span class=x>// Cache when done</span>
+<span class=x>$cache-&gt;set($cacheId, $mail);</span>
+</pre></div></p>
+<h3>Extending Protocol Classes</h3>
+<p>Remote storage adapters use two classes: <code>Laminas\Mail\Storage\&lt;Name&gt;</code> and
+<code>Laminas\Mail\Protocol\&lt;Name&gt;</code>. The protocol class translates the protocol commands
+and responses from and to PHP, like methods for the commands or variables with
+different structures for data. The storage class implements the common
+interface for message access.</p>
+<p>If you need additional protocol features, you can extend the protocol class and
+use it in the constructor of the main class. As an example, assume we need to
+knock different ports before we can connect to POP3.</p>
+<p> <div class=codehilite><pre><span></span><span class=x>namespace Example\Mail</span>
+<span class=x>{</span>
+<span class=x>    use Laminas\Mail;</span>
+
+<span class=x>    class Exception extends Mail\Exception</span>
+<span class=x>    {</span>
+<span class=x>    }</span>
+<span class=x>}</span>
+
+<span class=x>namespace Example\Mail\Protocol</span>
+<span class=x>{</span>
+<span class=x>    use Laminas\Mail\Protocol;</span>
+
+<span class=x>    class Exception extends Protocol\Exception</span>
+<span class=x>    {</span>
+<span class=x>    }</span>
+<span class=x>}</span>
+
+<span class=x>namespace Example\Mail\Protocol\Pop3</span>
+<span class=x>{</span>
+<span class=x>    use Laminas\Mail\Protocol\Pop3;</span>
+
+<span class=x>    class Knock extends Pop3</span>
+<span class=x>    {</span>
+<span class=x>        private $host</span>
+
+<span class=x>        private $port;</span>
+
+<span class=x>        public function __construct($host, $port = null)</span>
+<span class=x>        {</span>
+<span class=x>            // no auto connect in this class</span>
+<span class=x>            $this-&gt;host = $host;</span>
+<span class=x>            $this-&gt;port = $port;</span>
+<span class=x>        }</span>
+
+<span class=x>        public function knock($port)</span>
+<span class=x>        {</span>
+<span class=x>            $sock = @fsockopen($this-&gt;host, $port);</span>
+<span class=x>            if ($sock) {</span>
+<span class=x>                fclose($sock);</span>
+<span class=x>            }</span>
+<span class=x>        }</span>
+
+<span class=x>        public function connect($host = null, $port = null, $ssl = false)</span>
+<span class=x>        {</span>
+<span class=x>            if ($host === null) {</span>
+<span class=x>                $host = $this-&gt;host;</span>
+<span class=x>            }</span>
+<span class=x>            if ($port === null) {</span>
+<span class=x>                $port = $this-&gt;port;</span>
+<span class=x>            }</span>
+<span class=x>            parent::connect($host, $port);</span>
+<span class=x>        }</span>
+<span class=x>    }</span>
+<span class=x>}</span>
+
+<span class=x>namespace Example\Mail\Pop3</span>
+<span class=x>{</span>
+<span class=x>    use Example\Mail\Protoco\Pop3\Knock as KnockProtocol;</span>
+<span class=x>    use Laminas\Mail\Storage\Pop3;</span>
+
+<span class=x>    class Knock extends Pop3</span>
+<span class=x>    {</span>
+<span class=x>        public function __construct(array $params)</span>
+<span class=x>        {</span>
+<span class=x>            // ... check $params here! ...</span>
+<span class=x>            $protocol = new KnockProtocol($params[&#39;host&#39;]);</span>
+
+<span class=x>            // do our &quot;special&quot; thing</span>
+<span class=x>            foreach ((array) $params[&#39;knock_ports&#39;] as $port) {</span>
+<span class=x>                $protocol-&gt;knock($port);</span>
+<span class=x>            }</span>
+
+<span class=x>            // get to correct state</span>
+<span class=x>            $protocol-&gt;connect($params[&#39;host&#39;], $params[&#39;port&#39;]);</span>
+<span class=x>            $protocol-&gt;login($params[&#39;user&#39;], $params[&#39;password&#39;]);</span>
+
+<span class=x>            // initialize parent</span>
+<span class=x>            parent::__construct($protocol);</span>
+<span class=x>        }</span>
+<span class=x>    }</span>
+<span class=x>}</span>
+
+<span class=x>$mail = new Example\Mail\Pop3\Knock([</span>
+<span class=x>    &#39;host&#39;        =&gt; &#39;localhost&#39;,</span>
+<span class=x>    &#39;user&#39;        =&gt; &#39;test&#39;,</span>
+<span class=x>    &#39;password&#39;    =&gt; &#39;test&#39;,</span>
+<span class=x>    &#39;knock_ports&#39; =&gt; [1101, 1105, 1111],</span>
+<span class=x>]);</span>
+</pre></div></p>
+<p>The above assumes a connection is made; when connected, it logs in and, if
+supported, selects a folder as provided to the constructor.  When defining your
+own protocol class, make sure that's done or the next method will fail if the
+server doesn't allow it in the current state.</p>
+<h3>Using Quotas</h3>
+<p><code>Laminas\Mail\Storage\Writable\Maildir</code> has support for Maildir++ quotas. It's
+disabled by default, but it's possible to use it manually, if the automatic
+checks are not desired (this means <code>appendMessage()</code>, <code>removeMessage()</code>, and
+<code>copyMessage()</code> do no checks and do not add entries to the maildirsize file). If
+enabled, an exception is thrown if you try to write to the maildir and it's
+already over quota.</p>
+<p>There are three methods used for quotas: <code>getQuota()</code>, <code>setQuota()</code>, and
+<code>checkQuota()</code>:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Storage\Writable\Maildir;</span>
+
+<span class=x>$mail = new Maildir([&#39;dirname&#39; =&gt; &#39;/home/test/mail/&#39;]);</span>
+<span class=x>$mail-&gt;setQuota(true); // true to enable, false to disable</span>
+
+<span class=x>printf(&quot;Quota check is now %s\n&quot;, $mail-&gt;getQuota() ? &#39;enabled&#39; : &#39;disabled&#39;);</span>
+
+<span class=x>// Check quota can be used even if quota checks are disabled:</span>
+<span class=x>printf(&quot;You are %sover quota\n&quot;, $mail-&gt;checkQuota() ? &#39;&#39; : &#39;not &#39;);</span>
+</pre></div></p>
+<p><code>checkQuota()</code> can also return a more detailed response by passing a boolean
+<code>true</code> argument:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$quota = $mail-&gt;checkQuota(true);</span>
+<span class=x>printf(&quot;You are %sover quota\n&quot;, $quota[&#39;over_quota&#39;] ? &#39;&#39; : &#39;not &#39;);</span>
+<span class=x>printf(</span>
+<span class=x>    &quot;You have %d of %d messages and use %d of %d octets\n&quot;,</span>
+<span class=x>    $quota[&#39;count&#39;],</span>
+<span class=x>    $quota[&#39;quota&#39;][&#39;count&#39;],</span>
+<span class=x>    $quota[&#39;size&#39;],</span>
+<span class=x>    $quota[&#39;quota&#39;][&#39;size&#39;]</span>
+<span class=x>);</span>
+</pre></div></p>
+<p>If you want to specify your own quota instead of using the one specified in the
+maildirsize file, you can do with <code>setQuota()</code>:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>// Message count and octet size supported; order does matter.</span>
+<span class=x>$quota = $mail-&gt;setQuota([&#39;size&#39; =&gt; 10000, &#39;count&#39; =&gt; 100]);</span>
+</pre></div></p>
+<p>To add your own quota checks, use single letters as keys, and they will be
+preserved (but obviously not checked). It's also possible to extend
+<code>Laminas\Mail\Storage\Writable\Maildir</code> to define your own quota if the maildirsize
+file is missing (which can happen in Maildir++):</p>
+<p> <div class=codehilite><pre><span></span><span class=x>namespace Example\Mail\Storage;</span>
+
+<span class=x>use Laminas\Mail\Storage\Exception;</span>
+<span class=x>use Laminas\Mail\Storage\Writable\Maildir as BaseMaildir;</span>
+
+<span class=x>class Maildir extends BaseMaildir</span>
+<span class=x>{</span>
+<span class=x>    /**</span>
+<span class=x>     * getQuota is called with $fromStorage = true by quota checks.</span>
+<span class=x>     *</span>
+<span class=x>     * @param bool $fromStorage</span>
+<span class=x>     * @return bool|array</span>
+<span class=x>     */</span>
+<span class=x>    public function getQuota($fromStorage = false) {</span>
+<span class=x>        try {</span>
+<span class=x>            return parent::getQuota($fromStorage);</span>
+<span class=x>        } catch (Exception $e) {</span>
+<span class=x>            if (! $fromStorage) {</span>
+<span class=x>                // unknown error:</span>
+<span class=x>                throw $e;</span>
+<span class=x>            }</span>
+
+<span class=x>            // maildirsize file must be missing</span>
+<span class=x>            list($count, $size) = get_quota_from_somewhere_else();</span>
+<span class=x>            return [&#39;count&#39; =&gt; $count, &#39;size&#39; =&gt; $size];</span>
+<span class=x>        }</span>
+<span class=x>    }</span>
+<span class=x>}</span>
+</pre></div></p>
+
+
+
+
+    <nav>
+    <ul class="page-nav hidden-print">
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../transport/file-options/">
+                    <i class="fa fa-chevron-left"></i> Previous
+                </a>
+            
+        </li>
+
+        
+        <li class="page-nav__item">
+            
+        </li>
+    </ul>
+</nav>
+
+
+
+
+    <div class="help-wanted">
+        <p>
+            Found a mistake or want to contribute to the documentation?
+            <a href="https://github.com/laminas/laminas-mail/edit/master/docs/book/read.md" target="_blank" class="help-wanted__link">
+                Edit this page on GitHub!
+            </a>
+        </p>
+    </div>
+
+                
+            </div>
+            <div class="col-md-3 col-sm-12 sidebar">
+                
+                    <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="..">laminas-mail</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item ">
+                                <a href="../intro/" class="subnavigation__link">Introduction</a>
+                            </li>
+                        
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item">
+                                <span class="subnavigation__headline">Reference</span>
+                                <ul class="subnavigation__list">
+                                    
+                                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Messages</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../message/intro/" class="subnavigation__link">Intro and Usage</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../message/attachments/" class="subnavigation__link">Attachments</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../message/character-sets/" class="subnavigation__link">Character Sets</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Transports</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../transport/intro/" class="subnavigation__link">Usage</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">SMTP</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../transport/smtp-options/" class="subnavigation__link">SMTP Options</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../transport/smtp-multiple-send/" class="subnavigation__link">Sending multiple messages</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../transport/smtp-authentication/" class="subnavigation__link">Authentication</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../transport/file-options/" class="subnavigation__link">File Transport Options</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Reading and Storing Mail</a>
+    </li>
+
+                                    
+                                </ul>
+                            </li>
+                        
+                    
+                
+            
+        </ul>
+    </div>
+
+                
+            </div>
+        </div>
+    </div>
+
+    
+    <footer class="footer">
+    <div class="container">
+
+        
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <a class="footer__button" href="#page-top"><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-7 offset-md-2">
+                <h5>Laminas</h5>
+                <ul>
+                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
+                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+
+            
+            <div class="col-md-4 offset-md-2">
+                <h4 class="footer__headline">Support</h4>
+                <ul class="support__list">
+                    <li class="support__list-item">
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://laminas.dev/chat" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://github.com/laminas" class="support__link" title="Github"><i class="fa fa-github"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://twitter.com/getlaminas" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
+                    </li>
+                </ul>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">License</h4>
+                <p>
+                    Code licensed under <a
+                        href="https://github.com/laminas/laminas-mail//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                </p>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">Copyright</h4>
+                <p>
+                    <!--Built with love by the Laminas team with the help of our
+                    <a href="https://github.com/laminas/laminas-mail//graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        let base_url = '..',
+            project  = "components",
+            siteName = 'laminas-mail';
+    </script>
+    <script src="/js/scripts.js"></script>
+        <script src="../search/main.js"></script>
+
+    
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Search</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search in laminas-mail" id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+
+</html>

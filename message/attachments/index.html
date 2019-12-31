@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Parse, create, store, and send email messages, using a variety of storage and transport protocols.">  
+    <link rel="canonical" href="https://docs.laminas.dev/message/attachments/">
+    <link rel="shortcut icon" href="/img/trademark-laminas-foundation-rgb.svg">
+
+    <title>Attachments - laminas-mail - Laminas Docs</title>
+
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body id="page-top" class="components">
+
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        
+        <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
+            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+        </a>
+        <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
+            Documentation
+        </a>
+
+        
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
+                </li>
+            </ul>
+
+            
+            
+                <div class="d-block d-sm-none">
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="../..">laminas-mail</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item ">
+                                <a href="../../intro/" class="subnavigation__link">Introduction</a>
+                            </li>
+                        
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item">
+                                <span class="subnavigation__headline">Reference</span>
+                                <ul class="subnavigation__list">
+                                    
+                                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Messages</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../intro/" class="subnavigation__link">Intro and Usage</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Attachments</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../character-sets/" class="subnavigation__link">Character Sets</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Transports</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../transport/intro/" class="subnavigation__link">Usage</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">SMTP</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../transport/smtp-options/" class="subnavigation__link">SMTP Options</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../transport/smtp-multiple-send/" class="subnavigation__link">Sending multiple messages</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../transport/smtp-authentication/" class="subnavigation__link">Authentication</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../transport/file-options/" class="subnavigation__link">File Transport Options</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../../read/" class="subnavigation__link">Reading and Storing Mail</a>
+    </li>
+
+                                    
+                                </ul>
+                            </li>
+                        
+                    
+                
+            
+        </ul>
+    </div>
+
+                </div>
+            
+
+            
+            <div class="d-block d-sm-none">
+                <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <header class="header">
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="col-6 offset-md-2">
+                <h1 class="header__title">
+                    Components
+
+                    
+                        <small class="header__subtitle">laminas-mail</small>
+                    
+                </h1>
+            </div>
+
+            
+            <div class="col-4 text-sm-right">
+                
+                    
+
+                    <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                    <a href="https://github.com/laminas/laminas-mail/" class="header__link header__link--github" title="Go to repository of laminas-mail">
+                        <i class="fa fa-github"></i> GitHub
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 col-sm-12">
+                
+    
+
+    
+    
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#basic-multipart-content" class="toc__link">Basic multipart content</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#multipartalternative-content" class="toc__link">multipart/alternative content</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#multipartalternative-emails-with-attachments" class="toc__link">multipart/alternative emails with attachments</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#setting-custom-mime-boundaries" class="toc__link">Setting custom MIME boundaries</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+            </div>
+            <div class="col-md-7 col-sm-12 content" role="main" data-spy="scroll" data-target=".toc">
+                
+                    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        
+            <li class="breadcrumb-item"><a href="">Overview</a></li>
+
+            
+                <li class="breadcrumb-item"><a href="../..">laminas-mail</a></li>
+
+                
+                    
+                        
+                        
+                            <li class="breadcrumb-item">Reference</li>
+                        
+                    
+                
+                    
+                        
+                        
+                            <li class="breadcrumb-item">Messages</li>
+                        
+                    
+                
+
+                <li class="breadcrumb-item active" aria-current="page">Attachments</li>
+            
+        
+    </ol>
+</nav>
+
+
+
+
+
+
+    
+    
+        <h2 class="chapter__headline">Messages</h2>
+    
+
+    <h1 id="adding-attachments">Adding Attachments</h1>
+<p>laminas-mail does not directly provide the ability to create and use mail
+attachments. However, it allows using <code>Laminas\Mime\Message</code> instances, from the
+<a href="https://github.com/laminas/laminas-mime">laminas-mime</a> component, for message
+bodies, allowing you to create multipart emails.</p>
+<h2 id="basic-multipart-content">Basic multipart content</h2>
+<p>The following example creates an email with two parts, HTML content and an
+image.</p>
+<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Message;</span>
+<span class=x>use Laminas\Mime\Message as MimeMessage;</span>
+<span class=x>use Laminas\Mime\Mime;</span>
+<span class=x>use Laminas\Mime\Part as MimePart;</span>
+
+<span class=x>$html = new MimePart($htmlMarkup);</span>
+<span class=x>$html-&gt;type = Mime::TYPE_HTML;</span>
+<span class=x>$html-&gt;charset = &#39;utf-8&#39;;</span>
+<span class=x>$html-&gt;encoding = Mime::ENCODING_QUOTEDPRINTABLE;</span>
+
+<span class=x>$image = new MimePart(fopen($pathToImage, &#39;r&#39;));</span>
+<span class=x>$image-&gt;type = &#39;image/jpeg&#39;;</span>
+<span class=x>$image-&gt;filename = &#39;image-file-name.jpg&#39;;</span>
+<span class=x>$image-&gt;disposition = Mime::DISPOSITION_ATTACHMENT;</span>
+<span class=x>$image-&gt;encoding = Mime::ENCODING_BASE64;</span>
+
+<span class=x>$body = new MimeMessage();</span>
+<span class=x>$body-&gt;setParts([$html, $image]);</span>
+
+<span class=x>$message = new Message();</span>
+<span class=x>$message-&gt;setBody($body);</span>
+
+<span class=x>$contentTypeHeader = $message-&gt;getHeaders()-&gt;get(&#39;Content-Type&#39;);</span>
+<span class=x>$contentTypeHeader-&gt;setType(&#39;multipart/related&#39;);</span>
+</pre></div></p>
+<p>Note that the above code requires us to manually specify the message content
+type; laminas-mime does not automatically select the multipart type for us, nor
+does laminas-mail populate it by default.</p>
+<h2 id="multipartalternative-content">multipart/alternative content</h2>
+<p>One of the most common email types sent by web applications is
+<code>multipart/alternative</code> messages with both text and HTML parts.</p>
+<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Message;</span>
+<span class=x>use Laminas\Mime\Message as MimeMessage;</span>
+<span class=x>use Laminas\Mime\Mime;</span>
+<span class=x>use Laminas\Mime\Part as MimePart;</span>
+
+<span class=x>$text = new MimePart($textContent);</span>
+<span class=x>$text-&gt;type = Mime::TYPE_TEXT;</span>
+<span class=x>$text-&gt;charset = &#39;utf-8&#39;;</span>
+<span class=x>$text-&gt;encoding = Mime::ENCODING_QUOTEDPRINTABLE;</span>
+
+<span class=x>$html = new MimePart($htmlMarkup);</span>
+<span class=x>$html-&gt;type = Mime::TYPE_HTML;</span>
+<span class=x>$html-&gt;charset = &#39;utf-8&#39;;</span>
+<span class=x>$html-&gt;encoding = Mime::ENCODING_QUOTEDPRINTABLE;</span>
+
+<span class=x>$body = new MimeMessage();</span>
+<span class=x>$body-&gt;setParts([$text, $html]);</span>
+
+<span class=x>$message = new Message();</span>
+<span class=x>$message-&gt;setBody($body);</span>
+
+<span class=x>$contentTypeHeader = $message-&gt;getHeaders()-&gt;get(&#39;Content-Type&#39;);</span>
+<span class=x>$contentTypeHeader-&gt;setType(&#39;multipart/alternative&#39;);</span>
+</pre></div></p>
+<p>The only differences from the first example are:</p>
+<ul>
+<li>We have text and HTML parts instead of an HTML and image part.</li>
+<li>The <code>Content-Type</code> header is now <code>multipart/alternative</code>.</li>
+</ul>
+<h2 id="multipartalternative-emails-with-attachments">multipart/alternative emails with attachments</h2>
+<p>Another common task is creating <code>multipart/alternative</code> emails where the HTML
+content refers to assets attachments (images, CSS, etc.).</p>
+<p>To accomplish this, we need to:</p>
+<ul>
+<li>Create a <code>Laminas\Mime\Part</code> instance containing our <code>multipart/alternative</code>
+  message.</li>
+<li>Add that part to a <code>Laminas\Mime\Message</code>.</li>
+<li>Add additional <code>Laminas\Mime\Part</code> instances to the MIME message.</li>
+<li>Attach the MIME message as the <code>Laminas\Mail\Message</code> content body.</li>
+<li>Mark the message as <code>multipart/related</code> content.</li>
+</ul>
+<p>The following example creates a MIME message with three parts: text and HTML
+alternative versions of an email, and an image attachment.</p>
+<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Message;</span>
+<span class=x>use Laminas\Mime\Message as MimeMessage;</span>
+<span class=x>use Laminas\Mime\Mime;</span>
+<span class=x>use Laminas\Mime\Part as MimePart;</span>
+
+<span class=x>$body = new MimeMessage();</span>
+
+<span class=x>$text           = new MimePart($textContent);</span>
+<span class=x>$text-&gt;type     = Mime::TYPE_TEXT;</span>
+<span class=x>$text-&gt;charset  = &#39;utf-8&#39;;</span>
+<span class=x>$text-&gt;encoding = Mime::ENCODING_QUOTEDPRINTABLE;</span>
+
+<span class=x>$html           = new MimePart($htmlMarkup);</span>
+<span class=x>$html-&gt;type     = Mime::TYPE_HTML;</span>
+<span class=x>$html-&gt;charset  = &#39;utf-8&#39;;</span>
+<span class=x>$html-&gt;encoding = Mime::ENCODING_QUOTEDPRINTABLE;</span>
+
+<span class=x>$content = new MimeMessage();</span>
+<span class=x>// This order is important for email clients to properly display the correct version of the content</span>
+<span class=x>$content-&gt;setParts([$text, $html]);</span>
+
+<span class=x>$contentPart = new MimePart($content-&gt;generateMessage());</span>
+
+<span class=x>$image              = new MimePart(fopen($pathToImage, &#39;r&#39;));</span>
+<span class=x>$image-&gt;type        = &#39;image/jpeg&#39;;</span>
+<span class=x>$image-&gt;filename    = &#39;image-file-name.jpg&#39;;</span>
+<span class=x>$image-&gt;disposition = Mime::DISPOSITION_ATTACHMENT;</span>
+<span class=x>$image-&gt;encoding    = Mime::ENCODING_BASE64;</span>
+
+<span class=x>$body = new MimeMessage();</span>
+<span class=x>$body-&gt;setParts([$contentPart, $image]);</span>
+
+<span class=x>$message = new Message();</span>
+<span class=x>$message-&gt;setBody($body);</span>
+
+<span class=x>$contentTypeHeader = $message-&gt;getHeaders()-&gt;get(&#39;Content-Type&#39;);</span>
+<span class=x>$contentTypeHeader-&gt;setType(&#39;multipart/related&#39;);</span>
+</pre></div></p>
+<h2 id="setting-custom-mime-boundaries">Setting custom MIME boundaries</h2>
+<p>In a multipart message, a MIME boundary for separating the different parts of
+the message is normally generated at random. In some cases, however, you might
+want to specify the MIME boundary that is used. This can be done by injecting a
+new <code>Laminas\Mime\Mime</code> instance into the MIME message.</p>
+<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mime\Mime;</span>
+
+<span class=x>$mimeMessage-&gt;setMime(new Mime($customBoundary));</span>
+</pre></div></p>
+
+
+
+
+    <nav>
+    <ul class="page-nav hidden-print">
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../intro/">
+                    <i class="fa fa-chevron-left"></i> Previous
+                </a>
+            
+        </li>
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../character-sets/">
+                    Next <i class="fa fa-chevron-right"></i>
+                </a>
+            
+        </li>
+    </ul>
+</nav>
+
+
+
+
+    <div class="help-wanted">
+        <p>
+            Found a mistake or want to contribute to the documentation?
+            <a href="https://github.com/laminas/laminas-mail/edit/master/docs/book/message/attachments.md" target="_blank" class="help-wanted__link">
+                Edit this page on GitHub!
+            </a>
+        </p>
+    </div>
+
+                
+            </div>
+            <div class="col-md-3 col-sm-12 sidebar">
+                
+                    <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="../..">laminas-mail</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item ">
+                                <a href="../../intro/" class="subnavigation__link">Introduction</a>
+                            </li>
+                        
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item">
+                                <span class="subnavigation__headline">Reference</span>
+                                <ul class="subnavigation__list">
+                                    
+                                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Messages</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../intro/" class="subnavigation__link">Intro and Usage</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Attachments</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../character-sets/" class="subnavigation__link">Character Sets</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Transports</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../transport/intro/" class="subnavigation__link">Usage</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">SMTP</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../transport/smtp-options/" class="subnavigation__link">SMTP Options</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../transport/smtp-multiple-send/" class="subnavigation__link">Sending multiple messages</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../transport/smtp-authentication/" class="subnavigation__link">Authentication</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../transport/file-options/" class="subnavigation__link">File Transport Options</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../../read/" class="subnavigation__link">Reading and Storing Mail</a>
+    </li>
+
+                                    
+                                </ul>
+                            </li>
+                        
+                    
+                
+            
+        </ul>
+    </div>
+
+                
+            </div>
+        </div>
+    </div>
+
+    
+    <footer class="footer">
+    <div class="container">
+
+        
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <a class="footer__button" href="#page-top"><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-7 offset-md-2">
+                <h5>Laminas</h5>
+                <ul>
+                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
+                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+
+            
+            <div class="col-md-4 offset-md-2">
+                <h4 class="footer__headline">Support</h4>
+                <ul class="support__list">
+                    <li class="support__list-item">
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://laminas.dev/chat" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://github.com/laminas" class="support__link" title="Github"><i class="fa fa-github"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://twitter.com/getlaminas" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
+                    </li>
+                </ul>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">License</h4>
+                <p>
+                    Code licensed under <a
+                        href="https://github.com/laminas/laminas-mail//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                </p>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">Copyright</h4>
+                <p>
+                    <!--Built with love by the Laminas team with the help of our
+                    <a href="https://github.com/laminas/laminas-mail//graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        let base_url = '../..',
+            project  = "components",
+            siteName = 'laminas-mail';
+    </script>
+    <script src="/js/scripts.js"></script>
+        <script src="../../search/main.js"></script>
+
+    
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Search</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search in laminas-mail" id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+
+</html>
