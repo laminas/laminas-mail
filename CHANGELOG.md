@@ -19,7 +19,7 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Fixed
 
 - Fixes the [ZF2016-04 advisory](https://framework.zend.com/security/advisory/ZF2016-04)
-  ("Potential remote code execution in zend-mail via Sendmail adapter").
+  ("Potential remote code execution in laminas-mail via Sendmail adapter").
 
 ## 2.4.10 - 2016-05-09
 
@@ -37,8 +37,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#28](https://github.com/zendframework/zend-mail/pull/28) and
-  [#87](https://github.com/zendframework/zend-mail/pull/87) fix header value
+- [zendframework/zend-mail#28](https://github.com/zendframework/zend-mail/pull/28) and
+  [zendframework/zend-mail#87](https://github.com/zendframework/zend-mail/pull/87) fix header value
   validation when headers wrap using the sequence \r\n\t; prior to this release,
   such sequences incorrectly marked a header value invalid.
 
@@ -58,11 +58,11 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#26](https://github.com/zendframework/zend-mail/pull/26) fixes the
+- [zendframework/zend-mail#26](https://github.com/zendframework/zend-mail/pull/26) fixes the
   `ContentType` header to properly handle parameters with encoded values.
-- [#11](https://github.com/zendframework/zend-mail/pull/11) fixes the
+- [zendframework/zend-mail#11](https://github.com/zendframework/zend-mail/pull/11) fixes the
   behavior of the `Sender` header, ensuring it can handle domains that do not
   contain a TLD, as well as addresses referencing mailboxes (no domain).
-- [#24](https://github.com/zendframework/zend-mail/pull/24) fixes parsing of
+- [zendframework/zend-mail#24](https://github.com/zendframework/zend-mail/pull/24) fixes parsing of
   mail messages that contain an initial blank line (prior to the headers), a
   situation observed in particular with GMail.
