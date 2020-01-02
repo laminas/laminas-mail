@@ -1,9 +1,21 @@
 docs_dir: docs/book
 site_dir: docs/html
 nav:
-    - { Home: index.md }
-    - { Introduction: intro.md }
-    - { Reference: [{ Messages: [{ 'Intro and Usage': message/intro.md }, { Attachments: message/attachments.md }, { 'Character Sets': message/character-sets.md }] }, { Transports: [{ Usage: transport/intro.md }, { SMTP: [{ 'SMTP Options': transport/smtp-options.md }, { 'Sending multiple messages': transport/smtp-multiple-send.md }, { Authentication: transport/smtp-authentication.md }] }, { 'File Transport Options': transport/file-options.md }] }, { 'Reading and Storing Mail': read.md }] }
+    - Home: index.md
+    - Introduction: intro.md
+    - Reference:
+        - Messages:
+            - "Intro and Usage": message/intro.md
+            - "Attachments": message/attachments.md
+            - "Character Sets": message/character-sets.md
+        - Transports:
+            - Usage: transport/intro.md
+            - SMTP:
+                - "SMTP Options": transport/smtp-options.md
+                - "Sending multiple messages": transport/smtp-multiple-send.md
+                - Authentication: transport/smtp-authentication.md
+            - "File Transport Options": transport/file-options.md
+        - "Reading and Storing Mail": read.md
 site_name: laminas-mail
 site_description: 'Parse, create, store, and send email messages, using a variety of storage and transport protocols.'
 repo_url: 'https://github.com/laminas/laminas-mail'
