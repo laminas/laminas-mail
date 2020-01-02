@@ -19,3 +19,6 @@ nav:
 site_name: laminas-mail
 site_description: 'Parse, create, store, and send email messages, using a variety of storage and transport protocols.'
 repo_url: 'https://github.com/laminas/laminas-mail'
+extra:
+    project: Components
+    project_url: 'https://docs.laminas.dev'
