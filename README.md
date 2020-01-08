@@ -1,6 +1,6 @@
 # laminas-mail
 
-[![Build Status](https://travis-ci.org/laminas/laminas-mail.svg?branch=master)](https://travis-ci.org/laminas/laminas-mail)
+[![Build Status](https://travis-ci.com/laminas/laminas-mail.svg?branch=master)](https://travis-ci.com/laminas/laminas-mail)
 [![Coverage Status](https://coveralls.io/repos/github/laminas/laminas-mail/badge.svg?branch=master)](https://coveralls.io/github/laminas/laminas-mail?branch=master)
 
 `Laminas\Mail` provides generalized functionality to compose and send both text and
