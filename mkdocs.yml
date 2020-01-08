@@ -21,4 +21,3 @@ site_description: 'Parse, create, store, and send email messages, using a variet
 repo_url: 'https://github.com/laminas/laminas-mail'
 extra:
     project: Components
-    project_url: 'https://docs.laminas.dev'
