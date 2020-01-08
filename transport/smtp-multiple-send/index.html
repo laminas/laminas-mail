@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -306,67 +310,65 @@ this SMTP connection. A <code>RSET</code> command is issued before each delivery
 the correct SMTP handshake is followed.</p>
 <h2 id="examples">Examples</h2>
 <h3>Sending Multiple Mails per SMTP Connection</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Message;</span>
-<span class=x>use Laminas\Mail\Transport\Smtp;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail\Message;
+use Laminas\Mail\Transport\Smtp;
 
-<span class=x>// Create transport</span>
-<span class=x>$transport = new Smtp([</span>
-<span class=x>    &#39;host&#39; =&gt; &#39;mail.example.com&#39;</span>
-<span class=x>]);</span>
+// Create transport
+$transport = new Smtp([
+    'host' =&gt; 'mail.example.com'
+]);
 
-<span class=x>// Create a base message:</span>
-<span class=x>$template = new Message();</span>
-<span class=x>$template-&gt;addFrom(&#39;sender@example.com&#39;, &#39;John Doe&#39;);</span>
-<span class=x>$template-&gt;addReplyTo(&#39;replyto@example.com&#39;, &#39;Jane Doe&#39;);</span>
-<span class=x>$template-&gt;setSubject(&#39;Demo of multiple mails per SMTP connection&#39;);</span>
-<span class=x>$template-&gt;setBody(&#39;... Your message here ...&#39;);</span>
+// Create a base message:
+$template = new Message();
+$template-&gt;addFrom('sender@example.com', 'John Doe');
+$template-&gt;addReplyTo('replyto@example.com', 'Jane Doe');
+$template-&gt;setSubject('Demo of multiple mails per SMTP connection');
+$template-&gt;setBody('... Your message here ...');
 
-<span class=x>// Loop through recipients:</span>
-<span class=x>foreach ($recipients as $address) {</span>
-<span class=x>    // Clone the message and add a recipient:</span>
-<span class=x>    $message = clone $template;</span>
-<span class=x>    $message-&gt;addTo($address);</span>
+// Loop through recipients:
+foreach ($recipients as $address) {
+    // Clone the message and add a recipient:
+    $message = clone $template;
+    $message-&gt;addTo($address);
 
-<span class=x>    $transport-&gt;send($message);</span>
-<span class=x>}</span>
-</pre></div></p>
+    $transport-&gt;send($message);
+}</code></pre>
 <p>If you wish to have a separate connection for each mail delivery, you will need
 to create and destroy your transport before and after each <code>send()</code> method is
 called.</p>
 <h3>Manipulating the transport between messages</h3>
 <p>You can manipulate the connection between each delivery by accessing the
 transport's protocol object.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Message;</span>
-<span class=x>use Laminas\Mail\Protocol\Smtp as SmtpProtocol;</span>
-<span class=x>use Laminas\Mail\Transport\Smtp as SmtpTransport;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail\Message;
+use Laminas\Mail\Protocol\Smtp as SmtpProtocol;
+use Laminas\Mail\Transport\Smtp as SmtpTransport;
 
-<span class=x>// Create transport</span>
-<span class=x>$transport = new SmtpTransport();</span>
+// Create transport
+$transport = new SmtpTransport();
 
-<span class=x>$protocol = new SmtpProtocol(&#39;mail.example.com&#39;);</span>
-<span class=x>$protocol-&gt;connect();</span>
-<span class=x>$protocol-&gt;helo(&#39;sender.example.com&#39;);</span>
+$protocol = new SmtpProtocol('mail.example.com');
+$protocol-&gt;connect();
+$protocol-&gt;helo('sender.example.com');
 
-<span class=x>$transport-&gt;setConnection($protocol);</span>
+$transport-&gt;setConnection($protocol);
 
-<span class=x>// Loop through messages</span>
-<span class=x>foreach ($recipients as $address) {</span>
-<span class=x>    $mail = new Message();</span>
-<span class=x>    $mail-&gt;addTo($address);</span>
-<span class=x>    $mail-&gt;setFrom(&#39;studio@example.com&#39;, &#39;Test&#39;);</span>
-<span class=x>    $mail-&gt;setSubject(</span>
-<span class=x>        &#39;Demonstration - Sending Multiple Mails per SMTP Connection&#39;</span>
-<span class=x>    );</span>
-<span class=x>    $mail-&gt;setBodyText(&#39;...Your message here...&#39;);</span>
+// Loop through messages
+foreach ($recipients as $address) {
+    $mail = new Message();
+    $mail-&gt;addTo($address);
+    $mail-&gt;setFrom('studio@example.com', 'Test');
+    $mail-&gt;setSubject(
+        'Demonstration - Sending Multiple Mails per SMTP Connection'
+    );
+    $mail-&gt;setBodyText('...Your message here...');
 
-<span class=x>    // Manually control the connection</span>
-<span class=x>    $protocol-&gt;rset();</span>
-<span class=x>    $transport-&gt;send($message);</span>
-<span class=x>}</span>
+    // Manually control the connection
+    $protocol-&gt;rset();
+    $transport-&gt;send($message);
+}
 
-<span class=x>$protocol-&gt;quit();</span>
-<span class=x>$protocol-&gt;disconnect();</span>
-</pre></div></p>
+$protocol-&gt;quit();
+$protocol-&gt;disconnect();</code></pre>
 
 
 
@@ -563,9 +565,10 @@ transport's protocol object.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -602,7 +605,7 @@ transport's protocol object.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-mail//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-mail/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -611,8 +614,8 @@ transport's protocol object.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-mail//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-mail/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

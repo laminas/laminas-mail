@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -312,61 +316,59 @@ bodies, allowing you to create multipart emails.</p>
 <h2 id="basic-multipart-content">Basic multipart content</h2>
 <p>The following example creates an email with two parts, HTML content and an
 image.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Message;</span>
-<span class=x>use Laminas\Mime\Message as MimeMessage;</span>
-<span class=x>use Laminas\Mime\Mime;</span>
-<span class=x>use Laminas\Mime\Part as MimePart;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail\Message;
+use Laminas\Mime\Message as MimeMessage;
+use Laminas\Mime\Mime;
+use Laminas\Mime\Part as MimePart;
 
-<span class=x>$html = new MimePart($htmlMarkup);</span>
-<span class=x>$html-&gt;type = Mime::TYPE_HTML;</span>
-<span class=x>$html-&gt;charset = &#39;utf-8&#39;;</span>
-<span class=x>$html-&gt;encoding = Mime::ENCODING_QUOTEDPRINTABLE;</span>
+$html = new MimePart($htmlMarkup);
+$html-&gt;type = Mime::TYPE_HTML;
+$html-&gt;charset = 'utf-8';
+$html-&gt;encoding = Mime::ENCODING_QUOTEDPRINTABLE;
 
-<span class=x>$image = new MimePart(fopen($pathToImage, &#39;r&#39;));</span>
-<span class=x>$image-&gt;type = &#39;image/jpeg&#39;;</span>
-<span class=x>$image-&gt;filename = &#39;image-file-name.jpg&#39;;</span>
-<span class=x>$image-&gt;disposition = Mime::DISPOSITION_ATTACHMENT;</span>
-<span class=x>$image-&gt;encoding = Mime::ENCODING_BASE64;</span>
+$image = new MimePart(fopen($pathToImage, 'r'));
+$image-&gt;type = 'image/jpeg';
+$image-&gt;filename = 'image-file-name.jpg';
+$image-&gt;disposition = Mime::DISPOSITION_ATTACHMENT;
+$image-&gt;encoding = Mime::ENCODING_BASE64;
 
-<span class=x>$body = new MimeMessage();</span>
-<span class=x>$body-&gt;setParts([$html, $image]);</span>
+$body = new MimeMessage();
+$body-&gt;setParts([$html, $image]);
 
-<span class=x>$message = new Message();</span>
-<span class=x>$message-&gt;setBody($body);</span>
+$message = new Message();
+$message-&gt;setBody($body);
 
-<span class=x>$contentTypeHeader = $message-&gt;getHeaders()-&gt;get(&#39;Content-Type&#39;);</span>
-<span class=x>$contentTypeHeader-&gt;setType(&#39;multipart/related&#39;);</span>
-</pre></div></p>
+$contentTypeHeader = $message-&gt;getHeaders()-&gt;get('Content-Type');
+$contentTypeHeader-&gt;setType('multipart/related');</code></pre>
 <p>Note that the above code requires us to manually specify the message content
 type; laminas-mime does not automatically select the multipart type for us, nor
 does laminas-mail populate it by default.</p>
 <h2 id="multipartalternative-content">multipart/alternative content</h2>
 <p>One of the most common email types sent by web applications is
 <code>multipart/alternative</code> messages with both text and HTML parts.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Message;</span>
-<span class=x>use Laminas\Mime\Message as MimeMessage;</span>
-<span class=x>use Laminas\Mime\Mime;</span>
-<span class=x>use Laminas\Mime\Part as MimePart;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail\Message;
+use Laminas\Mime\Message as MimeMessage;
+use Laminas\Mime\Mime;
+use Laminas\Mime\Part as MimePart;
 
-<span class=x>$text = new MimePart($textContent);</span>
-<span class=x>$text-&gt;type = Mime::TYPE_TEXT;</span>
-<span class=x>$text-&gt;charset = &#39;utf-8&#39;;</span>
-<span class=x>$text-&gt;encoding = Mime::ENCODING_QUOTEDPRINTABLE;</span>
+$text = new MimePart($textContent);
+$text-&gt;type = Mime::TYPE_TEXT;
+$text-&gt;charset = 'utf-8';
+$text-&gt;encoding = Mime::ENCODING_QUOTEDPRINTABLE;
 
-<span class=x>$html = new MimePart($htmlMarkup);</span>
-<span class=x>$html-&gt;type = Mime::TYPE_HTML;</span>
-<span class=x>$html-&gt;charset = &#39;utf-8&#39;;</span>
-<span class=x>$html-&gt;encoding = Mime::ENCODING_QUOTEDPRINTABLE;</span>
+$html = new MimePart($htmlMarkup);
+$html-&gt;type = Mime::TYPE_HTML;
+$html-&gt;charset = 'utf-8';
+$html-&gt;encoding = Mime::ENCODING_QUOTEDPRINTABLE;
 
-<span class=x>$body = new MimeMessage();</span>
-<span class=x>$body-&gt;setParts([$text, $html]);</span>
+$body = new MimeMessage();
+$body-&gt;setParts([$text, $html]);
 
-<span class=x>$message = new Message();</span>
-<span class=x>$message-&gt;setBody($body);</span>
+$message = new Message();
+$message-&gt;setBody($body);
 
-<span class=x>$contentTypeHeader = $message-&gt;getHeaders()-&gt;get(&#39;Content-Type&#39;);</span>
-<span class=x>$contentTypeHeader-&gt;setType(&#39;multipart/alternative&#39;);</span>
-</pre></div></p>
+$contentTypeHeader = $message-&gt;getHeaders()-&gt;get('Content-Type');
+$contentTypeHeader-&gt;setType('multipart/alternative');</code></pre>
 <p>The only differences from the first example are:</p>
 <ul>
 <li>We have text and HTML parts instead of an HTML and image part.</li>
@@ -386,53 +388,51 @@ content refers to assets attachments (images, CSS, etc.).</p>
 </ul>
 <p>The following example creates a MIME message with three parts: text and HTML
 alternative versions of an email, and an image attachment.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Message;</span>
-<span class=x>use Laminas\Mime\Message as MimeMessage;</span>
-<span class=x>use Laminas\Mime\Mime;</span>
-<span class=x>use Laminas\Mime\Part as MimePart;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail\Message;
+use Laminas\Mime\Message as MimeMessage;
+use Laminas\Mime\Mime;
+use Laminas\Mime\Part as MimePart;
 
-<span class=x>$body = new MimeMessage();</span>
+$body = new MimeMessage();
 
-<span class=x>$text           = new MimePart($textContent);</span>
-<span class=x>$text-&gt;type     = Mime::TYPE_TEXT;</span>
-<span class=x>$text-&gt;charset  = &#39;utf-8&#39;;</span>
-<span class=x>$text-&gt;encoding = Mime::ENCODING_QUOTEDPRINTABLE;</span>
+$text           = new MimePart($textContent);
+$text-&gt;type     = Mime::TYPE_TEXT;
+$text-&gt;charset  = 'utf-8';
+$text-&gt;encoding = Mime::ENCODING_QUOTEDPRINTABLE;
 
-<span class=x>$html           = new MimePart($htmlMarkup);</span>
-<span class=x>$html-&gt;type     = Mime::TYPE_HTML;</span>
-<span class=x>$html-&gt;charset  = &#39;utf-8&#39;;</span>
-<span class=x>$html-&gt;encoding = Mime::ENCODING_QUOTEDPRINTABLE;</span>
+$html           = new MimePart($htmlMarkup);
+$html-&gt;type     = Mime::TYPE_HTML;
+$html-&gt;charset  = 'utf-8';
+$html-&gt;encoding = Mime::ENCODING_QUOTEDPRINTABLE;
 
-<span class=x>$content = new MimeMessage();</span>
-<span class=x>// This order is important for email clients to properly display the correct version of the content</span>
-<span class=x>$content-&gt;setParts([$text, $html]);</span>
+$content = new MimeMessage();
+// This order is important for email clients to properly display the correct version of the content
+$content-&gt;setParts([$text, $html]);
 
-<span class=x>$contentPart = new MimePart($content-&gt;generateMessage());</span>
+$contentPart = new MimePart($content-&gt;generateMessage());
 
-<span class=x>$image              = new MimePart(fopen($pathToImage, &#39;r&#39;));</span>
-<span class=x>$image-&gt;type        = &#39;image/jpeg&#39;;</span>
-<span class=x>$image-&gt;filename    = &#39;image-file-name.jpg&#39;;</span>
-<span class=x>$image-&gt;disposition = Mime::DISPOSITION_ATTACHMENT;</span>
-<span class=x>$image-&gt;encoding    = Mime::ENCODING_BASE64;</span>
+$image              = new MimePart(fopen($pathToImage, 'r'));
+$image-&gt;type        = 'image/jpeg';
+$image-&gt;filename    = 'image-file-name.jpg';
+$image-&gt;disposition = Mime::DISPOSITION_ATTACHMENT;
+$image-&gt;encoding    = Mime::ENCODING_BASE64;
 
-<span class=x>$body = new MimeMessage();</span>
-<span class=x>$body-&gt;setParts([$contentPart, $image]);</span>
+$body = new MimeMessage();
+$body-&gt;setParts([$contentPart, $image]);
 
-<span class=x>$message = new Message();</span>
-<span class=x>$message-&gt;setBody($body);</span>
+$message = new Message();
+$message-&gt;setBody($body);
 
-<span class=x>$contentTypeHeader = $message-&gt;getHeaders()-&gt;get(&#39;Content-Type&#39;);</span>
-<span class=x>$contentTypeHeader-&gt;setType(&#39;multipart/related&#39;);</span>
-</pre></div></p>
+$contentTypeHeader = $message-&gt;getHeaders()-&gt;get('Content-Type');
+$contentTypeHeader-&gt;setType('multipart/related');</code></pre>
 <h2 id="setting-custom-mime-boundaries">Setting custom MIME boundaries</h2>
 <p>In a multipart message, a MIME boundary for separating the different parts of
 the message is normally generated at random. In some cases, however, you might
 want to specify the MIME boundary that is used. This can be done by injecting a
 new <code>Laminas\Mime\Mime</code> instance into the MIME message.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mime\Mime;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mime\Mime;
 
-<span class=x>$mimeMessage-&gt;setMime(new Mime($customBoundary));</span>
-</pre></div></p>
+$mimeMessage-&gt;setMime(new Mime($customBoundary));</code></pre>
 
 
 
@@ -629,9 +629,10 @@ new <code>Laminas\Mime\Mime</code> instance into the MIME message.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -668,7 +669,7 @@ new <code>Laminas\Mime\Mime</code> instance into the MIME message.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-mail//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-mail/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -677,8 +678,8 @@ new <code>Laminas\Mime\Mime</code> instance into the MIME message.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-mail//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-mail/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

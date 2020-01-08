@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -290,17 +294,16 @@ implement your own transport by implementing the
 <p>A basic email consists of one or more recipients, a subject, a body and a
 sender. To send such a mail using <code>Laminas\Mail\Transport\Sendmail</code>, do the
 following:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail;
 
-<span class=x>$mail = new Mail\Message();</span>
-<span class=x>$mail-&gt;setBody(&#39;This is the text of the email.&#39;);</span>
-<span class=x>$mail-&gt;setFrom(&#39;Freeaqingme@example.org&#39;, &quot;Sender&#39;s name&quot;);</span>
-<span class=x>$mail-&gt;addTo(&#39;Matthew@example.com&#39;, &#39;Name of recipient&#39;);</span>
-<span class=x>$mail-&gt;setSubject(&#39;TestSubject&#39;);</span>
+$mail = new Mail\Message();
+$mail-&gt;setBody('This is the text of the email.');
+$mail-&gt;setFrom('Freeaqingme@example.org', &quot;Sender's name&quot;);
+$mail-&gt;addTo('Matthew@example.com', 'Name of recipient');
+$mail-&gt;setSubject('TestSubject');
 
-<span class=x>$transport = new Mail\Transport\Sendmail();</span>
-<span class=x>$transport-&gt;send($mail);</span>
-</pre></div></p>
+$transport = new Mail\Transport\Sendmail();
+$transport-&gt;send($mail);</code></pre>
 <blockquote>
 <h3>Minimum definitions</h3>
 <p>In order to send an email using laminas-mail you have to specify at least one
@@ -318,17 +321,16 @@ instance and pass your parameters to the constructor.</p>
 <h3>Passing additional mail() parameters</h3>
 <p>This example shows how to change the Return-Path of the
 <a href="http://php.net/mail">mail()</a> function.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail;
 
-<span class=x>$mail = new Mail\Message();</span>
-<span class=x>$mail-&gt;setBody(&#39;This is the text of the email.&#39;);</span>
-<span class=x>$mail-&gt;setFrom(&#39;Freeaqingme@example.org&#39;, &#39;Dolf&#39;);</span>
-<span class=x>$mail-&gt;addTo(&#39;matthew@example.com&#39;, &#39;Matthew&#39;);</span>
-<span class=x>$mail-&gt;setSubject(&#39;TestSubject&#39;);</span>
+$mail = new Mail\Message();
+$mail-&gt;setBody('This is the text of the email.');
+$mail-&gt;setFrom('Freeaqingme@example.org', 'Dolf');
+$mail-&gt;addTo('matthew@example.com', 'Matthew');
+$mail-&gt;setSubject('TestSubject');
 
-<span class=x>$transport = new Mail\Transport\Sendmail(&#39;-freturn_to_me@example.com&#39;);</span>
-<span class=x>$transport-&gt;send($mail);</span>
-</pre></div></p>
+$transport = new Mail\Transport\Sendmail('-freturn_to_me@example.com');
+$transport-&gt;send($mail);</code></pre>
 <blockquote>
 <h3>Chose your transport wisely</h3>
 <p>Although the sendmail transport is the transport that requires least
@@ -544,9 +546,10 @@ for sending!</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -583,7 +586,7 @@ for sending!</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-mail//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-mail/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -592,8 +595,8 @@ for sending!</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-mail//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-mail/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

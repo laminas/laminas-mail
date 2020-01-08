@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -315,95 +319,91 @@ serializes in order to send.</p>
 <p>Using a mail transport involves instantiating it, optionally configuring it, and
 then passing a message to it.</p>
 <h3>Sendmail Transport Usage</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Message;</span>
-<span class=x>use Laminas\Mail\Transport\Sendmail as SendmailTransport;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail\Message;
+use Laminas\Mail\Transport\Sendmail as SendmailTransport;
 
-<span class=x>$message = new Message();</span>
-<span class=x>$message-&gt;addTo(&#39;matthew@example.org&#39;);</span>
-<span class=x>$message-&gt;addFrom(&#39;ralph@example.org&#39;);</span>
-<span class=x>$message-&gt;setSubject(&#39;Greetings and Salutations!&#39;);</span>
-<span class=x>$message-&gt;setBody(&quot;Sorry, I&#39;m going to be late today!&quot;);</span>
+$message = new Message();
+$message-&gt;addTo('matthew@example.org');
+$message-&gt;addFrom('ralph@example.org');
+$message-&gt;setSubject('Greetings and Salutations!');
+$message-&gt;setBody(&quot;Sorry, I'm going to be late today!&quot;);
 
-<span class=x>$transport = new SendmailTransport();</span>
-<span class=x>$transport-&gt;send($message);</span>
-</pre></div></p>
+$transport = new SendmailTransport();
+$transport-&gt;send($message);</code></pre>
 <h3>SMTP Transport Usage</h3>
 <blockquote>
 <h3>Installation requirements</h3>
 <p>The SMTP transport depends on the laminas-servicemanager component, so be sure to
 have it installed before getting started:</p>
-<pre class=codehilite><code class=language-bash>
+<pre class="codehilite"><code class="language-bash">
 $ composer require laminas/laminas-servicemanager
 </code></pre>
 </blockquote>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Message;</span>
-<span class=x>use Laminas\Mail\Transport\Smtp as SmtpTransport;</span>
-<span class=x>use Laminas\Mail\Transport\SmtpOptions;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail\Message;
+use Laminas\Mail\Transport\Smtp as SmtpTransport;
+use Laminas\Mail\Transport\SmtpOptions;
 
-<span class=x>$message = new Message();</span>
-<span class=x>$message-&gt;addTo(&#39;matthew@example.org&#39;);</span>
-<span class=x>$message-&gt;addFrom(&#39;ralph@example.org&#39;);</span>
-<span class=x>$message-&gt;setSubject(&#39;Greetings and Salutations!&#39;);</span>
-<span class=x>$message-&gt;setBody(&quot;Sorry, I&#39;m going to be late today!&quot;);</span>
+$message = new Message();
+$message-&gt;addTo('matthew@example.org');
+$message-&gt;addFrom('ralph@example.org');
+$message-&gt;setSubject('Greetings and Salutations!');
+$message-&gt;setBody(&quot;Sorry, I'm going to be late today!&quot;);
 
-<span class=x>// Setup SMTP transport using LOGIN authentication</span>
-<span class=x>$transport = new SmtpTransport();</span>
-<span class=x>$options   = new SmtpOptions([</span>
-<span class=x>    &#39;name&#39;              =&gt; &#39;localhost.localdomain&#39;,</span>
-<span class=x>    &#39;host&#39;              =&gt; &#39;127.0.0.1&#39;,</span>
-<span class=x>    &#39;connection_class&#39;  =&gt; &#39;login&#39;,</span>
-<span class=x>    &#39;connection_config&#39; =&gt; [</span>
-<span class=x>        &#39;username&#39; =&gt; &#39;user&#39;,</span>
-<span class=x>        &#39;password&#39; =&gt; &#39;pass&#39;,</span>
-<span class=x>    ],</span>
-<span class=x>]);</span>
-<span class=x>$transport-&gt;setOptions($options);</span>
-<span class=x>$transport-&gt;send($message);</span>
-</pre></div></p>
+// Setup SMTP transport using LOGIN authentication
+$transport = new SmtpTransport();
+$options   = new SmtpOptions([
+    'name'              =&gt; 'localhost.localdomain',
+    'host'              =&gt; '127.0.0.1',
+    'connection_class'  =&gt; 'login',
+    'connection_config' =&gt; [
+        'username' =&gt; 'user',
+        'password' =&gt; 'pass',
+    ],
+]);
+$transport-&gt;setOptions($options);
+$transport-&gt;send($message);</code></pre>
 <h3>File Transport Usage</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Message;</span>
-<span class=x>use Laminas\Mail\Transport\File as FileTransport;</span>
-<span class=x>use Laminas\Mail\Transport\FileOptions;</span>
-<span class=x>use Laminas\Math\Rand;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail\Message;
+use Laminas\Mail\Transport\File as FileTransport;
+use Laminas\Mail\Transport\FileOptions;
+use Laminas\Math\Rand;
 
-<span class=x>$message = new Message();</span>
-<span class=x>$message-&gt;addTo(&#39;matthew@example.org&#39;);</span>
-<span class=x>$message-&gt;addFrom(&#39;ralph@example.org&#39;);</span>
-<span class=x>$message-&gt;setSubject(&#39;Greetings and Salutations!&#39;);</span>
-<span class=x>$message-&gt;setBody(&quot;Sorry, I&#39;m going to be late today!&quot;);</span>
+$message = new Message();
+$message-&gt;addTo('matthew@example.org');
+$message-&gt;addFrom('ralph@example.org');
+$message-&gt;setSubject('Greetings and Salutations!');
+$message-&gt;setBody(&quot;Sorry, I'm going to be late today!&quot;);
 
-<span class=x>// Setup File transport</span>
-<span class=x>$transport = new FileTransport();</span>
-<span class=x>$options   = new FileOptions([</span>
-<span class=x>    &#39;path&#39;     =&gt; &#39;data/mail/&#39;,</span>
-<span class=x>    &#39;callback&#39; =&gt; function (FileTransport $transport) {</span>
-<span class=x>        return sprintf(</span>
-<span class=x>            &#39;Message_%f_%s.txt&#39;,</span>
-<span class=x>            microtime(true),</span>
-<span class=x>            Rand::getString(8)</span>
-<span class=x>        );</span>
-<span class=x>    },</span>
-<span class=x>]);</span>
-<span class=x>$transport-&gt;setOptions($options);</span>
-<span class=x>$transport-&gt;send($message);</span>
-</pre></div></p>
+// Setup File transport
+$transport = new FileTransport();
+$options   = new FileOptions([
+    'path'     =&gt; 'data/mail/',
+    'callback' =&gt; function (FileTransport $transport) {
+        return sprintf(
+            'Message_%f_%s.txt',
+            microtime(true),
+            Rand::getString(8)
+        );
+    },
+]);
+$transport-&gt;setOptions($options);
+$transport-&gt;send($message);</code></pre>
 <h3>InMemory Transport Usage</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Message;</span>
-<span class=x>use Laminas\Mail\Transport\InMemory as InMemoryTransport;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail\Message;
+use Laminas\Mail\Transport\InMemory as InMemoryTransport;
 
-<span class=x>$message = new Message();</span>
-<span class=x>$message-&gt;addTo(&#39;matthew@example.org&#39;);</span>
-<span class=x>$message-&gt;addFrom(&#39;ralph@example.org&#39;);</span>
-<span class=x>$message-&gt;setSubject(&#39;Greetings and Salutations!&#39;);</span>
-<span class=x>$message-&gt;setBody(&quot;Sorry, I&#39;m going to be late today!&quot;);</span>
+$message = new Message();
+$message-&gt;addTo('matthew@example.org');
+$message-&gt;addFrom('ralph@example.org');
+$message-&gt;setSubject('Greetings and Salutations!');
+$message-&gt;setBody(&quot;Sorry, I'm going to be late today!&quot;);
 
-<span class=x>// Setup InMemory transport</span>
-<span class=x>$transport = new InMemoryTransport();</span>
-<span class=x>$transport-&gt;send($message);</span>
+// Setup InMemory transport
+$transport = new InMemoryTransport();
+$transport-&gt;send($message);
 
-<span class=x>// Verify the message:</span>
-<span class=x>$received = $transport-&gt;getLastMessage();</span>
-</pre></div></p>
+// Verify the message:
+$received = $transport-&gt;getLastMessage();</code></pre>
 <p>The <code>InMemory</code> transport is primarily of interest when in development or when
 testing.</p>
 <h3>Migration from 2.0-2.3 to 2.4+</h3>
@@ -424,8 +424,7 @@ transport-specific options.</p>
 </ul>
 <h2 id="available-methods">Available Methods</h2>
 <h3>send</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>send(Laminas\Mail\Message $message) : void</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>send(Laminas\Mail\Message $message) : void</code></pre>
 <p>Send a mail message.</p>
 
 
@@ -623,9 +622,10 @@ transport-specific options.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -662,7 +662,7 @@ transport-specific options.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-mail//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-mail/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -671,8 +671,8 @@ transport-specific options.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-mail//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-mail/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

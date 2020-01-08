@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -304,19 +308,18 @@
 <p>This document details the various options available to the
 <code>Laminas\Mail\Transport\File</code> mail transport.</p>
 <h2 id="quick-start">Quick Start</h2>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Transport\File as FileTransport;</span>
-<span class=x>use Laminas\Mail\Transport\FileOptions;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail\Transport\File as FileTransport;
+use Laminas\Mail\Transport\FileOptions;
 
-<span class=x>// Setup File transport</span>
-<span class=x>$transport = new FileTransport();</span>
-<span class=x>$options   = new FileOptions([</span>
-<span class=x>    &#39;path&#39;     =&gt; &#39;data/mail/&#39;,</span>
-<span class=x>    &#39;callback&#39; =&gt; function (FileTransport $transport) {</span>
-<span class=x>        return &#39;Message_&#39; . microtime(true) . &#39;_&#39; . mt_rand() . &#39;.txt&#39;;</span>
-<span class=x>    },</span>
-<span class=x>]);</span>
-<span class=x>$transport-&gt;setOptions($options);</span>
-</pre></div></p>
+// Setup File transport
+$transport = new FileTransport();
+$options   = new FileOptions([
+    'path'     =&gt; 'data/mail/',
+    'callback' =&gt; function (FileTransport $transport) {
+        return 'Message_' . microtime(true) . '_' . mt_rand() . '.txt';
+    },
+]);
+$transport-&gt;setOptions($options);</code></pre>
 <h2 id="configuration-options">Configuration Options</h2>
 <div class="table-responsive"><table>
 <thead>
@@ -337,33 +340,27 @@
 </tbody>
 </table></div>
 <p>The default callback used is:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>function (Laminas\Mail\FileTransport $transport) {</span>
-<span class=x>    return &#39;LaminasMail_&#39; . time() . &#39;_&#39; . mt_rand() . &#39;.tmp&#39;;</span>
-<span class=x>}</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>function (Laminas\Mail\FileTransport $transport) {
+    return 'LaminasMail_' . time() . '_' . mt_rand() . '.tmp';
+}</code></pre>
 <h2 id="available-methods">Available Methods</h2>
 <p><code>Laminas\Mail\Transport\FileOptions</code> extends <code>Laminas\Stdlib\AbstractOptions</code>, and
 inherits all functionality from that class; this includes property overloading.
 Additionally, the following explicit setters and getters are provided.</p>
 <h3>setPath</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>setPath(string $path) : void</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>setPath(string $path) : void</code></pre>
 <p>Set the path under which mail files will be written.</p>
 <h3>getPath</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>getPath() : string</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>getPath() : string</code></pre>
 <p>Get the path under which mail files will be written.</p>
 <h3>setCallback</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>setCallback(callable $callback) : void</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>setCallback(callable $callback) : void</code></pre>
 <p>Set the callback used to generate unique filenames for messages.</p>
 <h3>getCallback</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>getCallback() : callable</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>getCallback() : callable</code></pre>
 <p>Get the callback used to generate unique filenames for messages.</p>
 <h3>__construct</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>__construct(null|array|Traversable $config) : void</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>__construct(null|array|Traversable $config) : void</code></pre>
 <p>Initialize the object. Allows passing a PHP array or <code>Traversable</code> object with
 which to populate the instance.</p>
 
@@ -562,9 +559,10 @@ which to populate the instance.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -601,7 +599,7 @@ which to populate the instance.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-mail//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-mail/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -610,8 +608,8 @@ which to populate the instance.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-mail//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-mail/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

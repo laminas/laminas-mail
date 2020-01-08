@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -384,84 +388,79 @@ feature overview of the implemented storages, see the following table.</p>
 different API than <a href="../message/intro/">messages used when sending</a>; the API is
 described in the <a href="#working-with-messages">"Working with messages"</a> section.</p>
 <h2 id="basic-pop3-example">Basic POP3 example</h2>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Storage\Pop3;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail\Storage\Pop3;
 
-<span class=x>$mail = new Pop3([</span>
-<span class=x>    &#39;host&#39;     =&gt; &#39;localhost&#39;,</span>
-<span class=x>    &#39;user&#39;     =&gt; &#39;test&#39;,</span>
-<span class=x>    &#39;password&#39; =&gt; &#39;test&#39;,</span>
-<span class=x>]);</span>
+$mail = new Pop3([
+    'host'     =&gt; 'localhost',
+    'user'     =&gt; 'test',
+    'password' =&gt; 'test',
+]);
 
-<span class=x>echo $mail-&gt;countMessages() . &quot; messages found\n&quot;;</span>
-<span class=x>foreach ($mail as $message) {</span>
-<span class=x>    printf(&quot;Mail from &#39;%s&#39;: %s\n&quot;, $message-&gt;from, $message-&gt;subject);</span>
-<span class=x>}</span>
-</pre></div></p>
+echo $mail-&gt;countMessages() . &quot; messages found\n&quot;;
+foreach ($mail as $message) {
+    printf(&quot;Mail from '%s': %s\n&quot;, $message-&gt;from, $message-&gt;subject);
+}</code></pre>
 <h2 id="using-local-storage-via-mbox-and-maildir">Using local storage via mbox and maildir</h2>
 <p>Mbox and Maildir are the two supported formats for local mail storage.</p>
 <p>If you want to read from an mbox file, provide the filename to the constructor
 of <code>Laminas\Mail\Storage\Mbox</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Storage\Mbox;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail\Storage\Mbox;
 
-<span class=x>$mail = new Mbox([&#39;filename&#39; =&gt; &#39;/home/test/mail/inbox&#39;]);</span>
-</pre></div></p>
+$mail = new Mbox(['filename' =&gt; '/home/test/mail/inbox']);</code></pre>
 <p>Maildir operates similarly, but requires a dirname instead:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Storage\Maildir;</span>
-<span class=x>$mail = new Maildir([&#39;dirname&#39; =&gt; &#39;/home/test/mail/&#39;]);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>use Laminas\Mail\Storage\Maildir;
+$mail = new Maildir(['dirname' =&gt; '/home/test/mail/']);</code></pre>
 <p>Both constructors throw a <code>Laminas\Mail\Exception</code> if the storage can't be read.</p>
 <h2 id="using-remote-storage-protocols">Using remote storage protocols</h2>
 <p>For remote storage, the two most popular protocols are supported: POP3 and IMAP.
 Both need at least a host and a user to connect and login. The default password
 is an empty string, and the default port for the protocol is used if none is
 provided.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Storage\Imap;</span>
-<span class=x>use Laminas\Mail\Storage\Pop3;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail\Storage\Imap;
+use Laminas\Mail\Storage\Pop3;
 
-<span class=x>// Connecting with Pop3:</span>
-<span class=x>$mail = new Pop3([</span>
-<span class=x>    &#39;host&#39;     =&gt; &#39;example.com&#39;,</span>
-<span class=x>    &#39;user&#39;     =&gt; &#39;test&#39;,</span>
-<span class=x>    &#39;password&#39; =&gt; &#39;test&#39;,</span>
-<span class=x>]);</span>
+// Connecting with Pop3:
+$mail = new Pop3([
+    'host'     =&gt; 'example.com',
+    'user'     =&gt; 'test',
+    'password' =&gt; 'test',
+]);
 
-<span class=x>// Connecting with Imap:</span>
-<span class=x>$mail = new Imap([</span>
-<span class=x>    &#39;host&#39;     =&gt; &#39;example.com&#39;,</span>
-<span class=x>    &#39;user&#39;     =&gt; &#39;test&#39;,</span>
-<span class=x>    &#39;password&#39; =&gt; &#39;test&#39;,</span>
-<span class=x>]);</span>
+// Connecting with Imap:
+$mail = new Imap([
+    'host'     =&gt; 'example.com',
+    'user'     =&gt; 'test',
+    'password' =&gt; 'test',
+]);
 
-<span class=x>// Example of using POP3 on a non-standard port:</span>
-<span class=x>$mail = new Pop3([</span>
-<span class=x>    &#39;host&#39;     =&gt; &#39;example.com&#39;,</span>
-<span class=x>    &#39;port&#39;     =&gt; 1120,</span>
-<span class=x>    &#39;user&#39;     =&gt; &#39;test&#39;,</span>
-<span class=x>    &#39;password&#39; =&gt; &#39;test&#39;,</span>
-<span class=x>]);</span>
-</pre></div></p>
+// Example of using POP3 on a non-standard port:
+$mail = new Pop3([
+    'host'     =&gt; 'example.com',
+    'port'     =&gt; 1120,
+    'user'     =&gt; 'test',
+    'password' =&gt; 'test',
+]);</code></pre>
 <p>Both storage adapters support SSL and TLS. If you use SSL, the default port
 changes as specified in the relevant RFC.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Storage\Pop3;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail\Storage\Pop3;
 
-<span class=x>// Examples use Pop3; the same configuration works for Imap.</span>
+// Examples use Pop3; the same configuration works for Imap.
 
-<span class=x>// Use SSL on a non-standard port (default is 995 for Pop3 and 993 for Imap)</span>
-<span class=x>$mail = new Pop3([</span>
-<span class=x>    &#39;host&#39;     =&gt; &#39;example.com&#39;,</span>
-<span class=x>    &#39;user&#39;     =&gt; &#39;test&#39;,</span>
-<span class=x>    &#39;password&#39; =&gt; &#39;test&#39;,</span>
-<span class=x>    &#39;ssl&#39;      =&gt; &#39;SSL&#39;,</span>
-<span class=x>]);</span>
+// Use SSL on a non-standard port (default is 995 for Pop3 and 993 for Imap)
+$mail = new Pop3([
+    'host'     =&gt; 'example.com',
+    'user'     =&gt; 'test',
+    'password' =&gt; 'test',
+    'ssl'      =&gt; 'SSL',
+]);
 
-<span class=x>// use TLS on the default port:</span>
-<span class=x>$mail = new Pop3([</span>
-<span class=x>    &#39;host&#39;     =&gt; &#39;example.com&#39;,</span>
-<span class=x>    &#39;user&#39;     =&gt; &#39;test&#39;,</span>
-<span class=x>    &#39;password&#39; =&gt; &#39;test&#39;,</span>
-<span class=x>    &#39;ssl&#39;      =&gt; &#39;TLS&#39;,</span>
-<span class=x>]);</span>
-</pre></div></p>
+// use TLS on the default port:
+$mail = new Pop3([
+    'host'     =&gt; 'example.com',
+    'user'     =&gt; 'test',
+    'password' =&gt; 'test',
+    'ssl'      =&gt; 'TLS',
+]);</code></pre>
 <p>Both constructors throw <code>Laminas\Mail\Exception</code> or <code>Laminas\Mail\Protocol\Exception</code>
 (extends <code>Laminas\Mail\Exception</code>) for connection errors, depending on the type of
 error encountered.</p>
@@ -469,35 +468,30 @@ error encountered.</p>
 <p>Once you have opened the mail storage, you may fetch messages. To do so, you
 need the message number, which is a counter starting with 1 for the first
 message. To fetch the message, you use the method <code>getMessage()</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$message = $mail-&gt;getMessage($messageNum);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$message = $mail-&gt;getMessage($messageNum);</code></pre>
 <p>Array access is also supported, but this access method does not support any
 additional parameters that could be added to <code>getMessage()</code>. As long as you
 don't mind, and can live with the default values, you may use:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$message = $mail[$messageNum];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$message = $mail[$messageNum];</code></pre>
 <p>For iterating over all messages the <code>Iterator</code> interface is implemented:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>foreach ($mail as $messageNum =&gt; $message) {</span>
-<span class=x>    // do stuff ...</span>
-<span class=x>}</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>foreach ($mail as $messageNum =&gt; $message) {
+    // do stuff ...
+}</code></pre>
 <p>To count the messages in the storage, you can use the method
 <code>countMessages()</code>; alternately, storage adapters implement <code>Countable</code>, allowing
 you to <code>count()</code> the instance.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// method</span>
-<span class=x>$maxMessage = $mail-&gt;countMessages();</span>
+<pre class=codehilite><code class=language-php>// method
+$maxMessage = $mail-&gt;countMessages();
 
-<span class=x>// array access</span>
-<span class=x>$maxMessage = count($mail);</span>
-</pre></div></p>
+// array access
+$maxMessage = count($mail);</code></pre>
 <p>To remove a mail, use the method <code>removeMessage()</code>, or rely on array access and
 use <code>unset()</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// method</span>
-<span class=x>$mail-&gt;removeMessage($messageNum);</span>
+<pre class=codehilite><code class=language-php>// method
+$mail-&gt;removeMessage($messageNum);
 
-<span class=x>// array access</span>
-<span class=x>unset($mail[$messageNum]);</span>
-</pre></div></p>
+// array access
+unset($mail[$messageNum]);</code></pre>
 <h2 id="working-with-messages">Working with messages</h2>
 <p>After you fetch a message, you can:</p>
 <ul>
@@ -512,64 +506,60 @@ structure; dash-separated headers may be fetched using camelCase notation. If no
 header matching the name is found, an exception is thrown; use the
 <code>headerExists()</code> method (or <code>isset($message-&gt;headerName)</code>) to test for header
 existence prior to retrieval.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// get the message object</span>
-<span class=x>$message = $mail-&gt;getMessage(1);</span>
+<pre class=codehilite><code class=language-php>// get the message object
+$message = $mail-&gt;getMessage(1);
 
-<span class=x>// output subject of message</span>
-<span class=x>echo $message-&gt;subject . &quot;\n&quot;;</span>
+// output subject of message
+echo $message-&gt;subject . &quot;\n&quot;;
 
-<span class=x>// get content-type header</span>
-<span class=x>$type = $message-&gt;contentType;</span>
+// get content-type header
+$type = $message-&gt;contentType;
 
-<span class=x>// check if CC isset:</span>
-<span class=x>if (isset($message-&gt;cc)) { // or $message-&gt;headerExists(&#39;cc&#39;);</span>
-<span class=x>    $cc = $message-&gt;cc;</span>
-<span class=x>}</span>
-</pre></div></p>
+// check if CC isset:
+if (isset($message-&gt;cc)) { // or $message-&gt;headerExists('cc');
+    $cc = $message-&gt;cc;
+}</code></pre>
 <p>If you have multiple headers with the same name &mdash; e.g. the <code>Received</code>
 headers &mdash; you will want an array of values. Property access always returns
 a string, so use <code>getHeader()</code> instead for these situations:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// get header as property - the result is always a string,</span>
-<span class=x>// with new lines between each value.</span>
-<span class=x>$received = $message-&gt;received;</span>
+<pre class=codehilite><code class=language-php>// get header as property - the result is always a string,
+// with new lines between each value.
+$received = $message-&gt;received;
 
-<span class=x>// The same via getHeader() method:</span>
-<span class=x>$received = $message-&gt;getHeader(&#39;received&#39;, &#39;string&#39;);</span>
+// The same via getHeader() method:
+$received = $message-&gt;getHeader('received', 'string');
 
-<span class=x>// To retrieve an array of values:</span>
-<span class=x>$received = $message-&gt;getHeader(&#39;received&#39;, &#39;array&#39;);</span>
-<span class=x>foreach ($received as $line) {</span>
-<span class=x>    // do stuff</span>
-<span class=x>}</span>
+// To retrieve an array of values:
+$received = $message-&gt;getHeader('received', 'array');
+foreach ($received as $line) {
+    // do stuff
+}
 
-<span class=x>// If you don&#39;t define a format you&#39;ll get the internal representation</span>
-<span class=x>// (string for single headers, array for multiple):</span>
-<span class=x>$received = $message-&gt;getHeader(&#39;received&#39;);</span>
-<span class=x>if (is_string($received)) {</span>
-<span class=x>    // only one received header found in message</span>
-<span class=x>}</span>
-</pre></div></p>
+// If you don't define a format you'll get the internal representation
+// (string for single headers, array for multiple):
+$received = $message-&gt;getHeader('received');
+if (is_string($received)) {
+    // only one received header found in message
+}</code></pre>
 <p>The method <code>getHeaders()</code> returns all headers as an array with the lower-cased
 name as the key and the value as an array for multiple headers or as string for
 single headers.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// dump all headers</span>
-<span class=x>foreach ($message-&gt;getHeaders() as $name =&gt; $value) {</span>
-<span class=x>    if (is_string($value)) {</span>
-<span class=x>        echo &quot;$name: $value\n&quot;;</span>
-<span class=x>        continue;</span>
-<span class=x>    }</span>
-<span class=x>    foreach ($value as $entry) {</span>
-<span class=x>        echo &quot;$name: $entry\n&quot;;</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>// dump all headers
+foreach ($message-&gt;getHeaders() as $name =&gt; $value) {
+    if (is_string($value)) {
+        echo &quot;$name: $value\n&quot;;
+        continue;
+    }
+    foreach ($value as $entry) {
+        echo &quot;$name: $entry\n&quot;;
+    }
+}</code></pre>
 <p>If you don't have a multipart message, fetch the content via <code>getContent()</code>.
 Unlike headers, the content is only fetched when needed (aka late-fetch).</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// output message content for HTML</span>
-<span class=x>echo &#39;&lt;pre&gt;&#39;;</span>
-<span class=x>echo $message-&gt;getContent();</span>
-<span class=x>echo &#39;&lt;/pre&gt;&#39;;</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>// output message content for HTML
+echo '&lt;pre&gt;';
+echo $message-&gt;getContent();
+echo '&lt;/pre&gt;';</code></pre>
 <p>Checking for multipart messages is done with the method <code>isMultipart()</code>. If you
 have a multipart message you, can get retrieve the individual
 <code>Laminas\Mail\Storage\Part</code> instances making up the message via the <code>getPart()</code>
@@ -577,94 +567,90 @@ method, which accepts the part index as a parameter (indices start with 1).
 <code>Laminas\Mail\Storage\Part</code> is the base class of <code>Laminas\Mail\Storage\Message</code>, and
 thus exposes the same API with regards to headers, content, and retrieving
 nested parts.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// get the first non-multipart part</span>
-<span class=x>$part = $message;</span>
-<span class=x>while ($part-&gt;isMultipart()) {</span>
-<span class=x>    $part = $message-&gt;getPart(1);</span>
-<span class=x>}</span>
-<span class=x>echo &#39;Type of this part is &#39; . strtok($part-&gt;contentType, &#39;;&#39;) . &quot;\n&quot;;</span>
-<span class=x>echo &quot;Content:\n&quot;;</span>
-<span class=x>echo $part-&gt;getContent();</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>// get the first non-multipart part
+$part = $message;
+while ($part-&gt;isMultipart()) {
+    $part = $message-&gt;getPart(1);
+}
+echo 'Type of this part is ' . strtok($part-&gt;contentType, ';') . &quot;\n&quot;;
+echo &quot;Content:\n&quot;;
+echo $part-&gt;getContent();</code></pre>
 <p><code>Laminas\Mail\Storage\Part</code> also implements <code>RecursiveIterator</code>, which allows iterating
 through all parts, even when nested. Additionally, it implements the magic
 method <code>__toString()</code>, which returns the content.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use RecursiveIteratorIterator;</span>
-<span class=x>use Laminas\Mail\Exception;</span>
+<pre class=codehilite><code class=language-php>use RecursiveIteratorIterator;
+use Laminas\Mail\Exception;
 
-<span class=x>// output first text/plain part</span>
-<span class=x>$foundPart = null;</span>
-<span class=x>foreach (new RecursiveIteratorIterator($mail-&gt;getMessage(1)) as $part) {</span>
-<span class=x>    try {</span>
-<span class=x>        if (strtok($part-&gt;contentType, &#39;;&#39;) == &#39;text/plain&#39;) {</span>
-<span class=x>            $foundPart = $part;</span>
-<span class=x>            break;</span>
-<span class=x>        }</span>
-<span class=x>    } catch (Exception $e) {</span>
-<span class=x>        // ignore</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-<span class=x>if (! $foundPart) {</span>
-<span class=x>    echo &#39;no plain text part found&#39;;</span>
-<span class=x>} else {</span>
-<span class=x>    echo &quot;plain text part: \n&quot; . $foundPart;</span>
-<span class=x>}</span>
-</pre></div></p>
+// output first text/plain part
+$foundPart = null;
+foreach (new RecursiveIteratorIterator($mail-&gt;getMessage(1)) as $part) {
+    try {
+        if (strtok($part-&gt;contentType, ';') == 'text/plain') {
+            $foundPart = $part;
+            break;
+        }
+    } catch (Exception $e) {
+        // ignore
+    }
+}
+if (! $foundPart) {
+    echo 'no plain text part found';
+} else {
+    echo &quot;plain text part: \n&quot; . $foundPart;
+}</code></pre>
 <h2 id="checking-for-flags">Checking for flags</h2>
 <p>Maildir and IMAP support storing flags with messages. The <code>Laminas\Mail\Storage</code>
 class defines constants for all known maildir and IMAP system flags, named
 <code>FLAG_&lt;flagname&gt;</code>. To check for flags, <code>Laminas\Mail\Storage\Message</code> has
 a method called <code>hasFlag()</code>. With <code>getFlags()</code> you'll get all flags.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Storage;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail\Storage;
 
-<span class=x>// Find unread messages:</span>
-<span class=x>echo &quot;Unread mails:\n&quot;;</span>
-<span class=x>foreach ($mail as $message) {</span>
-<span class=x>    if ($message-&gt;hasFlag(Storage::FLAG_SEEN)) {</span>
-<span class=x>        continue;</span>
-<span class=x>    }</span>
+// Find unread messages:
+echo &quot;Unread mails:\n&quot;;
+foreach ($mail as $message) {
+    if ($message-&gt;hasFlag(Storage::FLAG_SEEN)) {
+        continue;
+    }
 
-<span class=x>    // mark recent/new mails</span>
-<span class=x>    echo ($message-&gt;hasFlag(Storage::FLAG_RECENT))</span>
-<span class=x>        ? &#39;! &#39;</span>
-<span class=x>        : &#39;  &#39;;</span>
+    // mark recent/new mails
+    echo ($message-&gt;hasFlag(Storage::FLAG_RECENT))
+        ? '! '
+        : '  ';
 
-<span class=x>    echo $message-&gt;subject . &quot;\n&quot;;</span>
-<span class=x>}</span>
+    echo $message-&gt;subject . &quot;\n&quot;;
+}
 
-<span class=x>// Check for known flags</span>
-<span class=x>$flags = $message-&gt;getFlags();</span>
-<span class=x>echo &#39;Message is flagged as: &#39;;</span>
-<span class=x>foreach ($flags as $flag) {</span>
-<span class=x>    switch ($flag) {</span>
-<span class=x>        case Storage::FLAG_ANSWERED:</span>
-<span class=x>            echo &#39;Answered &#39;;</span>
-<span class=x>            break;</span>
-<span class=x>        case Storage::FLAG_FLAGGED:</span>
-<span class=x>            echo &#39;Flagged &#39;;</span>
-<span class=x>            break;</span>
+// Check for known flags
+$flags = $message-&gt;getFlags();
+echo 'Message is flagged as: ';
+foreach ($flags as $flag) {
+    switch ($flag) {
+        case Storage::FLAG_ANSWERED:
+            echo 'Answered ';
+            break;
+        case Storage::FLAG_FLAGGED:
+            echo 'Flagged ';
+            break;
 
-<span class=x>        // ...</span>
-<span class=x>        // check for other flags</span>
-<span class=x>        // ...</span>
+        // ...
+        // check for other flags
+        // ...
 
-<span class=x>        default:</span>
-<span class=x>            echo $flag . &#39;(unknown flag) &#39;;</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+        default:
+            echo $flag . '(unknown flag) ';
+    }
+}</code></pre>
 <p>As IMAP allows user or client defined flags, you could get flags that don't have
 a constant in <code>Laminas\Mail\Storage</code>. Instead, they are returned as strings and can
 be checked the same way with <code>hasFlag()</code>.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// check message for client defined flags $IsSpam, $SpamTested</span>
-<span class=x>if (! $message-&gt;hasFlag(&#39;$SpamTested&#39;)) {</span>
-<span class=x>    echo &#39;message has not been tested for spam&#39;;</span>
-<span class=x>} elseif ($message-&gt;hasFlag(&#39;$IsSpam&#39;)) {</span>
-<span class=x>    echo &#39;this message is spam&#39;;</span>
-<span class=x>} else {</span>
-<span class=x>    echo &#39;this message is ham&#39;;</span>
-<span class=x>}</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>// check message for client defined flags $IsSpam, $SpamTested
+if (! $message-&gt;hasFlag('$SpamTested')) {
+    echo 'message has not been tested for spam';
+} elseif ($message-&gt;hasFlag('$IsSpam')) {
+    echo 'this message is spam';
+} else {
+    echo 'this message is ham';
+}</code></pre>
 <h2 id="using-folders">Using folders</h2>
 <p>All storage adapters except POP3 support folders (also called <em>mailboxes</em>). The
 interface implemented by all adapters supporting folders is called
@@ -681,35 +667,34 @@ have an mbox file called <code>INBOX</code> in your mbox base directory, you nee
 specify another folder via the constructor.</p>
 <p><code>Laminas\Mail\Storage\Imap</code> supports folders by default.</p>
 <p>Examples for opening folders with each adapter:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Storage\Folder;</span>
-<span class=x>use Laminas\Mail\Storage\Imap;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail\Storage\Folder;
+use Laminas\Mail\Storage\Imap;
 
-<span class=x>// mbox with folders:</span>
-<span class=x>$mail = new Folder\Mbox([&#39;dirname&#39; =&gt; &#39;/home/test/mail/&#39;]);</span>
+// mbox with folders:
+$mail = new Folder\Mbox(['dirname' =&gt; '/home/test/mail/']);
 
-<span class=x>// mbox with a default folder not called INBOX; also works</span>
-<span class=x>// with the maildir and IMAP implementations.</span>
-<span class=x>$mail = new Folder\Mbox([</span>
-<span class=x>    &#39;dirname&#39; =&gt; &#39;/home/test/mail/&#39;,</span>
-<span class=x>    &#39;folder&#39;  =&gt; &#39;Archive&#39;,</span>
-<span class=x>]);</span>
+// mbox with a default folder not called INBOX; also works
+// with the maildir and IMAP implementations.
+$mail = new Folder\Mbox([
+    'dirname' =&gt; '/home/test/mail/',
+    'folder'  =&gt; 'Archive',
+]);
 
-<span class=x>// maildir with folders:</span>
-<span class=x>$mail = new Folder\Maildir([&#39;dirname&#39; =&gt; &#39;/home/test/mail/&#39;]);</span>
+// maildir with folders:
+$mail = new Folder\Maildir(['dirname' =&gt; '/home/test/mail/']);
 
-<span class=x>// maildir with colon as delimiter, as suggested in Maildir++:</span>
-<span class=x>$mail = new Folder\Maildir([</span>
-<span class=x>    &#39;dirname&#39; =&gt; &#39;/home/test/mail/&#39;,</span>
-<span class=x>    &#39;delim&#39;   =&gt; &#39;:&#39;,</span>
-<span class=x>]);</span>
+// maildir with colon as delimiter, as suggested in Maildir++:
+$mail = new Folder\Maildir([
+    'dirname' =&gt; '/home/test/mail/',
+    'delim'   =&gt; ':',
+]);
 
-<span class=x>// IMAP is the same with and without folders:</span>
-<span class=x>$mail = new Imap([</span>
-<span class=x>    &#39;host&#39;     =&gt; &#39;example.com&#39;,</span>
-<span class=x>    &#39;user&#39;     =&gt; &#39;test&#39;,</span>
-<span class=x>    &#39;password&#39; =&gt; &#39;test&#39;,</span>
-<span class=x>]);</span>
-</pre></div></p>
+// IMAP is the same with and without folders:
+$mail = new Imap([
+    'host'     =&gt; 'example.com',
+    'user'     =&gt; 'test',
+    'password' =&gt; 'test',
+]);</code></pre>
 <p>With the method <code>getFolders($root = null)</code>, you can get the folder hierarchy
 starting with the root folder, or the given folder. The method returns an
 instance of <code>Laminas\Mail\Storage\Folder</code>, which implements <code>RecursiveIterator</code>,
@@ -722,60 +707,57 @@ global name is also returned by the magic method <code>__toString()</code>. Some
 may not be selectable, which means they can't store messages; selecting them
 results in an error. This can be checked with the method <code>isSelectable()</code>.</p>
 <p>The following demonstrates providing a tree view of a folder:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use RecursiveIteratorIterator;</span>
+<pre class=codehilite><code class=language-php>use RecursiveIteratorIterator;
 
-<span class=x>$folders = new RecursiveIteratorIterator(</span>
-<span class=x>    $this-&gt;mail-&gt;getFolders(),</span>
-<span class=x>    RecursiveIteratorIterator::SELF_FIRST</span>
-<span class=x>);</span>
+$folders = new RecursiveIteratorIterator(
+    $this-&gt;mail-&gt;getFolders(),
+    RecursiveIteratorIterator::SELF_FIRST
+);
 
-<span class=x>echo &#39;&lt;select name=&quot;folder&quot;&gt;&#39;;</span>
-<span class=x>foreach ($folders as $localName =&gt; $folder) {</span>
-<span class=x>    $localName = str_pad(&#39;&#39;, $folders-&gt;getDepth(), &#39;-&#39;, STR_PAD_LEFT)</span>
-<span class=x>        .  $localName;</span>
-<span class=x>    echo &#39;&lt;option&#39;;</span>
+echo '&lt;select name=&quot;folder&quot;&gt;';
+foreach ($folders as $localName =&gt; $folder) {
+    $localName = str_pad('', $folders-&gt;getDepth(), '-', STR_PAD_LEFT)
+        .  $localName;
+    echo '&lt;option';
 
-<span class=x>    if (! $folder-&gt;isSelectable()) {</span>
-<span class=x>        echo &#39; disabled=&quot;disabled&quot;&#39;;</span>
-<span class=x>    }</span>
+    if (! $folder-&gt;isSelectable()) {
+        echo ' disabled=&quot;disabled&quot;';
+    }
 
-<span class=x>    printf(</span>
-<span class=x>        &#39; value=&quot;%s&quot;&gt;%s&lt;/option&gt;&#39;,</span>
-<span class=x>        htmlspecialchars($folder),</span>
-<span class=x>        htmlspecialchars($localName)</span>
-<span class=x>    );</span>
-<span class=x>}</span>
-<span class=x>echo &#39;&lt;/select&gt;&#39;;</span>
-</pre></div></p>
+    printf(
+        ' value=&quot;%s&quot;&gt;%s&lt;/option&gt;',
+        htmlspecialchars($folder),
+        htmlspecialchars($localName)
+    );
+}
+echo '&lt;/select&gt;';</code></pre>
 <p>The current selected folder is returned by the method <code>getSelectedFolder()</code>.
 Changing the folder is done with the method <code>selectFolder()</code>, which needs the
 <em>global name</em> as a parameter. If you want to avoid writing delimiters, you can
 also use the properties of a <code>Folder</code> instance:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// depending on your mail storage and its settings $rootFolder-&gt;Archive-&gt;2005</span>
-<span class=x>// is the same as:</span>
-<span class=x>//  /Archive/2005</span>
-<span class=x>//  Archive:2005</span>
-<span class=x>//  INBOX.Archive.2005</span>
-<span class=x>//  ...</span>
-<span class=x>$folder = $mail-&gt;getFolders()-&gt;Archive-&gt;2005;</span>
-<span class=x>printf(&quot;Last folder was %s; new folder is %s\n&quot;, $mail-&gt;getSelectedFolder(), $folder);</span>
-<span class=x>$mail-&gt;selectFolder($folder);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>// depending on your mail storage and its settings $rootFolder-&gt;Archive-&gt;2005
+// is the same as:
+//  /Archive/2005
+//  Archive:2005
+//  INBOX.Archive.2005
+//  ...
+$folder = $mail-&gt;getFolders()-&gt;Archive-&gt;2005;
+printf(&quot;Last folder was %s; new folder is %s\n&quot;, $mail-&gt;getSelectedFolder(), $folder);
+$mail-&gt;selectFolder($folder);</code></pre>
 <h2 id="advanced-use">Advanced Use</h2>
 <h3>Using NOOP</h3>
 <p>If you're using a remote storage and have some long tasks, you might need to
 keep the connection alive via noop:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>foreach ($mail as $message) {</span>
+<pre class=codehilite><code class=language-php>foreach ($mail as $message) {
 
-<span class=x>    // do some calculations ...</span>
+    // do some calculations ...
 
-<span class=x>    $mail-&gt;noop(); // keep alive</span>
+    $mail-&gt;noop(); // keep alive
 
-<span class=x>    // do something else ...</span>
+    // do something else ...
 
-<span class=x>    $mail-&gt;noop(); // keep alive</span>
-<span class=x>}</span>
-</pre></div></p>
+    $mail-&gt;noop(); // keep alive
+}</code></pre>
 <h3>Caching instances</h3>
 <p><code>Laminas\Mail\Storage\Mbox</code>, <code>Laminas\Mail\Storage\Folder\Mbox</code>,
 <code>Laminas\Mail\Storage\Maildir</code>, and <code>Laminas\Mail\Storage\Folder\Maildir</code> implement the
@@ -791,27 +773,26 @@ its best used with static storage.</p>
 <li>Create a signal file whenever a change is made; check for that signal file,
   reparse if present, and remove it afterwards.</li>
 </ul>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Storage\Folder\Mbox;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail\Storage\Folder\Mbox;
 
-<span class=x>// There&#39;s no specific cache handler/class used here,</span>
-<span class=x>// change the code to match your cache handler.</span>
-<span class=x>$signalFile  = &#39;/home/test/.mail.last_change&#39;;</span>
-<span class=x>$mboxBasedir = &#39;/home/test/mail/&#39;;</span>
-<span class=x>$cacheId     = &#39;example mail cache &#39; . $mboxBasedir . $signalFile;</span>
-<span class=x>$cache       = new Cache();</span>
-<span class=x>$hasCache    = ($cache-&gt;has($cacheId)</span>
-<span class=x>    &amp;&amp; filemtime($signalFile) &lt;= $cache-&gt;getMTime($cacheId)</span>
-<span class=x>);</span>
+// There's no specific cache handler/class used here,
+// change the code to match your cache handler.
+$signalFile  = '/home/test/.mail.last_change';
+$mboxBasedir = '/home/test/mail/';
+$cacheId     = 'example mail cache ' . $mboxBasedir . $signalFile;
+$cache       = new Cache();
+$hasCache    = ($cache-&gt;has($cacheId)
+    &amp;&amp; filemtime($signalFile) &lt;= $cache-&gt;getMTime($cacheId)
+);
 
-<span class=x>$mail        = $hasCache</span>
-<span class=x>    ? $cache-&gt;get($cacheId)</span>
-<span class=x>    : new Mbox([&#39;dirname&#39; =&gt; $mboxBasedir]);</span>
+$mail        = $hasCache
+    ? $cache-&gt;get($cacheId)
+    : new Mbox(['dirname' =&gt; $mboxBasedir]);
 
-<span class=x>// do stuff ...</span>
+// do stuff ...
 
-<span class=x>// Cache when done</span>
-<span class=x>$cache-&gt;set($cacheId, $mail);</span>
-</pre></div></p>
+// Cache when done
+$cache-&gt;set($cacheId, $mail);</code></pre>
 <h3>Extending Protocol Classes</h3>
 <p>Remote storage adapters use two classes: <code>Laminas\Mail\Storage\&lt;Name&gt;</code> and
 <code>Laminas\Mail\Protocol\&lt;Name&gt;</code>. The protocol class translates the protocol commands
@@ -821,96 +802,95 @@ interface for message access.</p>
 <p>If you need additional protocol features, you can extend the protocol class and
 use it in the constructor of the main class. As an example, assume we need to
 knock different ports before we can connect to POP3.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Example\Mail</span>
-<span class=x>{</span>
-<span class=x>    use Laminas\Mail;</span>
+<pre class=codehilite><code class=language-php>namespace Example\Mail
+{
+    use Laminas\Mail;
 
-<span class=x>    class Exception extends Mail\Exception</span>
-<span class=x>    {</span>
-<span class=x>    }</span>
-<span class=x>}</span>
+    class Exception extends Mail\Exception
+    {
+    }
+}
 
-<span class=x>namespace Example\Mail\Protocol</span>
-<span class=x>{</span>
-<span class=x>    use Laminas\Mail\Protocol;</span>
+namespace Example\Mail\Protocol
+{
+    use Laminas\Mail\Protocol;
 
-<span class=x>    class Exception extends Protocol\Exception</span>
-<span class=x>    {</span>
-<span class=x>    }</span>
-<span class=x>}</span>
+    class Exception extends Protocol\Exception
+    {
+    }
+}
 
-<span class=x>namespace Example\Mail\Protocol\Pop3</span>
-<span class=x>{</span>
-<span class=x>    use Laminas\Mail\Protocol\Pop3;</span>
+namespace Example\Mail\Protocol\Pop3
+{
+    use Laminas\Mail\Protocol\Pop3;
 
-<span class=x>    class Knock extends Pop3</span>
-<span class=x>    {</span>
-<span class=x>        private $host</span>
+    class Knock extends Pop3
+    {
+        private $host
 
-<span class=x>        private $port;</span>
+        private $port;
 
-<span class=x>        public function __construct($host, $port = null)</span>
-<span class=x>        {</span>
-<span class=x>            // no auto connect in this class</span>
-<span class=x>            $this-&gt;host = $host;</span>
-<span class=x>            $this-&gt;port = $port;</span>
-<span class=x>        }</span>
+        public function __construct($host, $port = null)
+        {
+            // no auto connect in this class
+            $this-&gt;host = $host;
+            $this-&gt;port = $port;
+        }
 
-<span class=x>        public function knock($port)</span>
-<span class=x>        {</span>
-<span class=x>            $sock = @fsockopen($this-&gt;host, $port);</span>
-<span class=x>            if ($sock) {</span>
-<span class=x>                fclose($sock);</span>
-<span class=x>            }</span>
-<span class=x>        }</span>
+        public function knock($port)
+        {
+            $sock = @fsockopen($this-&gt;host, $port);
+            if ($sock) {
+                fclose($sock);
+            }
+        }
 
-<span class=x>        public function connect($host = null, $port = null, $ssl = false)</span>
-<span class=x>        {</span>
-<span class=x>            if ($host === null) {</span>
-<span class=x>                $host = $this-&gt;host;</span>
-<span class=x>            }</span>
-<span class=x>            if ($port === null) {</span>
-<span class=x>                $port = $this-&gt;port;</span>
-<span class=x>            }</span>
-<span class=x>            parent::connect($host, $port);</span>
-<span class=x>        }</span>
-<span class=x>    }</span>
-<span class=x>}</span>
+        public function connect($host = null, $port = null, $ssl = false)
+        {
+            if ($host === null) {
+                $host = $this-&gt;host;
+            }
+            if ($port === null) {
+                $port = $this-&gt;port;
+            }
+            parent::connect($host, $port);
+        }
+    }
+}
 
-<span class=x>namespace Example\Mail\Pop3</span>
-<span class=x>{</span>
-<span class=x>    use Example\Mail\Protoco\Pop3\Knock as KnockProtocol;</span>
-<span class=x>    use Laminas\Mail\Storage\Pop3;</span>
+namespace Example\Mail\Pop3
+{
+    use Example\Mail\Protoco\Pop3\Knock as KnockProtocol;
+    use Laminas\Mail\Storage\Pop3;
 
-<span class=x>    class Knock extends Pop3</span>
-<span class=x>    {</span>
-<span class=x>        public function __construct(array $params)</span>
-<span class=x>        {</span>
-<span class=x>            // ... check $params here! ...</span>
-<span class=x>            $protocol = new KnockProtocol($params[&#39;host&#39;]);</span>
+    class Knock extends Pop3
+    {
+        public function __construct(array $params)
+        {
+            // ... check $params here! ...
+            $protocol = new KnockProtocol($params['host']);
 
-<span class=x>            // do our &quot;special&quot; thing</span>
-<span class=x>            foreach ((array) $params[&#39;knock_ports&#39;] as $port) {</span>
-<span class=x>                $protocol-&gt;knock($port);</span>
-<span class=x>            }</span>
+            // do our &quot;special&quot; thing
+            foreach ((array) $params['knock_ports'] as $port) {
+                $protocol-&gt;knock($port);
+            }
 
-<span class=x>            // get to correct state</span>
-<span class=x>            $protocol-&gt;connect($params[&#39;host&#39;], $params[&#39;port&#39;]);</span>
-<span class=x>            $protocol-&gt;login($params[&#39;user&#39;], $params[&#39;password&#39;]);</span>
+            // get to correct state
+            $protocol-&gt;connect($params['host'], $params['port']);
+            $protocol-&gt;login($params['user'], $params['password']);
 
-<span class=x>            // initialize parent</span>
-<span class=x>            parent::__construct($protocol);</span>
-<span class=x>        }</span>
-<span class=x>    }</span>
-<span class=x>}</span>
+            // initialize parent
+            parent::__construct($protocol);
+        }
+    }
+}
 
-<span class=x>$mail = new Example\Mail\Pop3\Knock([</span>
-<span class=x>    &#39;host&#39;        =&gt; &#39;localhost&#39;,</span>
-<span class=x>    &#39;user&#39;        =&gt; &#39;test&#39;,</span>
-<span class=x>    &#39;password&#39;    =&gt; &#39;test&#39;,</span>
-<span class=x>    &#39;knock_ports&#39; =&gt; [1101, 1105, 1111],</span>
-<span class=x>]);</span>
-</pre></div></p>
+$mail = new Example\Mail\Pop3\Knock([
+    'host'        =&gt; 'localhost',
+    'user'        =&gt; 'test',
+    'password'    =&gt; 'test',
+    'knock_ports' =&gt; [1101, 1105, 1111],
+]);</code></pre>
 <p>The above assumes a connection is made; when connected, it logs in and, if
 supported, selects a folder as provided to the constructor.  When defining your
 own protocol class, make sure that's done or the next method will fail if the
@@ -924,66 +904,62 @@ enabled, an exception is thrown if you try to write to the maildir and it's
 already over quota.</p>
 <p>There are three methods used for quotas: <code>getQuota()</code>, <code>setQuota()</code>, and
 <code>checkQuota()</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mail\Storage\Writable\Maildir;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mail\Storage\Writable\Maildir;
 
-<span class=x>$mail = new Maildir([&#39;dirname&#39; =&gt; &#39;/home/test/mail/&#39;]);</span>
-<span class=x>$mail-&gt;setQuota(true); // true to enable, false to disable</span>
+$mail = new Maildir(['dirname' =&gt; '/home/test/mail/']);
+$mail-&gt;setQuota(true); // true to enable, false to disable
 
-<span class=x>printf(&quot;Quota check is now %s\n&quot;, $mail-&gt;getQuota() ? &#39;enabled&#39; : &#39;disabled&#39;);</span>
+printf(&quot;Quota check is now %s\n&quot;, $mail-&gt;getQuota() ? 'enabled' : 'disabled');
 
-<span class=x>// Check quota can be used even if quota checks are disabled:</span>
-<span class=x>printf(&quot;You are %sover quota\n&quot;, $mail-&gt;checkQuota() ? &#39;&#39; : &#39;not &#39;);</span>
-</pre></div></p>
+// Check quota can be used even if quota checks are disabled:
+printf(&quot;You are %sover quota\n&quot;, $mail-&gt;checkQuota() ? '' : 'not ');</code></pre>
 <p><code>checkQuota()</code> can also return a more detailed response by passing a boolean
 <code>true</code> argument:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$quota = $mail-&gt;checkQuota(true);</span>
-<span class=x>printf(&quot;You are %sover quota\n&quot;, $quota[&#39;over_quota&#39;] ? &#39;&#39; : &#39;not &#39;);</span>
-<span class=x>printf(</span>
-<span class=x>    &quot;You have %d of %d messages and use %d of %d octets\n&quot;,</span>
-<span class=x>    $quota[&#39;count&#39;],</span>
-<span class=x>    $quota[&#39;quota&#39;][&#39;count&#39;],</span>
-<span class=x>    $quota[&#39;size&#39;],</span>
-<span class=x>    $quota[&#39;quota&#39;][&#39;size&#39;]</span>
-<span class=x>);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$quota = $mail-&gt;checkQuota(true);
+printf(&quot;You are %sover quota\n&quot;, $quota['over_quota'] ? '' : 'not ');
+printf(
+    &quot;You have %d of %d messages and use %d of %d octets\n&quot;,
+    $quota['count'],
+    $quota['quota']['count'],
+    $quota['size'],
+    $quota['quota']['size']
+);</code></pre>
 <p>If you want to specify your own quota instead of using the one specified in the
 maildirsize file, you can do with <code>setQuota()</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// Message count and octet size supported; order does matter.</span>
-<span class=x>$quota = $mail-&gt;setQuota([&#39;size&#39; =&gt; 10000, &#39;count&#39; =&gt; 100]);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>// Message count and octet size supported; order does matter.
+$quota = $mail-&gt;setQuota(['size' =&gt; 10000, 'count' =&gt; 100]);</code></pre>
 <p>To add your own quota checks, use single letters as keys, and they will be
 preserved (but obviously not checked). It's also possible to extend
 <code>Laminas\Mail\Storage\Writable\Maildir</code> to define your own quota if the maildirsize
 file is missing (which can happen in Maildir++):</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Example\Mail\Storage;</span>
+<pre class=codehilite><code class=language-php>namespace Example\Mail\Storage;
 
-<span class=x>use Laminas\Mail\Storage\Exception;</span>
-<span class=x>use Laminas\Mail\Storage\Writable\Maildir as BaseMaildir;</span>
+use Laminas\Mail\Storage\Exception;
+use Laminas\Mail\Storage\Writable\Maildir as BaseMaildir;
 
-<span class=x>class Maildir extends BaseMaildir</span>
-<span class=x>{</span>
-<span class=x>    /**</span>
-<span class=x>     * getQuota is called with $fromStorage = true by quota checks.</span>
-<span class=x>     *</span>
-<span class=x>     * @param bool $fromStorage</span>
-<span class=x>     * @return bool|array</span>
-<span class=x>     */</span>
-<span class=x>    public function getQuota($fromStorage = false) {</span>
-<span class=x>        try {</span>
-<span class=x>            return parent::getQuota($fromStorage);</span>
-<span class=x>        } catch (Exception $e) {</span>
-<span class=x>            if (! $fromStorage) {</span>
-<span class=x>                // unknown error:</span>
-<span class=x>                throw $e;</span>
-<span class=x>            }</span>
+class Maildir extends BaseMaildir
+{
+    /**
+     * getQuota is called with $fromStorage = true by quota checks.
+     *
+     * @param bool $fromStorage
+     * @return bool|array
+     */
+    public function getQuota($fromStorage = false) {
+        try {
+            return parent::getQuota($fromStorage);
+        } catch (Exception $e) {
+            if (! $fromStorage) {
+                // unknown error:
+                throw $e;
+            }
 
-<span class=x>            // maildirsize file must be missing</span>
-<span class=x>            list($count, $size) = get_quota_from_somewhere_else();</span>
-<span class=x>            return [&#39;count&#39; =&gt; $count, &#39;size&#39; =&gt; $size];</span>
-<span class=x>        }</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+            // maildirsize file must be missing
+            list($count, $size) = get_quota_from_somewhere_else();
+            return ['count' =&gt; $count, 'size' =&gt; $size];
+        }
+    }
+}</code></pre>
 
 
 
@@ -1176,9 +1152,10 @@ file is missing (which can happen in Maildir++):</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1215,7 +1192,7 @@ file is missing (which can happen in Maildir++):</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-mail//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-mail/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1224,8 +1201,8 @@ file is missing (which can happen in Maildir++):</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-mail//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-mail/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

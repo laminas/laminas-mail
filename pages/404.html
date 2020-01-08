@@ -6,10 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Parse, create, store, and send email messages, using a variety of storage and transport protocols.">  
-    <link rel="canonical" href="https://docs.laminas.dev/transport/smtp-authentication/">
     <link rel="shortcut icon" href="/img/trademark-laminas-foundation-rgb.svg">
 
-    <title>Authentication - laminas-mail - Laminas Docs</title>
+    <title>laminas-mail - Laminas Docs</title>
 
     <link rel="stylesheet" href="/css/styles.css">
 </head>
@@ -20,7 +19,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -59,7 +58,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../..">laminas-mail</a>
+            <a href="../.">laminas-mail</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -74,7 +73,7 @@
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="../../intro/" class="subnavigation__link">Introduction</a>
+                                <a href="../intro/" class="subnavigation__link">Introduction</a>
                             </li>
                         
                     
@@ -98,19 +97,19 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../message/intro/" class="subnavigation__link">Intro and Usage</a>
+        <a href="../message/intro/" class="subnavigation__link">Intro and Usage</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../message/attachments/" class="subnavigation__link">Attachments</a>
+        <a href="../message/attachments/" class="subnavigation__link">Attachments</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../message/character-sets/" class="subnavigation__link">Character Sets</a>
+        <a href="../message/character-sets/" class="subnavigation__link">Character Sets</a>
     </li>
 
             
@@ -125,7 +124,7 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../intro/" class="subnavigation__link">Usage</a>
+        <a href="../transport/intro/" class="subnavigation__link">Usage</a>
     </li>
 
             
@@ -136,19 +135,19 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../smtp-options/" class="subnavigation__link">SMTP Options</a>
+        <a href="../transport/smtp-options/" class="subnavigation__link">SMTP Options</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../smtp-multiple-send/" class="subnavigation__link">Sending multiple messages</a>
+        <a href="../transport/smtp-multiple-send/" class="subnavigation__link">Sending multiple messages</a>
     </li>
 
             
                 
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Authentication</a>
+    <li class="subnavigation__list-item ">
+        <a href="../transport/smtp-authentication/" class="subnavigation__link">Authentication</a>
     </li>
 
             
@@ -158,7 +157,7 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../file-options/" class="subnavigation__link">File Transport Options</a>
+        <a href="../transport/file-options/" class="subnavigation__link">File Transport Options</a>
     </li>
 
             
@@ -168,7 +167,7 @@
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../../read/" class="subnavigation__link">Reading and Storing Mail</a>
+        <a href="../read/" class="subnavigation__link">Reading and Storing Mail</a>
     </li>
 
                                     
@@ -237,277 +236,21 @@
         <div class="row">
             <div class="col-md-2 col-sm-12">
                 
-    
-
-    
-    
-        <div class="toc">
-            <h6 class="toc__headline">On this page</h6>
-            <ul class="toc__list">
-                
-                    <li class="toc__entry">
-                        <a href="#configuration" class="toc__link">Configuration</a>
-                    </li>
-                
-                    <li class="toc__entry">
-                        <a href="#examples" class="toc__link">Examples</a>
-                    </li>
-                
-            </ul>
-        </div>
-    
-
             </div>
             <div class="col-md-7 col-sm-12 content" role="main" data-spy="scroll" data-target=".toc">
                 
-                    <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        
-            <li class="breadcrumb-item"><a href="">Overview</a></li>
 
-            
-                <li class="breadcrumb-item"><a href="../..">laminas-mail</a></li>
-
-                
-                    
-                        
-                        
-                            <li class="breadcrumb-item">Reference</li>
-                        
-                    
-                
-                    
-                        
-                        
-                            <li class="breadcrumb-item">Transports</li>
-                        
-                    
-                
-                    
-                        
-                        
-                            <li class="breadcrumb-item">SMTP</li>
-                        
-                    
-                
-
-                <li class="breadcrumb-item active" aria-current="page">Authentication</li>
-            
-        
-    </ol>
-</nav>
-
-
-
-
-
-
-    
-    
-        <h2 class="chapter__headline">SMTP</h2>
-    
-
-    <h1 id="smtp-authentication">SMTP Authentication</h1>
-<p>laminas-mail supports the use of SMTP authentication, which can be enabled via
-configuration.  The available built-in authentication methods are PLAIN, LOGIN,
-and CRAM-MD5, all of which expect 'username' and 'password' values in the
-configuration array.</p>
-<h2 id="configuration">Configuration</h2>
-<p>In order to enable authentication, ou need to specify a "connection class" and
-connection configuration when configuring your SMTP transport. The two settings
-are briefly covered in the <a href="../smtp-options/#configuration-options">SMTP transport configuration options</a>. Below are more details.</p>
-<h3>connection_class</h3>
-<p>The connection class should be a fully qualified class name of a
-<code>Laminas\Mail\Protocol\Smtp\Auth\*</code> class or extension, or the short name (name
-without leading namespace). laminas-mail ships with the following:</p>
-<ul>
-<li><code>Laminas\Mail\Protocol\Smtp\Auth\Plain</code>, or <code>plain</code></li>
-<li><code>Laminas\Mail\Protocol\Smtp\Auth\Login</code>, or <code>login</code></li>
-<li><code>Laminas\Mail\Protocol\Smtp\Auth\Crammd5</code>, or <code>crammd5</code></li>
-</ul>
-<p>Custom connection classes must be extensions of <code>Laminas\Mail\Protocol\Smtp</code>.</p>
-<h3>connection_config</h3>
-<p>The <code>connection_config</code> should be an associative array of options to provide to
-the underlying connection class. All shipped connection classes require:</p>
-<ul>
-<li><code>username</code></li>
-<li><code>password</code></li>
-</ul>
-<p>Optionally, ou may also provide:</p>
-<ul>
-<li><code>ssl</code>: either the value <code>ssl</code> or <code>tls</code>.</li>
-<li><code>port</code>: if using something other than the default port for the protocol used.
-  Port 25 is the default used for non-SSL connections, 465 for SSL, and 587 for
-  TLS.</li>
-<li><code>use_complete_quit</code>: configuring whether or not an SMTP transport should
-  issue a <code>QUIT</code> at <code>__destruct()</code> and/or end of script execution. Useful in
-  long-running scripts against <a href="#smtp-transport-usage-for-servers-with-reuse-time-limit">SMTP servers that implements a reuse time limit</a>.</li>
-</ul>
-<h2 id="examples">Examples</h2>
-<h3>SMTP Transport Usage with PLAIN AUTH</h3>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Transport\Smtp as SmtpTransport;
-use Laminas\Mail\Transport\SmtpOptions;
-
-// Setup SMTP transport using PLAIN authentication
-$transport = new SmtpTransport();
-$options   = new SmtpOptions([
-    'name'              =&gt; 'localhost.localdomain',
-    'host'              =&gt; '127.0.0.1',
-    'connection_class'  =&gt; 'plain',
-    'connection_config' =&gt; [
-        'username' =&gt; 'user',
-        'password' =&gt; 'pass',
-    ],
-]);
-$transport-&gt;setOptions($options);</code></pre>
-<h3>SMTP Transport Usage with LOGIN AUTH</h3>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Transport\Smtp as SmtpTransport;
-use Laminas\Mail\Transport\SmtpOptions;
-
-// Setup SMTP transport using LOGIN authentication
-$transport = new SmtpTransport();
-$options   = new SmtpOptions([
-    'name'              =&gt; 'localhost.localdomain',
-    'host'              =&gt; '127.0.0.1',
-    'connection_class'  =&gt; 'login',
-    'connection_config' =&gt; [
-        'username' =&gt; 'user',
-        'password' =&gt; 'pass',
-    ],
-]);
-$transport-&gt;setOptions($options);</code></pre>
-<h3>SMTP Transport Usage with CRAM-MD5 AUTH</h3>
+<h1 class="content__title">404</h1>
 <blockquote>
-<h3>Installation requirements</h3>
-<p>The CRAM-MD5 authentication depends on the laminas-crypt component, so be sure to
-have it installed before getting started:</p>
-<pre class="codehilite"><code class="language-bash">
-$ composer require laminas/laminas-crypt
-</code></pre>
-</blockquote>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Transport\Smtp as SmtpTransport;
-use Laminas\Mail\Transport\SmtpOptions;
-
-// Setup SMTP transport using CRAM-MD5 authentication
-$transport = new SmtpTransport();
-$options   = new SmtpOptions([
-    'name'              =&gt; 'localhost.localdomain',
-    'host'              =&gt; '127.0.0.1',
-    'connection_class'  =&gt; 'crammd5',
-    'connection_config' =&gt; [
-        'username' =&gt; 'user',
-        'password' =&gt; 'pass',
-    ],
-]);
-$transport-&gt;setOptions($options);</code></pre>
-<h3>SMTP Transport Usage with PLAIN AUTH over TLS</h3>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Transport\Smtp as SmtpTransport;
-use Laminas\Mail\Transport\SmtpOptions;
-
-// Setup SMTP transport using PLAIN authentication over TLS
-$transport = new SmtpTransport();
-$options   = new SmtpOptions([
-    'name'              =&gt; 'example.com',
-    'host'              =&gt; '127.0.0.1',
-    'port'              =&gt; 587,
-    // Notice port change for TLS is 587
-    'connection_class'  =&gt; 'plain',
-    'connection_config' =&gt; [
-        'username' =&gt; 'user',
-        'password' =&gt; 'pass',
-        'ssl'      =&gt; 'tls',
-    ],
-]);
-$transport-&gt;setOptions($options);</code></pre>
-<h3>SMTP Transport Usage for servers with reuse time limit</h3>
-<p>By default, every <code>Laminas\Mail\Protocol\Smtp\*</code> class tries to disconnect from
-the STMP server by sending a <code>QUIT</code> command and expecting a <code>221</code> (<em>Service
-closing transmission channel</em>) response code.  This is done automatically at
-object destruction (via the <code>__destruct()</code> method), and can generate errors
-with SMTP servers like <a href="http://www.postfix.org/postconf.5.html#smtp_connection_reuse_time_limit">Postfix</a>
-that implement a reuse time limit:</p>
-<pre class=codehilite><code class=language-php>// [...]
-$transport-&gt;send($message);
-
-var_dump('E-mail sent');
-sleep(305);
-var_dump('Soon to exit...');
-exit;
-
-// E-mail sent
-// Soon to exit...
-// Notice: fwrite(): send of 6 bytes failed with errno=32 Broken pipe in ./laminas-mail/src/Protocol/AbstractProtocol.php on line 255
-// Fatal error: Uncaught Laminas\Mail\Protocol\Exception\RuntimeException: Could not read from 127.0.0.1 in ./laminas-mail/src/Protocol/AbstractProtocol.php:301</code></pre>
-<p>To avoid this error, you can set a time limit for the SMTP connection in <code>SmtpOptions</code>: </p>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Transport\Smtp as SmtpTransport;
-use Laminas\Mail\Transport\SmtpOptions;
-
-// Setup SMTP transport to exit without the `QUIT` command
-$transport = new SmtpTransport();
-$options   = new SmtpOptions([
-    'name'                  =&gt; 'localhost.localdomain',
-    'host'                  =&gt; '127.0.0.1',
-    'connection_time_limit' =&gt; 300, // recreate the connection 5 minutes after connect()
-    'connection_class'      =&gt; 'plain',
-    'connection_config'     =&gt; [
-        'username'            =&gt; 'user',
-        'password'            =&gt; 'pass',
-        'use_complete_quit'   =&gt; false, // Dont send 'QUIT' on __destruct()
-    ],
-]);
-$transport-&gt;setOptions($options);</code></pre>
-<p>Setting <code>connection_time_limit</code> will automatically set <code>use_complete_quit</code> to <code>false</code>, 
-so the connection with the SMTP server will be closed without the <code>QUIT</code> command.</p>
-<blockquote>
-<h3>NOTE: recreate old connection</h3>
-<p>The <code>use_complete_quit</code> flag described above aims to avoid errors that you
-cannot manage from PHP.</p>
-<p>If you deal with SMTP servers that exhibit this behavior from within
-long-running scripts, you SHOULD use the flag along with the
-<code>connection_time_limit</code> flag to ensure you recreate the connection.</p>
-<h3>Since 2.10.0</h3>
-<p>The <code>connection_time_limit</code> flag has been available since 2.10.0.</p>
+    <h3>Something went wrong!</h3>
+    <p>
+        We're sorry, but the page you are looking for does not exist.
+    </p>
 </blockquote>
 
+<a href="../." class="btn btn-default" role="button">Go to homepage</a>
 
 
-
-    <nav>
-    <ul class="page-nav hidden-print">
-
-        
-        <li class="page-nav__item">
-            
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../smtp-multiple-send/">
-                    <i class="fa fa-chevron-left"></i> Previous
-                </a>
-            
-        </li>
-
-        
-        <li class="page-nav__item">
-            
-                <a rel="next" class="page-nav__link page-nav__link--next" href="../file-options/">
-                    Next <i class="fa fa-chevron-right"></i>
-                </a>
-            
-        </li>
-    </ul>
-</nav>
-
-
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/laminas/laminas-mail/edit/master/docs/book/transport/smtp-authentication.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
-
-                
             </div>
             <div class="col-md-3 col-sm-12 sidebar">
                 
@@ -522,7 +265,7 @@ long-running scripts, you SHOULD use the flag along with the
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../..">laminas-mail</a>
+            <a href="../.">laminas-mail</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -537,7 +280,7 @@ long-running scripts, you SHOULD use the flag along with the
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="../../intro/" class="subnavigation__link">Introduction</a>
+                                <a href="../intro/" class="subnavigation__link">Introduction</a>
                             </li>
                         
                     
@@ -561,19 +304,19 @@ long-running scripts, you SHOULD use the flag along with the
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../message/intro/" class="subnavigation__link">Intro and Usage</a>
+        <a href="../message/intro/" class="subnavigation__link">Intro and Usage</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../message/attachments/" class="subnavigation__link">Attachments</a>
+        <a href="../message/attachments/" class="subnavigation__link">Attachments</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../message/character-sets/" class="subnavigation__link">Character Sets</a>
+        <a href="../message/character-sets/" class="subnavigation__link">Character Sets</a>
     </li>
 
             
@@ -588,7 +331,7 @@ long-running scripts, you SHOULD use the flag along with the
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../intro/" class="subnavigation__link">Usage</a>
+        <a href="../transport/intro/" class="subnavigation__link">Usage</a>
     </li>
 
             
@@ -599,19 +342,19 @@ long-running scripts, you SHOULD use the flag along with the
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../smtp-options/" class="subnavigation__link">SMTP Options</a>
+        <a href="../transport/smtp-options/" class="subnavigation__link">SMTP Options</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../smtp-multiple-send/" class="subnavigation__link">Sending multiple messages</a>
+        <a href="../transport/smtp-multiple-send/" class="subnavigation__link">Sending multiple messages</a>
     </li>
 
             
                 
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Authentication</a>
+    <li class="subnavigation__list-item ">
+        <a href="../transport/smtp-authentication/" class="subnavigation__link">Authentication</a>
     </li>
 
             
@@ -621,7 +364,7 @@ long-running scripts, you SHOULD use the flag along with the
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../file-options/" class="subnavigation__link">File Transport Options</a>
+        <a href="../transport/file-options/" class="subnavigation__link">File Transport Options</a>
     </li>
 
             
@@ -631,7 +374,7 @@ long-running scripts, you SHOULD use the flag along with the
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../../read/" class="subnavigation__link">Reading and Storing Mail</a>
+        <a href="../read/" class="subnavigation__link">Reading and Storing Mail</a>
     </li>
 
                                     
@@ -722,12 +465,12 @@ long-running scripts, you SHOULD use the flag along with the
 </footer>
 
     <script>
-        let base_url = '../..',
+        let base_url = '..',
             project  = "components",
             siteName = 'laminas-mail';
     </script>
     <script src="/js/scripts.js"></script>
-        <script src="../../search/main.js"></script>
+        <script src="../search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
