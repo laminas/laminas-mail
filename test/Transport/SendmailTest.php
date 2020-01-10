@@ -87,8 +87,14 @@ class SendmailTest extends TestCase
         $this->assertEquals('This is only a test.', trim($this->message));
         $this->assertNotContains("To: Laminas DevTeam <api-tools-devteam@zend.com>\n", $this->additional_headers);
         $this->assertContains("Cc: matthew@zend.com\n", $this->additional_headers);
-        $this->assertContains("Bcc: \"CR-Team, Laminas Project\" <api-tools-crteam@lists.zend.com>\n", $this->additional_headers);
-        $this->assertContains("From: api-tools-devteam@zend.com,\n Matthew <matthew@zend.com>\n", $this->additional_headers);
+        $this->assertContains(
+            "Bcc: \"CR-Team, Laminas Project\" <api-tools-crteam@lists.zend.com>\n",
+            $this->additional_headers
+        );
+        $this->assertContains(
+            "From: api-tools-devteam@zend.com,\n Matthew <matthew@zend.com>\n",
+            $this->additional_headers
+        );
         $this->assertContains("X-Foo-Bar: Matthew\n", $this->additional_headers);
         $this->assertContains("Sender: Ralph Schindler <ralph.schindler@zend.com>\n", $this->additional_headers);
         $this->assertEquals('-R hdrs -f\'ralph.schindler@zend.com\'', $this->additional_parameters);
@@ -108,7 +114,10 @@ class SendmailTest extends TestCase
         $this->assertEquals('This is only a test.', trim($this->message));
         $this->assertContains("To: Laminas DevTeam <api-tools-devteam@zend.com>\r\n", $this->additional_headers);
         $this->assertContains("Cc: matthew@zend.com\r\n", $this->additional_headers);
-        $this->assertContains("Bcc: \"CR-Team, Laminas Project\" <api-tools-crteam@lists.zend.com>\r\n", $this->additional_headers);
+        $this->assertContains(
+            "Bcc: \"CR-Team, Laminas Project\" <api-tools-crteam@lists.zend.com>\r\n",
+            $this->additional_headers
+        );
         $this->assertContains(
             "From: api-tools-devteam@zend.com,\r\n Matthew <matthew@zend.com>\r\n",
             $this->additional_headers
