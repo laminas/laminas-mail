@@ -21,6 +21,9 @@ class HeaderLoader extends PluginClassLoader
     protected $plugins = [
         'bcc'                       => 'Laminas\Mail\Header\Bcc',
         'cc'                        => 'Laminas\Mail\Header\Cc',
+        'contentdisposition'        => 'Laminas\Mail\Header\ContentDisposition',
+        'content_disposition'       => 'Laminas\Mail\Header\ContentDisposition',
+        'content-disposition'       => 'Laminas\Mail\Header\ContentDisposition',
         'contenttype'               => 'Laminas\Mail\Header\ContentType',
         'content_type'              => 'Laminas\Mail\Header\ContentType',
         'content-type'              => 'Laminas\Mail\Header\ContentType',
