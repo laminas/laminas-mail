@@ -189,7 +189,14 @@ class ContentDispositionTest extends TestCase
                 $continuationFieldValue,
                 $continuationHeaderLine,
             ],
-            'multiple simple parameters' => ['inline', ['one' => 1, 'two' => 2], 'inline; one="1"; two="2"', 'Content-Disposition: inline; one="1"; two="2"']
+            'multiple simple parameters' => ['inline', ['one' => 1, 'two' => 2], 'inline; one="1"; two="2"', 'Content-Disposition: inline; one="1"; two="2"'],
+            'UTF-8 multi-line' => ['attachment', ['filename' => 'nōtes-from-our-mēēting.rtf', 'meeting-chair' => 'Simon', 'attendees' => 'Alice, Bob, Charlie', 'appologies' => 'Mallory'], "attachment; filename=\"nōtes-from-our-mēēting.rtf\";\r\n meeting-chair=\"Simon\"; attendees=\"Alice, Bob, Charlie\";\r\n appologies=\"Mallory\"", "Content-Disposition: attachment;\r\n filename=\"=?UTF-8?Q?n=C5=8Dtes-from-our-m=C4=93=C4=93ting.rtf?=\";\r\n meeting-chair=\"Simon\"; attendees=\"Alice, Bob, Charlie\";\r\n appologies=\"Mallory\""],
+            'UTF-8 continuation' => [
+                'attachment',
+                ['filename' => 'this-file-name-is-so-long-that-it-does-not-even-fit-on-a-whole-line-by-itself-so-we-need-to-split-it-with-value-continuation.also-UTF-8-characters-hērē.txt'],
+                "attachment;\r\n filename*0=\"this-file-name-is-so-long-that-it-does-not-even-fit-on-a-\";\r\n filename*1=\"whole-line-by-itself-so-we-need-to-split-it-with-value-co\";\r\n filename*2=\"ntinuation.also-UTF-8-characters-hērē.txt\"",
+                "Content-Disposition: attachment;\r\n filename*0=\"=?UTF-8?Q?this-file-name-is-so-long-that-it-does-not-ev?=\";\r\n filename*1=\"=?UTF-8?Q?en-fit-on-a-whole-line-by-itself-so-we-need-t?=\";\r\n filename*2=\"=?UTF-8?Q?o-split-it-with-value-continuation.also-UTF-8?=\";\r\n filename*3=\"=?UTF-8?Q?-characters-h=C4=93r=C4=93.txt?=\"",
+            ],
         ];
         // @codingStandardsIgnoreEnd
     }
@@ -214,6 +221,7 @@ class ContentDispositionTest extends TestCase
         // @codingStandardsIgnoreStart
         return [
             // Description => [header line, expected exception, exception message contain]
+            'wrong-header' => ['Subject: important email', $invalidArgumentException, 'header line'],
             'invalid name' => ['Content-Disposition' . chr(32) . ': inline', $invalidArgumentException, 'header name'],
             'newline' => ["Content-Disposition: inline;\nlevel=1", $invalidArgumentException, 'header value'],
             'cr-lf' => ["Content-Disposition: inline\r\n;level=1", $invalidArgumentException, 'header value'],
