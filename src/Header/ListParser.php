@@ -77,6 +77,12 @@ class ListParser
                 continue;
             }
 
+            // If already in quote and the character does not match the previously
+            // matched quote delimiter, we're done here.
+            if ($inQuote) {
+                continue;
+            }
+
             // Otherwise, we're starting a quoted string.
             $inQuote = true;
             $currentQuoteDelim = $char;

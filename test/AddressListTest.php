@@ -200,4 +200,26 @@ class AddressListTest extends TestCase
         $this->list->next();
         $this->assertSame('test@example.org', $this->list->key());
     }
+
+    /**
+     * If name-field is quoted with "", then ' inside it should not treated as terminator, but as value.
+     */
+    public function testMixedQuotesInName()
+    {
+        $header = '"Bob O\'Reilly" <bob@example.com>,blah@example.com';
+
+        // In previous versions, this throws:
+        // 'Bob O'Reilly <bob@example.com>,blah' can not be matched against dot-atom format
+        // hence the try/catch block, to allow finding the root cause.
+        try {
+            $to = Header\To::fromString('To:' . $header);
+        } catch (InvalidArgumentException $e) {
+            $this->fail('Header\To::fromString should not throw');
+        }
+
+        $addressList = $to->getAddressList();
+        $this->assertTrue($addressList->has('bob@example.com'));
+        $this->assertTrue($addressList->has('blah@example.com'));
+        $this->assertEquals("Bob O'Reilly", $addressList->get('bob@example.com')->getName());
+    }
 }
