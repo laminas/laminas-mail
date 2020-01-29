@@ -28,6 +28,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#82](https://github.com/laminas/laminas-mail/pull/82) fixes numerous issues in `Storage\Maildir`. This storage adapter was not working before and unit tests were disabled. 
 
+- [#75](https://github.com/laminas/laminas-mail/pull/75) fixes how `Laminas\Mail\Header\ListParser::parse()` parses the string with quotes.
+
 ## 2.10.0 - 2018-06-07
 
 ### Added
