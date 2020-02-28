@@ -12,14 +12,15 @@
     <title>Reading and Storing Mail - laminas-mail - Laminas Docs</title>
 
     <link rel="stylesheet" href="https://docs.laminas.dev/css/styles.css">
+    
 </head>
-<body id="page-top" class="components">
+<body id="page-top" class="components" data-spy="scroll" data-target=".toc" data-offset="20">
 
     
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
         
-        <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
+        <a class="logo-link navbar-brand" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
             <img src="https://docs.laminas.dev/img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
@@ -205,7 +206,7 @@
         <div class="row">
 
             
-            <div class="col-6 offset-md-2">
+            <div class="col-8">
                 <h1 class="header__title">
                     Components
 
@@ -235,7 +236,7 @@
     
     <div class="container">
         <div class="row">
-            <div class="col-md-2 col-sm-12">
+            <div class="col-md-9 col-sm-12 content" role="main">
                 
                 
                     
@@ -248,35 +249,35 @@
             <ul class="toc__list">
                 
                     <li class="toc__entry">
-                        <a href="#basic-pop3-example" class="toc__link">Basic POP3 example</a>
+                        <a href="#basic-pop3-example" class="toc__link nav-link">Basic POP3 example</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#using-local-storage-via-mbox-and-maildir" class="toc__link">Using local storage via mbox and maildir</a>
+                        <a href="#using-local-storage-via-mbox-and-maildir" class="toc__link nav-link">Using local storage via mbox and maildir</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#using-remote-storage-protocols" class="toc__link">Using remote storage protocols</a>
+                        <a href="#using-remote-storage-protocols" class="toc__link nav-link">Using remote storage protocols</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#fetching-counting-and-removing-messages" class="toc__link">Fetching, counting, and removing messages</a>
+                        <a href="#fetching-counting-and-removing-messages" class="toc__link nav-link">Fetching, counting, and removing messages</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#working-with-messages" class="toc__link">Working with messages</a>
+                        <a href="#working-with-messages" class="toc__link nav-link">Working with messages</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#checking-for-flags" class="toc__link">Checking for flags</a>
+                        <a href="#checking-for-flags" class="toc__link nav-link">Checking for flags</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#using-folders" class="toc__link">Using folders</a>
+                        <a href="#using-folders" class="toc__link nav-link">Using folders</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#advanced-use" class="toc__link">Advanced Use</a>
+                        <a href="#advanced-use" class="toc__link nav-link">Advanced Use</a>
                     </li>
                 
             </ul>
@@ -284,8 +285,7 @@
     
 
                 
-            </div>
-            <div class="col-md-7 col-sm-12 content" role="main" data-spy="scroll" data-target=".toc">
+
                 
                     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -1153,7 +1153,7 @@ class Maildir extends BaseMaildir
         </div>
 
         <div class="row">
-            <div class="col-md-10 offset-md-2">
+            <div class="col-md-12">
                 <h5>Laminas</h5>
                 <ul>
                     <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
@@ -1165,7 +1165,7 @@ class Maildir extends BaseMaildir
         </div>
 
         <div class="row">
-            <div class="col-md-10 offset-md-2"> 
+            <div class="col-md-12">
                 <div class="row">
 
                     
@@ -1223,7 +1223,9 @@ class Maildir extends BaseMaildir
             siteName = 'laminas-mail';
     </script>
     <script src="https://docs.laminas.dev/js/scripts.js"></script>
+    
         <script src="../search/main.js"></script>
+    
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
