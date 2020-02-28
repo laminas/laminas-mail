@@ -17,7 +17,7 @@ class Imap
     /**
      * Default timeout in seconds for initiating session
      */
-    const TIMEOUT_CONNECTION = 30;
+    const TIMEOUT_CONNECTION = 60;
 
     /**
      * socket to imap server
@@ -549,6 +549,9 @@ class Imap
 
         $items = (array) $items;
         $itemList = $this->escapeList($items);
+        
+        $debug = in_array('BODY.PEEK[HEADER]', $items);
+        $items = array_map(function($item){return str_replace('BODY.PEEK', 'BODY', $item);}, $items);
 
         $tag = null;  // define $tag variable before first use
         $this->sendRequest(($uid ? 'UID ' : '') . 'FETCH', [$set, $itemList], $tag);
@@ -607,6 +610,15 @@ class Imap
                 // we still need to read all lines
                 while (! $this->readLine($tokens, $tag)) {
                 }
+                
+                if (empty($data)) {
+                   exit;
+                }
+                
+                if ($debug) {
+                    exit;
+                }
+                
                 return $data;
             }
             $result[$tokens[0]] = $data;

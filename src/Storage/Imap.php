@@ -116,8 +116,8 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
      */
     public function getMessage($id)
     {
-        $data = $this->protocol->fetch(['FLAGS', 'RFC822.HEADER'], $id);
-        $header = $data['RFC822.HEADER'];
+        $data = $this->protocol->fetch(['FLAGS', 'BODY.PEEK[HEADER]'], $id);
+        $header = $data['BODY[HEADER]'];
 
         $flags = [];
         foreach ($data['FLAGS'] as $flag) {
@@ -146,7 +146,7 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
         }
 
         // TODO: toplines
-        return $this->protocol->fetch('RFC822.HEADER', $id);
+        return $this->protocol->fetch('BODY.PEEK[TEXT]', $id);
     }
 
     /*

@@ -85,9 +85,10 @@ class Headers implements Countable, Iterator
                 continue;
             }
 
-            if ($emptyLine > 1) {
-                throw new Exception\RuntimeException('Malformed header detected');
-            }
+            // падает, если subject содержит пустую строку
+//          if ($emptyLine > 1) {
+//              throw new Exception\RuntimeException('Malformed header detected');
+//          }
 
             // check if a header name is present
             if (preg_match('/^[\x21-\x39\x3B-\x7E]+:.*$/', $line)) {

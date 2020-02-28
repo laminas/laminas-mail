@@ -61,7 +61,10 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
         }
 
         if (! HeaderValue::isValid($parts[1])) {
-            throw new Exception\InvalidArgumentException('Invalid header value detected');
+            if (strtolower($parts[0]) == 'subject') {
+                $parts[1] = Mime::encodeQuotedPrintableHeader($parts[1], 'utf-8');
+            }
+//          throw new Exception\InvalidArgumentException('Invalid header value detected');
         }
 
         $parts[1] = ltrim($parts[1]);

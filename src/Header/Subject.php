@@ -77,15 +77,7 @@ class Subject implements UnstructuredInterface
 
     public function setSubject($subject)
     {
-        $subject = (string) $subject;
-
-        if (! HeaderWrap::canBeEncoded($subject)) {
-            throw new Exception\InvalidArgumentException(
-                'Subject value must be composed of printable US-ASCII or UTF-8 characters.'
-            );
-        }
-
-        $this->subject  = $subject;
+        $this->subject = @iconv('utf-8', 'utf-8//TRANSLIT//IGNORE', (string)$subject);
         $this->encoding = null;
 
         return $this;
