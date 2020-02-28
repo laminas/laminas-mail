@@ -185,6 +185,7 @@ class Imap
         while (($pos = strpos($line, ' ')) !== false) {
             $token = substr($line, 0, $pos);
             if (! strlen($token)) {
+                $line = substr($line, 1);
                 continue;
             }
             while ($token[0] == '(') {

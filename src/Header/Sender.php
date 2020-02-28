@@ -49,7 +49,7 @@ class Sender implements HeaderInterface
          * @see https://tools.ietf.org/html/rfc5322#section-3.4
          */
         $hasMatches = preg_match(
-            '/^(?:(?P<name>.+)\s)?(?(name)<|<?)(?P<email>[^\s]+?)(?(name)>|>?)$/',
+            '/^(?:(?P<name>.+)\s)?(?(name)<|<?(?:\s)?)(?P<email>[^\s]+?)(?(name)(?:\s)?>|>?)$/',
             $value,
             $matches
         );

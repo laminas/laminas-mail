@@ -10,11 +10,17 @@
     "support": {
         "docs": "https://docs.laminas.dev/laminas-mail/",
         "issues": "https://github.com/laminas/laminas-mail/issues",
-        "source": "https://github.com/laminas/laminas-mail",
+        "source": "https://github.com/zoonru/laminas-mail",
         "rss": "https://github.com/laminas/laminas-mail/releases.atom",
         "chat": "https://laminas.dev/chat",
         "forum": "https://discourse.laminas.dev"
     },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/zoonru/zend-mime.git"
+        }
+    ],
     "config": {
         "sort-packages": true
     },
@@ -32,7 +38,7 @@
         "php": "^5.6 || ^7.0",
         "ext-iconv": "*",
         "laminas/laminas-loader": "^2.5",
-        "laminas/laminas-mime": "^2.5",
+        "laminas/laminas-mime": "dev-master",
         "laminas/laminas-stdlib": "^2.7 || ^3.0",
         "laminas/laminas-validator": "^2.10.2",
         "laminas/laminas-zendframework-bridge": "^1.0",
