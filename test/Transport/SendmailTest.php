@@ -56,14 +56,14 @@ class SendmailTest extends TestCase
     public function getMessage()
     {
         $message = new Message();
-        $message->addTo('api-tools-devteam@zend.com', 'Laminas DevTeam')
-                ->addCc('matthew@zend.com')
-                ->addBcc('api-tools-crteam@lists.zend.com', 'CR-Team, Laminas Project')
+        $message->addTo('test@example.com', 'Example Test')
+                ->addCc('matthew@example.com')
+                ->addBcc('list@example.com', 'Example, List')
                 ->addFrom([
-                    'api-tools-devteam@zend.com',
-                    'matthew@zend.com' => 'Matthew',
+                    'test@example.com',
+                    'matthew@example.com' => 'Matthew',
                 ])
-                ->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
+                ->setSender('ralph@example.com', 'Ralph Schindler')
                 ->setSubject('Testing Laminas\Mail\Transport\Sendmail')
                 ->setBody('This is only a test.');
         $message->getHeaders()->addHeaders([
@@ -82,22 +82,16 @@ class SendmailTest extends TestCase
         $this->transport->setParameters('-R hdrs');
 
         $this->transport->send($message);
-        $this->assertEquals('Laminas DevTeam <api-tools-devteam@zend.com>', $this->to);
+        $this->assertEquals('Example Test <test@example.com>', $this->to);
         $this->assertEquals('Testing Laminas\Mail\Transport\Sendmail', $this->subject);
         $this->assertEquals('This is only a test.', trim($this->message));
-        $this->assertNotContains("To: Laminas DevTeam <api-tools-devteam@zend.com>\n", $this->additional_headers);
-        $this->assertContains("Cc: matthew@zend.com\n", $this->additional_headers);
-        $this->assertContains(
-            "Bcc: \"CR-Team, Laminas Project\" <api-tools-crteam@lists.zend.com>\n",
-            $this->additional_headers
-        );
-        $this->assertContains(
-            "From: api-tools-devteam@zend.com,\n Matthew <matthew@zend.com>\n",
-            $this->additional_headers
-        );
+        $this->assertNotContains("To: Example Test <test@example.com>\n", $this->additional_headers);
+        $this->assertContains("Cc: matthew@example.com\n", $this->additional_headers);
+        $this->assertContains("Bcc: \"Example, List\" <list@example.com>\n", $this->additional_headers);
+        $this->assertContains("From: test@example.com,\n Matthew <matthew@example.com>\n", $this->additional_headers);
         $this->assertContains("X-Foo-Bar: Matthew\n", $this->additional_headers);
-        $this->assertContains("Sender: Ralph Schindler <ralph.schindler@zend.com>\n", $this->additional_headers);
-        $this->assertEquals('-R hdrs -f\'ralph.schindler@zend.com\'', $this->additional_parameters);
+        $this->assertContains("Sender: Ralph Schindler <ralph@example.com>\n", $this->additional_headers);
+        $this->assertEquals('-R hdrs -f\'ralph@example.com\'', $this->additional_parameters);
     }
 
     public function testReceivesMailArtifactsOnWindowsSystems()
@@ -109,21 +103,18 @@ class SendmailTest extends TestCase
         $message = $this->getMessage();
 
         $this->transport->send($message);
-        $this->assertEquals('api-tools-devteam@zend.com', $this->to);
+        $this->assertEquals('test@example.com', $this->to);
         $this->assertEquals('Testing Laminas\Mail\Transport\Sendmail', $this->subject);
         $this->assertEquals('This is only a test.', trim($this->message));
-        $this->assertContains("To: Laminas DevTeam <api-tools-devteam@zend.com>\r\n", $this->additional_headers);
-        $this->assertContains("Cc: matthew@zend.com\r\n", $this->additional_headers);
+        $this->assertContains("To: Example Test <test@example.com>\r\n", $this->additional_headers);
+        $this->assertContains("Cc: matthew@example.com\r\n", $this->additional_headers);
+        $this->assertContains("Bcc: \"Example, List\" <list@example.com>\r\n", $this->additional_headers);
         $this->assertContains(
-            "Bcc: \"CR-Team, Laminas Project\" <api-tools-crteam@lists.zend.com>\r\n",
-            $this->additional_headers
-        );
-        $this->assertContains(
-            "From: api-tools-devteam@zend.com,\r\n Matthew <matthew@zend.com>\r\n",
+            "From: test@example.com,\r\n Matthew <matthew@example.com>\r\n",
             $this->additional_headers
         );
         $this->assertContains("X-Foo-Bar: Matthew\r\n", $this->additional_headers);
-        $this->assertContains("Sender: Ralph Schindler <ralph.schindler@zend.com>\r\n", $this->additional_headers);
+        $this->assertContains("Sender: Ralph Schindler <ralph@example.com>\r\n", $this->additional_headers);
         $this->assertNull($this->additional_parameters);
     }
 
@@ -233,8 +224,8 @@ class SendmailTest extends TestCase
     public function testAllowMessageWithEmptyToHeaderButHasCcHeader()
     {
         $message = new Message();
-        $message->addCc('matthew@zend.com')
-                ->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
+        $message->addCc('matthew@example.com')
+                ->setSender('ralph@example.com', 'Ralph Schindler')
                 ->setSubject('Testing Laminas\Mail\Transport\Sendmail')
                 ->setBody('This is only a test.');
 
@@ -244,8 +235,8 @@ class SendmailTest extends TestCase
     public function testAllowMessageWithEmptyToHeaderButHasBccHeader()
     {
         $message = new Message();
-        $message->addBcc('api-tools-crteam@lists.zend.com', 'CR-Team, Laminas Project')
-                ->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
+        $message->addBcc('list@example.com', 'Example, List')
+                ->setSender('ralph@example.com', 'Ralph Schindler')
                 ->setSubject('Testing Laminas\Mail\Transport\Sendmail')
                 ->setBody('This is only a test.');
 
@@ -255,7 +246,7 @@ class SendmailTest extends TestCase
     public function testDoNotAllowMessageWithoutToAndCcAndBccHeaders()
     {
         $message = new Message();
-        $message->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
+        $message->setSender('ralph@example.com', 'Ralph Schindler')
                 ->setSubject('Testing Laminas\Mail\Transport\Sendmail')
                 ->setBody('This is only a test.');
 

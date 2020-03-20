@@ -21,14 +21,14 @@ class InMemoryTest extends TestCase
     public function getMessage()
     {
         $message = new Message();
-        $message->addTo('api-tools-devteam@zend.com', 'Laminas DevTeam')
-                ->addCc('matthew@zend.com')
-                ->addBcc('api-tools-crteam@lists.zend.com', 'CR-Team, Laminas Project')
+        $message->addTo('test@example.com', 'Example Test')
+                ->addCc('matthew@example.com')
+                ->addBcc('list@example.com', 'Example List')
                 ->addFrom([
-                    'api-tools-devteam@zend.com',
-                    'matthew@zend.com' => 'Matthew',
+                    'test@example.com',
+                    'matthew@example.com' => 'Matthew',
                 ])
-                ->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
+                ->setSender('ralph@example.com', 'Ralph Schindler')
                 ->setSubject('Testing Laminas\Mail\Transport\Sendmail')
                 ->setBody('This is only a test.');
         $message->getHeaders()->addHeaders([
