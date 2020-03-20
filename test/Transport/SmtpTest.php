@@ -39,14 +39,14 @@ class SmtpTest extends TestCase
     public function getMessage()
     {
         $message = new Message();
-        $message->addTo('api-tools-devteam@zend.com', 'Laminas DevTeam');
-        $message->addCc('matthew@zend.com');
-        $message->addBcc('api-tools-crteam@lists.zend.com', 'CR-Team, Laminas Project');
+        $message->addTo('test@example.com', 'Example Test');
+        $message->addCc('matthew@example.com');
+        $message->addBcc('list@example.com', 'Example List');
         $message->addFrom([
-            'api-tools-devteam@zend.com',
-            'matthew@zend.com' => 'Matthew',
+            'test@example.com',
+            'matthew@example.com' => 'Matthew',
         ]);
-        $message->setSender('ralph.schindler@zend.com', 'Ralph Schindler');
+        $message->setSender('ralph@example.com', 'Ralph Schindler');
         $message->setSubject('Testing Laminas\Mail\Transport\Sendmail');
         $message->setBody('This is only a test.');
 
@@ -79,7 +79,7 @@ class SmtpTest extends TestCase
         $this->expectException('Laminas\Mail\Transport\Exception\RuntimeException');
         $this->expectExceptionMessage('at least one recipient if the message has at least one header or body');
         $message = new Message();
-        $message->setSender('ralph.schindler@zend.com', 'Ralph Schindler');
+        $message->setSender('ralph@example.com', 'Ralph Schindler');
         $this->transport->send($message);
     }
 
@@ -87,39 +87,39 @@ class SmtpTest extends TestCase
     {
         $message = $this->getMessage();
         $envelope = new Envelope([
-            'from' => 'mailer@lists.zend.com',
+            'from' => 'mailer@example.com',
         ]);
         $this->transport->setEnvelope($envelope);
         $this->transport->send($message);
 
         $data = $this->connection->getLog();
-        $this->assertContains('MAIL FROM:<mailer@lists.zend.com>', $data);
-        $this->assertContains('RCPT TO:<matthew@zend.com>', $data);
-        $this->assertContains('RCPT TO:<api-tools-crteam@lists.zend.com>', $data);
-        $this->assertContains("From: api-tools-devteam@zend.com,\r\n Matthew <matthew@zend.com>\r\n", $data);
+        $this->assertContains('MAIL FROM:<mailer@example.com>', $data);
+        $this->assertContains('RCPT TO:<matthew@example.com>', $data);
+        $this->assertContains('RCPT TO:<list@example.com>', $data);
+        $this->assertContains("From: test@example.com,\r\n Matthew <matthew@example.com>\r\n", $data);
     }
 
     public function testSendMailWithEnvelopeTo()
     {
         $message = $this->getMessage();
         $envelope = new Envelope([
-            'to' => 'users@lists.zend.com',
+            'to' => 'users@example.com',
         ]);
         $this->transport->setEnvelope($envelope);
         $this->transport->send($message);
 
         $data = $this->connection->getLog();
-        $this->assertContains('MAIL FROM:<ralph.schindler@zend.com>', $data);
-        $this->assertContains('RCPT TO:<users@lists.zend.com>', $data);
-        $this->assertContains('To: Laminas DevTeam <api-tools-devteam@zend.com>', $data);
+        $this->assertContains('MAIL FROM:<ralph@example.com>', $data);
+        $this->assertContains('RCPT TO:<users@example.com>', $data);
+        $this->assertContains('To: Example Test <test@example.com>', $data);
     }
 
     public function testSendMailWithEnvelope()
     {
         $message = $this->getMessage();
-        $to = ['users@lists.zend.com', 'dev@lists.zend.com'];
+        $to = ['users@example.com', 'dev@example.com'];
         $envelope = new Envelope([
-            'from' => 'mailer@lists.zend.com',
+            'from' => 'mailer@example.com',
             'to' => $to,
         ]);
         $this->transport->setEnvelope($envelope);
@@ -128,9 +128,9 @@ class SmtpTest extends TestCase
         $this->assertEquals($to, $this->connection->getRecipients());
 
         $data = $this->connection->getLog();
-        $this->assertContains('MAIL FROM:<mailer@lists.zend.com>', $data);
-        $this->assertContains('RCPT TO:<users@lists.zend.com>', $data);
-        $this->assertContains('RCPT TO:<dev@lists.zend.com>', $data);
+        $this->assertContains('MAIL FROM:<mailer@example.com>', $data);
+        $this->assertContains('RCPT TO:<users@example.com>', $data);
+        $this->assertContains('RCPT TO:<dev@example.com>', $data);
     }
 
     public function testSendMinimalMail()
@@ -140,13 +140,13 @@ class SmtpTest extends TestCase
 
         $message = new Message();
         $message->setHeaders($headers);
-        $message->setSender('ralph.schindler@zend.com', 'Ralph Schindler');
+        $message->setSender('ralph@example.com', 'Ralph Schindler');
         $message->setBody('testSendMailWithoutMinimalHeaders');
-        $message->addTo('api-tools-devteam@zend.com', 'Laminas DevTeam');
+        $message->addTo('test@example.com', 'Example Test');
 
         $expectedMessage = "Date: Sun, 10 Jun 2012 20:07:24 +0200\r\n"
-            . "Sender: Ralph Schindler <ralph.schindler@zend.com>\r\n"
-            . "To: Laminas DevTeam <api-tools-devteam@zend.com>\r\n"
+            . "Sender: Ralph Schindler <ralph@example.com>\r\n"
+            . "To: Example Test <test@example.com>\r\n"
             . "\r\n"
             . "testSendMailWithoutMinimalHeaders";
 
@@ -162,13 +162,13 @@ class SmtpTest extends TestCase
 
         $message = new Message();
         $message->setHeaders($headers);
-        $message->setFrom('ralph.schindler@zend.com', 'Ralph Schindler');
+        $message->setFrom('ralph@example.com', 'Ralph Schindler');
         $message->setBody('testSendMinimalMailWithoutSender');
-        $message->addTo('api-tools-devteam@zend.com', 'Laminas DevTeam');
+        $message->addTo('test@example.com', 'Example Test');
 
         $expectedMessage = "Date: Sun, 10 Jun 2012 20:07:24 +0200\r\n"
-            . "From: Ralph Schindler <ralph.schindler@zend.com>\r\n"
-            . "To: Laminas DevTeam <api-tools-devteam@zend.com>\r\n"
+            . "From: Ralph Schindler <ralph@example.com>\r\n"
+            . "To: Example Test <test@example.com>\r\n"
             . "\r\n"
             . "testSendMinimalMailWithoutSender";
 
@@ -182,18 +182,18 @@ class SmtpTest extends TestCase
         $message = $this->getMessage();
         $this->transport->send($message);
 
-        $expectedRecipients = ['api-tools-devteam@zend.com', 'matthew@zend.com', 'api-tools-crteam@lists.zend.com'];
+        $expectedRecipients = ['test@example.com', 'matthew@example.com', 'list@example.com'];
         $this->assertEquals($expectedRecipients, $this->connection->getRecipients());
 
         $data = $this->connection->getLog();
-        $this->assertContains('MAIL FROM:<ralph.schindler@zend.com>', $data);
-        $this->assertContains('To: Laminas DevTeam <api-tools-devteam@zend.com>', $data);
+        $this->assertContains('MAIL FROM:<ralph@example.com>', $data);
+        $this->assertContains('To: Example Test <test@example.com>', $data);
         $this->assertContains('Subject: Testing Laminas\Mail\Transport\Sendmail', $data);
-        $this->assertContains("Cc: matthew@zend.com\r\n", $data);
-        $this->assertNotContains("Bcc: \"CR-Team, Laminas Project\" <api-tools-crteam@lists.zend.com>\r\n", $data);
-        $this->assertContains("From: api-tools-devteam@zend.com,\r\n Matthew <matthew@zend.com>\r\n", $data);
+        $this->assertContains("Cc: matthew@example.com\r\n", $data);
+        $this->assertNotContains("Bcc: \"Example List\" <list@example.com>\r\n", $data);
+        $this->assertContains("From: test@example.com,\r\n Matthew <matthew@example.com>\r\n", $data);
         $this->assertContains("X-Foo-Bar: Matthew\r\n", $data);
-        $this->assertContains("Sender: Ralph Schindler <ralph.schindler@zend.com>\r\n", $data);
+        $this->assertContains("Sender: Ralph Schindler <ralph@example.com>\r\n", $data);
         $this->assertContains("\r\n\r\nThis is only a test.", $data, $data);
     }
 
