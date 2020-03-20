@@ -54,7 +54,7 @@ class MessageTest extends TestCase
 
     public function testAddingFromAddressMarksAsValid()
     {
-        $this->message->addFrom('api-tools-devteam@example.com');
+        $this->message->addFrom('test@example.com');
         $this->assertTrue($this->message->isValid());
     }
 
@@ -66,14 +66,14 @@ class MessageTest extends TestCase
 
     public function testToMethodReturnsAddressListObject()
     {
-        $this->message->addTo('api-tools-devteam@example.com');
+        $this->message->addTo('test@example.com');
         $to = $this->message->getTo();
         $this->assertInstanceOf('Laminas\Mail\AddressList', $to);
     }
 
     public function testToAddressListLivesInHeaders()
     {
-        $this->message->addTo('api-tools-devteam@example.com');
+        $this->message->addTo('test@example.com');
         $to      = $this->message->getTo();
         $headers = $this->message->getHeaders();
         $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
@@ -84,14 +84,14 @@ class MessageTest extends TestCase
 
     public function testFromMethodReturnsAddressListObject()
     {
-        $this->message->addFrom('api-tools-devteam@example.com');
+        $this->message->addFrom('test@example.com');
         $from = $this->message->getFrom();
         $this->assertInstanceOf('Laminas\Mail\AddressList', $from);
     }
 
     public function testFromAddressListLivesInHeaders()
     {
-        $this->message->addFrom('api-tools-devteam@example.com');
+        $this->message->addFrom('test@example.com');
         $from    = $this->message->getFrom();
         $headers = $this->message->getHeaders();
         $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
@@ -102,14 +102,14 @@ class MessageTest extends TestCase
 
     public function testCcMethodReturnsAddressListObject()
     {
-        $this->message->addCc('api-tools-devteam@example.com');
+        $this->message->addCc('test@example.com');
         $cc = $this->message->getCc();
         $this->assertInstanceOf('Laminas\Mail\AddressList', $cc);
     }
 
     public function testCcAddressListLivesInHeaders()
     {
-        $this->message->addCc('api-tools-devteam@example.com');
+        $this->message->addCc('test@example.com');
         $cc      = $this->message->getCc();
         $headers = $this->message->getHeaders();
         $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
@@ -120,14 +120,14 @@ class MessageTest extends TestCase
 
     public function testBccMethodReturnsAddressListObject()
     {
-        $this->message->addBcc('api-tools-devteam@example.com');
+        $this->message->addBcc('test@example.com');
         $bcc = $this->message->getBcc();
         $this->assertInstanceOf('Laminas\Mail\AddressList', $bcc);
     }
 
     public function testBccAddressListLivesInHeaders()
     {
-        $this->message->addBcc('api-tools-devteam@example.com');
+        $this->message->addBcc('test@example.com');
         $bcc     = $this->message->getBcc();
         $headers = $this->message->getHeaders();
         $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
@@ -138,14 +138,14 @@ class MessageTest extends TestCase
 
     public function testReplyToMethodReturnsAddressListObject()
     {
-        $this->message->addReplyTo('api-tools-devteam@example.com');
+        $this->message->addReplyTo('test@example.com');
         $replyTo = $this->message->getReplyTo();
         $this->assertInstanceOf('Laminas\Mail\AddressList', $replyTo);
     }
 
     public function testReplyToAddressListLivesInHeaders()
     {
-        $this->message->addReplyTo('api-tools-devteam@example.com');
+        $this->message->addReplyTo('test@example.com');
         $replyTo = $this->message->getReplyTo();
         $headers = $this->message->getHeaders();
         $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
@@ -168,22 +168,22 @@ class MessageTest extends TestCase
 
     public function testSettingSenderCreatesAddressObject()
     {
-        $this->message->setSender('api-tools-devteam@example.com');
+        $this->message->setSender('test@example.com');
         $sender = $this->message->getSender();
         $this->assertInstanceOf('Laminas\Mail\Address', $sender);
     }
 
     public function testCanSpecifyNameWhenSettingSender()
     {
-        $this->message->setSender('api-tools-devteam@example.com', 'Laminas DevTeam');
+        $this->message->setSender('test@example.com', 'Example Test');
         $sender = $this->message->getSender();
         $this->assertInstanceOf('Laminas\Mail\Address', $sender);
-        $this->assertEquals('Laminas DevTeam', $sender->getName());
+        $this->assertEquals('Example Test', $sender->getName());
     }
 
     public function testCanProvideAddressObjectWhenSettingSender()
     {
-        $sender = new Address('api-tools-devteam@example.com');
+        $sender = new Address('test@example.com');
         $this->message->setSender($sender);
         $test = $this->message->getSender();
         $this->assertSame($sender, $test);
@@ -193,34 +193,34 @@ class MessageTest extends TestCase
     {
         $header = new Header\Sender();
         $this->message->getHeaders()->addHeader($header);
-        $address = new Address('api-tools-devteam@example.com', 'Laminas DevTeam');
+        $address = new Address('test@example.com', 'Example Test');
         $this->message->setSender($address);
         $this->assertSame($address, $header->getAddress());
     }
 
     public function testCanAddFromAddressUsingName()
     {
-        $this->message->addFrom('api-tools-devteam@example.com', 'Laminas DevTeam');
+        $this->message->addFrom('test@example.com', 'Example Test');
         $addresses = $this->message->getFrom();
         $this->assertEquals(1, count($addresses));
         $address = $addresses->current();
-        $this->assertEquals('api-tools-devteam@example.com', $address->getEmail());
-        $this->assertEquals('Laminas DevTeam', $address->getName());
+        $this->assertEquals('test@example.com', $address->getEmail());
+        $this->assertEquals('Example Test', $address->getName());
     }
 
     public function testCanAddFromAddressUsingEmailAndNameAsString()
     {
-        $this->message->addFrom('Laminas DevTeam <api-tools-devteam@example.com>');
+        $this->message->addFrom('Example Test <test@example.com>');
         $addresses = $this->message->getFrom();
         $this->assertEquals(1, count($addresses));
         $address = $addresses->current();
-        $this->assertEquals('api-tools-devteam@example.com', $address->getEmail());
-        $this->assertEquals('Laminas DevTeam', $address->getName());
+        $this->assertEquals('test@example.com', $address->getEmail());
+        $this->assertEquals('Example Test', $address->getName());
     }
 
     public function testCanAddFromAddressUsingAddressObject()
     {
-        $address = new Address('api-tools-devteam@example.com', 'Laminas DevTeam');
+        $address = new Address('test@example.com', 'Example Test');
         $this->message->addFrom($address);
 
         $addresses = $this->message->getFrom();
@@ -232,59 +232,59 @@ class MessageTest extends TestCase
     public function testCanAddManyFromAddressesUsingArray()
     {
         $addresses = [
-            'api-tools-devteam@example.com',
-            'api-tools-contributors@example.com' => 'Laminas Contributors List',
-            new Address('fw-announce@example.com', 'Laminas Announce List'),
+            'test@example.com',
+            'list@example.com' => 'Laminas Contributors List',
+            new Address('announce@example.com', 'Laminas Announce List'),
         ];
         $this->message->addFrom($addresses);
 
         $from = $this->message->getFrom();
         $this->assertEquals(3, count($from));
 
-        $this->assertTrue($from->has('api-tools-devteam@example.com'));
-        $this->assertTrue($from->has('api-tools-contributors@example.com'));
-        $this->assertTrue($from->has('fw-announce@example.com'));
+        $this->assertTrue($from->has('test@example.com'));
+        $this->assertTrue($from->has('list@example.com'));
+        $this->assertTrue($from->has('announce@example.com'));
     }
 
     public function testCanAddManyFromAddressesUsingAddressListObject()
     {
         $list = new AddressList();
-        $list->add('api-tools-devteam@example.com');
+        $list->add('test@example.com');
 
-        $this->message->addFrom('fw-announce@example.com');
+        $this->message->addFrom('announce@example.com');
         $this->message->addFrom($list);
         $from = $this->message->getFrom();
         $this->assertEquals(2, count($from));
-        $this->assertTrue($from->has('fw-announce@example.com'));
-        $this->assertTrue($from->has('api-tools-devteam@example.com'));
+        $this->assertTrue($from->has('announce@example.com'));
+        $this->assertTrue($from->has('test@example.com'));
     }
 
     public function testCanSetFromListFromAddressList()
     {
         $list = new AddressList();
-        $list->add('api-tools-devteam@example.com');
+        $list->add('test@example.com');
 
-        $this->message->addFrom('fw-announce@example.com');
+        $this->message->addFrom('announce@example.com');
         $this->message->setFrom($list);
         $from = $this->message->getFrom();
         $this->assertEquals(1, count($from));
-        $this->assertFalse($from->has('fw-announce@example.com'));
-        $this->assertTrue($from->has('api-tools-devteam@example.com'));
+        $this->assertFalse($from->has('announce@example.com'));
+        $this->assertTrue($from->has('test@example.com'));
     }
 
     public function testCanAddCcAddressUsingName()
     {
-        $this->message->addCc('api-tools-devteam@example.com', 'Laminas DevTeam');
+        $this->message->addCc('test@example.com', 'Example Test');
         $addresses = $this->message->getCc();
         $this->assertEquals(1, count($addresses));
         $address = $addresses->current();
-        $this->assertEquals('api-tools-devteam@example.com', $address->getEmail());
-        $this->assertEquals('Laminas DevTeam', $address->getName());
+        $this->assertEquals('test@example.com', $address->getEmail());
+        $this->assertEquals('Example Test', $address->getName());
     }
 
     public function testCanAddCcAddressUsingAddressObject()
     {
-        $address = new Address('api-tools-devteam@example.com', 'Laminas DevTeam');
+        $address = new Address('test@example.com', 'Example Test');
         $this->message->addCc($address);
 
         $addresses = $this->message->getCc();
@@ -296,59 +296,59 @@ class MessageTest extends TestCase
     public function testCanAddManyCcAddressesUsingArray()
     {
         $addresses = [
-            'api-tools-devteam@example.com',
-            'api-tools-contributors@example.com' => 'Laminas Contributors List',
-            new Address('fw-announce@example.com', 'Laminas Announce List'),
+            'test@example.com',
+            'list@example.com' => 'Laminas Contributors List',
+            new Address('announce@example.com', 'Laminas Announce List'),
         ];
         $this->message->addCc($addresses);
 
         $cc = $this->message->getCc();
         $this->assertEquals(3, count($cc));
 
-        $this->assertTrue($cc->has('api-tools-devteam@example.com'));
-        $this->assertTrue($cc->has('api-tools-contributors@example.com'));
-        $this->assertTrue($cc->has('fw-announce@example.com'));
+        $this->assertTrue($cc->has('test@example.com'));
+        $this->assertTrue($cc->has('list@example.com'));
+        $this->assertTrue($cc->has('announce@example.com'));
     }
 
     public function testCanAddManyCcAddressesUsingAddressListObject()
     {
         $list = new AddressList();
-        $list->add('api-tools-devteam@example.com');
+        $list->add('test@example.com');
 
-        $this->message->addCc('fw-announce@example.com');
+        $this->message->addCc('announce@example.com');
         $this->message->addCc($list);
         $cc = $this->message->getCc();
         $this->assertEquals(2, count($cc));
-        $this->assertTrue($cc->has('fw-announce@example.com'));
-        $this->assertTrue($cc->has('api-tools-devteam@example.com'));
+        $this->assertTrue($cc->has('announce@example.com'));
+        $this->assertTrue($cc->has('test@example.com'));
     }
 
     public function testCanSetCcListFromAddressList()
     {
         $list = new AddressList();
-        $list->add('api-tools-devteam@example.com');
+        $list->add('test@example.com');
 
-        $this->message->addCc('fw-announce@example.com');
+        $this->message->addCc('announce@example.com');
         $this->message->setCc($list);
         $cc = $this->message->getCc();
         $this->assertEquals(1, count($cc));
-        $this->assertFalse($cc->has('fw-announce@example.com'));
-        $this->assertTrue($cc->has('api-tools-devteam@example.com'));
+        $this->assertFalse($cc->has('announce@example.com'));
+        $this->assertTrue($cc->has('test@example.com'));
     }
 
     public function testCanAddBccAddressUsingName()
     {
-        $this->message->addBcc('api-tools-devteam@example.com', 'Laminas DevTeam');
+        $this->message->addBcc('test@example.com', 'Example Test');
         $addresses = $this->message->getBcc();
         $this->assertEquals(1, count($addresses));
         $address = $addresses->current();
-        $this->assertEquals('api-tools-devteam@example.com', $address->getEmail());
-        $this->assertEquals('Laminas DevTeam', $address->getName());
+        $this->assertEquals('test@example.com', $address->getEmail());
+        $this->assertEquals('Example Test', $address->getName());
     }
 
     public function testCanAddBccAddressUsingAddressObject()
     {
-        $address = new Address('api-tools-devteam@example.com', 'Laminas DevTeam');
+        $address = new Address('test@example.com', 'Example Test');
         $this->message->addBcc($address);
 
         $addresses = $this->message->getBcc();
@@ -360,59 +360,59 @@ class MessageTest extends TestCase
     public function testCanAddManyBccAddressesUsingArray()
     {
         $addresses = [
-            'api-tools-devteam@example.com',
-            'api-tools-contributors@example.com' => 'Laminas Contributors List',
-            new Address('fw-announce@example.com', 'Laminas Announce List'),
+            'test@example.com',
+            'list@example.com' => 'Laminas Contributors List',
+            new Address('announce@example.com', 'Laminas Announce List'),
         ];
         $this->message->addBcc($addresses);
 
         $bcc = $this->message->getBcc();
         $this->assertEquals(3, count($bcc));
 
-        $this->assertTrue($bcc->has('api-tools-devteam@example.com'));
-        $this->assertTrue($bcc->has('api-tools-contributors@example.com'));
-        $this->assertTrue($bcc->has('fw-announce@example.com'));
+        $this->assertTrue($bcc->has('test@example.com'));
+        $this->assertTrue($bcc->has('list@example.com'));
+        $this->assertTrue($bcc->has('announce@example.com'));
     }
 
     public function testCanAddManyBccAddressesUsingAddressListObject()
     {
         $list = new AddressList();
-        $list->add('api-tools-devteam@example.com');
+        $list->add('test@example.com');
 
-        $this->message->addBcc('fw-announce@example.com');
+        $this->message->addBcc('announce@example.com');
         $this->message->addBcc($list);
         $bcc = $this->message->getBcc();
         $this->assertEquals(2, count($bcc));
-        $this->assertTrue($bcc->has('fw-announce@example.com'));
-        $this->assertTrue($bcc->has('api-tools-devteam@example.com'));
+        $this->assertTrue($bcc->has('announce@example.com'));
+        $this->assertTrue($bcc->has('test@example.com'));
     }
 
     public function testCanSetBccListFromAddressList()
     {
         $list = new AddressList();
-        $list->add('api-tools-devteam@example.com');
+        $list->add('test@example.com');
 
-        $this->message->addBcc('fw-announce@example.com');
+        $this->message->addBcc('announce@example.com');
         $this->message->setBcc($list);
         $bcc = $this->message->getBcc();
         $this->assertEquals(1, count($bcc));
-        $this->assertFalse($bcc->has('fw-announce@example.com'));
-        $this->assertTrue($bcc->has('api-tools-devteam@example.com'));
+        $this->assertFalse($bcc->has('announce@example.com'));
+        $this->assertTrue($bcc->has('test@example.com'));
     }
 
     public function testCanAddReplyToAddressUsingName()
     {
-        $this->message->addReplyTo('api-tools-devteam@example.com', 'Laminas DevTeam');
+        $this->message->addReplyTo('test@example.com', 'Example Test');
         $addresses = $this->message->getReplyTo();
         $this->assertEquals(1, count($addresses));
         $address = $addresses->current();
-        $this->assertEquals('api-tools-devteam@example.com', $address->getEmail());
-        $this->assertEquals('Laminas DevTeam', $address->getName());
+        $this->assertEquals('test@example.com', $address->getEmail());
+        $this->assertEquals('Example Test', $address->getName());
     }
 
     public function testCanAddReplyToAddressUsingAddressObject()
     {
-        $address = new Address('api-tools-devteam@example.com', 'Laminas DevTeam');
+        $address = new Address('test@example.com', 'Example Test');
         $this->message->addReplyTo($address);
 
         $addresses = $this->message->getReplyTo();
@@ -424,44 +424,44 @@ class MessageTest extends TestCase
     public function testCanAddManyReplyToAddressesUsingArray()
     {
         $addresses = [
-            'api-tools-devteam@example.com',
-            'api-tools-contributors@example.com' => 'Laminas Contributors List',
-            new Address('fw-announce@example.com', 'Laminas Announce List'),
+            'test@example.com',
+            'list@example.com' => 'Laminas Contributors List',
+            new Address('announce@example.com', 'Laminas Announce List'),
         ];
         $this->message->addReplyTo($addresses);
 
         $replyTo = $this->message->getReplyTo();
         $this->assertEquals(3, count($replyTo));
 
-        $this->assertTrue($replyTo->has('api-tools-devteam@example.com'));
-        $this->assertTrue($replyTo->has('api-tools-contributors@example.com'));
-        $this->assertTrue($replyTo->has('fw-announce@example.com'));
+        $this->assertTrue($replyTo->has('test@example.com'));
+        $this->assertTrue($replyTo->has('list@example.com'));
+        $this->assertTrue($replyTo->has('announce@example.com'));
     }
 
     public function testCanAddManyReplyToAddressesUsingAddressListObject()
     {
         $list = new AddressList();
-        $list->add('api-tools-devteam@example.com');
+        $list->add('test@example.com');
 
-        $this->message->addReplyTo('fw-announce@example.com');
+        $this->message->addReplyTo('announce@example.com');
         $this->message->addReplyTo($list);
         $replyTo = $this->message->getReplyTo();
         $this->assertEquals(2, count($replyTo));
-        $this->assertTrue($replyTo->has('fw-announce@example.com'));
-        $this->assertTrue($replyTo->has('api-tools-devteam@example.com'));
+        $this->assertTrue($replyTo->has('announce@example.com'));
+        $this->assertTrue($replyTo->has('test@example.com'));
     }
 
     public function testCanSetReplyToListFromAddressList()
     {
         $list = new AddressList();
-        $list->add('api-tools-devteam@example.com');
+        $list->add('test@example.com');
 
-        $this->message->addReplyTo('fw-announce@example.com');
+        $this->message->addReplyTo('announce@example.com');
         $this->message->setReplyTo($list);
         $replyTo = $this->message->getReplyTo();
         $this->assertEquals(1, count($replyTo));
-        $this->assertFalse($replyTo->has('fw-announce@example.com'));
-        $this->assertTrue($replyTo->has('api-tools-devteam@example.com'));
+        $this->assertFalse($replyTo->has('announce@example.com'));
+        $this->assertTrue($replyTo->has('test@example.com'));
     }
 
     public function testSubjectIsEmptyByDefault()
@@ -647,10 +647,10 @@ class MessageTest extends TestCase
 
     public function testSettingNonAsciiEncodingForcesMimeEncodingOfSomeHeaders()
     {
-        $this->message->addTo('api-tools-devteam@example.com', 'Laminas DevTeam');
+        $this->message->addTo('test@example.com', 'Laminas DevTeam');
         $this->message->addFrom('matthew@example.com', "Matthew Weier O'Phinney");
-        $this->message->addCc('api-tools-contributors@example.com', 'Laminas Contributors List');
-        $this->message->addBcc('api-tools-crteam@example.com', 'Laminas CR Team');
+        $this->message->addCc('list@example.com', 'Laminas Contributors List');
+        $this->message->addBcc('devs@example.com', 'Laminas CR Team');
         $this->message->setSubject('This is a subject');
         $this->message->setEncoding('UTF-8');
 
@@ -658,7 +658,7 @@ class MessageTest extends TestCase
 
         $expected = '=?UTF-8?Q?Laminas=20DevTeam?=';
         $this->assertContains($expected, $test);
-        $this->assertContains('<api-tools-devteam@example.com>', $test);
+        $this->assertContains('<test@example.com>', $test);
 
         $expected = "=?UTF-8?Q?Matthew=20Weier=20O'Phinney?=";
         $this->assertContains($expected, $test, $test);
@@ -666,11 +666,11 @@ class MessageTest extends TestCase
 
         $expected = '=?UTF-8?Q?Laminas=20Contributors=20List?=';
         $this->assertContains($expected, $test);
-        $this->assertContains('<api-tools-contributors@example.com>', $test);
+        $this->assertContains('<list@example.com>', $test);
 
         $expected = '=?UTF-8?Q?Laminas=20CR=20Team?=';
         $this->assertContains($expected, $test);
-        $this->assertContains('<api-tools-crteam@example.com>', $test);
+        $this->assertContains('<devs@example.com>', $test);
 
         $expected = 'Subject: =?UTF-8?Q?This=20is=20a=20subject?=';
         $this->assertContains($expected, $test);
@@ -693,9 +693,9 @@ class MessageTest extends TestCase
 
     public function testRestoreFromSerializedString()
     {
-        $this->message->addTo('api-tools-devteam@example.com', 'Laminas DevTeam');
+        $this->message->addTo('test@example.com', 'Example Test');
         $this->message->addFrom('matthew@example.com', "Matthew Weier O'Phinney");
-        $this->message->addCc('api-tools-contributors@example.com', 'Laminas Contributors List');
+        $this->message->addCc('list@example.com', 'Laminas Contributors List');
         $this->message->setSubject('This is a subject');
         $this->message->setBody('foo');
         $serialized      = $this->message->toString();
@@ -708,9 +708,9 @@ class MessageTest extends TestCase
      */
     public function testCanRestoreFromSerializedStringWhenBodyContainsMultipleNewlines()
     {
-        $this->message->addTo('api-tools-devteam@example.com', 'Laminas DevTeam');
+        $this->message->addTo('test@example.com', 'Example Test');
         $this->message->addFrom('matthew@example.com', "Matthew Weier O'Phinney");
-        $this->message->addCc('api-tools-contributors@example.com', 'Laminas Contributors List');
+        $this->message->addCc('list@example.com', 'Laminas Contributors List');
         $this->message->setSubject('This is a subject');
         $this->message->setBody("foo\n\ntest");
         $serialized      = $this->message->toString();
