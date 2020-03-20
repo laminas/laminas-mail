@@ -22,9 +22,9 @@ class MessageFactoryTest extends TestCase
         $options = [
             'encoding'  => 'UTF-8',
             'from'      => 'matthew@example.com',
-            'to'        => 'api-tools-devteam@example.com',
-            'cc'        => 'api-tools-contributors@example.com',
-            'bcc'       => 'api-tools-devteam@example.com',
+            'to'        => 'test@example.com',
+            'cc'        => 'list@example.com',
+            'bcc'       => 'test@example.com',
             'reply-to'  => 'matthew@example.com',
             'sender'    => 'matthew@example.com',
             'subject'   => 'subject',
@@ -61,8 +61,8 @@ class MessageFactoryTest extends TestCase
         $options = [
             'from' => ['matthew@example.com' => 'Matthew'],
             'to'   => [
-                'api-tools-devteam@example.com',
-                'api-tools-contributors@example.com',
+                'test@example.com',
+                'list@example.com',
             ],
         ];
 
@@ -77,8 +77,8 @@ class MessageFactoryTest extends TestCase
         $to = $message->getTo();
         $this->assertInstanceOf('Laminas\Mail\AddressList', $to);
         $this->assertEquals(2, count($to));
-        $this->assertTrue($to->has('api-tools-devteam@example.com'));
-        $this->assertTrue($to->has('api-tools-contributors@example.com'));
+        $this->assertTrue($to->has('test@example.com'));
+        $this->assertTrue($to->has('list@example.com'));
     }
 
     public function testIgnoresUnreconizedOptions()

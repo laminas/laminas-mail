@@ -25,7 +25,7 @@ class ToTest extends TestCase
         $header = new Header\To();
         $list   = $header->getAddressList();
         for ($i = 0; $i < 10; $i++) {
-            $list->add($i . '@zend.com');
+            $list->add($i . '@getlaminas.org');
         }
         $string = $header->getFieldValue();
         $emails = explode("\r\n ", $string);

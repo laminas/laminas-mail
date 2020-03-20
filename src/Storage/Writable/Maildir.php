@@ -101,7 +101,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
      * may be used as parent or which chars may be used in the folder name
      *
      * @param   string                           $name         global name of folder, local name if $parentFolder is set
-     * @param   string|\Laminas\Mail\Storage\Folder $parentFolder parent folder for new folder, else root folder is parent
+     * @param   string|\Laminas\Mail\Storage\Folder $parentFolder parent of new folder, else root folder is parent
      * @throws \Laminas\Mail\Storage\Exception\RuntimeException
      * @return  string only used internally (new created maildir)
      */

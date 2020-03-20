@@ -75,17 +75,17 @@ class AddressListHeaderTest extends TestCase
 
     public function populateAddressList(AddressList $list)
     {
-        $address = new Address('api-tools-devteam@zend.com', 'Laminas DevTeam');
+        $address = new Address('test@example.com', 'Example Test');
         $list->add($address);
-        $list->add('api-tools-contributors@lists.zend.com');
-        $list->add('fw-announce@lists.zend.com', 'Laminas Announce List');
-        $list->add('first@last.zend.com', 'Last, First');
+        $list->add('list@example.com');
+        $list->add('announce@example.com', 'Example Announce List');
+        $list->add('first@last.example.com', 'Last, First');
     }
 
     public function getExpectedFieldValue()
     {
         // @codingStandardsIgnoreStart
-        return "Laminas DevTeam <api-tools-devteam@zend.com>,\r\n api-tools-contributors@lists.zend.com,\r\n Laminas Announce List <fw-announce@lists.zend.com>,\r\n \"Last, First\" <first@last.zend.com>";
+        return "Example Test <test@example.com>,\r\n list@example.com,\r\n Example Announce List <announce@example.com>,\r\n \"Last, First\" <first@last.example.com>";
         // @codingStandardsIgnoreEnd
     }
 
@@ -121,17 +121,17 @@ class AddressListHeaderTest extends TestCase
         $this->assertInstanceOf($class, $header);
         $list = $header->getAddressList();
         $this->assertEquals(4, count($list));
-        $this->assertTrue($list->has('api-tools-devteam@zend.com'));
-        $this->assertTrue($list->has('api-tools-contributors@lists.zend.com'));
-        $this->assertTrue($list->has('fw-announce@lists.zend.com'));
-        $this->assertTrue($list->has('first@last.zend.com'));
-        $address = $list->get('api-tools-devteam@zend.com');
-        $this->assertEquals('Laminas DevTeam', $address->getName());
-        $address = $list->get('api-tools-contributors@lists.zend.com');
+        $this->assertTrue($list->has('test@example.com'));
+        $this->assertTrue($list->has('list@example.com'));
+        $this->assertTrue($list->has('announce@example.com'));
+        $this->assertTrue($list->has('first@last.example.com'));
+        $address = $list->get('test@example.com');
+        $this->assertEquals('Example Test', $address->getName());
+        $address = $list->get('list@example.com');
         $this->assertNull($address->getName());
-        $address = $list->get('fw-announce@lists.zend.com');
-        $this->assertEquals('Laminas Announce List', $address->getName());
-        $address = $list->get('first@last.zend.com');
+        $address = $list->get('announce@example.com');
+        $this->assertEquals('Example Announce List', $address->getName());
+        $address = $list->get('first@last.example.com');
         $this->assertEquals('Last, First', $address->getName());
     }
 
@@ -178,17 +178,17 @@ class AddressListHeaderTest extends TestCase
         $this->assertInstanceOf($class, $header);
         $list = $header->getAddressList();
         $this->assertEquals(4, count($list));
-        $this->assertTrue($list->has('api-tools-devteam@zend.com'));
-        $this->assertTrue($list->has('api-tools-contributors@lists.zend.com'));
-        $this->assertTrue($list->has('fw-announce@lists.zend.com'));
-        $this->assertTrue($list->has('first@last.zend.com'));
-        $address = $list->get('api-tools-devteam@zend.com');
-        $this->assertEquals('Laminas DevTeam', $address->getName());
-        $address = $list->get('api-tools-contributors@lists.zend.com');
+        $this->assertTrue($list->has('test@example.com'));
+        $this->assertTrue($list->has('list@example.com'));
+        $this->assertTrue($list->has('announce@example.com'));
+        $this->assertTrue($list->has('first@last.example.com'));
+        $address = $list->get('test@example.com');
+        $this->assertEquals('Example Test', $address->getName());
+        $address = $list->get('list@example.com');
         $this->assertNull($address->getName());
-        $address = $list->get('fw-announce@lists.zend.com');
-        $this->assertEquals('Laminas Announce List', $address->getName());
-        $address = $list->get('first@last.zend.com');
+        $address = $list->get('announce@example.com');
+        $this->assertEquals('Example Announce List', $address->getName());
+        $address = $list->get('first@last.example.com');
         $this->assertEquals('Last, First', $address->getName());
     }
 

@@ -40,7 +40,7 @@ class AddressListTest extends TestCase
 
     public function testAddingEmailsIncreasesCount()
     {
-        $this->list->add('api-tools-devteam@zend.com');
+        $this->list->add('test@example.com');
         $this->assertEquals(1, count($this->list));
     }
 
@@ -56,8 +56,8 @@ class AddressListTest extends TestCase
 
     public function testHasReturnsTrueWhenAddressInList()
     {
-        $this->list->add('api-tools-devteam@zend.com');
-        $this->assertTrue($this->list->has('api-tools-devteam@zend.com'));
+        $this->list->add('test@example.com');
+        $this->assertTrue($this->list->has('test@example.com'));
     }
 
     public function testGetReturnsFalseWhenEmailNotFound()
@@ -67,33 +67,33 @@ class AddressListTest extends TestCase
 
     public function testGetReturnsAddressObjectWhenEmailFound()
     {
-        $this->list->add('api-tools-devteam@zend.com');
-        $address = $this->list->get('api-tools-devteam@zend.com');
+        $this->list->add('test@example.com');
+        $address = $this->list->get('test@example.com');
         $this->assertInstanceOf('Laminas\Mail\Address', $address);
-        $this->assertEquals('api-tools-devteam@zend.com', $address->getEmail());
+        $this->assertEquals('test@example.com', $address->getEmail());
     }
 
     public function testCanAddAddressWithName()
     {
-        $this->list->add('api-tools-devteam@zend.com', 'Laminas DevTeam');
-        $address = $this->list->get('api-tools-devteam@zend.com');
+        $this->list->add('test@example.com', 'Example Test');
+        $address = $this->list->get('test@example.com');
         $this->assertInstanceOf('Laminas\Mail\Address', $address);
-        $this->assertEquals('api-tools-devteam@zend.com', $address->getEmail());
-        $this->assertEquals('Laminas DevTeam', $address->getName());
+        $this->assertEquals('test@example.com', $address->getEmail());
+        $this->assertEquals('Example Test', $address->getName());
     }
 
     public function testCanAddManyAddressesAtOnce()
     {
         $addresses = [
-            'api-tools-devteam@zend.com',
-            'api-tools-contributors@lists.zend.com' => 'Laminas Contributors List',
-            new Address('fw-announce@lists.zend.com', 'Laminas Announce List'),
+            'test@example.com',
+            'list@example.com' => 'Example List',
+            new Address('announce@example.com', 'Announce List'),
         ];
         $this->list->addMany($addresses);
         $this->assertEquals(3, count($this->list));
-        $this->assertTrue($this->list->has('api-tools-devteam@zend.com'));
-        $this->assertTrue($this->list->has('api-tools-contributors@lists.zend.com'));
-        $this->assertTrue($this->list->has('fw-announce@lists.zend.com'));
+        $this->assertTrue($this->list->has('test@example.com'));
+        $this->assertTrue($this->list->has('list@example.com'));
+        $this->assertTrue($this->list->has('announce@example.com'));
     }
 
     public function testLosesParensInName()
@@ -111,13 +111,13 @@ class AddressListTest extends TestCase
     public function testDoesNotStoreDuplicatesAndFirstWins()
     {
         $addresses = [
-            'api-tools-devteam@zend.com',
-            new Address('api-tools-devteam@zend.com', 'Laminas DevTeam'),
+            'test@example.com',
+            new Address('test@example.com', 'Example Test'),
         ];
         $this->list->addMany($addresses);
         $this->assertEquals(1, count($this->list));
-        $this->assertTrue($this->list->has('api-tools-devteam@zend.com'));
-        $address = $this->list->get('api-tools-devteam@zend.com');
+        $this->assertTrue($this->list->has('test@example.com'));
+        $address = $this->list->get('test@example.com');
         $this->assertNull($address->getName());
     }
 
