@@ -18,22 +18,22 @@ class AddressTest extends TestCase
 {
     public function testDoesNotRequireNameForInstantiation()
     {
-        $address = new Address('api-tools-devteam@zend.com');
-        $this->assertEquals('api-tools-devteam@zend.com', $address->getEmail());
+        $address = new Address('test@example.com');
+        $this->assertEquals('test@example.com', $address->getEmail());
         $this->assertNull($address->getName());
     }
 
     public function testAcceptsNameViaConstructor()
     {
-        $address = new Address('api-tools-devteam@zend.com', 'Laminas DevTeam');
-        $this->assertEquals('api-tools-devteam@zend.com', $address->getEmail());
-        $this->assertEquals('Laminas DevTeam', $address->getName());
+        $address = new Address('test@example.com', 'Example Test');
+        $this->assertEquals('test@example.com', $address->getEmail());
+        $this->assertEquals('Example Test', $address->getName());
     }
 
     public function testToStringCreatesStringRepresentation()
     {
-        $address = new Address('api-tools-devteam@zend.com', 'Laminas DevTeam');
-        $this->assertEquals('Laminas DevTeam <api-tools-devteam@zend.com>', $address->toString());
+        $address = new Address('test@example.com', 'Example Test');
+        $this->assertEquals('Example Test <test@example.com>', $address->toString());
     }
 
     /**
