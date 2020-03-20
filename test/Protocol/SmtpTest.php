@@ -39,17 +39,17 @@ class SmtpTest extends TestCase
 
         $message = new Message();
         $message->setHeaders($headers);
-        $message->setSender('ralph.schindler@zend.com', 'Ralph Schindler');
+        $message->setSender('sender@example.com', 'Example Sender');
         $message->setBody('testSendMailWithoutMinimalHeaders');
-        $message->addTo('api-tools-devteam@zend.com', 'Laminas DevTeam');
+        $message->addTo('recipient@example.com', 'Recipient Name');
 
         $expectedMessage = "EHLO localhost\r\n"
-            . "MAIL FROM:<ralph.schindler@zend.com>\r\n"
-            . "RCPT TO:<api-tools-devteam@zend.com>\r\n"
+            . "MAIL FROM:<sender@example.com>\r\n"
+            . "RCPT TO:<recipient@example.com>\r\n"
             . "DATA\r\n"
             . "Date: Sun, 10 Jun 2012 20:07:24 +0200\r\n"
-            . "Sender: Ralph Schindler <ralph.schindler@zend.com>\r\n"
-            . "To: Laminas DevTeam <api-tools-devteam@zend.com>\r\n"
+            . "Sender: Example Sender <sender@example.com>\r\n"
+            . "To: Recipient Name <recipient@example.com>\r\n"
             . "\r\n"
             . "testSendMailWithoutMinimalHeaders\r\n"
             . ".\r\n";
@@ -66,17 +66,17 @@ class SmtpTest extends TestCase
 
         $message = new Message();
         $message->setHeaders($headers);
-        $message->setSender('ralph.schindler@zend.com', 'Ralph Schindler');
+        $message->setSender('sender@example.com', 'Example Sender');
         $message->setBody("This is a test\n.");
-        $message->addTo('api-tools-devteam@zend.com', 'Laminas DevTeam');
+        $message->addTo('recipient@example.com', 'Recipient Name');
 
         $expectedMessage = "EHLO localhost\r\n"
-            . "MAIL FROM:<ralph.schindler@zend.com>\r\n"
-            . "RCPT TO:<api-tools-devteam@zend.com>\r\n"
+            . "MAIL FROM:<sender@example.com>\r\n"
+            . "RCPT TO:<recipient@example.com>\r\n"
             . "DATA\r\n"
             . "Date: Sun, 10 Jun 2012 20:07:24 +0200\r\n"
-            . "Sender: Ralph Schindler <ralph.schindler@zend.com>\r\n"
-            . "To: Laminas DevTeam <api-tools-devteam@zend.com>\r\n"
+            . "Sender: Example Sender <sender@example.com>\r\n"
+            . "To: Recipient Name <recipient@example.com>\r\n"
             . "\r\n"
             . "This is a test\r\n"
             . "..\r\n"
