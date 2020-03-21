@@ -90,4 +90,50 @@ class ReceivedTest extends TestCase
         $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         new Header\Received($value);
     }
+
+    public function testFromStringRaisesExceptionOnInvalidHeader()
+    {
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        Header\Received::fromString('Foo: bar');
+    }
+
+    public function testEncodingAccessors()
+    {
+        $header = Header\Received::fromString('Received: test');
+        $this->assertEquals('ASCII', $header->getEncoding());
+        $header->setEncoding('UTF-8');
+        $this->assertEquals('ASCII', $header->getEncoding());
+    }
+
+    public function testToString()
+    {
+        $header = new Header\Received('test');
+        $this->assertEquals('Received: test', $header->toString());
+    }
+
+    public function testToStringMultipleHeaders()
+    {
+        $header = new Header\Received('test');
+        $this->assertEquals('Received: test', $header->toStringMultipleHeaders([]));
+
+        $header2 = new Header\Received('test2');
+        $this->assertEquals(
+            "Received: test\r\nReceived: test2",
+            $header->toStringMultipleHeaders([$header2])
+        );
+
+        $header3 = new Header\Received('test3');
+        $this->assertEquals(
+            "Received: test\r\nReceived: test2\r\nReceived: test3",
+            $header->toStringMultipleHeaders([$header2, $header3])
+        );
+    }
+
+    public function testToStringMultipleHeadersThrows()
+    {
+        $this->expectException('Laminas\Mail\Header\Exception\RuntimeException');
+        $this->expectExceptionMessage('can only accept an array of Received headers');
+        $header = new Header\Received('test');
+        $header->toStringMultipleHeaders([null]);
+    }
 }

@@ -40,7 +40,7 @@ class AddressListTest extends TestCase
 
     public function testAddingEmailsIncreasesCount()
     {
-        $this->list->add('test@example.com');
+        $this->list->addFromString('test@example.com');
         $this->assertEquals(1, count($this->list));
     }
 
@@ -63,6 +63,18 @@ class AddressListTest extends TestCase
     public function testGetReturnsFalseWhenEmailNotFound()
     {
         $this->assertFalse($this->list->get('foo@example.com'));
+    }
+
+    public function testThrowExceptionOnInvalidInputAdd()
+    {
+        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->list->add(null);
+    }
+
+    public function testThrowExceptionOnInvalidInputAddMany()
+    {
+        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->list->addMany([null]);
     }
 
     public function testGetReturnsAddressObjectWhenEmailFound()
