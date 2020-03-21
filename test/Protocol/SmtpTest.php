@@ -139,4 +139,42 @@ class SmtpTest extends TestCase
         ]);
         $this->assertFalse($connection->useCompleteQuit());
     }
+
+    public function testAuthThrowsWhenAlreadyAuthed()
+    {
+        $this->connection->setAuth(true);
+        $this->expectException('Laminas\Mail\Exception\RuntimeException');
+        $this->connection->auth();
+    }
+
+    public function testHeloThrowsWhenAlreadySession()
+    {
+        $this->connection->helo('hostname.test');
+        $this->expectException('Laminas\Mail\Exception\RuntimeException');
+        $this->connection->helo('hostname.test');
+    }
+
+    public function testHeloThrowsWithInvalidHostname()
+    {
+        $this->expectException('Laminas\Mail\Exception\RuntimeException');
+        $this->connection->helo("invalid\r\nhost name");
+    }
+
+    public function testMailThrowsWhenNoSession()
+    {
+        $this->expectException('Laminas\Mail\Exception\RuntimeException');
+        $this->connection->mail('test@example.com');
+    }
+
+    public function testRcptThrowsWhenNoMail()
+    {
+        $this->expectException('Laminas\Mail\Exception\RuntimeException');
+        $this->connection->rcpt('test@example.com');
+    }
+
+    public function testDataThrowsWhenNoRcpt()
+    {
+        $this->expectException('Laminas\Mail\Exception\RuntimeException');
+        $this->connection->data('message');
+    }
 }
