@@ -133,7 +133,7 @@ class MaildirTest extends TestCase
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
-        $mail->noop();
+        $this->assertTrue($mail->noop());
     }
 
     public function testCount()
@@ -216,7 +216,7 @@ class MaildirTest extends TestCase
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
         $mail->removeMessage(1);
     }
 
