@@ -108,7 +108,7 @@ abstract class IdentificationField implements HeaderInterface
      */
     public function toString()
     {
-        return sprintf('%s: %s', $this->fieldName, $this->getFieldValue());
+        return sprintf('%s: %s', $this->getFieldName(), $this->getFieldValue());
     }
 
     /**

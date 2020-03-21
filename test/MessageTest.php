@@ -472,6 +472,7 @@ class MessageTest extends TestCase
     public function testSubjectIsMutable()
     {
         $this->message->setSubject('test subject');
+        $this->message->setSubject('test subject');
         $subject = $this->message->getSubject();
         $this->assertEquals('test subject', $subject);
     }

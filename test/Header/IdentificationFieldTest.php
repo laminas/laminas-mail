@@ -42,6 +42,15 @@ class IdentificationFieldTest extends TestCase
         ];
     }
 
+    public function invalidIds()
+    {
+        return [
+            [References::class, ["1234@local.machine.example\r\n"]],
+            [References::class, ["1234@local.machine.example", "3456@example.net\r\n"]],
+            [InReplyTo::class, ["3456@example.net\r\n"]],
+        ];
+    }
+
     /**
      * @dataProvider stringHeadersProvider
      * @param string $className
@@ -67,5 +76,45 @@ class IdentificationFieldTest extends TestCase
         $header = new $className();
         $header->setIds($ids);
         $this->assertEquals($headerString, $header->toString());
+    }
+
+    /**
+     * @dataProvider stringHeadersProvider
+     * @param string $className
+     * @param string $headerString
+     * @param string[] $ids
+     */
+    public function testEncodingAccessors($className, $headerString, $ids)
+    {
+        /** @var IdentificationField $header */
+        $header = $className::fromString($headerString);
+        $this->assertEquals('ASCII', $header->getEncoding());
+        $header->setEncoding('UTF-8');
+        $this->assertEquals('ASCII', $header->getEncoding());
+    }
+
+    /**
+     * @dataProvider invalidIds
+     * @param string $className
+     * @param string[] $ids
+     */
+    public function testSetIdsThrowsOnInvalidInput($className, $ids)
+    {
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        /** @var IdentificationField $header */
+        $header = new $className();
+        $header->setIds($ids);
+    }
+
+    /**
+     * @dataProvider invalidIds
+     * @param string $className
+     * @param string[] $ids
+     */
+    public function testFromStringRaisesExceptionOnInvalidHeader($className, $ids)
+    {
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        /** @var IdentificationField $header */
+        $header = $className::fromString('Foo: bar');
     }
 }

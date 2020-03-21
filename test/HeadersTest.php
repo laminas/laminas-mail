@@ -527,4 +527,19 @@ class HeadersTest extends TestCase
         // FIXME: shouldn't the "name" part be in quotes?
         $this->assertEquals('õlu <bar <foo.bar@test.com>', $encodedValue);
     }
+
+    public function testEncodingAccessors()
+    {
+        $headers = new Mail\Headers();
+        $this->assertEquals('ASCII', $headers->getEncoding());
+        $headers->addHeaderLine('To: test@example.com');
+        $headers->addHeaderLine('Cc: tester@example.org');
+
+        $headers->setEncoding('UTF-8');
+        $this->assertEquals('UTF-8', $headers->getEncoding());
+
+        $subject = new Header\Subject('test subject');
+        $headers->addHeader($subject);
+        $this->assertEquals('UTF-8', $subject->getEncoding());
+    }
 }

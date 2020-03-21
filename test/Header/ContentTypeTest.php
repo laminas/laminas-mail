@@ -187,4 +187,34 @@ class ContentTypeTest extends TestCase
         ];
         // @codingStandardsIgnoreEnd
     }
+
+    public function testFromStringRaisesExceptionOnInvalidHeader()
+    {
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        ContentType::fromString('Foo: bar');
+    }
+
+    public function testEncodingAccessors()
+    {
+        $header = new ContentType('today');
+        $this->assertEquals('ASCII', $header->getEncoding());
+        $header->setEncoding('UTF-8');
+        $this->assertEquals('UTF-8', $header->getEncoding());
+    }
+
+    public function testSetTypeThrowsOnInvalidValue()
+    {
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $header = new ContentType();
+        $header->setType('invalid');
+    }
+
+    public function testGetRemoveParameter()
+    {
+        $header = ContentType::fromString('content-type: text/plain; level=top');
+        $this->assertEquals('top', $header->getParameter('level'));
+        $this->assertEquals(true, $header->removeParameter('level'));
+        $this->assertEquals(false, $header->removeParameter('level'));
+        $this->assertEquals(null, $header->getParameter('level'));
+    }
 }
