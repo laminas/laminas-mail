@@ -28,6 +28,15 @@ class SubjectTest extends TestCase
         $this->assertEquals($expected, $test);
     }
 
+    public function testEncodingAccessors()
+    {
+        $header = Header\Subject::fromString('Subject: test');
+        $header->setEncoding('ASCII');
+        $this->assertEquals('ASCII', $header->getEncoding());
+        $header->setEncoding('UTF-8');
+        $this->assertEquals('UTF-8', $header->getEncoding());
+    }
+
     /**
      * @dataProvider validSubjectValuesProvider
      * @group ZF2015-04
@@ -58,6 +67,12 @@ class SubjectTest extends TestCase
         $this->expectException($expectedException);
         $this->expectExceptionMessage($expectedExceptionMessage);
         Header\Subject::fromString('Subject:' . $decodedValue);
+    }
+
+    public function testFromStringRaisesExceptionOnInvalidHeader()
+    {
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        Header\Subject::fromString('Foo: bar');
     }
 
     /**

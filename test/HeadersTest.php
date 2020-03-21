@@ -79,6 +79,13 @@ class HeadersTest extends TestCase
         Mail\Headers::fromString("Fake = foo-bar\r\n\r\n");
     }
 
+    public function testHeadersFromStringFactoryThrowsExceptionOnMalformedHeaderLines()
+    {
+        $this->expectException('Laminas\Mail\Exception\RuntimeException');
+        $this->expectExceptionMessage('Malformed header detected');
+        Mail\Headers::fromString("Fake: foo-bar\r\n\r\n\r\n\r\nAnother-Fake: boo-baz");
+    }
+
     public function testHeadersFromStringFactoryCreatesMultipleObjects()
     {
         $headers = Mail\Headers::fromString("Fake: foo-bar\r\nAnother-Fake: boo-baz");
@@ -93,6 +100,14 @@ class HeadersTest extends TestCase
         $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
         $this->assertEquals('Another-Fake', $header->getFieldName());
         $this->assertEquals('boo-baz', $header->getFieldValue());
+    }
+
+    public function testPluginClassLoaderAccessors()
+    {
+        $headers = new Mail\Headers();
+        $pcl = new Header\HeaderLoader();
+        $headers->setPluginClassLoader($pcl);
+        $this->assertSame($pcl, $headers->getPluginClassLoader());
     }
 
     public function testHeadersFromStringMultiHeaderWillAggregateLazyLoadedHeaders()
