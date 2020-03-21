@@ -94,7 +94,7 @@ class MaildirMessageOldTest extends TestCase
 /*
     public function testFetchTopBody()
     {
-        $mail = new MaildirOldMessage(array('dirname' => $this->maildir));
+        $mail = new TestAsset\MaildirOldMessage(array('dirname' => $this->maildir));
 
         $content = $mail->getHeader(3, 1)->getContent();
         $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
@@ -102,7 +102,7 @@ class MaildirMessageOldTest extends TestCase
 */
     public function testFetchMessageHeader()
     {
-        $mail = new MaildirOldMessage(['dirname' => $this->maildir]);
+        $mail = new TestAsset\MaildirOldMessage(['dirname' => $this->maildir]);
 
         $subject = $mail->getMessage(1)->subject;
         $this->assertEquals('Simple Message', $subject);
@@ -110,7 +110,7 @@ class MaildirMessageOldTest extends TestCase
 
     public function testFetchMessageBody()
     {
-        $mail = new MaildirOldMessage(['dirname' => $this->maildir]);
+        $mail = new TestAsset\MaildirOldMessage(['dirname' => $this->maildir]);
 
         $content = $mail->getMessage(3)->getContent();
         list($content) = explode("\n", $content, 2);
@@ -119,7 +119,7 @@ class MaildirMessageOldTest extends TestCase
 
     public function testHasFlag()
     {
-        $mail = new MaildirOldMessage(['dirname' => $this->maildir]);
+        $mail = new TestAsset\MaildirOldMessage(['dirname' => $this->maildir]);
 
         $this->assertFalse($mail->getMessage(5)->hasFlag(Storage::FLAG_SEEN));
         $this->assertTrue($mail->getMessage(5)->hasFlag(Storage::FLAG_RECENT));
@@ -129,7 +129,7 @@ class MaildirMessageOldTest extends TestCase
 
     public function testGetFlags()
     {
-        $mail = new MaildirOldMessage(['dirname' => $this->maildir]);
+        $mail = new TestAsset\MaildirOldMessage(['dirname' => $this->maildir]);
 
         $flags = $mail->getMessage(1)->getFlags();
         $this->assertTrue(isset($flags[Storage::FLAG_SEEN]));
@@ -138,13 +138,13 @@ class MaildirMessageOldTest extends TestCase
 
     public function testFetchPart()
     {
-        $mail = new MaildirOldMessage(['dirname' => $this->maildir]);
+        $mail = new TestAsset\MaildirOldMessage(['dirname' => $this->maildir]);
         $this->assertEquals($mail->getMessage(4)->getPart(2)->contentType, 'text/x-vertical');
     }
 
     public function testPartSize()
     {
-        $mail = new MaildirOldMessage(['dirname' => $this->maildir]);
+        $mail = new TestAsset\MaildirOldMessage(['dirname' => $this->maildir]);
         $this->assertEquals($mail->getMessage(4)->getPart(2)->getSize(), 80);
     }
 }
