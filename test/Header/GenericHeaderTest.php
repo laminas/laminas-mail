@@ -16,15 +16,22 @@ use PHPUnit\Framework\TestCase;
  */
 class GenericHeaderTest extends TestCase
 {
+    public function invalidHeaderLines()
+    {
+        return [
+            ['Content-Type' . chr(32) . ': text/html; charset = "iso-8859-1"' . "\nThis is a test"],
+            ['Content-Type: text/html; charset = "iso-8859-1"' . "\nThis is a test"],
+            ['Missing colon'],
+        ];
+    }
     /**
+     * @dataProvider invalidHeaderLines
      * @group ZF2015-04
      */
-    public function testSplitHeaderLineRaisesExceptionOnInvalidHeader()
+    public function testSplitHeaderLineRaisesExceptionOnInvalidHeader($line)
     {
         $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
-        GenericHeader::splitHeaderLine(
-            'Content-Type' . chr(32) . ': text/html; charset = "iso-8859-1"' . "\nThis is a test"
-        );
+        GenericHeader::splitHeaderLine($line);
     }
 
     public function fieldNames()
@@ -32,6 +39,7 @@ class GenericHeaderTest extends TestCase
         return [
             'append-chr-13'  => ["Subject" . chr(13)],
             'append-chr-127' => ["Subject" . chr(127)],
+            'non-string' => [null],
         ];
     }
 
@@ -147,5 +155,13 @@ class GenericHeaderTest extends TestCase
         $header = new GenericHeader('Foo', 0);
         $this->assertEquals(0, $header->getFieldValue());
         $this->assertEquals('Foo: 0', $header->toString());
+    }
+
+    public function testEncodingAccessors()
+    {
+        $header = new GenericHeader('Foo');
+        $this->assertEquals('ASCII', $header->getEncoding());
+        $header->setEncoding('UTF-8');
+        $this->assertEquals('UTF-8', $header->getEncoding());
     }
 }
