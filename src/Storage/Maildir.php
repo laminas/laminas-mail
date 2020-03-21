@@ -133,7 +133,7 @@ class Maildir extends AbstractStorage
     public function getMessage($id)
     {
         // TODO that's ugly, would be better to let the message class decide
-        if ($this->messageClass === Message\File::class
+        if (\trim($this->messageClass, '\\') === Message\File::class
             || is_subclass_of($this->messageClass, Message\File::class)
         ) {
             return new $this->messageClass([
