@@ -97,7 +97,7 @@ class Maildir extends Storage\Maildir implements FolderInterface
                 continue;
             }
 
-            if ($this->isMaildir($this->rootdir . $entry)) {
+            if ($this->_isMaildir($this->rootdir . $entry)) {
                 $dirs[] = $entry;
             }
         }
@@ -187,7 +187,7 @@ class Maildir extends Storage\Maildir implements FolderInterface
         $folder = $this->getFolders($this->currentFolder);
 
         try {
-            $this->openMaildir($this->rootdir . '.' . $folder->getGlobalName());
+            $this->_openMaildir($this->rootdir . '.' . $folder->getGlobalName());
         } catch (Exception\ExceptionInterface $e) {
             // check what went wrong
             if (! $folder->isSelectable()) {
