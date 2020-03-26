@@ -19,18 +19,28 @@ class GenericHeaderTest extends TestCase
     public function invalidHeaderLines()
     {
         return [
-            'appned-chr-32' => ['Content-Type' . chr(32) . ': text/html'],
-            'newline-non-continuation' => ['Content-Type: text/html; charset = "iso-8859-1"' . "\nThis is a test"],
-            'missing-colon' => ['content-type text/html'],
+            'append-chr-32' => [
+                'Content-Type' . chr(32) . ': text/html',
+                'Invalid header name detected',
+            ],
+            'newline-non-continuation' => [
+                'Content-Type: text/html; charset = "iso-8859-1"' . "\nThis is a test",
+                'Invalid header value detected',
+            ],
+            'missing-colon' => [
+                'content-type text/html',
+                'Header must match with the format "name:value"',
+            ],
         ];
     }
     /**
      * @dataProvider invalidHeaderLines
      * @group ZF2015-04
      */
-    public function testSplitHeaderLineRaisesExceptionOnInvalidHeader($line)
+    public function testSplitHeaderLineRaisesExceptionOnInvalidHeader($line, $message)
     {
         $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage($message);
         GenericHeader::splitHeaderLine($line);
     }
 

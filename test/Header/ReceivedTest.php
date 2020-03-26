@@ -94,6 +94,7 @@ class ReceivedTest extends TestCase
     public function testFromStringRaisesExceptionOnInvalidHeader()
     {
         $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid header line for Received string');
         Header\Received::fromString('Foo: bar');
     }
 
@@ -136,9 +137,9 @@ class ReceivedTest extends TestCase
 
     public function testToStringMultipleHeadersThrows()
     {
+        $header = new Header\Received('test');
         $this->expectException('Laminas\Mail\Header\Exception\RuntimeException');
         $this->expectExceptionMessage('can only accept an array of Received headers');
-        $header = new Header\Received('test');
         $header->toStringMultipleHeaders([null]);
     }
 }

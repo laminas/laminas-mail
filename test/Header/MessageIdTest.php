@@ -92,6 +92,7 @@ class MessageIdTest extends TestCase
     public function testFromStringRaisesExceptionOnInvalidHeader()
     {
         $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid header line for Message-ID string');
         Header\MessageId::fromString('Foo: bar');
     }
 

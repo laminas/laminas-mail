@@ -76,6 +76,7 @@ class SubjectTest extends TestCase
     public function testFromStringRaisesExceptionOnInvalidHeader()
     {
         $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid header line for Subject string');
         Header\Subject::fromString('Foo: bar');
     }
 

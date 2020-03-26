@@ -112,9 +112,10 @@ class IdentificationFieldTest extends TestCase
      */
     public function testSetIdsThrowsOnInvalidInput($className, $ids)
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         /** @var IdentificationField $header */
         $header = new $className();
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid ID detected');
         $header->setIds($ids);
     }
 
@@ -126,6 +127,7 @@ class IdentificationFieldTest extends TestCase
     public function testFromStringRaisesExceptionOnInvalidHeader($className, $ids)
     {
         $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid header line');
         /** @var IdentificationField $header */
         $header = $className::fromString('Foo: bar');
     }

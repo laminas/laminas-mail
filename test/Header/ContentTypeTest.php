@@ -191,6 +191,7 @@ class ContentTypeTest extends TestCase
     public function testFromStringRaisesExceptionOnInvalidHeader()
     {
         $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid header line for Content-Type string');
         ContentType::fromString('Foo: bar');
     }
 
@@ -209,8 +210,9 @@ class ContentTypeTest extends TestCase
 
     public function testSetTypeThrowsOnInvalidValue()
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $header = new ContentType();
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('setType expects a value in the format "type/subtype"');
         $header->setType('invalid');
     }
 
