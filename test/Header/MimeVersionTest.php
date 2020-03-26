@@ -76,6 +76,7 @@ class MimeVersionTest extends TestCase
     public function testFromStringRaisesExceptionOnInvalidHeader()
     {
         $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid header line for MIME-Version string');
         Header\MimeVersion::fromString('Foo: bar');
     }
 

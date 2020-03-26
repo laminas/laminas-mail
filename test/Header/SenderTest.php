@@ -283,6 +283,7 @@ class SenderTest extends TestCase
     public function testFromStringRaisesExceptionOnInvalidHeader()
     {
         $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid header name for Sender string');
         Header\Sender::fromString('Foo: bar');
     }
 }

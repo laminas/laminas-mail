@@ -48,6 +48,7 @@ class DateTest extends TestCase
     public function testFromStringRaisesExceptionOnInvalidHeader()
     {
         $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid header line for Date string');
         Header\Date::fromString('Foo: bar');
     }
 

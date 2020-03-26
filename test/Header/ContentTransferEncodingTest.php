@@ -152,6 +152,7 @@ class ContentTransferEncodingTest extends TestCase
     public function testFromStringRaisesExceptionOnInvalidHeader()
     {
         $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid header line for Content-Transfer-Encoding string');
         ContentTransferEncoding::fromString('Foo: bar');
     }
 
