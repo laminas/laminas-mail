@@ -79,11 +79,16 @@ class MimeVersionTest extends TestCase
         Header\MimeVersion::fromString('Foo: bar');
     }
 
-    public function testEncodingAccessors()
+    public function testDefaultEncoding()
     {
         $header = new Header\MimeVersion('1.0');
-        $this->assertEquals('ASCII', $header->getEncoding());
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    public function testSetEncodingHasNoEffect()
+    {
+        $header = new Header\MimeVersion('1.0');
         $header->setEncoding('UTF-8');
-        $this->assertEquals('ASCII', $header->getEncoding());
+        $this->assertSame('ASCII', $header->getEncoding());
     }
 }

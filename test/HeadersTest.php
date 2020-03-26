@@ -528,18 +528,40 @@ class HeadersTest extends TestCase
         $this->assertEquals('õlu <bar <foo.bar@test.com>', $encodedValue);
     }
 
-    public function testEncodingAccessors()
+    public function testDefaultEncoding()
     {
         $headers = new Mail\Headers();
-        $this->assertEquals('ASCII', $headers->getEncoding());
+        $this->assertSame('ASCII', $headers->getEncoding());
+    }
+
+    public function testSetEncodingNoHeaders()
+    {
+        $headers = new Mail\Headers();
+        $headers->setEncoding('UTF-8');
+        $this->assertSame('UTF-8', $headers->getEncoding());
+    }
+
+    public function testSetEncodingWithHeaders()
+    {
+        $headers = new Mail\Headers();
         $headers->addHeaderLine('To: test@example.com');
         $headers->addHeaderLine('Cc: tester@example.org');
 
         $headers->setEncoding('UTF-8');
-        $this->assertEquals('UTF-8', $headers->getEncoding());
+        $this->assertSame('UTF-8', $headers->getEncoding());
+    }
+
+    public function testAddHeaderCallsSetEncoding()
+    {
+        $headers = new Mail\Headers();
+        $headers->setEncoding('UTF-8');
 
         $subject = new Header\Subject('test subject');
+        // default to ASCII
+        $this->assertSame('ASCII', $subject->getEncoding());
+
         $headers->addHeader($subject);
-        $this->assertEquals('UTF-8', $subject->getEncoding());
+        // now UTF-8 via addHeader() call
+        $this->assertSame('UTF-8', $subject->getEncoding());
     }
 }

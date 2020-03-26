@@ -157,11 +157,16 @@ class GenericHeaderTest extends TestCase
         $this->assertEquals('Foo: 0', $header->toString());
     }
 
-    public function testEncodingAccessors()
+    public function testDefaultEncoding()
     {
         $header = new GenericHeader('Foo');
-        $this->assertEquals('ASCII', $header->getEncoding());
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    public function testSetEncoding()
+    {
+        $header = new GenericHeader('Foo');
         $header->setEncoding('UTF-8');
-        $this->assertEquals('UTF-8', $header->getEncoding());
+        $this->assertSame('UTF-8', $header->getEncoding());
     }
 }
