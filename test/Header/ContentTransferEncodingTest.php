@@ -155,11 +155,16 @@ class ContentTransferEncodingTest extends TestCase
         ContentTransferEncoding::fromString('Foo: bar');
     }
 
-    public function testEncodingAccessors()
+    public function testDefaultEncoding()
     {
         $header = new ContentTransferEncoding('today');
-        $this->assertEquals('ASCII', $header->getEncoding());
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    public function testChangeEncodingHasNoEffect()
+    {
+        $header = new ContentTransferEncoding('today');
         $header->setEncoding('UTF-8');
-        $this->assertEquals('ASCII', $header->getEncoding());
+        $this->assertSame('ASCII', $header->getEncoding());
     }
 }

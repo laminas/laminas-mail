@@ -267,13 +267,17 @@ class SenderTest extends TestCase
         ];
     }
 
-    public function testEncodingAccessors()
+    public function testDefaultEncoding()
     {
         $header = new Header\Sender('<test@example.com>');
-        $header->setEncoding('ASCII');
-        $this->assertEquals('ASCII', $header->getEncoding());
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    public function testSetEncoding()
+    {
+        $header = new Header\Sender('<test@example.com>');
         $header->setEncoding('UTF-8');
-        $this->assertEquals('UTF-8', $header->getEncoding());
+        $this->assertSame('UTF-8', $header->getEncoding());
     }
 
     public function testFromStringRaisesExceptionOnInvalidHeader()

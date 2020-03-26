@@ -84,13 +84,25 @@ class IdentificationFieldTest extends TestCase
      * @param string $headerString
      * @param string[] $ids
      */
-    public function testEncodingAccessors($className, $headerString, $ids)
+    public function testDefaultEncoding($className, $headerString, array $ids)
     {
         /** @var IdentificationField $header */
         $header = $className::fromString($headerString);
-        $this->assertEquals('ASCII', $header->getEncoding());
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    /**
+     * @dataProvider stringHeadersProvider
+     * @param string $className
+     * @param string $headerString
+     * @param string[] $ids
+     */
+    public function testSetEncodingHasNoEffect($className, $headerString, array $ids)
+    {
+        /** @var IdentificationField $header */
+        $header = $className::fromString($headerString);
         $header->setEncoding('UTF-8');
-        $this->assertEquals('ASCII', $header->getEncoding());
+        $this->assertSame('ASCII', $header->getEncoding());
     }
 
     /**

@@ -97,12 +97,17 @@ class ReceivedTest extends TestCase
         Header\Received::fromString('Foo: bar');
     }
 
-    public function testEncodingAccessors()
+    public function testDefaultEncoding()
     {
         $header = Header\Received::fromString('Received: test');
-        $this->assertEquals('ASCII', $header->getEncoding());
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    public function testSetEncodingHasNoEffect()
+    {
+        $header = Header\Received::fromString('Received: test');
         $header->setEncoding('UTF-8');
-        $this->assertEquals('ASCII', $header->getEncoding());
+        $this->assertSame('ASCII', $header->getEncoding());
     }
 
     public function testToString()

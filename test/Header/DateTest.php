@@ -51,12 +51,17 @@ class DateTest extends TestCase
         Header\Date::fromString('Foo: bar');
     }
 
-    public function testEncodingAccessors()
+    public function testDefaultEncoding()
     {
         $header = new Header\Date('today');
-        $this->assertEquals('ASCII', $header->getEncoding());
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    public function testSetEncodingHasNoEffect()
+    {
+        $header = new Header\Date('today');
         $header->setEncoding('UTF-8');
-        $this->assertEquals('ASCII', $header->getEncoding());
+        $this->assertSame('ASCII', $header->getEncoding());
     }
 
     public function testToString()

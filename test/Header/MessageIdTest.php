@@ -95,11 +95,16 @@ class MessageIdTest extends TestCase
         Header\MessageId::fromString('Foo: bar');
     }
 
-    public function testEncodingAccessors()
+    public function testDefaultEncoding()
     {
         $header = new Header\MessageId();
-        $this->assertEquals('ASCII', $header->getEncoding());
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    public function testSetEncodingHasNoEffect()
+    {
+        $header = new Header\MessageId();
         $header->setEncoding('UTF-8');
-        $this->assertEquals('ASCII', $header->getEncoding());
+        $this->assertSame('ASCII', $header->getEncoding());
     }
 }

@@ -28,13 +28,17 @@ class SubjectTest extends TestCase
         $this->assertEquals($expected, $test);
     }
 
-    public function testEncodingAccessors()
+    public function testDefaultEncoding()
     {
         $header = Header\Subject::fromString('Subject: test');
-        $header->setEncoding('ASCII');
-        $this->assertEquals('ASCII', $header->getEncoding());
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    public function testSetEncoding()
+    {
+        $header = Header\Subject::fromString('Subject: test');
         $header->setEncoding('UTF-8');
-        $this->assertEquals('UTF-8', $header->getEncoding());
+        $this->assertSame('UTF-8', $header->getEncoding());
     }
 
     /**

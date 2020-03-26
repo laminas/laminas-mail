@@ -194,12 +194,17 @@ class ContentTypeTest extends TestCase
         ContentType::fromString('Foo: bar');
     }
 
-    public function testEncodingAccessors()
+    public function testDefaultEncoding()
     {
         $header = new ContentType('today');
-        $this->assertEquals('ASCII', $header->getEncoding());
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    public function testSetEncoding()
+    {
+        $header = new ContentType('today');
         $header->setEncoding('UTF-8');
-        $this->assertEquals('UTF-8', $header->getEncoding());
+        $this->assertSame('UTF-8', $header->getEncoding());
     }
 
     public function testSetTypeThrowsOnInvalidValue()
