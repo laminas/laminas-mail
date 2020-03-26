@@ -40,6 +40,12 @@ class AddressListTest extends TestCase
 
     public function testAddingEmailsIncreasesCount()
     {
+        $this->list->add('test@example.com');
+        $this->assertEquals(1, count($this->list));
+    }
+
+    public function testAddingEmailFromStringIncreasesCount()
+    {
         $this->list->addFromString('test@example.com');
         $this->assertEquals(1, count($this->list));
     }
