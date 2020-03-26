@@ -19,9 +19,9 @@ class GenericHeaderTest extends TestCase
     public function invalidHeaderLines()
     {
         return [
-            ['Content-Type' . chr(32) . ': text/html; charset = "iso-8859-1"' . "\nThis is a test"],
-            ['Content-Type: text/html; charset = "iso-8859-1"' . "\nThis is a test"],
-            ['Missing colon'],
+            'appned-chr-32' => ['Content-Type' . chr(32) . ': text/html'],
+            'newline-non-continuation' => ['Content-Type: text/html; charset = "iso-8859-1"' . "\nThis is a test"],
+            'missing-colon' => ['content-type text/html'],
         ];
     }
     /**
