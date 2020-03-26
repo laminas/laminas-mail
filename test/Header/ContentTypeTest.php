@@ -214,12 +214,27 @@ class ContentTypeTest extends TestCase
         $header->setType('invalid');
     }
 
-    public function testGetRemoveParameter()
+    public function testGetParameter()
     {
         $header = ContentType::fromString('content-type: text/plain; level=top');
-        $this->assertEquals('top', $header->getParameter('level'));
-        $this->assertEquals(true, $header->removeParameter('level'));
-        $this->assertEquals(false, $header->removeParameter('level'));
-        $this->assertEquals(null, $header->getParameter('level'));
+        $this->assertSame('top', $header->getParameter('level'));
+    }
+
+    public function testGetParameterNotExists()
+    {
+        $header = ContentType::fromString('content-type: text/plain');
+        $this->assertNull($header->getParameter('level'));
+    }
+
+    public function testRemoveParameter()
+    {
+        $header = ContentType::fromString('content-type: text/plain; level=top');
+        $this->assertTrue($header->removeParameter('level'));
+    }
+
+    public function testRemoveParameterNotExists()
+    {
+        $header = ContentType::fromString('content-type: text/plain');
+        $this->assertFalse($header->removeParameter('level'));
     }
 }
