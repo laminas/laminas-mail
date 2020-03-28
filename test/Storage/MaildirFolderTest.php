@@ -385,7 +385,7 @@ class MaildirFolderTest extends TestCase
         $root = $mail->getFolders();
         $root->foobar = new Folder('foobar', 'foobar');
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
         $this->expectExceptionMessage('seems like the maildir has vanished');
         $mail->selectFolder('foobar');
     }
@@ -396,7 +396,7 @@ class MaildirFolderTest extends TestCase
         $root = $mail->getFolders();
         $root->foobar = new Folder('foobar', 'foobar', false);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
         $this->expectExceptionMessage('foobar is not selectable');
         $mail->selectFolder('foobar');
     }
@@ -405,12 +405,14 @@ class MaildirFolderTest extends TestCase
     {
         mkdir($this->params['dirname'] . '.xyyx');
         mkdir($this->params['dirname'] . '.xyyx/cur');
+        mkdir($this->params['dirname'] . '.xyyx/new');
 
         $mail = new Folder\Maildir($this->params);
         $mail->selectFolder('xyyx');
         $this->assertEquals($mail->countMessages(), 0);
 
         rmdir($this->params['dirname'] . '.xyyx/cur');
+        rmdir($this->params['dirname'] . '.xyyx/new');
         rmdir($this->params['dirname'] . '.xyyx');
     }
 }

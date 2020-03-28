@@ -234,7 +234,7 @@ class MaildirTest extends TestCase
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
         $this->expectExceptionMessage('maildir is (currently) read-only');
         $mail->removeMessage(1);
     }
