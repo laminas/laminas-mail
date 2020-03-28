@@ -31,12 +31,6 @@ class MaildirFolderTest extends TestCase
 
         $originalMaildir = __DIR__ . '/../_files/test.maildir/';
 
-        if (! getenv('TESTS_LAMINAS_MAIL_MAILDIR_ENABLED')) {
-            $this->markTestSkipped('You have to unpack maildir.tar in Laminas/Mail/_files/test.maildir/ '
-                                 . 'directory before enabling the maildir tests');
-            return;
-        }
-
         if ($this->tmpdir == null) {
             if (getenv('TESTS_LAMINAS_MAIL_TEMPDIR') != null) {
                 $this->tmpdir = getenv('TESTS_LAMINAS_MAIL_TEMPDIR');
@@ -56,6 +50,23 @@ class MaildirFolderTest extends TestCase
                 $this->markTestSkipped('Are you sure your tmp dir is a valid empty dir?');
                 return;
             }
+        }
+
+        if (! \file_exists($originalMaildir . 'maildirsize') && \class_exists('PharData')) {
+            try {
+                $phar = new \PharData($originalMaildir . 'maildir.tar');
+                $phar->extractTo($originalMaildir);
+                // This empty directory is in the tar, but not unpacked by PharData
+                \mkdir($originalMaildir . '.subfolder/cur');
+            } catch (\Exception $e) {
+                // intentionally empty catch block
+            }
+        }
+
+        if (! \file_exists($originalMaildir . 'maildirsize')) {
+            $this->markTestSkipped('You have to unpack maildir.tar in '
+            . 'Laminas/Mail/_files/test.maildir/ directory to run the maildir tests');
+            return;
         }
 
         $this->params = [];
