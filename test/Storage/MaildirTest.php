@@ -23,6 +23,11 @@ class MaildirTest extends TestCase
 
     public function setUp()
     {
+        if (\strtoupper(\substr(PHP_OS, 0, 3)) == 'WIN') {
+            $this->markTestSkipped('This test does not work on Windows');
+            return;
+        }
+
         $this->originalMaildir = __DIR__ . '/../_files/test.maildir/';
         if (! getenv('TESTS_LAMINAS_MAIL_MAILDIR_ENABLED')) {
             $this->markTestSkipped('You have to unpack maildir.tar in Laminas/Mail/_files/test.maildir/ '
