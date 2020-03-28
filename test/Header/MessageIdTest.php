@@ -39,12 +39,14 @@ class MessageIdTest extends TestCase
 
     public function testAutoGenerationWithServerVars()
     {
+        $serverBeforeTest = $_SERVER;
         $_SERVER['REMOTE_ADDR'] = '172.16.0.1';
         $_SERVER['SERVER_NAME'] = 'server-name.test';
         $messageid = new Header\MessageId();
         $messageid->setId();
 
         $this->assertContains('@server-name.test', $messageid->getFieldValue());
+        $_SERVER = $serverBeforeTest;
     }
 
     public function headerLines()
