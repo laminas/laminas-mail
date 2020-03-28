@@ -123,12 +123,14 @@ class MaildirFolderTest extends TestCase
 
     public function testLoadOk()
     {
-        new Folder\Maildir($this->params);
+        $mail = new Folder\Maildir($this->params);
+        $this->assertSame(Folder\Maildir::class, \get_class($mail));
     }
 
     public function testLoadConfig()
     {
-        new Folder\Maildir(new Config\Config($this->params));
+        $mail = new Folder\Maildir(new Config\Config($this->params));
+        $this->assertSame(Folder\Maildir::class, \get_class($mail));
     }
 
     public function testNoParams()

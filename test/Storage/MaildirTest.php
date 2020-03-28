@@ -102,12 +102,14 @@ class MaildirTest extends TestCase
 
     public function testLoadOk()
     {
-        new Storage\Maildir(['dirname' => $this->maildir]);
+        $mail = new Storage\Maildir(['dirname' => $this->maildir]);
+        $this->assertSame(Storage\Maildir::class, \get_class($mail));
     }
 
     public function testLoadConfig()
     {
-        new Storage\Maildir(new Config\Config(['dirname' => $this->maildir]));
+        $mail = new Storage\Maildir(new Config\Config(['dirname' => $this->maildir]));
+        $this->assertSame(Storage\Maildir::class, \get_class($mail));
     }
 
     public function testLoadFailure()
@@ -128,7 +130,7 @@ class MaildirTest extends TestCase
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
-        $mail->close();
+        $this->assertNull($mail->close());
     }
 
     public function testHasTop()
@@ -149,7 +151,7 @@ class MaildirTest extends TestCase
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
-        $mail->noop();
+        $this->assertTrue($mail->noop());
     }
 
     public function testCount()
