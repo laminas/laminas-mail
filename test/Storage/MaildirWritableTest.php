@@ -169,7 +169,6 @@ class MaildirWritableTest extends TestCase
 
     public function testCreateFolderExistingDir()
     {
-        $this->markTestIncomplete("Fail");
         $mail = new Writable\Maildir($this->params);
         unset($mail->getFolders()->subfolder->test);
 
@@ -189,7 +188,6 @@ class MaildirWritableTest extends TestCase
 
     public function testRemoveFolderName()
     {
-        $this->markTestIncomplete("Fail");
         $mail = new Writable\Maildir($this->params);
         $mail->removeFolder('INBOX.subfolder.test');
 
@@ -200,7 +198,6 @@ class MaildirWritableTest extends TestCase
 
     public function testRemoveFolderInstance()
     {
-        $this->markTestIncomplete("Fail");
         $mail = new Writable\Maildir($this->params);
         $mail->removeFolder($mail->getFolders()->subfolder->test);
 
@@ -239,7 +236,6 @@ class MaildirWritableTest extends TestCase
 
     public function testRenameFolder()
     {
-        $this->markTestIncomplete("Fail");
         $mail = new Writable\Maildir($this->params);
 
         $mail->renameFolder('INBOX.subfolder', 'INBOX.foo');
