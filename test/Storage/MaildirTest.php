@@ -17,7 +17,6 @@ use PHPUnit\Framework\TestCase;
  */
 class MaildirTest extends TestCase
 {
-    protected $originalMaildir;
     protected $maildir;
     protected $tmpdir;
 
@@ -28,7 +27,7 @@ class MaildirTest extends TestCase
             return;
         }
 
-        $this->originalMaildir = __DIR__ . '/../_files/test.maildir/';
+        $originalMaildir = __DIR__ . '/../_files/test.maildir/';
         if (! getenv('TESTS_LAMINAS_MAIL_MAILDIR_ENABLED')) {
             $this->markTestSkipped('You have to unpack maildir.tar in Laminas/Mail/_files/test.maildir/ '
                                  . 'directory before enabling the maildir tests');
@@ -60,13 +59,13 @@ class MaildirTest extends TestCase
 
         foreach (['cur', 'new'] as $dir) {
             mkdir($this->tmpdir . $dir);
-            $dh = opendir($this->originalMaildir . $dir);
+            $dh = opendir($originalMaildir . $dir);
             while (($entry = readdir($dh)) !== false) {
                 $entry = $dir . '/' . $entry;
-                if (! is_file($this->originalMaildir . $entry)) {
+                if (! is_file($originalMaildir . $entry)) {
                     continue;
                 }
-                copy($this->originalMaildir . $entry, $this->tmpdir . $entry);
+                copy($originalMaildir . $entry, $this->tmpdir . $entry);
             }
             closedir($dh);
         }
