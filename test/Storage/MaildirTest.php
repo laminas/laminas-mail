@@ -143,6 +143,12 @@ class MaildirTest extends TestCase
         $this->assertNull($mail->close());
     }
 
+    public function testHasFlags()
+    {
+        $mail = new Storage\Maildir(['dirname' => $this->maildir]);
+        $this->assertTrue($mail->hasFlags);
+    }
+
     public function testHasTop()
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
