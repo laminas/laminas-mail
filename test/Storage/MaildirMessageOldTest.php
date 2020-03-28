@@ -82,7 +82,6 @@ class MaildirMessageOldTest extends TestCase
         }
     }
 
-
     public function testFetchHeader()
     {
         $mail = new TestAsset\MaildirOldMessage(['dirname' => $this->maildir]);

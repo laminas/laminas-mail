@@ -33,6 +33,7 @@ class GenericHeaderTest extends TestCase
             ],
         ];
     }
+
     /**
      * @dataProvider invalidHeaderLines
      * @group ZF2015-04
