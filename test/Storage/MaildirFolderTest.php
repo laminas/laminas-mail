@@ -96,6 +96,7 @@ class MaildirFolderTest extends TestCase
 
     public function tearDown()
     {
+        \chmod($this->tmpdir, 0700);
         foreach (array_reverse($this->subdirs) as $dir) {
             foreach (['cur', 'new'] as $subdir) {
                 if (! file_exists($this->tmpdir . $dir . '/' . $subdir)) {
@@ -343,31 +344,11 @@ class MaildirFolderTest extends TestCase
 
     public function testNotReadableMaildir()
     {
-        $stat = stat($this->params['dirname']);
         chmod($this->params['dirname'], 0);
-        clearstatcache();
-        $statcheck = stat($this->params['dirname']);
-        if ($statcheck['mode'] % (8 * 8 * 8) !== 0) {
-            chmod($this->params['dirname'], $stat['mode']);
-            $this->markTestSkipped(
-                'cannot remove read rights, which makes this test useless (maybe you are using Windows?)'
-            );
-            return;
-        }
 
-        $check = false;
-        try {
-            $mail = new Folder\Maildir($this->params);
-        } catch (\Exception $e) {
-            $check = true;
-            // test ok
-        }
-
-        chmod($this->params['dirname'], $stat['mode']);
-
-        if (! $check) {
-            $this->fail('no exception while loading not readable maildir');
-        }
+        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectExceptionMessage('can\'t read folders in maildir');
+        new Folder\Maildir($this->params);
     }
 
     public function testGetInvalidFolder()

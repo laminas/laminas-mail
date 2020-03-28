@@ -85,8 +85,14 @@ class MaildirTest extends TestCase
     {
         foreach (['cur', 'new'] as $dir) {
             if (! is_dir($this->tmpdir . $dir)) {
-                continue;
+                if (\is_dir($this->tmpdir . $dir . '-isFileTest')) {
+                    \unlink($this->tmpdir . $dir);
+                    \rename($this->tmpdir . $dir . '-isFileTest', $this->tmpdir . $dir);
+                } else {
+                    continue;
+                }
             }
+            \chmod($this->tmpdir . $dir, 0700);
             $dh = opendir($this->tmpdir . $dir);
             while (($entry = readdir($dh)) !== false) {
                 $entry = $this->tmpdir . $dir . '/' . $entry;
@@ -97,6 +103,10 @@ class MaildirTest extends TestCase
             }
             closedir($dh);
             rmdir($this->tmpdir . $dir);
+        }
+
+        if (\file_exists($this->tmpdir . 'tmp')) {
+            \unlink($this->tmpdir . 'tmp');
         }
     }
 
@@ -288,74 +298,51 @@ class MaildirTest extends TestCase
         $mail->getNumberByUniqueId('this_is_an_invalid_id');
     }
 
-    public function isFileTest($dir)
-    {
-        if (file_exists($this->maildir . '/' . $dir)) {
-            rename($this->maildir . '/' . $dir, $this->maildir . '/' . $dir . 'bak');
-        }
-        touch($this->maildir . '/' . $dir);
-
-        $check = false;
-        try {
-            $mail = new Storage\Maildir(['dirname' => $this->maildir]);
-        } catch (\Exception $e) {
-            $check = true;
-            // test ok
-        }
-
-        unlink($this->maildir . '/' . $dir);
-        if (file_exists($this->maildir . '/' . $dir . 'bak')) {
-            rename($this->maildir . '/' . $dir . 'bak', $this->maildir . '/' . $dir);
-        }
-
-        if (! $check) {
-            $this->fail('no exception while loading invalid dir with ' . $dir . ' as file');
-        }
-    }
-
     public function testCurIsFile()
     {
-        $this->isFileTest('cur');
+        \rename($this->maildir . 'cur', $this->maildir . 'cur-isFileTest');
+        \touch($this->maildir . 'cur');
+
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('invalid maildir given');
+        new Storage\Maildir(['dirname' => $this->maildir]);
     }
 
     public function testNewIsFile()
     {
-        $this->isFileTest('new');
+        \rename($this->maildir . 'new', $this->maildir . 'new-isFileTest');
+        \touch($this->maildir . 'new');
+
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('invalid maildir given');
+        new Storage\Maildir(['dirname' => $this->maildir]);
     }
 
     public function testTmpIsFile()
     {
-        $this->isFileTest('tmp');
-    }
+        \touch($this->maildir . 'tmp');
 
-    public function notReadableTest($dir)
-    {
-        $stat = stat($this->maildir . '/' . $dir);
-        chmod($this->maildir . '/' . $dir, 0);
-
-        $check = false;
-        try {
-            $mail = new Storage\Maildir(['dirname' => $this->maildir]);
-        } catch (\Exception $e) {
-            $check = true;
-            // test ok
-        }
-
-        chmod($this->maildir . '/' . $dir, $stat['mode']);
-
-        if (! $check) {
-            $this->fail('no exception while loading invalid dir with ' . $dir . ' not readable');
-        }
+        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('invalid maildir given');
+        new Storage\Maildir(['dirname' => $this->maildir]);
     }
 
     public function testNotReadableCur()
     {
-        $this->notReadableTest('cur');
+        \chmod($this->maildir . 'cur', 0);
+
+        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectExceptionMessage('cannot open maildir');
+        new Storage\Maildir(['dirname' => $this->maildir]);
     }
 
     public function testNotReadableNew()
     {
-        $this->notReadableTest('new');
+        \chmod($this->maildir . 'new', 0);
+
+        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectExceptionMessage('cannot read recent mails in maildir');
+        new Storage\Maildir(['dirname' => $this->maildir]);
     }
 
     public function testCountFlags()
