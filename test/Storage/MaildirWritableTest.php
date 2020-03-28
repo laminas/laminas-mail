@@ -18,7 +18,6 @@ use PHPUnit\Framework\TestCase;
 class MaildirWritableTest extends TestCase
 {
     protected $params;
-    protected $originalDir;
     protected $tmpdir;
     protected $subdirs = ['.', '.subfolder', '.subfolder.test'];
 
@@ -29,7 +28,7 @@ class MaildirWritableTest extends TestCase
             return;
         }
 
-        $this->originalDir = __DIR__ . '/../_files/test.maildir/';
+        $originalMaildir = __DIR__ . '/../_files/test.maildir/';
         if (! getenv('TESTS_LAMINAS_MAIL_MAILDIR_ENABLED')) {
             $this->markTestSkipped('You have to unpack maildir.tar in Laminas/Mail/_files/test.maildir/ '
                                  . 'directory before enabling the maildir tests');
@@ -66,21 +65,21 @@ class MaildirWritableTest extends TestCase
                 mkdir($this->tmpdir . $dir);
             }
             foreach (['cur', 'new'] as $subdir) {
-                if (! file_exists($this->originalDir . $dir . '/' . $subdir)) {
+                if (! file_exists($originalMaildir . $dir . '/' . $subdir)) {
                     continue;
                 }
                 mkdir($this->tmpdir . $dir . '/' . $subdir);
-                $dh = opendir($this->originalDir . $dir . '/' . $subdir);
+                $dh = opendir($originalMaildir . $dir . '/' . $subdir);
                 while (($entry = readdir($dh)) !== false) {
                     $entry = $dir . '/' . $subdir . '/' . $entry;
-                    if (! is_file($this->originalDir . $entry)) {
+                    if (! is_file($originalMaildir . $entry)) {
                         continue;
                     }
-                    copy($this->originalDir . $entry, $this->tmpdir . $entry);
+                    copy($originalMaildir . $entry, $this->tmpdir . $entry);
                 }
                 closedir($dh);
             }
-            copy($this->originalDir . 'maildirsize', $this->tmpdir . 'maildirsize');
+            copy($originalMaildir . 'maildirsize', $this->tmpdir . 'maildirsize');
         }
     }
 
