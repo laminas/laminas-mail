@@ -44,7 +44,7 @@ class MessageIdTest extends TestCase
         $messageid = new Header\MessageId();
         $messageid->setId();
 
-        $this->assertContains('@', $messageid->getFieldValue());
+        $this->assertContains('@server-name.test', $messageid->getFieldValue());
     }
 
     public function headerLines()
