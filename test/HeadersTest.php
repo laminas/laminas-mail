@@ -167,6 +167,25 @@ class HeadersTest extends TestCase
         $headers->addHeaderLine('Foo');
     }
 
+    public function testHeadersAddHeaderLineThrowsExceptionOnInvalidFieldNull()
+    {
+        $headers = new Mail\Headers();
+
+        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('expects its first argument to be a string');
+        $headers->addHeaderLine(null);
+    }
+
+    public function testHeadersAddHeaderLineThrowsExceptionOnInvalidFieldObject()
+    {
+        $headers = new Mail\Headers();
+        $object = new \stdClass();
+
+        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('expects its first argument to be a string');
+        $headers->addHeaderLine($object);
+    }
+
     public function testHeadersAggregatesHeadersThroughAddHeaders()
     {
         $headers = new Mail\Headers();
@@ -245,6 +264,12 @@ class HeadersTest extends TestCase
         $this->assertEquals(2, $headers->count());
         $this->assertTrue($headers->has('foo'));
         $this->assertNotSame($header, $headers->get('foo'));
+    }
+
+    public function testRemoveHeaderWhenEmpty()
+    {
+        $headers = new Mail\Headers();
+        $this->assertFalse($headers->removeHeader(null));
     }
 
     public function testHeadersCanClearAllHeaders()
@@ -331,6 +356,16 @@ class HeadersTest extends TestCase
         ];
         $expected = implode("\r\n", $expected) . "\r\n";
         $this->assertEquals($expected, $string);
+    }
+
+    public function testGetReturnsArrayIterator()
+    {
+        $headers = new Mail\Headers();
+        $received = Header\Received::fromString('Received: from framework (localhost [127.0.0.1])');
+        $headers->addHeader($received);
+
+        $return = $headers->get('Received');
+        $this->assertSame('ArrayIterator', \get_class($return));
     }
 
     /**

@@ -165,4 +165,39 @@ class AddressListTest extends TestCase
         $this->assertTrue($addressList->has('asda.fasd@example.net'));
         $this->assertTrue($addressList->has('root@example.org'));
     }
+
+    public function testMergeTwoLists()
+    {
+        $otherList = new AddressList();
+        $this->list->add('one@example.net');
+        $otherList->add('two@example.org');
+        $this->list->merge($otherList);
+        $this->assertEquals(2, count($this->list));
+    }
+
+    public function testDeleteSuccess()
+    {
+        $this->list->add('test@example.com');
+        $this->assertTrue($this->list->delete('test@example.com'));
+        $this->assertEquals(0, count($this->list));
+    }
+
+    public function testDeleteNotExist()
+    {
+        $this->assertFalse($this->list->delete('test@example.com'));
+    }
+
+    public function testKey()
+    {
+        $this->assertNull($this->list->key());
+        $this->list->add('test@example.com');
+        $this->list->add('test@example.net');
+        $this->list->add('test@example.org');
+        $this->list->rewind();
+        $this->assertSame('test@example.com', $this->list->key());
+        $this->list->next();
+        $this->assertSame('test@example.net', $this->list->key());
+        $this->list->next();
+        $this->assertSame('test@example.org', $this->list->key());
+    }
 }
