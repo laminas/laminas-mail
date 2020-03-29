@@ -180,4 +180,13 @@ class GenericHeaderTest extends TestCase
         $header->setEncoding('UTF-8');
         $this->assertSame('UTF-8', $header->getEncoding());
     }
+
+    public function testToStringThrowsWithoutFieldName()
+    {
+        $header = new GenericHeader;
+
+        $this->expectException('Laminas\Mail\Header\Exception\RuntimeException');
+        $this->expectExceptionMessage('Header name is not set, use setFieldName()');
+        $header->toString();
+    }
 }
