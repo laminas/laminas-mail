@@ -44,7 +44,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#83](https://github.com/laminas/laminas-mail/pull/83) fixes PHPDocs in `Transport\InMemory` (last message can be `null`).
 
 ## 2.10.0 - 2018-06-07
 
