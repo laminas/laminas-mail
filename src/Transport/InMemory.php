@@ -20,7 +20,7 @@ use Laminas\Mail\Message;
 class InMemory implements TransportInterface
 {
     /**
-     * @var Message
+     * @var null|Message
      */
     protected $lastMessage;
 
@@ -37,7 +37,7 @@ class InMemory implements TransportInterface
     /**
      * Get the last message sent.
      *
-     * @return Message
+     * @return null|Message
      */
     public function getLastMessage()
     {
