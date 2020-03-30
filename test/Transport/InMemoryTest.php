@@ -42,10 +42,14 @@ class InMemoryTest extends TestCase
         $message = $this->getMessage();
         $transport = new InMemory();
 
-        $this->assertNull($transport->getLastMessage());
-
         $transport->send($message);
 
         $this->assertSame($message, $transport->getLastMessage());
+    }
+
+    public function testNullMessage()
+    {
+        $transport = new InMemory();
+        $this->assertNull($transport->getLastMessage());
     }
 }
