@@ -257,6 +257,10 @@ class Mbox extends AbstractStorage
             $this->close();
         }
 
+        if (is_dir($filename)) {
+            throw new Exception\InvalidArgumentException('file is not a valid mbox file');
+        }
+
         ErrorHandler::start();
         $this->fh = fopen($filename, 'r');
         $error = ErrorHandler::stop();
