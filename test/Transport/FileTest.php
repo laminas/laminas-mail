@@ -77,4 +77,10 @@ class FileTest extends TestCase
 
         $this->assertEquals($message->toString(), $test);
     }
+
+    public function testConstructorNoOptions()
+    {
+        $transport = new File();
+        $this->assertSame(FileOptions::class, \get_class($transport->getOptions()));
+    }
 }

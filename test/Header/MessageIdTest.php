@@ -25,6 +25,8 @@ class MessageIdTest extends TestCase
 
         $expected = sprintf('<%s>', $id);
         $this->assertEquals($expected, $messageid->getFieldValue());
+        $this->assertEquals($expected, $messageid->getId());
+        $this->assertEquals("Message-ID: $expected", $messageid->toString());
     }
 
     public function testAutoGeneration()
@@ -35,6 +37,17 @@ class MessageIdTest extends TestCase
         $this->assertContains('@', $messageid->getFieldValue());
     }
 
+    public function testAutoGenerationWithServerVars()
+    {
+        $serverBeforeTest = $_SERVER;
+        $_SERVER['REMOTE_ADDR'] = '172.16.0.1';
+        $_SERVER['SERVER_NAME'] = 'server-name.test';
+        $messageid = new Header\MessageId();
+        $messageid->setId();
+
+        $this->assertContains('@server-name.test', $messageid->getFieldValue());
+        $_SERVER = $serverBeforeTest;
+    }
 
     public function headerLines()
     {
@@ -76,5 +89,25 @@ class MessageIdTest extends TestCase
         $header = new Header\MessageId();
         $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $header->setId($id);
+    }
+
+    public function testFromStringRaisesExceptionOnInvalidHeader()
+    {
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid header line for Message-ID string');
+        Header\MessageId::fromString('Foo: bar');
+    }
+
+    public function testDefaultEncoding()
+    {
+        $header = new Header\MessageId();
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    public function testSetEncodingHasNoEffect()
+    {
+        $header = new Header\MessageId();
+        $header->setEncoding('UTF-8');
+        $this->assertSame('ASCII', $header->getEncoding());
     }
 }

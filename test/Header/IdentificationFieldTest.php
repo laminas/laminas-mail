@@ -42,6 +42,15 @@ class IdentificationFieldTest extends TestCase
         ];
     }
 
+    public function invalidIds()
+    {
+        return [
+            [References::class, ["1234@local.machine.example\r\n"]],
+            [References::class, ["1234@local.machine.example", "3456@example.net\r\n"]],
+            [InReplyTo::class, ["3456@example.net\r\n"]],
+        ];
+    }
+
     /**
      * @dataProvider stringHeadersProvider
      * @param string $className
@@ -67,5 +76,59 @@ class IdentificationFieldTest extends TestCase
         $header = new $className();
         $header->setIds($ids);
         $this->assertEquals($headerString, $header->toString());
+    }
+
+    /**
+     * @dataProvider stringHeadersProvider
+     * @param string $className
+     * @param string $headerString
+     * @param string[] $ids
+     */
+    public function testDefaultEncoding($className, $headerString, array $ids)
+    {
+        /** @var IdentificationField $header */
+        $header = $className::fromString($headerString);
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    /**
+     * @dataProvider stringHeadersProvider
+     * @param string $className
+     * @param string $headerString
+     * @param string[] $ids
+     */
+    public function testSetEncodingHasNoEffect($className, $headerString, array $ids)
+    {
+        /** @var IdentificationField $header */
+        $header = $className::fromString($headerString);
+        $header->setEncoding('UTF-8');
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    /**
+     * @dataProvider invalidIds
+     * @param string $className
+     * @param string[] $ids
+     */
+    public function testSetIdsThrowsOnInvalidInput($className, $ids)
+    {
+        /** @var IdentificationField $header */
+        $header = new $className();
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid ID detected');
+        $header->setIds($ids);
+    }
+
+    /**
+     * @dataProvider invalidIds
+     * @param string $className
+     * @param string[] $ids
+     */
+    public function testFromStringRaisesExceptionOnInvalidHeader($className, $ids)
+    {
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid header line');
+        /** @var IdentificationField $header */
+        $header = $className::fromString('Foo: bar');
     }
 }

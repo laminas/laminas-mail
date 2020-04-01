@@ -29,6 +29,7 @@ class MimeVersionTest extends TestCase
     {
         $mime = new Header\MimeVersion();
         $this->assertEquals('1.0', $mime->getVersion());
+        $this->assertEquals('MIME-Version: 1.0', $mime->toString());
     }
 
     public function headerLines()
@@ -70,5 +71,25 @@ class MimeVersionTest extends TestCase
         $header = new Header\MimeVersion();
         $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $header->setVersion($value);
+    }
+
+    public function testFromStringRaisesExceptionOnInvalidHeader()
+    {
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid header line for MIME-Version string');
+        Header\MimeVersion::fromString('Foo: bar');
+    }
+
+    public function testDefaultEncoding()
+    {
+        $header = new Header\MimeVersion('1.0');
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    public function testSetEncodingHasNoEffect()
+    {
+        $header = new Header\MimeVersion('1.0');
+        $header->setEncoding('UTF-8');
+        $this->assertSame('ASCII', $header->getEncoding());
     }
 }
