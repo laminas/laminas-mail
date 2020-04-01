@@ -79,6 +79,13 @@ class HeadersTest extends TestCase
         Mail\Headers::fromString("Fake = foo-bar\r\n\r\n");
     }
 
+    public function testHeadersFromStringFactoryThrowsExceptionOnMalformedHeaderLines()
+    {
+        $this->expectException('Laminas\Mail\Exception\RuntimeException');
+        $this->expectExceptionMessage('Malformed header detected');
+        Mail\Headers::fromString("Fake: foo-bar\r\n\r\n\r\n\r\nAnother-Fake: boo-baz");
+    }
+
     public function testHeadersFromStringFactoryCreatesMultipleObjects()
     {
         $headers = Mail\Headers::fromString("Fake: foo-bar\r\nAnother-Fake: boo-baz");
@@ -93,6 +100,14 @@ class HeadersTest extends TestCase
         $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
         $this->assertEquals('Another-Fake', $header->getFieldName());
         $this->assertEquals('boo-baz', $header->getFieldValue());
+    }
+
+    public function testPluginClassLoaderAccessors()
+    {
+        $headers = new Mail\Headers();
+        $pcl = new Header\HeaderLoader();
+        $headers->setPluginClassLoader($pcl);
+        $this->assertSame($pcl, $headers->getPluginClassLoader());
     }
 
     public function testHeadersFromStringMultiHeaderWillAggregateLazyLoadedHeaders()
@@ -150,6 +165,25 @@ class HeadersTest extends TestCase
         $this->expectExceptionMessage('Header must match with the format "name:value"');
         $headers = new Mail\Headers();
         $headers->addHeaderLine('Foo');
+    }
+
+    public function testHeadersAddHeaderLineThrowsExceptionOnInvalidFieldNull()
+    {
+        $headers = new Mail\Headers();
+
+        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('expects its first argument to be a string');
+        $headers->addHeaderLine(null);
+    }
+
+    public function testHeadersAddHeaderLineThrowsExceptionOnInvalidFieldObject()
+    {
+        $headers = new Mail\Headers();
+        $object = new \stdClass();
+
+        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('expects its first argument to be a string');
+        $headers->addHeaderLine($object);
     }
 
     public function testHeadersAggregatesHeadersThroughAddHeaders()
@@ -230,6 +264,12 @@ class HeadersTest extends TestCase
         $this->assertEquals(2, $headers->count());
         $this->assertTrue($headers->has('foo'));
         $this->assertNotSame($header, $headers->get('foo'));
+    }
+
+    public function testRemoveHeaderWhenEmpty()
+    {
+        $headers = new Mail\Headers();
+        $this->assertFalse($headers->removeHeader(null));
     }
 
     public function testHeadersCanClearAllHeaders()
@@ -316,6 +356,16 @@ class HeadersTest extends TestCase
         ];
         $expected = implode("\r\n", $expected) . "\r\n";
         $this->assertEquals($expected, $string);
+    }
+
+    public function testGetReturnsArrayIterator()
+    {
+        $headers = new Mail\Headers();
+        $received = Header\Received::fromString('Received: from framework (localhost [127.0.0.1])');
+        $headers->addHeader($received);
+
+        $return = $headers->get('Received');
+        $this->assertSame('ArrayIterator', \get_class($return));
     }
 
     /**
@@ -511,5 +561,42 @@ class HeadersTest extends TestCase
         $encodedValue = $to->getFieldValue(Header\HeaderInterface::FORMAT_RAW);
         // FIXME: shouldn't the "name" part be in quotes?
         $this->assertEquals('õlu <bar <foo.bar@test.com>', $encodedValue);
+    }
+
+    public function testDefaultEncoding()
+    {
+        $headers = new Mail\Headers();
+        $this->assertSame('ASCII', $headers->getEncoding());
+    }
+
+    public function testSetEncodingNoHeaders()
+    {
+        $headers = new Mail\Headers();
+        $headers->setEncoding('UTF-8');
+        $this->assertSame('UTF-8', $headers->getEncoding());
+    }
+
+    public function testSetEncodingWithHeaders()
+    {
+        $headers = new Mail\Headers();
+        $headers->addHeaderLine('To: test@example.com');
+        $headers->addHeaderLine('Cc: tester@example.org');
+
+        $headers->setEncoding('UTF-8');
+        $this->assertSame('UTF-8', $headers->getEncoding());
+    }
+
+    public function testAddHeaderCallsSetEncoding()
+    {
+        $headers = new Mail\Headers();
+        $headers->setEncoding('UTF-8');
+
+        $subject = new Header\Subject('test subject');
+        // default to ASCII
+        $this->assertSame('ASCII', $subject->getEncoding());
+
+        $headers->addHeader($subject);
+        // now UTF-8 via addHeader() call
+        $this->assertSame('UTF-8', $subject->getEncoding());
     }
 }

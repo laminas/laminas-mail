@@ -44,4 +44,30 @@ class DateTest extends TestCase
         $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $address = new Header\Date("This\ris\r\na\nCRLF Attack");
     }
+
+    public function testFromStringRaisesExceptionOnInvalidHeader()
+    {
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid header line for Date string');
+        Header\Date::fromString('Foo: bar');
+    }
+
+    public function testDefaultEncoding()
+    {
+        $header = new Header\Date('today');
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    public function testSetEncodingHasNoEffect()
+    {
+        $header = new Header\Date('today');
+        $header->setEncoding('UTF-8');
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    public function testToString()
+    {
+        $header = new Header\Date('today');
+        $this->assertEquals('Date: today', $header->toString());
+    }
 }

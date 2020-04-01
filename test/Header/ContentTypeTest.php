@@ -187,4 +187,56 @@ class ContentTypeTest extends TestCase
         ];
         // @codingStandardsIgnoreEnd
     }
+
+    public function testFromStringRaisesExceptionOnInvalidHeader()
+    {
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid header line for Content-Type string');
+        ContentType::fromString('Foo: bar');
+    }
+
+    public function testDefaultEncoding()
+    {
+        $header = new ContentType('today');
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    public function testSetEncoding()
+    {
+        $header = new ContentType('today');
+        $header->setEncoding('UTF-8');
+        $this->assertSame('UTF-8', $header->getEncoding());
+    }
+
+    public function testSetTypeThrowsOnInvalidValue()
+    {
+        $header = new ContentType();
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('setType expects a value in the format "type/subtype"');
+        $header->setType('invalid');
+    }
+
+    public function testGetParameter()
+    {
+        $header = ContentType::fromString('content-type: text/plain; level=top');
+        $this->assertSame('top', $header->getParameter('level'));
+    }
+
+    public function testGetParameterNotExists()
+    {
+        $header = ContentType::fromString('content-type: text/plain');
+        $this->assertNull($header->getParameter('level'));
+    }
+
+    public function testRemoveParameter()
+    {
+        $header = ContentType::fromString('content-type: text/plain; level=top');
+        $this->assertTrue($header->removeParameter('level'));
+    }
+
+    public function testRemoveParameterNotExists()
+    {
+        $header = ContentType::fromString('content-type: text/plain');
+        $this->assertFalse($header->removeParameter('level'));
+    }
 }

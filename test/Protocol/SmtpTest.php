@@ -139,4 +139,48 @@ class SmtpTest extends TestCase
         ]);
         $this->assertFalse($connection->useCompleteQuit());
     }
+
+    public function testAuthThrowsWhenAlreadyAuthed()
+    {
+        $this->connection->setAuth(true);
+        $this->expectException('Laminas\Mail\Exception\RuntimeException');
+        $this->expectExceptionMessage('Already authenticated for this session');
+        $this->connection->auth();
+    }
+
+    public function testHeloThrowsWhenAlreadySession()
+    {
+        $this->connection->helo('hostname.test');
+        $this->expectException('Laminas\Mail\Exception\RuntimeException');
+        $this->expectExceptionMessage('Cannot issue HELO to existing session');
+        $this->connection->helo('hostname.test');
+    }
+
+    public function testHeloThrowsWithInvalidHostname()
+    {
+        $this->expectException('Laminas\Mail\Exception\RuntimeException');
+        $this->expectExceptionMessage('The input does not match the expected structure for a DNS hostname');
+        $this->connection->helo("invalid\r\nhost name");
+    }
+
+    public function testMailThrowsWhenNoSession()
+    {
+        $this->expectException('Laminas\Mail\Exception\RuntimeException');
+        $this->expectExceptionMessage('A valid session has not been started');
+        $this->connection->mail('test@example.com');
+    }
+
+    public function testRcptThrowsWhenNoMail()
+    {
+        $this->expectException('Laminas\Mail\Exception\RuntimeException');
+        $this->expectExceptionMessage('No sender reverse path has been supplied');
+        $this->connection->rcpt('test@example.com');
+    }
+
+    public function testDataThrowsWhenNoRcpt()
+    {
+        $this->expectException('Laminas\Mail\Exception\RuntimeException');
+        $this->expectExceptionMessage('No recipient forward path has been supplied');
+        $this->connection->data('message');
+    }
 }

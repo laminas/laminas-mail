@@ -230,6 +230,7 @@ class SendmailTest extends TestCase
                 ->setBody('This is only a test.');
 
         $this->transport->send($message);
+        $this->assertContains('Sender: Ralph Schindler <ralph@example.com>', $this->additional_headers);
     }
 
     public function testAllowMessageWithEmptyToHeaderButHasBccHeader()
@@ -241,6 +242,7 @@ class SendmailTest extends TestCase
                 ->setBody('This is only a test.');
 
         $this->transport->send($message);
+        $this->assertContains('Sender: Ralph Schindler <ralph@example.com>', $this->additional_headers);
     }
 
     public function testDoNotAllowMessageWithoutToAndCcAndBccHeaders()

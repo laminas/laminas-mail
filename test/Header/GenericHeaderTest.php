@@ -16,15 +16,33 @@ use PHPUnit\Framework\TestCase;
  */
 class GenericHeaderTest extends TestCase
 {
+    public function invalidHeaderLines()
+    {
+        return [
+            'append-chr-32' => [
+                'Content-Type' . chr(32) . ': text/html',
+                'Invalid header name detected',
+            ],
+            'newline-non-continuation' => [
+                'Content-Type: text/html; charset = "iso-8859-1"' . "\nThis is a test",
+                'Invalid header value detected',
+            ],
+            'missing-colon' => [
+                'content-type text/html',
+                'Header must match with the format "name:value"',
+            ],
+        ];
+    }
+
     /**
+     * @dataProvider invalidHeaderLines
      * @group ZF2015-04
      */
-    public function testSplitHeaderLineRaisesExceptionOnInvalidHeader()
+    public function testSplitHeaderLineRaisesExceptionOnInvalidHeader($line, $message)
     {
         $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
-        GenericHeader::splitHeaderLine(
-            'Content-Type' . chr(32) . ': text/html; charset = "iso-8859-1"' . "\nThis is a test"
-        );
+        $this->expectExceptionMessage($message);
+        GenericHeader::splitHeaderLine($line);
     }
 
     public function fieldNames()
@@ -32,6 +50,7 @@ class GenericHeaderTest extends TestCase
         return [
             'append-chr-13'  => ["Subject" . chr(13)],
             'append-chr-127' => ["Subject" . chr(127)],
+            'non-string' => [null],
         ];
     }
 
@@ -147,5 +166,27 @@ class GenericHeaderTest extends TestCase
         $header = new GenericHeader('Foo', 0);
         $this->assertEquals(0, $header->getFieldValue());
         $this->assertEquals('Foo: 0', $header->toString());
+    }
+
+    public function testDefaultEncoding()
+    {
+        $header = new GenericHeader('Foo');
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    public function testSetEncoding()
+    {
+        $header = new GenericHeader('Foo');
+        $header->setEncoding('UTF-8');
+        $this->assertSame('UTF-8', $header->getEncoding());
+    }
+
+    public function testToStringThrowsWithoutFieldName()
+    {
+        $header = new GenericHeader;
+
+        $this->expectException('Laminas\Mail\Header\Exception\RuntimeException');
+        $this->expectExceptionMessage('Header name is not set, use setFieldName()');
+        $header->toString();
     }
 }
