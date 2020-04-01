@@ -38,6 +38,7 @@ class HeaderNameTest extends TestCase
      */
     public function testFilterName($name, $expected)
     {
+        HeaderName::assertValid($expected);
         $this->assertEquals($expected, HeaderName::filter($name));
     }
 

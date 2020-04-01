@@ -476,6 +476,13 @@ class MessageTest extends TestCase
         $this->assertEquals('test subject', $subject);
     }
 
+    public function testSubjectIsMutableReplaceExisting()
+    {
+        $this->message->setSubject('test subject');
+        $this->message->setSubject('new subject');
+        $this->assertSame('new subject', $this->message->getSubject());
+    }
+
     public function testSettingSubjectProxiesToHeader()
     {
         $this->message->setSubject('test subject');

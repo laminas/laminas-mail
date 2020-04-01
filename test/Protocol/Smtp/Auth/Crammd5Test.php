@@ -41,4 +41,16 @@ class Crammd5Test extends TestCase
 
         $this->assertEquals('be56fa81a5671e0c62e00134180aae2c', $result);
     }
+
+    public function testUsernameAccessors()
+    {
+        $this->auth->setUsername('test');
+        $this->assertEquals('test', $this->auth->getUsername());
+    }
+
+    public function testPasswordAccessors()
+    {
+        $this->auth->setPassword('test');
+        $this->assertEquals('test', $this->auth->getPassword());
+    }
 }

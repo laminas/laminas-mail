@@ -55,4 +55,18 @@ class FileOptionsTest extends TestCase
         $this->assertNotSame($original, $test);
         $this->assertSame($new, $test);
     }
+
+    public function testSetCallbackThrowsWhenNotCallable()
+    {
+        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('expects a valid callback');
+        $this->options->setCallback(null);
+    }
+
+    public function testSetPathThrowsWhenPathNotWritable()
+    {
+        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('expects a valid path in which to write mail files');
+        $this->options->setPath('/');
+    }
 }

@@ -168,6 +168,7 @@ class SenderTest extends TestCase
             'Empty' => ['', null, $mailInvalidArgumentException, null],
             'any ASCII' => ['azAZ09-_', null, $mailInvalidArgumentException, null],
             'any UTF-8' => ['ázÁZ09-_', null, $mailInvalidArgumentException, null],
+            'non-string' => [null, null, $mailInvalidArgumentException, null],
 
             // CRLF @group ZF2015-04 cases
             ["foo@bar\n", null, $mailInvalidArgumentException, null],
@@ -264,5 +265,25 @@ class SenderTest extends TestCase
             ['Sender: foo foo', $headerInvalidArgumentException],
             ['Sender: <foo> foo', $headerInvalidArgumentException],
         ];
+    }
+
+    public function testDefaultEncoding()
+    {
+        $header = new Header\Sender('<test@example.com>');
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    public function testSetEncoding()
+    {
+        $header = new Header\Sender('<test@example.com>');
+        $header->setEncoding('UTF-8');
+        $this->assertSame('UTF-8', $header->getEncoding());
+    }
+
+    public function testFromStringRaisesExceptionOnInvalidHeader()
+    {
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid header name for Sender string');
+        Header\Sender::fromString('Foo: bar');
     }
 }

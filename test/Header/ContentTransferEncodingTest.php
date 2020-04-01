@@ -68,6 +68,7 @@ class ContentTransferEncodingTest extends TestCase
         $contentTransferEncodingHeader = new ContentTransferEncoding();
         $contentTransferEncodingHeader->setTransferEncoding($encoding);
         $this->assertEquals($encoding, $contentTransferEncodingHeader->getFieldValue());
+        $this->assertEquals($encoding, $contentTransferEncodingHeader->getTransferEncoding());
     }
 
     /**
@@ -146,5 +147,25 @@ class ContentTransferEncodingTest extends TestCase
         $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('expects');
         $header->setTransferEncoding("8bit\r\n 7bit");
+    }
+
+    public function testFromStringRaisesExceptionOnInvalidHeader()
+    {
+        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid header line for Content-Transfer-Encoding string');
+        ContentTransferEncoding::fromString('Foo: bar');
+    }
+
+    public function testDefaultEncoding()
+    {
+        $header = new ContentTransferEncoding('today');
+        $this->assertSame('ASCII', $header->getEncoding());
+    }
+
+    public function testChangeEncodingHasNoEffect()
+    {
+        $header = new ContentTransferEncoding('today');
+        $header->setEncoding('UTF-8');
+        $this->assertSame('ASCII', $header->getEncoding());
     }
 }
