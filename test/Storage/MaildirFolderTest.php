@@ -19,19 +19,17 @@ use RecursiveIteratorIterator;
 class MaildirFolderTest extends TestCase
 {
     protected $params;
-    protected $originalDir;
     protected $tmpdir;
     protected $subdirs = ['.', '.subfolder', '.subfolder.test'];
 
     public function setUp()
     {
-        $this->originalDir = __DIR__ . '/../_files/test.maildir/';
-
-        if (! getenv('TESTS_LAMINAS_MAIL_MAILDIR_ENABLED')) {
-            $this->markTestSkipped('You have to unpack maildir.tar in Laminas/Mail/_files/test.maildir/ '
-                                 . 'directory before enabling the maildir tests');
+        if (\strtoupper(\substr(PHP_OS, 0, 3)) == 'WIN') {
+            $this->markTestSkipped('This test does not work on Windows');
             return;
         }
+
+        $originalMaildir = __DIR__ . '/../_files/test.maildir/';
 
         if ($this->tmpdir == null) {
             if (getenv('TESTS_LAMINAS_MAIL_TEMPDIR') != null) {
@@ -54,6 +52,23 @@ class MaildirFolderTest extends TestCase
             }
         }
 
+        if (! \file_exists($originalMaildir . 'maildirsize') && \class_exists('PharData')) {
+            try {
+                $phar = new \PharData($originalMaildir . 'maildir.tar');
+                $phar->extractTo($originalMaildir);
+                // This empty directory is in the tar, but not unpacked by PharData
+                \mkdir($originalMaildir . '.subfolder/cur');
+            } catch (\Exception $e) {
+                // intentionally empty catch block
+            }
+        }
+
+        if (! \file_exists($originalMaildir . 'maildirsize')) {
+            $this->markTestSkipped('You have to unpack maildir.tar in '
+            . 'Laminas/Mail/_files/test.maildir/ directory to run the maildir tests');
+            return;
+        }
+
         $this->params = [];
         $this->params['dirname'] = $this->tmpdir;
 
@@ -62,17 +77,17 @@ class MaildirFolderTest extends TestCase
                 mkdir($this->tmpdir . $dir);
             }
             foreach (['cur', 'new'] as $subdir) {
-                if (! file_exists($this->originalDir . $dir . '/' . $subdir)) {
+                if (! file_exists($originalMaildir . $dir . '/' . $subdir)) {
                     continue;
                 }
                 mkdir($this->tmpdir . $dir . '/' . $subdir);
-                $dh = opendir($this->originalDir . $dir . '/' . $subdir);
+                $dh = opendir($originalMaildir . $dir . '/' . $subdir);
                 while (($entry = readdir($dh)) !== false) {
                     $entry = $dir . '/' . $subdir . '/' . $entry;
-                    if (! is_file($this->originalDir . $entry)) {
+                    if (! is_file($originalMaildir . $entry)) {
                         continue;
                     }
-                    copy($this->originalDir . $entry, $this->tmpdir . $entry);
+                    copy($originalMaildir . $entry, $this->tmpdir . $entry);
                 }
                 closedir($dh);
             }
@@ -81,6 +96,7 @@ class MaildirFolderTest extends TestCase
 
     public function tearDown()
     {
+        \chmod($this->tmpdir, 0700);
         foreach (array_reverse($this->subdirs) as $dir) {
             foreach (['cur', 'new'] as $subdir) {
                 if (! file_exists($this->tmpdir . $dir . '/' . $subdir)) {
@@ -108,23 +124,27 @@ class MaildirFolderTest extends TestCase
 
     public function testLoadOk()
     {
-        new Folder\Maildir($this->params);
+        $mail = new Folder\Maildir($this->params);
+        $this->assertSame(Folder\Maildir::class, \get_class($mail));
     }
 
     public function testLoadConfig()
     {
-        new Folder\Maildir(new Config\Config($this->params));
+        $mail = new Folder\Maildir(new Config\Config($this->params));
+        $this->assertSame(Folder\Maildir::class, \get_class($mail));
     }
 
     public function testNoParams()
     {
         $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('no valid dirname given in params');
         new Folder\Maildir([]);
     }
 
     public function testLoadFailure()
     {
         $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('no valid dirname given in params');
         new Folder\Maildir(['dirname' => 'This/Folder/Does/Not/Exist']);
     }
 
@@ -132,6 +152,7 @@ class MaildirFolderTest extends TestCase
     {
         $this->params['folder'] = 'UnknownFolder';
         $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('no subfolder named UnknownFolder');
         new Folder\Maildir($this->params);
     }
 
@@ -150,6 +171,7 @@ class MaildirFolderTest extends TestCase
         $mail = new Folder\Maildir($this->params);
 
         $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('no subfolder named /Unknown/Folder/');
         $mail->selectFolder('/Unknown/Folder/');
     }
 
@@ -322,31 +344,11 @@ class MaildirFolderTest extends TestCase
 
     public function testNotReadableMaildir()
     {
-        $stat = stat($this->params['dirname']);
         chmod($this->params['dirname'], 0);
-        clearstatcache();
-        $statcheck = stat($this->params['dirname']);
-        if ($statcheck['mode'] % (8 * 8 * 8) !== 0) {
-            chmod($this->params['dirname'], $stat['mode']);
-            $this->markTestSkipped(
-                'cannot remove read rights, which makes this test useless (maybe you are using Windows?)'
-            );
-            return;
-        }
 
-        $check = false;
-        try {
-            $mail = new Folder\Maildir($this->params);
-        } catch (\Exception $e) {
-            $check = true;
-            // test ok
-        }
-
-        chmod($this->params['dirname'], $stat['mode']);
-
-        if (! $check) {
-            $this->fail('no exception while loading not readable maildir');
-        }
+        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectExceptionMessage('can\'t read folders in maildir');
+        new Folder\Maildir($this->params);
     }
 
     public function testGetInvalidFolder()
@@ -356,6 +358,7 @@ class MaildirFolderTest extends TestCase
         $root->foobar = new Folder('foobar', DIRECTORY_SEPARATOR . 'foobar');
 
         $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('folder foobar not found');
         $mail->selectFolder('foobar');
     }
 
@@ -365,7 +368,8 @@ class MaildirFolderTest extends TestCase
         $root = $mail->getFolders();
         $root->foobar = new Folder('foobar', 'foobar');
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectExceptionMessage('seems like the maildir has vanished');
         $mail->selectFolder('foobar');
     }
 
@@ -375,7 +379,8 @@ class MaildirFolderTest extends TestCase
         $root = $mail->getFolders();
         $root->foobar = new Folder('foobar', 'foobar', false);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectExceptionMessage('foobar is not selectable');
         $mail->selectFolder('foobar');
     }
 
@@ -383,12 +388,14 @@ class MaildirFolderTest extends TestCase
     {
         mkdir($this->params['dirname'] . '.xyyx');
         mkdir($this->params['dirname'] . '.xyyx/cur');
+        mkdir($this->params['dirname'] . '.xyyx/new');
 
         $mail = new Folder\Maildir($this->params);
         $mail->selectFolder('xyyx');
         $this->assertEquals($mail->countMessages(), 0);
 
         rmdir($this->params['dirname'] . '.xyyx/cur');
+        rmdir($this->params['dirname'] . '.xyyx/new');
         rmdir($this->params['dirname'] . '.xyyx');
     }
 }

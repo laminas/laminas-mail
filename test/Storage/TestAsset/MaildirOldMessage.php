@@ -16,11 +16,9 @@ use Laminas\Mail\Storage\Message;
  */
 class MaildirOldMessage extends Maildir
 {
-    // @codingStandardsIgnoreStart
     /**
      * used message class
      * @var string
      */
-    protected $_messageClass = Message::class;
-    // @codingStandardsIgnoreEnd
+    protected $messageClass = Message::class;
 }

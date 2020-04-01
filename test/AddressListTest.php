@@ -44,6 +44,12 @@ class AddressListTest extends TestCase
         $this->assertEquals(1, count($this->list));
     }
 
+    public function testAddingEmailFromStringIncreasesCount()
+    {
+        $this->list->addFromString('test@example.com');
+        $this->assertEquals(1, count($this->list));
+    }
+
     public function testImplementsTraversable()
     {
         $this->assertInstanceOf('Traversable', $this->list);
@@ -63,6 +69,20 @@ class AddressListTest extends TestCase
     public function testGetReturnsFalseWhenEmailNotFound()
     {
         $this->assertFalse($this->list->get('foo@example.com'));
+    }
+
+    public function testThrowExceptionOnInvalidInputAdd()
+    {
+        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('add expects an email address or Laminas\Mail\Address object');
+        $this->list->add(null);
+    }
+
+    public function testThrowExceptionOnInvalidInputAddMany()
+    {
+        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('add expects an email address or Laminas\Mail\Address object');
+        $this->list->addMany([null]);
     }
 
     public function testGetReturnsAddressObjectWhenEmailFound()
@@ -144,5 +164,40 @@ class AddressListTest extends TestCase
         $this->assertTrue($addressList->has('uzer2.surname@example.org'));
         $this->assertTrue($addressList->has('asda.fasd@example.net'));
         $this->assertTrue($addressList->has('root@example.org'));
+    }
+
+    public function testMergeTwoLists()
+    {
+        $otherList = new AddressList();
+        $this->list->add('one@example.net');
+        $otherList->add('two@example.org');
+        $this->list->merge($otherList);
+        $this->assertEquals(2, count($this->list));
+    }
+
+    public function testDeleteSuccess()
+    {
+        $this->list->add('test@example.com');
+        $this->assertTrue($this->list->delete('test@example.com'));
+        $this->assertEquals(0, count($this->list));
+    }
+
+    public function testDeleteNotExist()
+    {
+        $this->assertFalse($this->list->delete('test@example.com'));
+    }
+
+    public function testKey()
+    {
+        $this->assertNull($this->list->key());
+        $this->list->add('test@example.com');
+        $this->list->add('test@example.net');
+        $this->list->add('test@example.org');
+        $this->list->rewind();
+        $this->assertSame('test@example.com', $this->list->key());
+        $this->list->next();
+        $this->assertSame('test@example.net', $this->list->key());
+        $this->list->next();
+        $this->assertSame('test@example.org', $this->list->key());
     }
 }

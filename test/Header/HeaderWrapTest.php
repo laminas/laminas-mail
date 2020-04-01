@@ -49,6 +49,13 @@ class HeaderWrapTest extends TestCase
         $this->assertEquals($string, iconv_mime_decode($test, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8'));
     }
 
+    public function testWrapUnknownHeaderType()
+    {
+        $header = new \Laminas\Mail\Header\Bcc('test@example.org');
+        $value = 'value unmodified by wrap function';
+        $this->assertSame($value, HeaderWrap::wrap($value, $header));
+    }
+
     /**
      * @group Laminas-359
      */

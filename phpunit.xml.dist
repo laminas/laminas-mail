@@ -73,14 +73,7 @@
         <env name="TESTS_LAMINAS_MAIL_IMAP_WRONG_PORT" value="80" />
         <env name="TESTS_LAMINAS_MAIL_IMAP_INVALID_PORT" value="3141" />
 
-        <!-- Laminas\Mail\Storage\Maildir test
-
-             Before enabling this test you have to unpack messages.tar in
-             test/_files/test.maildir/cur/ and remove the tar for this test to
-             work. That's because the messages files have a colon in the
-             filename and that's a forbidden character on Windows. -->
-        <env name="TESTS_LAMINAS_MAIL_MAILDIR_ENABLED" value="false" />
-
+        <!-- Laminas\Mail\Storage\Maildir test -->
         <env name="TESTS_LAMINAS_MAIL_SMTP_ENABLED" value="false" />
         <env name="TESTS_LAMINAS_MAIL_SMTP_HOST" value="localhost" />
         <env name="TESTS_LAMINAS_MAIL_SMTP_PORT" value="25" />
