@@ -24,6 +24,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#83](https://github.com/laminas/laminas-mail/pull/83) fixes PHPDocs in `Transport\InMemory` (last message can be `null`).
 
+- [#84](https://github.com/laminas/laminas-mail/pull/84) fixes PHP 7.4 compatibility.
+
 ## 2.10.0 - 2018-06-07
 
 ### Added
