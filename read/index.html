@@ -447,7 +447,7 @@ feature overview of the implemented storages, see the following table.</p>
 different API than <a href="../message/intro/">messages used when sending</a>; the API is
 described in the <a href="#working-with-messages">"Working with messages"</a> section.</p>
 <h2 id="basic-pop3-example">Basic POP3 example</h2>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Storage\Pop3;
+<pre class="highlight"><code class="language-php">use Laminas\Mail\Storage\Pop3;
 
 $mail = new Pop3([
     'host'     =&gt; 'localhost',
@@ -455,27 +455,30 @@ $mail = new Pop3([
     'password' =&gt; 'test',
 ]);
 
-echo $mail-&gt;countMessages() . &quot; messages found\n&quot;;
+echo $mail-&gt;countMessages() . " messages found\n";
 foreach ($mail as $message) {
-    printf(&quot;Mail from '%s': %s\n&quot;, $message-&gt;from, $message-&gt;subject);
+    printf("Mail from '%s': %s\n", $message-&gt;from, $message-&gt;subject);
 }</code></pre>
+
 <h2 id="using-local-storage-via-mbox-and-maildir">Using local storage via mbox and maildir</h2>
 <p>Mbox and Maildir are the two supported formats for local mail storage.</p>
 <p>If you want to read from an mbox file, provide the filename to the constructor
 of <code>Laminas\Mail\Storage\Mbox</code>:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Storage\Mbox;
+<pre class="highlight"><code class="language-php">use Laminas\Mail\Storage\Mbox;
 
 $mail = new Mbox(['filename' =&gt; '/home/test/mail/inbox']);</code></pre>
+
 <p>Maildir operates similarly, but requires a dirname instead:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Storage\Maildir;
+<pre class="highlight"><code class="language-php">use Laminas\Mail\Storage\Maildir;
 $mail = new Maildir(['dirname' =&gt; '/home/test/mail/']);</code></pre>
+
 <p>Both constructors throw a <code>Laminas\Mail\Exception</code> if the storage can't be read.</p>
 <h2 id="using-remote-storage-protocols">Using remote storage protocols</h2>
 <p>For remote storage, the two most popular protocols are supported: POP3 and IMAP.
 Both need at least a host and a user to connect and login. The default password
 is an empty string, and the default port for the protocol is used if none is
 provided.</p>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Storage\Imap;
+<pre class="highlight"><code class="language-php">use Laminas\Mail\Storage\Imap;
 use Laminas\Mail\Storage\Pop3;
 
 // Connecting with Pop3:
@@ -499,9 +502,10 @@ $mail = new Pop3([
     'user'     =&gt; 'test',
     'password' =&gt; 'test',
 ]);</code></pre>
+
 <p>Both storage adapters support SSL and TLS. If you use SSL, the default port
 changes as specified in the relevant RFC.</p>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Storage\Pop3;
+<pre class="highlight"><code class="language-php">use Laminas\Mail\Storage\Pop3;
 
 // Examples use Pop3; the same configuration works for Imap.
 
@@ -520,6 +524,7 @@ $mail = new Pop3([
     'password' =&gt; 'test',
     'ssl'      =&gt; 'TLS',
 ]);</code></pre>
+
 <p>Both constructors throw <code>Laminas\Mail\Exception</code> or <code>Laminas\Mail\Protocol\Exception</code>
 (extends <code>Laminas\Mail\Exception</code>) for connection errors, depending on the type of
 error encountered.</p>
@@ -527,30 +532,35 @@ error encountered.</p>
 <p>Once you have opened the mail storage, you may fetch messages. To do so, you
 need the message number, which is a counter starting with 1 for the first
 message. To fetch the message, you use the method <code>getMessage()</code>:</p>
-<pre class=codehilite><code class=language-php>$message = $mail-&gt;getMessage($messageNum);</code></pre>
+<pre class="highlight"><code class="language-php">$message = $mail-&gt;getMessage($messageNum);</code></pre>
+
 <p>Array access is also supported, but this access method does not support any
 additional parameters that could be added to <code>getMessage()</code>. As long as you
 don't mind, and can live with the default values, you may use:</p>
-<pre class=codehilite><code class=language-php>$message = $mail[$messageNum];</code></pre>
+<pre class="highlight"><code class="language-php">$message = $mail[$messageNum];</code></pre>
+
 <p>For iterating over all messages the <code>Iterator</code> interface is implemented:</p>
-<pre class=codehilite><code class=language-php>foreach ($mail as $messageNum =&gt; $message) {
+<pre class="highlight"><code class="language-php">foreach ($mail as $messageNum =&gt; $message) {
     // do stuff ...
 }</code></pre>
+
 <p>To count the messages in the storage, you can use the method
 <code>countMessages()</code>; alternately, storage adapters implement <code>Countable</code>, allowing
 you to <code>count()</code> the instance.</p>
-<pre class=codehilite><code class=language-php>// method
+<pre class="highlight"><code class="language-php">// method
 $maxMessage = $mail-&gt;countMessages();
 
 // array access
 $maxMessage = count($mail);</code></pre>
+
 <p>To remove a mail, use the method <code>removeMessage()</code>, or rely on array access and
 use <code>unset()</code>:</p>
-<pre class=codehilite><code class=language-php>// method
+<pre class="highlight"><code class="language-php">// method
 $mail-&gt;removeMessage($messageNum);
 
 // array access
 unset($mail[$messageNum]);</code></pre>
+
 <h2 id="working-with-messages">Working with messages</h2>
 <p>After you fetch a message, you can:</p>
 <ul>
@@ -565,11 +575,11 @@ structure; dash-separated headers may be fetched using camelCase notation. If no
 header matching the name is found, an exception is thrown; use the
 <code>headerExists()</code> method (or <code>isset($message-&gt;headerName)</code>) to test for header
 existence prior to retrieval.</p>
-<pre class=codehilite><code class=language-php>// get the message object
+<pre class="highlight"><code class="language-php">// get the message object
 $message = $mail-&gt;getMessage(1);
 
 // output subject of message
-echo $message-&gt;subject . &quot;\n&quot;;
+echo $message-&gt;subject . "\n";
 
 // get content-type header
 $type = $message-&gt;contentType;
@@ -578,10 +588,11 @@ $type = $message-&gt;contentType;
 if (isset($message-&gt;cc)) { // or $message-&gt;headerExists('cc');
     $cc = $message-&gt;cc;
 }</code></pre>
+
 <p>If you have multiple headers with the same name &mdash; e.g. the <code>Received</code>
 headers &mdash; you will want an array of values. Property access always returns
 a string, so use <code>getHeader()</code> instead for these situations:</p>
-<pre class=codehilite><code class=language-php>// get header as property - the result is always a string,
+<pre class="highlight"><code class="language-php">// get header as property - the result is always a string,
 // with new lines between each value.
 $received = $message-&gt;received;
 
@@ -600,25 +611,28 @@ $received = $message-&gt;getHeader('received');
 if (is_string($received)) {
     // only one received header found in message
 }</code></pre>
+
 <p>The method <code>getHeaders()</code> returns all headers as an array with the lower-cased
 name as the key and the value as an array for multiple headers or as string for
 single headers.</p>
-<pre class=codehilite><code class=language-php>// dump all headers
+<pre class="highlight"><code class="language-php">// dump all headers
 foreach ($message-&gt;getHeaders() as $name =&gt; $value) {
     if (is_string($value)) {
-        echo &quot;$name: $value\n&quot;;
+        echo "$name: $value\n";
         continue;
     }
     foreach ($value as $entry) {
-        echo &quot;$name: $entry\n&quot;;
+        echo "$name: $entry\n";
     }
 }</code></pre>
+
 <p>If you don't have a multipart message, fetch the content via <code>getContent()</code>.
 Unlike headers, the content is only fetched when needed (aka late-fetch).</p>
-<pre class=codehilite><code class=language-php>// output message content for HTML
+<pre class="highlight"><code class="language-php">// output message content for HTML
 echo '&lt;pre&gt;';
 echo $message-&gt;getContent();
 echo '&lt;/pre&gt;';</code></pre>
+
 <p>Checking for multipart messages is done with the method <code>isMultipart()</code>. If you
 have a multipart message you, can get retrieve the individual
 <code>Laminas\Mail\Storage\Part</code> instances making up the message via the <code>getPart()</code>
@@ -626,18 +640,19 @@ method, which accepts the part index as a parameter (indices start with 1).
 <code>Laminas\Mail\Storage\Part</code> is the base class of <code>Laminas\Mail\Storage\Message</code>, and
 thus exposes the same API with regards to headers, content, and retrieving
 nested parts.</p>
-<pre class=codehilite><code class=language-php>// get the first non-multipart part
+<pre class="highlight"><code class="language-php">// get the first non-multipart part
 $part = $message;
 while ($part-&gt;isMultipart()) {
     $part = $message-&gt;getPart(1);
 }
-echo 'Type of this part is ' . strtok($part-&gt;contentType, ';') . &quot;\n&quot;;
-echo &quot;Content:\n&quot;;
+echo 'Type of this part is ' . strtok($part-&gt;contentType, ';') . "\n";
+echo "Content:\n";
 echo $part-&gt;getContent();</code></pre>
+
 <p><code>Laminas\Mail\Storage\Part</code> also implements <code>RecursiveIterator</code>, which allows iterating
 through all parts, even when nested. Additionally, it implements the magic
 method <code>__toString()</code>, which returns the content.</p>
-<pre class=codehilite><code class=language-php>use RecursiveIteratorIterator;
+<pre class="highlight"><code class="language-php">use RecursiveIteratorIterator;
 use Laminas\Mail\Exception;
 
 // output first text/plain part
@@ -655,17 +670,18 @@ foreach (new RecursiveIteratorIterator($mail-&gt;getMessage(1)) as $part) {
 if (! $foundPart) {
     echo 'no plain text part found';
 } else {
-    echo &quot;plain text part: \n&quot; . $foundPart;
+    echo "plain text part: \n" . $foundPart;
 }</code></pre>
+
 <h2 id="checking-for-flags">Checking for flags</h2>
 <p>Maildir and IMAP support storing flags with messages. The <code>Laminas\Mail\Storage</code>
 class defines constants for all known maildir and IMAP system flags, named
 <code>FLAG_&lt;flagname&gt;</code>. To check for flags, <code>Laminas\Mail\Storage\Message</code> has
 a method called <code>hasFlag()</code>. With <code>getFlags()</code> you'll get all flags.</p>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Storage;
+<pre class="highlight"><code class="language-php">use Laminas\Mail\Storage;
 
 // Find unread messages:
-echo &quot;Unread mails:\n&quot;;
+echo "Unread mails:\n";
 foreach ($mail as $message) {
     if ($message-&gt;hasFlag(Storage::FLAG_SEEN)) {
         continue;
@@ -676,7 +692,7 @@ foreach ($mail as $message) {
         ? '! '
         : '  ';
 
-    echo $message-&gt;subject . &quot;\n&quot;;
+    echo $message-&gt;subject . "\n";
 }
 
 // Check for known flags
@@ -699,10 +715,11 @@ foreach ($flags as $flag) {
             echo $flag . '(unknown flag) ';
     }
 }</code></pre>
+
 <p>As IMAP allows user or client defined flags, you could get flags that don't have
 a constant in <code>Laminas\Mail\Storage</code>. Instead, they are returned as strings and can
 be checked the same way with <code>hasFlag()</code>.</p>
-<pre class=codehilite><code class=language-php>// check message for client defined flags $IsSpam, $SpamTested
+<pre class="highlight"><code class="language-php">// check message for client defined flags $IsSpam, $SpamTested
 if (! $message-&gt;hasFlag('$SpamTested')) {
     echo 'message has not been tested for spam';
 } elseif ($message-&gt;hasFlag('$IsSpam')) {
@@ -710,6 +727,7 @@ if (! $message-&gt;hasFlag('$SpamTested')) {
 } else {
     echo 'this message is ham';
 }</code></pre>
+
 <h2 id="using-folders">Using folders</h2>
 <p>All storage adapters except POP3 support folders (also called <em>mailboxes</em>). The
 interface implemented by all adapters supporting folders is called
@@ -726,7 +744,7 @@ have an mbox file called <code>INBOX</code> in your mbox base directory, you nee
 specify another folder via the constructor.</p>
 <p><code>Laminas\Mail\Storage\Imap</code> supports folders by default.</p>
 <p>Examples for opening folders with each adapter:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Storage\Folder;
+<pre class="highlight"><code class="language-php">use Laminas\Mail\Storage\Folder;
 use Laminas\Mail\Storage\Imap;
 
 // mbox with folders:
@@ -754,6 +772,7 @@ $mail = new Imap([
     'user'     =&gt; 'test',
     'password' =&gt; 'test',
 ]);</code></pre>
+
 <p>With the method <code>getFolders($root = null)</code>, you can get the folder hierarchy
 starting with the root folder, or the given folder. The method returns an
 instance of <code>Laminas\Mail\Storage\Folder</code>, which implements <code>RecursiveIterator</code>,
@@ -766,48 +785,50 @@ global name is also returned by the magic method <code>__toString()</code>. Some
 may not be selectable, which means they can't store messages; selecting them
 results in an error. This can be checked with the method <code>isSelectable()</code>.</p>
 <p>The following demonstrates providing a tree view of a folder:</p>
-<pre class=codehilite><code class=language-php>use RecursiveIteratorIterator;
+<pre class="highlight"><code class="language-php">use RecursiveIteratorIterator;
 
 $folders = new RecursiveIteratorIterator(
     $this-&gt;mail-&gt;getFolders(),
     RecursiveIteratorIterator::SELF_FIRST
 );
 
-echo '&lt;select name=&quot;folder&quot;&gt;';
+echo '&lt;select name="folder"&gt;';
 foreach ($folders as $localName =&gt; $folder) {
     $localName = str_pad('', $folders-&gt;getDepth(), '-', STR_PAD_LEFT)
         .  $localName;
     echo '&lt;option';
 
     if (! $folder-&gt;isSelectable()) {
-        echo ' disabled=&quot;disabled&quot;';
+        echo ' disabled="disabled"';
     }
 
     printf(
-        ' value=&quot;%s&quot;&gt;%s&lt;/option&gt;',
+        ' value="%s"&gt;%s&lt;/option&gt;',
         htmlspecialchars($folder),
         htmlspecialchars($localName)
     );
 }
 echo '&lt;/select&gt;';</code></pre>
+
 <p>The current selected folder is returned by the method <code>getSelectedFolder()</code>.
 Changing the folder is done with the method <code>selectFolder()</code>, which needs the
 <em>global name</em> as a parameter. If you want to avoid writing delimiters, you can
 also use the properties of a <code>Folder</code> instance:</p>
-<pre class=codehilite><code class=language-php>// depending on your mail storage and its settings $rootFolder-&gt;Archive-&gt;2005
+<pre class="highlight"><code class="language-php">// depending on your mail storage and its settings $rootFolder-&gt;Archive-&gt;2005
 // is the same as:
 //  /Archive/2005
 //  Archive:2005
 //  INBOX.Archive.2005
 //  ...
 $folder = $mail-&gt;getFolders()-&gt;Archive-&gt;2005;
-printf(&quot;Last folder was %s; new folder is %s\n&quot;, $mail-&gt;getSelectedFolder(), $folder);
+printf("Last folder was %s; new folder is %s\n", $mail-&gt;getSelectedFolder(), $folder);
 $mail-&gt;selectFolder($folder);</code></pre>
+
 <h2 id="advanced-use">Advanced Use</h2>
 <h3>Using NOOP</h3>
 <p>If you're using a remote storage and have some long tasks, you might need to
 keep the connection alive via noop:</p>
-<pre class=codehilite><code class=language-php>foreach ($mail as $message) {
+<pre class="highlight"><code class="language-php">foreach ($mail as $message) {
 
     // do some calculations ...
 
@@ -817,6 +838,7 @@ keep the connection alive via noop:</p>
 
     $mail-&gt;noop(); // keep alive
 }</code></pre>
+
 <h3>Caching instances</h3>
 <p><code>Laminas\Mail\Storage\Mbox</code>, <code>Laminas\Mail\Storage\Folder\Mbox</code>,
 <code>Laminas\Mail\Storage\Maildir</code>, and <code>Laminas\Mail\Storage\Folder\Maildir</code> implement the
@@ -832,7 +854,7 @@ its best used with static storage.</p>
 <li>Create a signal file whenever a change is made; check for that signal file,
   reparse if present, and remove it afterwards.</li>
 </ul>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Storage\Folder\Mbox;
+<pre class="highlight"><code class="language-php">use Laminas\Mail\Storage\Folder\Mbox;
 
 // There's no specific cache handler/class used here,
 // change the code to match your cache handler.
@@ -852,6 +874,7 @@ $mail        = $hasCache
 
 // Cache when done
 $cache-&gt;set($cacheId, $mail);</code></pre>
+
 <h3>Extending Protocol Classes</h3>
 <p>Remote storage adapters use two classes: <code>Laminas\Mail\Storage\&lt;Name&gt;</code> and
 <code>Laminas\Mail\Protocol\&lt;Name&gt;</code>. The protocol class translates the protocol commands
@@ -861,7 +884,7 @@ interface for message access.</p>
 <p>If you need additional protocol features, you can extend the protocol class and
 use it in the constructor of the main class. As an example, assume we need to
 knock different ports before we can connect to POP3.</p>
-<pre class=codehilite><code class=language-php>namespace Example\Mail
+<pre class="highlight"><code class="language-php">namespace Example\Mail
 {
     use Laminas\Mail;
 
@@ -929,7 +952,7 @@ namespace Example\Mail\Pop3
             // ... check $params here! ...
             $protocol = new KnockProtocol($params['host']);
 
-            // do our &quot;special&quot; thing
+            // do our "special" thing
             foreach ((array) $params['knock_ports'] as $port) {
                 $protocol-&gt;knock($port);
             }
@@ -950,6 +973,7 @@ $mail = new Example\Mail\Pop3\Knock([
     'password'    =&gt; 'test',
     'knock_ports' =&gt; [1101, 1105, 1111],
 ]);</code></pre>
+
 <p>The above assumes a connection is made; when connected, it logs in and, if
 supported, selects a folder as provided to the constructor.  When defining your
 own protocol class, make sure that's done or the next method will fail if the
@@ -963,35 +987,38 @@ enabled, an exception is thrown if you try to write to the maildir and it's
 already over quota.</p>
 <p>There are three methods used for quotas: <code>getQuota()</code>, <code>setQuota()</code>, and
 <code>checkQuota()</code>:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Storage\Writable\Maildir;
+<pre class="highlight"><code class="language-php">use Laminas\Mail\Storage\Writable\Maildir;
 
 $mail = new Maildir(['dirname' =&gt; '/home/test/mail/']);
 $mail-&gt;setQuota(true); // true to enable, false to disable
 
-printf(&quot;Quota check is now %s\n&quot;, $mail-&gt;getQuota() ? 'enabled' : 'disabled');
+printf("Quota check is now %s\n", $mail-&gt;getQuota() ? 'enabled' : 'disabled');
 
 // Check quota can be used even if quota checks are disabled:
-printf(&quot;You are %sover quota\n&quot;, $mail-&gt;checkQuota() ? '' : 'not ');</code></pre>
+printf("You are %sover quota\n", $mail-&gt;checkQuota() ? '' : 'not ');</code></pre>
+
 <p><code>checkQuota()</code> can also return a more detailed response by passing a boolean
 <code>true</code> argument:</p>
-<pre class=codehilite><code class=language-php>$quota = $mail-&gt;checkQuota(true);
-printf(&quot;You are %sover quota\n&quot;, $quota['over_quota'] ? '' : 'not ');
+<pre class="highlight"><code class="language-php">$quota = $mail-&gt;checkQuota(true);
+printf("You are %sover quota\n", $quota['over_quota'] ? '' : 'not ');
 printf(
-    &quot;You have %d of %d messages and use %d of %d octets\n&quot;,
+    "You have %d of %d messages and use %d of %d octets\n",
     $quota['count'],
     $quota['quota']['count'],
     $quota['size'],
     $quota['quota']['size']
 );</code></pre>
+
 <p>If you want to specify your own quota instead of using the one specified in the
 maildirsize file, you can do with <code>setQuota()</code>:</p>
-<pre class=codehilite><code class=language-php>// Message count and octet size supported; order does matter.
+<pre class="highlight"><code class="language-php">// Message count and octet size supported; order does matter.
 $quota = $mail-&gt;setQuota(['size' =&gt; 10000, 'count' =&gt; 100]);</code></pre>
+
 <p>To add your own quota checks, use single letters as keys, and they will be
 preserved (but obviously not checked). It's also possible to extend
 <code>Laminas\Mail\Storage\Writable\Maildir</code> to define your own quota if the maildirsize
 file is missing (which can happen in Maildir++):</p>
-<pre class=codehilite><code class=language-php>namespace Example\Mail\Storage;
+<pre class="highlight"><code class="language-php">namespace Example\Mail\Storage;
 
 use Laminas\Mail\Storage\Exception;
 use Laminas\Mail\Storage\Writable\Maildir as BaseMaildir;

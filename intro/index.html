@@ -353,16 +353,17 @@ implement your own transport by implementing the
 <p>A basic email consists of one or more recipients, a subject, a body and a
 sender. To send such a mail using <code>Laminas\Mail\Transport\Sendmail</code>, do the
 following:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Mail;
+<pre class="highlight"><code class="language-php">use Laminas\Mail;
 
 $mail = new Mail\Message();
 $mail-&gt;setBody('This is the text of the email.');
-$mail-&gt;setFrom('Freeaqingme@example.org', &quot;Sender's name&quot;);
+$mail-&gt;setFrom('Freeaqingme@example.org', "Sender's name");
 $mail-&gt;addTo('Matthew@example.com', 'Name of recipient');
 $mail-&gt;setSubject('TestSubject');
 
 $transport = new Mail\Transport\Sendmail();
 $transport-&gt;send($mail);</code></pre>
+
 <blockquote>
 <h3>Minimum definitions</h3>
 <p>In order to send an email using laminas-mail you have to specify at least one
@@ -380,7 +381,7 @@ instance and pass your parameters to the constructor.</p>
 <h3>Passing additional mail() parameters</h3>
 <p>This example shows how to change the Return-Path of the
 <a href="http://php.net/mail">mail()</a> function.</p>
-<pre class=codehilite><code class=language-php>use Laminas\Mail;
+<pre class="highlight"><code class="language-php">use Laminas\Mail;
 
 $mail = new Mail\Message();
 $mail-&gt;setBody('This is the text of the email.');
@@ -390,6 +391,7 @@ $mail-&gt;setSubject('TestSubject');
 
 $transport = new Mail\Transport\Sendmail('-freturn_to_me@example.com');
 $transport-&gt;send($mail);</code></pre>
+
 <blockquote>
 <h3>Chose your transport wisely</h3>
 <p>Although the sendmail transport is the transport that requires least

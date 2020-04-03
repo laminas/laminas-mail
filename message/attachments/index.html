@@ -375,7 +375,7 @@ bodies, allowing you to create multipart emails.</p>
 <h2 id="basic-multipart-content">Basic multipart content</h2>
 <p>The following example creates an email with two parts, HTML content and an
 image.</p>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Message;
+<pre class="highlight"><code class="language-php">use Laminas\Mail\Message;
 use Laminas\Mime\Message as MimeMessage;
 use Laminas\Mime\Mime;
 use Laminas\Mime\Part as MimePart;
@@ -399,13 +399,14 @@ $message-&gt;setBody($body);
 
 $contentTypeHeader = $message-&gt;getHeaders()-&gt;get('Content-Type');
 $contentTypeHeader-&gt;setType('multipart/related');</code></pre>
+
 <p>Note that the above code requires us to manually specify the message content
 type; laminas-mime does not automatically select the multipart type for us, nor
 does laminas-mail populate it by default.</p>
 <h2 id="multipartalternative-content">multipart/alternative content</h2>
 <p>One of the most common email types sent by web applications is
 <code>multipart/alternative</code> messages with both text and HTML parts.</p>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Message;
+<pre class="highlight"><code class="language-php">use Laminas\Mail\Message;
 use Laminas\Mime\Message as MimeMessage;
 use Laminas\Mime\Mime;
 use Laminas\Mime\Part as MimePart;
@@ -428,6 +429,7 @@ $message-&gt;setBody($body);
 
 $contentTypeHeader = $message-&gt;getHeaders()-&gt;get('Content-Type');
 $contentTypeHeader-&gt;setType('multipart/alternative');</code></pre>
+
 <p>The only differences from the first example are:</p>
 <ul>
 <li>We have text and HTML parts instead of an HTML and image part.</li>
@@ -447,7 +449,7 @@ content refers to assets attachments (images, CSS, etc.).</p>
 </ul>
 <p>The following example creates a MIME message with three parts: text and HTML
 alternative versions of an email, and an image attachment.</p>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Message;
+<pre class="highlight"><code class="language-php">use Laminas\Mail\Message;
 use Laminas\Mime\Message as MimeMessage;
 use Laminas\Mime\Mime;
 use Laminas\Mime\Part as MimePart;
@@ -484,12 +486,13 @@ $message-&gt;setBody($body);
 
 $contentTypeHeader = $message-&gt;getHeaders()-&gt;get('Content-Type');
 $contentTypeHeader-&gt;setType('multipart/related');</code></pre>
+
 <h2 id="setting-custom-mime-boundaries">Setting custom MIME boundaries</h2>
 <p>In a multipart message, a MIME boundary for separating the different parts of
 the message is normally generated at random. In some cases, however, you might
 want to specify the MIME boundary that is used. This can be done by injecting a
 new <code>Laminas\Mime\Mime</code> instance into the MIME message.</p>
-<pre class=codehilite><code class=language-php>use Laminas\Mime\Mime;
+<pre class="highlight"><code class="language-php">use Laminas\Mime\Mime;
 
 $mimeMessage-&gt;setMime(new Mime($customBoundary));</code></pre>
 

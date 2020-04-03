@@ -378,27 +378,27 @@ serializes in order to send.</p>
 <p>Using a mail transport involves instantiating it, optionally configuring it, and
 then passing a message to it.</p>
 <h3>Sendmail Transport Usage</h3>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Message;
+<pre class="highlight"><code class="language-php">use Laminas\Mail\Message;
 use Laminas\Mail\Transport\Sendmail as SendmailTransport;
 
 $message = new Message();
 $message-&gt;addTo('matthew@example.org');
 $message-&gt;addFrom('ralph@example.org');
 $message-&gt;setSubject('Greetings and Salutations!');
-$message-&gt;setBody(&quot;Sorry, I'm going to be late today!&quot;);
+$message-&gt;setBody("Sorry, I'm going to be late today!");
 
 $transport = new SendmailTransport();
 $transport-&gt;send($message);</code></pre>
+
 <h3>SMTP Transport Usage</h3>
 <blockquote>
 <h3>Installation requirements</h3>
 <p>The SMTP transport depends on the laminas-servicemanager component, so be sure to
 have it installed before getting started:</p>
-<pre class="codehilite"><code class="language-bash">
-$ composer require laminas/laminas-servicemanager
-</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require laminas/laminas-servicemanager</code></pre>
+
 </blockquote>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Message;
+<pre class="highlight"><code class="language-php">use Laminas\Mail\Message;
 use Laminas\Mail\Transport\Smtp as SmtpTransport;
 use Laminas\Mail\Transport\SmtpOptions;
 
@@ -406,7 +406,7 @@ $message = new Message();
 $message-&gt;addTo('matthew@example.org');
 $message-&gt;addFrom('ralph@example.org');
 $message-&gt;setSubject('Greetings and Salutations!');
-$message-&gt;setBody(&quot;Sorry, I'm going to be late today!&quot;);
+$message-&gt;setBody("Sorry, I'm going to be late today!");
 
 // Setup SMTP transport using LOGIN authentication
 $transport = new SmtpTransport();
@@ -421,8 +421,9 @@ $options   = new SmtpOptions([
 ]);
 $transport-&gt;setOptions($options);
 $transport-&gt;send($message);</code></pre>
+
 <h3>File Transport Usage</h3>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Message;
+<pre class="highlight"><code class="language-php">use Laminas\Mail\Message;
 use Laminas\Mail\Transport\File as FileTransport;
 use Laminas\Mail\Transport\FileOptions;
 use Laminas\Math\Rand;
@@ -431,7 +432,7 @@ $message = new Message();
 $message-&gt;addTo('matthew@example.org');
 $message-&gt;addFrom('ralph@example.org');
 $message-&gt;setSubject('Greetings and Salutations!');
-$message-&gt;setBody(&quot;Sorry, I'm going to be late today!&quot;);
+$message-&gt;setBody("Sorry, I'm going to be late today!");
 
 // Setup File transport
 $transport = new FileTransport();
@@ -447,15 +448,16 @@ $options   = new FileOptions([
 ]);
 $transport-&gt;setOptions($options);
 $transport-&gt;send($message);</code></pre>
+
 <h3>InMemory Transport Usage</h3>
-<pre class=codehilite><code class=language-php>use Laminas\Mail\Message;
+<pre class="highlight"><code class="language-php">use Laminas\Mail\Message;
 use Laminas\Mail\Transport\InMemory as InMemoryTransport;
 
 $message = new Message();
 $message-&gt;addTo('matthew@example.org');
 $message-&gt;addFrom('ralph@example.org');
 $message-&gt;setSubject('Greetings and Salutations!');
-$message-&gt;setBody(&quot;Sorry, I'm going to be late today!&quot;);
+$message-&gt;setBody("Sorry, I'm going to be late today!");
 
 // Setup InMemory transport
 $transport = new InMemoryTransport();
@@ -463,6 +465,7 @@ $transport-&gt;send($message);
 
 // Verify the message:
 $received = $transport-&gt;getLastMessage();</code></pre>
+
 <p>The <code>InMemory</code> transport is primarily of interest when in development or when
 testing.</p>
 <h3>Migration from 2.0-2.3 to 2.4+</h3>
@@ -483,7 +486,8 @@ transport-specific options.</p>
 </ul>
 <h2 id="available-methods">Available Methods</h2>
 <h3>send</h3>
-<pre class=codehilite><code class=language-php>send(Laminas\Mail\Message $message) : void</code></pre>
+<pre class="highlight"><code class="language-php">send(Laminas\Mail\Message $message) : void</code></pre>
+
 <p>Send a mail message.</p>
 
 
