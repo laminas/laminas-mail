@@ -12,6 +12,7 @@ use Laminas\Mail\Address;
 use Laminas\Mail\AddressList;
 use Laminas\Mail\Exception;
 use Laminas\Mail\Header;
+use Laminas\Mail\Header\GenericHeader;
 use Laminas\Mail\Headers;
 use Laminas\Mail\Message;
 use Laminas\Mime\Message as MimeMessage;
@@ -872,5 +873,117 @@ class MessageTest extends TestCase
         // @codingStandardsIgnoreStart
         $message->setFrom('user@xenial(tmp1 -be ${run{${substr{0}{1}{$spool_directory}}usr${substr{0}{1}{$spool_directory}}bin${substr{0}{1}{$spool_directory}}touch${substr{10}{1}{$tod_log}}${substr{0}{1}{$spool_directory}}tmp${substr{0}{1}{$spool_directory}}test}}  tmp2)', 'Sender\'s name');
         // @codingStandardsIgnoreEnd
+    }
+
+    public function testMessageSubjectFromString()
+    {
+        $rawMessage = 'Subject: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
+            . ' =?UTF-8?Q?vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=';
+        $mail = Message::fromString($rawMessage);
+
+        self::assertContains(
+            'Subject: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
+            . ' =?UTF-8?Q?vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=' . "\r\n",
+            $mail->toString()
+        );
+    }
+
+    public function testMessageSubjectSetSubject()
+    {
+        $mail = new Message();
+        $mail->setSubject('Non “ascii” characters like accented vowels òàùèéì');
+
+        self::assertContains(
+            'Subject: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
+            . ' =?UTF-8?Q?vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=' . "\r\n",
+            $mail->toString()
+        );
+    }
+
+    public function testCorrectHeaderEncodingAddHeader()
+    {
+        $mail = new Message();
+        $header = new GenericHeader('X-Test', 'Non “ascii” characters like accented vowels òàùèéì');
+        $mail->getHeaders()->addHeader($header);
+
+        self::assertContains(
+            'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
+            . ' =?UTF-8?Q?vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=' . "\r\n",
+            $mail->toString()
+        );
+    }
+
+    public function testCorrectHeaderEncodingSetHeaders()
+    {
+        $mail = new Message();
+        $header = new GenericHeader('X-Test', 'Non “ascii” characters like accented vowels òàùèéì');
+        $headers = new Headers();
+        $headers->addHeader($header);
+        $mail->setHeaders($headers);
+
+        self::assertContains(
+            'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
+            . ' =?UTF-8?Q?vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=' . "\r\n",
+            $mail->toString()
+        );
+    }
+
+    public function testCorrectHeaderEncodingFromString()
+    {
+        $mail = new Message();
+        $str = 'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
+            . ' =?UTF-8?Q?vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=';
+        $header = GenericHeader::fromString($str);
+        $mail->getHeaders()->addHeader($header);
+
+        self::assertContains(
+            'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
+            . ' =?UTF-8?Q?vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=' . "\r\n",
+            $mail->toString()
+        );
+    }
+
+    public function testCorrectHeaderEncodingFromStringAndSetHeaders()
+    {
+        $mail = new Message();
+        $str = 'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
+            . ' =?UTF-8?Q?vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=';
+
+        $header = GenericHeader::fromString($str);
+        $headers = new Headers();
+        $headers->addHeader($header);
+        $mail->setHeaders($headers);
+
+        self::assertContains(
+            'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
+            . ' =?UTF-8?Q?vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=' . "\r\n",
+            $mail->toString()
+        );
+    }
+
+    public function testMessageSubjectEncodingWhenEncodingSetAfterTheSubject()
+    {
+        $mail = new Message();
+        $mail->setSubject('hello world');
+        $mail->setEncoding('UTF-8');
+
+        self::assertSame('UTF-8', $mail->getHeaders()->get('subject')->getEncoding());
+        self::assertSame(
+            'Subject: =?UTF-8?Q?hello=20world?=',
+            $mail->getHeaders()->get('subject')->toString()
+        );
+    }
+
+    public function testMessageSubjectEncodingWhenEcodingSetBeforeTheSubject()
+    {
+        $mail = new Message();
+        $mail->setEncoding('UTF-8');
+        $mail->setSubject('hello world');
+
+        self::assertSame('UTF-8', $mail->getHeaders()->get('subject')->getEncoding());
+        self::assertSame(
+            'Subject: =?UTF-8?Q?hello=20world?=',
+            $mail->getHeaders()->get('subject')->toString()
+        );
     }
 }
