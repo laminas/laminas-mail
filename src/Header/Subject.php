@@ -62,7 +62,28 @@ class Subject implements UnstructuredInterface
 
     public function setEncoding($encoding)
     {
-        $this->encoding = $encoding;
+        if ($encoding === $this->encoding) {
+            return $this;
+        }
+
+        if ($encoding === null) {
+            $this->encoding = null;
+            return $this;
+        }
+
+        $encoding = strtoupper($encoding);
+        if ($encoding === 'UTF-8') {
+            $this->encoding = $encoding;
+            return $this;
+        }
+
+        if ($encoding === 'ASCII' && Mime::isPrintable($this->subject)) {
+            $this->encoding = $encoding;
+            return $this;
+        }
+
+        $this->encoding = null;
+
         return $this;
     }
 
