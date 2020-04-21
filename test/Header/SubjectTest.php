@@ -128,4 +128,56 @@ class SubjectTest extends TestCase
             'multiline' => ["xxx\r\ny\r\nyy", $invalidArgumentException, $invalidHeaderValueDetected],
         ];
     }
+
+    public function testChangeEncodingToAsciiNotAllowedWhenSubjectContainsUtf8Characters()
+    {
+        $subject = new Header\Subject();
+        $subject->setSubject('Accents òàùèéì');
+
+        self::assertSame('UTF-8', $subject->getEncoding());
+
+        $subject->setEncoding('ASCII');
+        self::assertSame('UTF-8', $subject->getEncoding());
+    }
+
+    public function testChangeEncodingBackToAscii()
+    {
+        $subject = new Header\Subject();
+        $subject->setSubject('test');
+
+        self::assertSame('ASCII', $subject->getEncoding());
+
+        $subject->setEncoding('UTF-8');
+        self::assertSame('UTF-8', $subject->getEncoding());
+
+        $subject->setEncoding('ASCII');
+        self::assertSame('ASCII', $subject->getEncoding());
+    }
+
+    public function testSetNullEncoding()
+    {
+        $subject = Header\Subject::fromString('Subject: test');
+        self::assertSame('ASCII', $subject->getEncoding());
+
+        $subject->setEncoding(null);
+        self::assertSame('ASCII', $subject->getEncoding());
+    }
+
+    public function testSettingSubjectCanChangeEncoding()
+    {
+        $subject = Header\Subject::fromString('Subject: test');
+        self::assertSame('ASCII', $subject->getEncoding());
+
+        $subject->setSubject('Accents òàùèéì');
+        self::assertSame('UTF-8', $subject->getEncoding());
+    }
+
+    public function testSettingTheSameEncoding()
+    {
+        $subject = Header\Subject::fromString('Subject: test');
+        self::assertSame('ASCII', $subject->getEncoding());
+
+        $subject->setEncoding('ASCII');
+        self::assertSame('ASCII', $subject->getEncoding());
+    }
 }
