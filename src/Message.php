@@ -342,6 +342,7 @@ class Message
             $header = $headers->get('subject');
         }
         $header->setSubject($subject);
+        $header->setEncoding($this->getEncoding());
         return $this;
     }
 
