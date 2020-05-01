@@ -2,7 +2,29 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.10.1 - TBD
+## 2.10.2 - TBD
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
+## 2.10.1 - 2020-04-21
 
 ### Added
 
@@ -32,6 +54,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#31](https://github.com/laminas/laminas-mail/pull/31) Properly encode `content-disposition` header.
 
+- [#88](https://github.com/laminas/laminas-mail/pull/88) fixes recognising encoding of `Subject` and `GenericHeader` headers.
 
 ## 2.10.0 - 2018-06-07
 
