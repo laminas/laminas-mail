@@ -53,7 +53,7 @@ class Mbox extends Storage\Mbox implements FolderInterface
         }
 
         if (isset($params->filename)) {
-            throw new Exception\InvalidArgumentException('use \Laminas\Mail\Storage\Mbox for a single file');
+            throw new Exception\InvalidArgumentException(sprintf('use %s for a single file', Storage\Mbox::class));
         }
 
         if (! isset($params->dirname) || ! is_dir($params->dirname)) {
