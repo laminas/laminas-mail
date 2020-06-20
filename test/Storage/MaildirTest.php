@@ -10,6 +10,7 @@ namespace LaminasTest\Mail\Storage;
 
 use Laminas\Config;
 use Laminas\Mail\Storage;
+use Laminas\Mail\Storage\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -124,14 +125,14 @@ class MaildirTest extends TestCase
 
     public function testLoadFailure()
     {
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('no valid dirname given in params');
         new Storage\Maildir(['dirname' => '/This/Dir/Does/Not/Exist']);
     }
 
     public function testLoadInvalid()
     {
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('invalid maildir given');
         new Storage\Maildir(['dirname' => __DIR__]);
     }
@@ -234,7 +235,7 @@ class MaildirTest extends TestCase
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('id does not exist');
         $mail->getSize(0);
     }
@@ -243,7 +244,7 @@ class MaildirTest extends TestCase
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('id does not exist');
         $mail->getMessage(0);
     }
@@ -252,7 +253,7 @@ class MaildirTest extends TestCase
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('maildir is (currently) read-only');
         $mail->removeMessage(1);
     }
@@ -299,7 +300,7 @@ class MaildirTest extends TestCase
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('unique id not found');
         $mail->getNumberByUniqueId('this_is_an_invalid_id');
     }
@@ -309,7 +310,7 @@ class MaildirTest extends TestCase
         \rename($this->maildir . 'cur', $this->maildir . 'cur-isFileTest');
         \touch($this->maildir . 'cur');
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('invalid maildir given');
         new Storage\Maildir(['dirname' => $this->maildir]);
     }
@@ -319,7 +320,7 @@ class MaildirTest extends TestCase
         \rename($this->maildir . 'new', $this->maildir . 'new-isFileTest');
         \touch($this->maildir . 'new');
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('invalid maildir given');
         new Storage\Maildir(['dirname' => $this->maildir]);
     }
@@ -328,7 +329,7 @@ class MaildirTest extends TestCase
     {
         \touch($this->maildir . 'tmp');
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('invalid maildir given');
         new Storage\Maildir(['dirname' => $this->maildir]);
     }
@@ -337,7 +338,7 @@ class MaildirTest extends TestCase
     {
         \chmod($this->maildir . 'cur', 0);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('cannot open maildir');
         new Storage\Maildir(['dirname' => $this->maildir]);
     }
@@ -346,7 +347,7 @@ class MaildirTest extends TestCase
     {
         \chmod($this->maildir . 'new', 0);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('cannot read recent mails in maildir');
         new Storage\Maildir(['dirname' => $this->maildir]);
     }

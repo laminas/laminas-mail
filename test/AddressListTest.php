@@ -73,14 +73,14 @@ class AddressListTest extends TestCase
 
     public function testThrowExceptionOnInvalidInputAdd()
     {
-        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('add expects an email address or Laminas\Mail\Address object');
         $this->list->add(null);
     }
 
     public function testThrowExceptionOnInvalidInputAddMany()
     {
-        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('add expects an email address or Laminas\Mail\Address object');
         $this->list->addMany([null]);
     }

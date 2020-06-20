@@ -9,6 +9,7 @@
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header;
+use Laminas\Mail\Header\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -32,7 +33,7 @@ class DateTest extends TestCase
      */
     public function testFromStringRaisesExceptionOnCrlfInjectionAttempt($header)
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         Header\Date::fromString($header);
     }
 
@@ -41,13 +42,13 @@ class DateTest extends TestCase
      */
     public function testPreventsCRLFInjectionViaConstructor()
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $address = new Header\Date("This\ris\r\na\nCRLF Attack");
     }
 
     public function testFromStringRaisesExceptionOnInvalidHeader()
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid header line for Date string');
         Header\Date::fromString('Foo: bar');
     }

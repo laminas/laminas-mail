@@ -9,6 +9,7 @@
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header;
+use Laminas\Mail\Header\Exception;
 use Laminas\Mail\Header\HeaderInterface;
 use Laminas\Mail\Header\Received;
 use PHPUnit\Framework\TestCase;
@@ -69,7 +70,7 @@ class ReceivedTest extends TestCase
      */
     public function testRaisesExceptionViaFromStringOnDetectionOfCrlfInjection($header)
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $received = Header\Received::fromString($header);
     }
 
@@ -89,13 +90,13 @@ class ReceivedTest extends TestCase
      */
     public function testConstructorRaisesExceptionOnValueWithCRLFInjectionAttempt($value)
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Header\Received($value);
     }
 
     public function testFromStringRaisesExceptionOnInvalidHeader()
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid header line for Received string');
         Header\Received::fromString('Foo: bar');
     }
@@ -140,7 +141,7 @@ class ReceivedTest extends TestCase
     public function testToStringMultipleHeadersThrows()
     {
         $header = new Header\Received('test');
-        $this->expectException('Laminas\Mail\Header\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('can only accept an array of Received headers');
         $header->toStringMultipleHeaders([null]);
     }

@@ -9,6 +9,7 @@
 namespace LaminasTest\Mail\Storage;
 
 use Laminas\Mail\Storage;
+use Laminas\Mail\Storage\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -58,7 +59,7 @@ class MboxInterfaceTest extends TestCase
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $list[1] = 'test';
     }
 
@@ -134,7 +135,7 @@ class MboxInterfaceTest extends TestCase
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $list->thisdoesnotexist;
     }
 
@@ -149,7 +150,7 @@ class MboxInterfaceTest extends TestCase
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $list[1]->thisdoesnotexist;
     }
 }

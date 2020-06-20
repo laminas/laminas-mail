@@ -9,6 +9,7 @@
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header;
+use Laminas\Mail\Header\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -48,7 +49,7 @@ class ToTest extends TestCase
      */
     public function testFromStringRaisesExceptionWhenCrlfInjectionIsDetected($header)
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         Header\To::fromString($header);
     }
 }
