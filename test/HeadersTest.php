@@ -367,7 +367,7 @@ class HeadersTest extends TestCase
         $headers->addHeader($received);
 
         $return = $headers->get('Received');
-        $this->assertSame('ArrayIterator', \get_class($return));
+        $this->assertSame(\ArrayIterator::class, \get_class($return));
     }
 
     /**
