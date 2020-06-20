@@ -592,7 +592,7 @@ class HeadersTest extends TestCase
         $headers = new Mail\Headers();
         $headers->setEncoding('UTF-8');
 
-        $subject = new Header\Subject('test subject');
+        $subject = new Header\Subject();
         // default to ASCII
         $this->assertSame('ASCII', $subject->getEncoding());
 
