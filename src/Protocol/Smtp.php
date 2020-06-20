@@ -344,7 +344,7 @@ class Smtp extends AbstractProtocol
     public function rset()
     {
         $this->_send('RSET');
-        // MS ESMTP doesn't follow RFC, see [Laminas-1377]
+        // MS ESMTP doesn't follow RFC, see https://zendframework.com/issues/browse/ZF-1377
         $this->_expect([250, 220]);
 
         $this->mail = false;
