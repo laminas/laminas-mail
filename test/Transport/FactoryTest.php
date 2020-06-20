@@ -9,6 +9,8 @@
 namespace LaminasTest\Mail\Transport;
 
 use Laminas\Mail\Transport\Factory;
+use Laminas\Mail\Transport\InMemory;
+use Laminas\Mail\Transport\Sendmail;
 use Laminas\Stdlib\ArrayObject;
 use PHPUnit\Framework\TestCase;
 
@@ -42,7 +44,7 @@ class FactoryTest extends TestCase
     {
         $transport = Factory::create();
 
-        $this->assertInstanceOf('Laminas\Mail\Transport\Sendmail', $transport);
+        $this->assertInstanceOf(Sendmail::class, $transport);
     }
 
     /**
@@ -124,7 +126,7 @@ class FactoryTest extends TestCase
 
         $transport = Factory::create($spec);
 
-        $this->assertInstanceOf('Laminas\Mail\Transport\InMemory', $transport);
+        $this->assertInstanceOf(InMemory::class, $transport);
     }
 
     /**

@@ -76,7 +76,7 @@ class AddressTest extends TestCase
     public function testSetAddressValidAddressObject($email, $name)
     {
         $address = new Address($email, $name);
-        $this->assertInstanceOf('\Laminas\Mail\Address', $address);
+        $this->assertInstanceOf(Address::class, $address);
     }
 
     public function validSenderDataProvider()

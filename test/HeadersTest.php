@@ -10,6 +10,7 @@ namespace LaminasTest\Mail;
 
 use Laminas\Mail;
 use Laminas\Mail\Header;
+use Laminas\Mail\Header\GenericHeader;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -21,8 +22,8 @@ class HeadersTest extends TestCase
     public function testHeadersImplementsProperClasses()
     {
         $headers = new Mail\Headers();
-        $this->assertInstanceOf('Iterator', $headers);
-        $this->assertInstanceOf('Countable', $headers);
+        $this->assertInstanceOf(\Iterator::class, $headers);
+        $this->assertInstanceOf(\Countable::class, $headers);
     }
 
     public function testHeadersFromStringFactoryCreatesSingleObject()
@@ -31,7 +32,7 @@ class HeadersTest extends TestCase
         $this->assertEquals(1, $headers->count());
 
         $header = $headers->get('fake');
-        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
+        $this->assertInstanceOf(GenericHeader::class, $header);
         $this->assertEquals('Fake', $header->getFieldName());
         $this->assertEquals('foo-bar', $header->getFieldValue());
     }
@@ -42,7 +43,7 @@ class HeadersTest extends TestCase
         $this->assertEquals(1, $headers->count());
 
         $header = $headers->get('fake');
-        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
+        $this->assertInstanceOf(GenericHeader::class, $header);
         $this->assertEquals('Fake', $header->getFieldName());
         $this->assertEquals('foo-bar', $header->getFieldValue());
     }
@@ -56,7 +57,7 @@ class HeadersTest extends TestCase
         $this->assertEquals(1, $headers->count());
 
         $header = $headers->get('fake');
-        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
+        $this->assertInstanceOf(GenericHeader::class, $header);
         $this->assertEquals('Fake', $header->getFieldName());
         $this->assertEquals('foo-bar, blah-blah', $header->getFieldValue());
     }
@@ -92,12 +93,12 @@ class HeadersTest extends TestCase
         $this->assertEquals(2, $headers->count());
 
         $header = $headers->get('fake');
-        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
+        $this->assertInstanceOf(GenericHeader::class, $header);
         $this->assertEquals('Fake', $header->getFieldName());
         $this->assertEquals('foo-bar', $header->getFieldValue());
 
         $header = $headers->get('anotherfake');
-        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
+        $this->assertInstanceOf(GenericHeader::class, $header);
         $this->assertEquals('Another-Fake', $header->getFieldName());
         $this->assertEquals('boo-baz', $header->getFieldValue());
     }
@@ -148,7 +149,7 @@ class HeadersTest extends TestCase
         $headers = new Mail\Headers();
         $headers->addHeader(new Header\GenericHeader('Fake', 'bar'));
         $this->assertEquals(1, $headers->count());
-        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $headers->get('Fake'));
+        $this->assertInstanceOf(GenericHeader::class, $headers->get('Fake'));
     }
 
     public function testHeadersAggregatesHeaderThroughAddHeaderLine()
@@ -288,7 +289,7 @@ class HeadersTest extends TestCase
         $iterations = 0;
         foreach ($headers as $index => $header) {
             $iterations++;
-            $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
+            $this->assertInstanceOf(GenericHeader::class, $header);
             switch ($index) {
                 case 0:
                     $this->assertEquals('bar', $header->getFieldValue());

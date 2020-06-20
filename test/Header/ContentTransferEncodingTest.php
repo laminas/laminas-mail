@@ -9,6 +9,7 @@
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header\ContentTransferEncoding;
+use Laminas\Mail\Header\HeaderInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -41,8 +42,8 @@ class ContentTransferEncodingTest extends TestCase
     public function testContentTransferEncodingFromStringCreatesValidContentTransferEncodingHeader($encoding)
     {
         $contentTransferEncodingHeader = ContentTransferEncoding::fromString('Content-Transfer-Encoding: '.$encoding);
-        $this->assertInstanceOf('Laminas\Mail\Header\HeaderInterface', $contentTransferEncodingHeader);
-        $this->assertInstanceOf('Laminas\Mail\Header\ContentTransferEncoding', $contentTransferEncodingHeader);
+        $this->assertInstanceOf(HeaderInterface::class, $contentTransferEncodingHeader);
+        $this->assertInstanceOf(ContentTransferEncoding::class, $contentTransferEncodingHeader);
     }
 
     /**

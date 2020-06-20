@@ -11,6 +11,7 @@ namespace LaminasTest\Mail\Transport;
 use Laminas\Mail\Headers;
 use Laminas\Mail\Message;
 use Laminas\Mail\Protocol\Smtp as SmtpProtocol;
+use Laminas\Mail\Protocol\Smtp\Auth\Login;
 use Laminas\Mail\Protocol\SmtpPluginManager;
 use Laminas\Mail\Transport\Envelope;
 use Laminas\Mail\Transport\Smtp;
@@ -208,7 +209,7 @@ class SmtpTest extends TestCase
             'password' => 'password',
             'host'     => 'localhost',
         ]);
-        $this->assertInstanceOf('Laminas\Mail\Protocol\Smtp\Auth\Login', $connection);
+        $this->assertInstanceOf(Login::class, $connection);
         $this->assertEquals('matthew', $connection->getUsername());
         $this->assertEquals('password', $connection->getPassword());
     }
