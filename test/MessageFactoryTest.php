@@ -8,6 +8,9 @@
 
 namespace LaminasTest\Mail;
 
+use Laminas\Mail\Address;
+use Laminas\Mail\AddressList;
+use Laminas\Mail\Message;
 use Laminas\Mail\MessageFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -33,11 +36,11 @@ class MessageFactoryTest extends TestCase
 
         $message = MessageFactory::getInstance($options);
 
-        $this->assertInstanceOf('Laminas\Mail\Message', $message);
+        $this->assertInstanceOf(Message::class, $message);
         $this->assertEquals('UTF-8', $message->getEncoding());
         $this->assertEquals('subject', $message->getSubject());
         $this->assertEquals('body', $message->getBody());
-        $this->assertInstanceOf('Laminas\Mail\Address', $message->getSender());
+        $this->assertInstanceOf(Address::class, $message->getSender());
         $this->assertEquals($options['sender'], $message->getSender()->getEmail());
 
         $getMethods = [
@@ -50,7 +53,7 @@ class MessageFactoryTest extends TestCase
 
         foreach ($getMethods as $key => $method) {
             $value = $message->{$method}();
-            $this->assertInstanceOf('Laminas\Mail\AddressList', $value);
+            $this->assertInstanceOf(AddressList::class, $value);
             $this->assertEquals(1, count($value));
             $this->assertTrue($value->has($options[$key]));
         }
@@ -69,13 +72,13 @@ class MessageFactoryTest extends TestCase
         $message = MessageFactory::getInstance($options);
 
         $from = $message->getFrom();
-        $this->assertInstanceOf('Laminas\Mail\AddressList', $from);
+        $this->assertInstanceOf(AddressList::class, $from);
         $this->assertEquals(1, count($from));
         $this->assertTrue($from->has('matthew@example.com'));
         $this->assertEquals('Matthew', $from->get('matthew@example.com')->getName());
 
         $to = $message->getTo();
-        $this->assertInstanceOf('Laminas\Mail\AddressList', $to);
+        $this->assertInstanceOf(AddressList::class, $to);
         $this->assertEquals(2, count($to));
         $this->assertTrue($to->has('test@example.com'));
         $this->assertTrue($to->has('list@example.com'));
@@ -87,14 +90,14 @@ class MessageFactoryTest extends TestCase
             'foo' => 'bar',
         ];
         $mail = MessageFactory::getInstance($options);
-        $this->assertInstanceOf('Laminas\Mail\Message', $mail);
+        $this->assertInstanceOf(Message::class, $mail);
     }
 
     public function testEmptyOption()
     {
         $options = [];
         $mail = MessageFactory::getInstance();
-        $this->assertInstanceOf('Laminas\Mail\Message', $mail);
+        $this->assertInstanceOf(Message::class, $mail);
     }
 
     public function invalidMessageOptions()

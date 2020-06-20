@@ -9,6 +9,8 @@
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header;
+use Laminas\Mail\Header\HeaderInterface;
+use Laminas\Mail\Header\Received;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,8 +22,8 @@ class ReceivedTest extends TestCase
     public function testFromStringCreatesValidReceivedHeader()
     {
         $receivedHeader = Header\Received::fromString('Received: xxx');
-        $this->assertInstanceOf('Laminas\Mail\Header\HeaderInterface', $receivedHeader);
-        $this->assertInstanceOf('Laminas\Mail\Header\Received', $receivedHeader);
+        $this->assertInstanceOf(HeaderInterface::class, $receivedHeader);
+        $this->assertInstanceOf(Received::class, $receivedHeader);
     }
 
     public function testGetFieldNameReturnsHeaderName()

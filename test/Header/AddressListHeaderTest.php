@@ -10,6 +10,7 @@ namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Address;
 use Laminas\Mail\AddressList;
+use Laminas\Mail\Header\AbstractAddressList;
 use Laminas\Mail\Header\Bcc;
 use Laminas\Mail\Header\Cc;
 use Laminas\Mail\Header\From;
@@ -38,7 +39,7 @@ class AddressListHeaderTest extends TestCase
      */
     public function testConcreteHeadersExtendAbstractAddressListHeader($header)
     {
-        $this->assertInstanceOf('Laminas\Mail\Header\AbstractAddressList', $header);
+        $this->assertInstanceOf(AbstractAddressList::class, $header);
     }
 
     /**
@@ -55,7 +56,7 @@ class AddressListHeaderTest extends TestCase
     public function testConcreteHeadersComposeAddressLists($header)
     {
         $list = $header->getAddressList();
-        $this->assertInstanceOf('Laminas\Mail\AddressList', $list);
+        $this->assertInstanceOf(AddressList::class, $list);
     }
 
     public function testFieldValueIsEmptyByDefault()

@@ -30,7 +30,7 @@ class AddressListTest extends TestCase
 
     public function testImplementsCountable()
     {
-        $this->assertInstanceOf('Countable', $this->list);
+        $this->assertInstanceOf(\Countable::class, $this->list);
     }
 
     public function testIsEmptyByDefault()
@@ -52,7 +52,7 @@ class AddressListTest extends TestCase
 
     public function testImplementsTraversable()
     {
-        $this->assertInstanceOf('Traversable', $this->list);
+        $this->assertInstanceOf(\Traversable::class, $this->list);
     }
 
     public function testHasReturnsFalseWhenAddressNotInList()
@@ -89,7 +89,7 @@ class AddressListTest extends TestCase
     {
         $this->list->add('test@example.com');
         $address = $this->list->get('test@example.com');
-        $this->assertInstanceOf('Laminas\Mail\Address', $address);
+        $this->assertInstanceOf(Address::class, $address);
         $this->assertEquals('test@example.com', $address->getEmail());
     }
 
@@ -97,7 +97,7 @@ class AddressListTest extends TestCase
     {
         $this->list->add('test@example.com', 'Example Test');
         $address = $this->list->get('test@example.com');
-        $this->assertInstanceOf('Laminas\Mail\Address', $address);
+        $this->assertInstanceOf(Address::class, $address);
         $this->assertEquals('test@example.com', $address->getEmail());
         $this->assertEquals('Example Test', $address->getName());
     }
