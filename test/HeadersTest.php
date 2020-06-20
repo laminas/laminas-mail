@@ -11,6 +11,7 @@ namespace LaminasTest\Mail;
 use Laminas\Mail;
 use Laminas\Mail\Header;
 use Laminas\Mail\Header\GenericHeader;
+use Laminas\Mail\Header\To;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -409,23 +410,23 @@ class HeadersTest extends TestCase
     public static function expectedHeaders()
     {
         return [
-            ['bcc', 'Laminas\Mail\Header\Bcc'],
-            ['cc', 'Laminas\Mail\Header\Cc'],
-            ['contenttype', 'Laminas\Mail\Header\ContentType'],
-            ['content_type', 'Laminas\Mail\Header\ContentType'],
-            ['content-type', 'Laminas\Mail\Header\ContentType'],
-            ['date', 'Laminas\Mail\Header\Date'],
-            ['from', 'Laminas\Mail\Header\From'],
-            ['mimeversion', 'Laminas\Mail\Header\MimeVersion'],
-            ['mime_version', 'Laminas\Mail\Header\MimeVersion'],
-            ['mime-version', 'Laminas\Mail\Header\MimeVersion'],
-            ['received', 'Laminas\Mail\Header\Received'],
-            ['replyto', 'Laminas\Mail\Header\ReplyTo'],
-            ['reply_to', 'Laminas\Mail\Header\ReplyTo'],
-            ['reply-to', 'Laminas\Mail\Header\ReplyTo'],
-            ['sender', 'Laminas\Mail\Header\Sender'],
-            ['subject', 'Laminas\Mail\Header\Subject'],
-            ['to', 'Laminas\Mail\Header\To'],
+            ['bcc', Header\Bcc::class],
+            ['cc', Header\Cc::class],
+            ['contenttype', Header\ContentType::class],
+            ['content_type', Header\ContentType::class],
+            ['content-type', Header\ContentType::class],
+            ['date', Header\Date::class],
+            ['from', Header\From::class],
+            ['mimeversion', Header\MimeVersion::class],
+            ['mime_version', Header\MimeVersion::class],
+            ['mime-version', Header\MimeVersion::class],
+            ['received', Header\Received::class],
+            ['replyto', Header\ReplyTo::class],
+            ['reply_to', Header\ReplyTo::class],
+            ['reply-to', Header\ReplyTo::class],
+            ['sender', Header\Sender::class],
+            ['subject', Header\Subject::class],
+            ['to', Header\To::class],
         ];
     }
 
