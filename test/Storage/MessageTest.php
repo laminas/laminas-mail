@@ -277,7 +277,7 @@ class MessageTest extends TestCase
         $message = new Message([]);
         $subject = null;
 
-        $this->expectException('Laminas\\Mail\\Exception\\InvalidArgumentException');
+        $this->expectException(MailException\InvalidArgumentException::class);
         $message->subject;
     }
 
@@ -438,7 +438,7 @@ class MessageTest extends TestCase
      */
     public function testStrictParseMessage()
     {
-        $this->expectException('Laminas\\Mail\\Exception\\RuntimeException');
+        $this->expectException(MailException\RuntimeException::class);
 
         $raw = file_get_contents($this->file);
         $raw = "From foo@example.com  Sun Jan 01 00:00:00 2000\n" . $raw;

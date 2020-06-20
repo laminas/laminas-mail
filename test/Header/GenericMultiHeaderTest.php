@@ -8,6 +8,7 @@
 
 namespace LaminasTest\Mail\Header;
 
+use Laminas\Mail\Header\Exception;
 use Laminas\Mail\Header\GenericMultiHeader;
 use PHPUnit\Framework\TestCase;
 
@@ -50,7 +51,7 @@ class GenericMultiHeaderTest extends TestCase
     {
         $multiHeader = new GenericMultiHeader('x-custom', 'test');
 
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage(
             'This method toStringMultipleHeaders was expecting an array of headers of the same type'
         );

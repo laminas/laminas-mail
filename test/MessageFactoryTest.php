@@ -10,6 +10,7 @@ namespace LaminasTest\Mail;
 
 use Laminas\Mail\Address;
 use Laminas\Mail\AddressList;
+use Laminas\Mail\Exception;
 use Laminas\Mail\Message;
 use Laminas\Mail\MessageFactory;
 use PHPUnit\Framework\TestCase;
@@ -120,7 +121,7 @@ class MessageFactoryTest extends TestCase
      */
     public function testExceptionForOptionsNotArrayOrTraversable($options)
     {
-        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         MessageFactory::getInstance($options);
     }
 }

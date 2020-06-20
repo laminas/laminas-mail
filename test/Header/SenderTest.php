@@ -93,7 +93,7 @@ class SenderTest extends TestCase
     public function testSetAddressInvalidValue($email, $name)
     {
         $header = new Header\Sender();
-        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $header->setAddress($email, $name);
     }
 
@@ -284,7 +284,7 @@ class SenderTest extends TestCase
 
     public function testFromStringRaisesExceptionOnInvalidHeader()
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid header name for Sender string');
         Header\Sender::fromString('Foo: bar');
     }

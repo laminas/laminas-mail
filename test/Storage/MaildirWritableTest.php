@@ -9,6 +9,7 @@
 namespace LaminasTest\Mail\Storage;
 
 use Laminas\Mail\Storage;
+use Laminas\Mail\Storage\Exception;
 use Laminas\Mail\Storage\Writable;
 use PHPUnit\Framework\TestCase;
 
@@ -146,7 +147,7 @@ class MaildirWritableTest extends TestCase
     public function testCreateFolderEmptyPart()
     {
         $mail = new Writable\Maildir($this->params);
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('invalid name - folder parts may not be empty');
         $mail->createFolder('foo..bar');
     }
@@ -154,7 +155,7 @@ class MaildirWritableTest extends TestCase
     public function testCreateFolderSlash()
     {
         $mail = new Writable\Maildir($this->params);
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('invalid name - no directory separator allowed in folder name');
         $mail->createFolder('foo/bar');
     }
@@ -162,7 +163,7 @@ class MaildirWritableTest extends TestCase
     public function testCreateFolderDirectorySeparator()
     {
         $mail = new Writable\Maildir($this->params);
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('invalid name - no directory separator allowed in folder name');
         $mail->createFolder('foo' . DIRECTORY_SEPARATOR . 'bar');
     }
@@ -172,7 +173,7 @@ class MaildirWritableTest extends TestCase
         $mail = new Writable\Maildir($this->params);
         unset($mail->getFolders()->subfolder->test);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('error while creating new folder, may be created incompletely');
         $mail->createFolder('subfolder.test');
     }
@@ -181,7 +182,7 @@ class MaildirWritableTest extends TestCase
     {
         $mail = new Writable\Maildir($this->params);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('folder already exists');
         $mail->createFolder('subfolder.test');
     }
@@ -191,7 +192,7 @@ class MaildirWritableTest extends TestCase
         $mail = new Writable\Maildir($this->params);
         $mail->removeFolder('INBOX.subfolder.test');
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('no subfolder named test');
         $mail->selectFolder($mail->getFolders()->subfolder->test);
     }
@@ -201,7 +202,7 @@ class MaildirWritableTest extends TestCase
         $mail = new Writable\Maildir($this->params);
         $mail->removeFolder($mail->getFolders()->subfolder->test);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('no subfolder named test');
         $mail->selectFolder($mail->getFolders()->subfolder->test);
     }
@@ -210,7 +211,7 @@ class MaildirWritableTest extends TestCase
     {
         $mail = new Writable\Maildir($this->params);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('delete children first');
         $mail->removeFolder($mail->getFolders()->subfolder);
     }
@@ -221,7 +222,7 @@ class MaildirWritableTest extends TestCase
         $mail = new Writable\Maildir($this->params);
         $mail->selectFolder('subfolder.test');
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->removeFolder('subfolder.test');
     }
 
@@ -229,7 +230,7 @@ class MaildirWritableTest extends TestCase
     {
         $mail = new Writable\Maildir($this->params);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('no subfolder named thisFolderDoestNotExist');
         $mail->removeFolder('thisFolderDoestNotExist');
     }
@@ -241,7 +242,7 @@ class MaildirWritableTest extends TestCase
         $mail->renameFolder('INBOX.subfolder', 'INBOX.foo');
         $mail->renameFolder($mail->getFolders()->foo, 'subfolder');
 
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('wont rename INBOX');
         $mail->renameFolder('INBOX', 'foo');
     }
@@ -252,7 +253,7 @@ class MaildirWritableTest extends TestCase
         $mail = new Writable\Maildir($this->params);
         $mail->selectFolder('subfolder.test');
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->renameFolder('subfolder.test', 'foo');
     }
 
@@ -260,7 +261,7 @@ class MaildirWritableTest extends TestCase
     {
         $mail = new Writable\Maildir($this->params);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('new folder cannot be a child of old folder');
         $mail->renameFolder('subfolder.test', 'subfolder.test.foo');
     }
@@ -299,7 +300,7 @@ class MaildirWritableTest extends TestCase
         $this->assertEquals($mail->getMessage($count + 1)->from, $message->from);
         $this->assertEquals($mail->getMessage($count + 1)->to, $message->to);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->copyMessage(1, 'justARandomFolder');
     }
 
@@ -322,7 +323,7 @@ class MaildirWritableTest extends TestCase
         $this->assertFalse($message->hasFlag(Storage::FLAG_SEEN));
         $this->assertTrue($message->hasFlag(Storage::FLAG_FLAGGED));
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('recent flag may not be set');
         $mail->setFlags(1, [Storage::FLAG_RECENT]);
     }
@@ -333,7 +334,7 @@ class MaildirWritableTest extends TestCase
         $mail = new Writable\Maildir($this->params);
         unlink($this->params['dirname'] . 'cur/1000000000.P1.example.org:2,S');
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
     }
 
     public function testRemove()
@@ -353,7 +354,7 @@ class MaildirWritableTest extends TestCase
         $mail = new Writable\Maildir($this->params);
         unlink($this->params['dirname'] . 'cur/1000000000.P1.example.org:2,S');
 
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('cannot remove message');
         $mail->removeMessage(1);
     }
@@ -420,7 +421,7 @@ class MaildirWritableTest extends TestCase
 
         $this->assertNull($mail->getQuota());
 
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('cannot open maildirsize');
         $mail->getQuota(true);
     }
@@ -474,7 +475,7 @@ class MaildirWritableTest extends TestCase
         $mail->setQuota(true);
         $this->assertTrue($mail->checkQuota());
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->appendMessage("Subject: test\r\n\r\n");
     }
 

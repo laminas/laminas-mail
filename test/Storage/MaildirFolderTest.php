@@ -9,6 +9,7 @@
 namespace LaminasTest\Mail\Storage;
 
 use Laminas\Config;
+use Laminas\Mail\Storage\Exception;
 use Laminas\Mail\Storage\Folder;
 use PHPUnit\Framework\TestCase;
 use RecursiveIteratorIterator;
@@ -136,14 +137,14 @@ class MaildirFolderTest extends TestCase
 
     public function testNoParams()
     {
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('no valid dirname given in params');
         new Folder\Maildir([]);
     }
 
     public function testLoadFailure()
     {
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('no valid dirname given in params');
         new Folder\Maildir(['dirname' => 'This/Folder/Does/Not/Exist']);
     }
@@ -151,7 +152,7 @@ class MaildirFolderTest extends TestCase
     public function testLoadUnkownFolder()
     {
         $this->params['folder'] = 'UnknownFolder';
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('no subfolder named UnknownFolder');
         new Folder\Maildir($this->params);
     }
@@ -170,7 +171,7 @@ class MaildirFolderTest extends TestCase
     {
         $mail = new Folder\Maildir($this->params);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('no subfolder named /Unknown/Folder/');
         $mail->selectFolder('/Unknown/Folder/');
     }
@@ -346,7 +347,7 @@ class MaildirFolderTest extends TestCase
     {
         chmod($this->params['dirname'], 0);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('can\'t read folders in maildir');
         new Folder\Maildir($this->params);
     }
@@ -357,7 +358,7 @@ class MaildirFolderTest extends TestCase
         $root = $mail->getFolders();
         $root->foobar = new Folder('foobar', DIRECTORY_SEPARATOR . 'foobar');
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('folder foobar not found');
         $mail->selectFolder('foobar');
     }
@@ -368,7 +369,7 @@ class MaildirFolderTest extends TestCase
         $root = $mail->getFolders();
         $root->foobar = new Folder('foobar', 'foobar');
 
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('seems like the maildir has vanished');
         $mail->selectFolder('foobar');
     }
@@ -379,7 +380,7 @@ class MaildirFolderTest extends TestCase
         $root = $mail->getFolders();
         $root->foobar = new Folder('foobar', 'foobar', false);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('foobar is not selectable');
         $mail->selectFolder('foobar');
     }

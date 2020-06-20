@@ -9,6 +9,7 @@
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header;
+use Laminas\Mail\Header\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -65,7 +66,7 @@ class MessageIdTest extends TestCase
      */
     public function testFromStringPreventsCrlfInjectionOnDetection($header)
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $messageid = Header\MessageId::fromString($header);
     }
 
@@ -87,13 +88,13 @@ class MessageIdTest extends TestCase
     public function testInvalidIdentifierRaisesException($id)
     {
         $header = new Header\MessageId();
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $header->setId($id);
     }
 
     public function testFromStringRaisesExceptionOnInvalidHeader()
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid header line for Message-ID string');
         Header\MessageId::fromString('Foo: bar');
     }

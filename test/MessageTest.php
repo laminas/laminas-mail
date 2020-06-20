@@ -542,7 +542,7 @@ class MessageTest extends TestCase
      */
     public function testSettingNonScalarNonMimeNonStringSerializableValueForBodyRaisesException($body)
     {
-        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->message->setBody($body);
     }
 
@@ -767,7 +767,7 @@ class MessageTest extends TestCase
             '',
             '<html><body><iframe src="http://example.com/"></iframe></body></html> <!--',
         ];
-        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->message->{$recipientMethod}(implode(Headers::EOL, $subject));
     }
 

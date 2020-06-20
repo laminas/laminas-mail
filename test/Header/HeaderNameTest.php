@@ -8,6 +8,7 @@
 
 namespace LaminasTest\Mail\Header;
 
+use Laminas\Mail\Header\Exception;
 use Laminas\Mail\Header\HeaderName;
 use PHPUnit\Framework\TestCase;
 
@@ -80,7 +81,7 @@ class HeaderNameTest extends TestCase
      */
     public function testAssertValidRaisesExceptionForInvalidNames($name)
     {
-        $this->expectException('Laminas\Mail\Header\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('Invalid');
         HeaderName::assertValid($name);
     }
