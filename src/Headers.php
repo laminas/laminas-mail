@@ -496,7 +496,7 @@ class Headers implements Countable, Iterator
         $key   = $this->headersKeys[$index];
 
         /** @var GenericHeader $class */
-        $class = ($this->getPluginClassLoader()->load($key)) ?: 'Laminas\Mail\Header\GenericHeader';
+        $class = ($this->getPluginClassLoader()->load($key)) ?: Header\GenericHeader::class;
 
         $encoding = $current->getEncoding();
         $headers  = $class::fromString($current->toString());

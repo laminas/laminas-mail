@@ -46,7 +46,7 @@ abstract class AbstractStorage implements
      * used message class, change it in an extended class to extend the returned message class
      * @var string
      */
-    protected $messageClass = 'Laminas\Mail\Storage\Message';
+    protected $messageClass = Message::class;
 
     /**
      * Getter for has-properties. The standard has properties

@@ -17,12 +17,12 @@ abstract class Factory
      * @var array Known transport types
      */
     protected static $classMap = [
-        'file'      => 'Laminas\Mail\Transport\File',
-        'inmemory'  => 'Laminas\Mail\Transport\InMemory',
-        'memory'    => 'Laminas\Mail\Transport\InMemory',
-        'null'      => 'Laminas\Mail\Transport\InMemory',
-        'sendmail'  => 'Laminas\Mail\Transport\Sendmail',
-        'smtp'      => 'Laminas\Mail\Transport\Smtp',
+        'file'      => File::class,
+        'inmemory'  => InMemory::class,
+        'memory'    => InMemory::class,
+        'null'      => InMemory::class,
+        'sendmail'  => Sendmail::class,
+        'smtp'      => Smtp::class,
     ];
 
     /**
@@ -65,9 +65,9 @@ abstract class Factory
 
         if (! $transport instanceof TransportInterface) {
             throw new Exception\DomainException(sprintf(
-                '%s expects the "type" attribute to resolve to a valid'
-                . ' Laminas\Mail\Transport\TransportInterface instance; received "%s"',
+                '%s expects the "type" attribute to resolve to a valid %s instance; received "%s"',
                 __METHOD__,
+                TransportInterface::class,
                 $type
             ));
         }
