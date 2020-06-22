@@ -11,14 +11,14 @@ namespace Laminas\Mail\Header;
 interface HeaderInterface
 {
     /**
-     * Format value in Mime-Encoding if not US-ASCII encoding is used
+     * Format value in Mime-Encoding (Quoted-Printable). Result is valid US-ASCII string
      *
      * @var bool
      */
     const FORMAT_ENCODED = true;
 
     /**
-     * Return value with the interval Laminas value (UTF-8 non-encoded)
+     * Return value in internal encoding which is usually UTF-8
      *
      * @var bool
      */
