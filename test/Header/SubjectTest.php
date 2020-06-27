@@ -118,7 +118,7 @@ class SubjectTest extends TestCase
 
     public function invalidSubjectValuesProvider()
     {
-        $invalidArgumentException = 'Laminas\Mail\Header\Exception\InvalidArgumentException';
+        $invalidArgumentException = Exception\InvalidArgumentException::class;
         $invalidHeaderValueDetected = 'Invalid header value detected';
 
         return [

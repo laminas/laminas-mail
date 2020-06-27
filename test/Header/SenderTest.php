@@ -163,7 +163,7 @@ class SenderTest extends TestCase
 
     public function invalidSenderDataProvider()
     {
-        $mailInvalidArgumentException = 'Laminas\Mail\Exception\InvalidArgumentException';
+        $mailInvalidArgumentException = Exception\InvalidArgumentException::class;
 
         return [
             // Description => [sender address, sender name, exception class, exception message],
@@ -186,8 +186,8 @@ class SenderTest extends TestCase
 
     public function invalidSenderEncodedDataProvider()
     {
-        $mailInvalidArgumentException = 'Laminas\Mail\Exception\InvalidArgumentException';
-        $headerInvalidArgumentException = 'Laminas\Mail\Header\Exception\InvalidArgumentException';
+        $mailInvalidArgumentException = Exception\InvalidArgumentException::class;
+        $headerInvalidArgumentException = Header\Exception\InvalidArgumentException::class;
 
         return [
             // Description => [decoded format, exception class, exception message],

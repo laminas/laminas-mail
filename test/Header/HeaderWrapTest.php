@@ -9,6 +9,7 @@
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header\HeaderWrap;
+use Laminas\Mail\Header\UnstructuredInterface;
 use Laminas\Mail\Storage;
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +22,7 @@ class HeaderWrapTest extends TestCase
     public function testWrapUnstructuredHeaderAscii()
     {
         $string = str_repeat('foobarblahblahblah baz bat', 4);
-        $header = $this->createMock('Laminas\Mail\Header\UnstructuredInterface');
+        $header = $this->createMock(UnstructuredInterface::class);
         $header->expects($this->any())
             ->method('getEncoding')
             ->will($this->returnValue('ASCII'));
@@ -37,7 +38,7 @@ class HeaderWrapTest extends TestCase
     public function testWrapUnstructuredHeaderMime()
     {
         $string = str_repeat('foobarblahblahblah baz bat', 3);
-        $header = $this->createMock('Laminas\Mail\Header\UnstructuredInterface');
+        $header = $this->createMock(UnstructuredInterface::class);
         $header->expects($this->any())
             ->method('getEncoding')
             ->will($this->returnValue('UTF-8'));
