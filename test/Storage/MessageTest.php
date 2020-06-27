@@ -10,6 +10,7 @@ namespace LaminasTest\Mail\Storage;
 
 use Exception as GeneralException;
 use Laminas\Mail\Exception as MailException;
+use Laminas\Mail\Headers;
 use Laminas\Mail\Storage;
 use Laminas\Mail\Storage\Exception;
 use Laminas\Mail\Storage\Message;
@@ -431,6 +432,31 @@ class MessageTest extends TestCase
         $header = 'test; foo =bar; baz      =42';
         $this->assertEquals(Mime\Decode::splitHeaderField($header, 'foo'), 'bar');
         $this->assertEquals(Mime\Decode::splitHeaderField($header, 'baz'), 42);
+    }
+
+    /**
+     * splitMessage with Headers as input fails to process AddressList with semicolons
+     *
+     * @see https://github.com/laminas/laminas-mail/pull/93
+     */
+    public function testHeadersLosesNameQuoting()
+    {
+        $headerList = [
+            'From: "Famous bearings |;" <skf@example.com>',
+            'Reply-To: "Famous bearings |:" <skf@example.com>',
+        ];
+
+        // create Headers object from array
+        Mime\Decode::splitMessage(implode("\r\n", $headerList), $headers1, $body);
+        $this->assertInstanceOf(Headers::class, $headers1);
+        // create Headers object from Headers object
+        Mime\Decode::splitMessage($headers1, $headers2, $body);
+        $this->assertInstanceOf(Headers::class, $headers2);
+
+        // test that same problem does not happen with Storage\Message internally
+        $message = new Message(['headers' => $headers2, 'content' => (string)$body]);
+        $this->assertEquals('"Famous bearings |;" <skf@example.com>', $message->from);
+        $this->assertEquals('Famous bearings |: <skf@example.com>', $message->replyTo);
     }
 
     /**

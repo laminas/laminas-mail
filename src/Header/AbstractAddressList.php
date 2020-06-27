@@ -135,7 +135,9 @@ abstract class AbstractAddressList implements HeaderInterface
             $email = $address->getEmail();
             $name  = $address->getName();
 
-            if (! empty($name) && false !== strstr($name, ',')) {
+            // quote $name if value requires so
+            if (! empty($name) && (false !== strpos($name, ',') || false !== strpos($name, ';'))) {
+                // FIXME: what if name contains double quote?
                 $name = sprintf('"%s"', $name);
             }
 
@@ -241,7 +243,7 @@ abstract class AbstractAddressList implements HeaderInterface
      * Supposed to be private, protected as a workaround for PHP bug 68194
      *
      * @param string $value
-     * @return void
+     * @return string
      */
     protected static function stripComments($value)
     {
