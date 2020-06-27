@@ -104,11 +104,11 @@ class AddressListHeaderTest extends TestCase
     {
         $value = $this->getExpectedFieldValue();
         return [
-            'cc'       => ['Cc: ' . $value, 'Laminas\Mail\Header\Cc'],
-            'bcc'      => ['Bcc: ' . $value, 'Laminas\Mail\Header\Bcc'],
-            'from'     => ['From: ' . $value, 'Laminas\Mail\Header\From'],
-            'reply-to' => ['Reply-To: ' . $value, 'Laminas\Mail\Header\ReplyTo'],
-            'to'       => ['To: ' . $value, 'Laminas\Mail\Header\To'],
+            'cc'       => ['Cc: ' . $value, Cc::class],
+            'bcc'      => ['Bcc: ' . $value, Bcc::class],
+            'from'     => ['From: ' . $value, From::class],
+            'reply-to' => ['Reply-To: ' . $value, ReplyTo::class],
+            'to'       => ['To: ' . $value, To::class],
         ];
     }
 
@@ -140,11 +140,11 @@ class AddressListHeaderTest extends TestCase
     {
         $value = $this->getExpectedFieldValue();
         return [
-            'cc'       => ['Cc:' . $value, 'Laminas\Mail\Header\Cc'],
-            'bcc'      => ['Bcc:' . $value, 'Laminas\Mail\Header\Bcc'],
-            'from'     => ['From:' . $value, 'Laminas\Mail\Header\From'],
-            'reply-to' => ['Reply-To:' . $value, 'Laminas\Mail\Header\ReplyTo'],
-            'to'       => ['To:' . $value, 'Laminas\Mail\Header\To'],
+            'cc'       => ['Cc:' . $value, Cc::class],
+            'bcc'      => ['Bcc:' . $value, Bcc::class],
+            'from'     => ['From:' . $value, From::class],
+            'reply-to' => ['Reply-To:' . $value, ReplyTo::class],
+            'to'       => ['To:' . $value, To::class],
         ];
     }
 

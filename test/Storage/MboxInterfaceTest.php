@@ -11,6 +11,7 @@ namespace LaminasTest\Mail\Storage;
 use Laminas\Mail\Storage;
 use Laminas\Mail\Storage\Exception;
 use PHPUnit\Framework\TestCase;
+use Laminas\Mail\Storage\Message\MessageInterface;
 
 /**
  * @group      Laminas_Mail
@@ -80,7 +81,7 @@ class MboxInterfaceTest extends TestCase
 
         foreach ($list as $key => $message) {
             $this->assertInstanceOf(
-                'Laminas\Mail\Storage\Message\MessageInterface',
+                MessageInterface::class,
                 $message,
                 'value in iteration is not a mail message'
             );

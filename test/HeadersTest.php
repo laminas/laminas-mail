@@ -12,6 +12,7 @@ use Laminas\Mail;
 use Laminas\Mail\Header;
 use Laminas\Mail\Header\Exception;
 use Laminas\Mail\Header\GenericHeader;
+use Laminas\Mail\Header\GenericMultiHeader;
 use Laminas\Mail\Header\To;
 use PHPUnit\Framework\TestCase;
 
@@ -118,7 +119,7 @@ class HeadersTest extends TestCase
         $headers = new Mail\Headers();
         /* @var $pcl \Laminas\Loader\PluginClassLoader */
         $pcl = $headers->getPluginClassLoader();
-        $pcl->registerPlugin('foo', 'Laminas\Mail\Header\GenericMultiHeader');
+        $pcl->registerPlugin('foo', GenericMultiHeader::class);
         $headers->addHeaderLine('foo: bar1,bar2,bar3');
         $headers->forceLoading();
         $this->assertEquals(3, $headers->count());
