@@ -180,7 +180,7 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
      * - ssl 'SSL' or 'TLS' for secure sockets
      * - folder select this folder [optional, default = 'INBOX']
      *
-     * @param  array $params mail reader specific parameters
+     * @param  array|Protocol\Imap $params mail reader specific parameters or configured Imap protocol object
      * @throws Exception\RuntimeException
      * @throws Exception\InvalidArgumentException
      * @throws Protocol\Exception\RuntimeException
