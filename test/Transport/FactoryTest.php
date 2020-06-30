@@ -10,6 +10,7 @@ namespace LaminasTest\Mail\Transport;
 
 use Laminas\Mail\Transport\Factory;
 use Laminas\Mail\Transport\InMemory;
+use Laminas\Mail\Transport\Null as NullTransport;
 use Laminas\Mail\Transport\Sendmail;
 use Laminas\Stdlib\ArrayObject;
 use PHPUnit\Framework\TestCase;
@@ -77,7 +78,7 @@ class FactoryTest extends TestCase
         ];
 
         if (version_compare(PHP_VERSION, '7.0', '<')) {
-            $types[] = ['Laminas\Mail\Transport\Null'];
+            $types[] = [NullTransport::class];
         }
 
         return $types;
