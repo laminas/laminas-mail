@@ -22,6 +22,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
+- [#89](https://github.com/laminas/laminas-mail/pull/89) corrects two parameter typehints within the Storage subcomponent to correctly detail what they allow.
+
 - [#93](https://github.com/laminas/laminas-mail/pull/93) fixes an issue whereby an address containing a `;` character was not getting quoted, causing it to be interpreted as an address separator instead of part of the address.
 
 ## 2.10.1 - 2020-04-21
