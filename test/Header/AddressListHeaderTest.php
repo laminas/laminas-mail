@@ -10,6 +10,7 @@ namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Address;
 use Laminas\Mail\AddressList;
+use Laminas\Mail\Header\AbstractAddressList;
 use Laminas\Mail\Header\Bcc;
 use Laminas\Mail\Header\Cc;
 use Laminas\Mail\Header\From;
@@ -38,7 +39,7 @@ class AddressListHeaderTest extends TestCase
      */
     public function testConcreteHeadersExtendAbstractAddressListHeader($header)
     {
-        $this->assertInstanceOf('Laminas\Mail\Header\AbstractAddressList', $header);
+        $this->assertInstanceOf(AbstractAddressList::class, $header);
     }
 
     /**
@@ -55,7 +56,7 @@ class AddressListHeaderTest extends TestCase
     public function testConcreteHeadersComposeAddressLists($header)
     {
         $list = $header->getAddressList();
-        $this->assertInstanceOf('Laminas\Mail\AddressList', $list);
+        $this->assertInstanceOf(AddressList::class, $list);
     }
 
     public function testFieldValueIsEmptyByDefault()
@@ -103,11 +104,11 @@ class AddressListHeaderTest extends TestCase
     {
         $value = $this->getExpectedFieldValue();
         return [
-            'cc'       => ['Cc: ' . $value, 'Laminas\Mail\Header\Cc'],
-            'bcc'      => ['Bcc: ' . $value, 'Laminas\Mail\Header\Bcc'],
-            'from'     => ['From: ' . $value, 'Laminas\Mail\Header\From'],
-            'reply-to' => ['Reply-To: ' . $value, 'Laminas\Mail\Header\ReplyTo'],
-            'to'       => ['To: ' . $value, 'Laminas\Mail\Header\To'],
+            'cc'       => ['Cc: ' . $value, Cc::class],
+            'bcc'      => ['Bcc: ' . $value, Bcc::class],
+            'from'     => ['From: ' . $value, From::class],
+            'reply-to' => ['Reply-To: ' . $value, ReplyTo::class],
+            'to'       => ['To: ' . $value, To::class],
         ];
     }
 
@@ -139,11 +140,11 @@ class AddressListHeaderTest extends TestCase
     {
         $value = $this->getExpectedFieldValue();
         return [
-            'cc'       => ['Cc:' . $value, 'Laminas\Mail\Header\Cc'],
-            'bcc'      => ['Bcc:' . $value, 'Laminas\Mail\Header\Bcc'],
-            'from'     => ['From:' . $value, 'Laminas\Mail\Header\From'],
-            'reply-to' => ['Reply-To:' . $value, 'Laminas\Mail\Header\ReplyTo'],
-            'to'       => ['To:' . $value, 'Laminas\Mail\Header\To'],
+            'cc'       => ['Cc:' . $value, Cc::class],
+            'bcc'      => ['Bcc:' . $value, Bcc::class],
+            'from'     => ['From:' . $value, From::class],
+            'reply-to' => ['Reply-To:' . $value, ReplyTo::class],
+            'to'       => ['To:' . $value, To::class],
         ];
     }
 

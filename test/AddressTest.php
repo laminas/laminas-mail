@@ -9,6 +9,7 @@
 namespace LaminasTest\Mail;
 
 use Laminas\Mail\Address;
+use Laminas\Mail\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -44,7 +45,7 @@ class AddressTest extends TestCase
      */
     public function testSetAddressInvalidAddressObject($email, $name)
     {
-        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Address($email, $name);
     }
 
@@ -76,7 +77,7 @@ class AddressTest extends TestCase
     public function testSetAddressValidAddressObject($email, $name)
     {
         $address = new Address($email, $name);
-        $this->assertInstanceOf('\Laminas\Mail\Address', $address);
+        $this->assertInstanceOf(Address::class, $address);
     }
 
     public function validSenderDataProvider()

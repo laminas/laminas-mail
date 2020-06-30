@@ -17,7 +17,7 @@ class Maildir extends AbstractStorage
      * used message class, change it in an extended class to extend the returned message class
      * @var string
      */
-    protected $messageClass = '\Laminas\Mail\Storage\Message\File';
+    protected $messageClass = Message\File::class;
 
     /**
      * data of found message files in maildir dir

@@ -8,6 +8,7 @@
 
 namespace LaminasTest\Mail\Header;
 
+use Laminas\Mail\Header\Exception;
 use Laminas\Mail\Header\IdentificationField;
 use Laminas\Mail\Header\InReplyTo;
 use Laminas\Mail\Header\References;
@@ -114,7 +115,7 @@ class IdentificationFieldTest extends TestCase
     {
         /** @var IdentificationField $header */
         $header = new $className();
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid ID detected');
         $header->setIds($ids);
     }
@@ -126,7 +127,7 @@ class IdentificationFieldTest extends TestCase
      */
     public function testFromStringRaisesExceptionOnInvalidHeader($className, $ids)
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid header line');
         /** @var IdentificationField $header */
         $header = $className::fromString('Foo: bar');

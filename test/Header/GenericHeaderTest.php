@@ -8,6 +8,7 @@
 
 namespace LaminasTest\Mail\Header;
 
+use Laminas\Mail\Header\Exception;
 use Laminas\Mail\Header\GenericHeader;
 use PHPUnit\Framework\TestCase;
 
@@ -40,7 +41,7 @@ class GenericHeaderTest extends TestCase
      */
     public function testSplitHeaderLineRaisesExceptionOnInvalidHeader($line, $message)
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage($message);
         GenericHeader::splitHeaderLine($line);
     }
@@ -61,7 +62,7 @@ class GenericHeaderTest extends TestCase
     public function testRaisesExceptionOnInvalidFieldName($fieldName)
     {
         $header = new GenericHeader();
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('name');
         $header->setFieldName($fieldName);
     }
@@ -185,7 +186,7 @@ class GenericHeaderTest extends TestCase
     {
         $header = new GenericHeader;
 
-        $this->expectException('Laminas\Mail\Header\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('Header name is not set, use setFieldName()');
         $header->toString();
     }

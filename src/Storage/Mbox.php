@@ -40,7 +40,7 @@ class Mbox extends AbstractStorage
      * used message class, change it in an extended class to extend the returned message class
      * @var string
      */
-    protected $messageClass = '\Laminas\Mail\Storage\Message\File';
+    protected $messageClass = Message\File::class;
 
     /**
      * end of Line for messages
@@ -107,8 +107,8 @@ class Mbox extends AbstractStorage
     public function getMessage($id)
     {
         // TODO that's ugly, would be better to let the message class decide
-        if (strtolower($this->messageClass) == '\laminas\mail\storage\message\file'
-            || is_subclass_of($this->messageClass, '\Laminas\Mail\Storage\Message\File')) {
+        if (is_subclass_of($this->messageClass, Message\File::class)
+            || strtolower($this->messageClass) === strtolower(Message\File::class)) {
             // TODO top/body lines
             $messagePos = $this->getPos($id);
 

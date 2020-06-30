@@ -9,8 +9,12 @@
 namespace LaminasTest\Mail\Transport;
 
 use Laminas\Mail\Transport\Factory;
+use Laminas\Mail\Transport\InMemory;
+use Laminas\Mail\Transport\Sendmail;
 use Laminas\Stdlib\ArrayObject;
 use PHPUnit\Framework\TestCase;
+use Laminas\Mail\Transport\File;
+use Laminas\Mail\Transport\Smtp;
 
 /**
  * @covers Laminas\Mail\Transport\Factory<extended>
@@ -42,7 +46,7 @@ class FactoryTest extends TestCase
     {
         $transport = Factory::create();
 
-        $this->assertInstanceOf('Laminas\Mail\Transport\Sendmail', $transport);
+        $this->assertInstanceOf(Sendmail::class, $transport);
     }
 
     /**
@@ -66,10 +70,10 @@ class FactoryTest extends TestCase
     public function typeProvider()
     {
         $types = [
-            ['Laminas\Mail\Transport\File'],
-            ['Laminas\Mail\Transport\InMemory'],
-            ['Laminas\Mail\Transport\Sendmail'],
-            ['Laminas\Mail\Transport\Smtp'],
+            [File::class],
+            [InMemory::class],
+            [Sendmail::class],
+            [Smtp::class],
         ];
 
         if (version_compare(PHP_VERSION, '7.0', '<')) {
@@ -96,20 +100,20 @@ class FactoryTest extends TestCase
     public function typeAliasProvider()
     {
         return [
-            ['file', 'Laminas\Mail\Transport\File'],
-            ['null', 'Laminas\Mail\Transport\InMemory'],
-            ['memory', 'Laminas\Mail\Transport\InMemory'],
-            ['inmemory', 'Laminas\Mail\Transport\InMemory'],
-            ['InMemory', 'Laminas\Mail\Transport\InMemory'],
-            ['sendmail', 'Laminas\Mail\Transport\Sendmail'],
-            ['smtp', 'Laminas\Mail\Transport\Smtp'],
-            ['File', 'Laminas\Mail\Transport\File'],
-            ['Null', 'Laminas\Mail\Transport\InMemory'],
-            ['NULL', 'Laminas\Mail\Transport\InMemory'],
-            ['Sendmail', 'Laminas\Mail\Transport\Sendmail'],
-            ['SendMail', 'Laminas\Mail\Transport\Sendmail'],
-            ['Smtp', 'Laminas\Mail\Transport\Smtp'],
-            ['SMTP', 'Laminas\Mail\Transport\Smtp'],
+            ['file', File::class],
+            ['null', InMemory::class],
+            ['memory', InMemory::class],
+            ['inmemory', InMemory::class],
+            ['InMemory', InMemory::class],
+            ['sendmail', Sendmail::class],
+            ['smtp', Smtp::class],
+            ['File', File::class],
+            ['Null', InMemory::class],
+            ['NULL', InMemory::class],
+            ['Sendmail', Sendmail::class],
+            ['SendMail', Sendmail::class],
+            ['Smtp', Smtp::class],
+            ['SMTP', Smtp::class],
         ];
     }
 
@@ -124,7 +128,7 @@ class FactoryTest extends TestCase
 
         $transport = Factory::create($spec);
 
-        $this->assertInstanceOf('Laminas\Mail\Transport\InMemory', $transport);
+        $this->assertInstanceOf(InMemory::class, $transport);
     }
 
     /**

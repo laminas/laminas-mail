@@ -10,6 +10,10 @@ namespace LaminasTest\Mail;
 
 use Laminas\Mail;
 use Laminas\Mail\Header;
+use Laminas\Mail\Header\Exception;
+use Laminas\Mail\Header\GenericHeader;
+use Laminas\Mail\Header\GenericMultiHeader;
+use Laminas\Mail\Header\To;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -21,8 +25,8 @@ class HeadersTest extends TestCase
     public function testHeadersImplementsProperClasses()
     {
         $headers = new Mail\Headers();
-        $this->assertInstanceOf('Iterator', $headers);
-        $this->assertInstanceOf('Countable', $headers);
+        $this->assertInstanceOf(\Iterator::class, $headers);
+        $this->assertInstanceOf(\Countable::class, $headers);
     }
 
     public function testHeadersFromStringFactoryCreatesSingleObject()
@@ -31,7 +35,7 @@ class HeadersTest extends TestCase
         $this->assertEquals(1, $headers->count());
 
         $header = $headers->get('fake');
-        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
+        $this->assertInstanceOf(GenericHeader::class, $header);
         $this->assertEquals('Fake', $header->getFieldName());
         $this->assertEquals('foo-bar', $header->getFieldValue());
     }
@@ -42,7 +46,7 @@ class HeadersTest extends TestCase
         $this->assertEquals(1, $headers->count());
 
         $header = $headers->get('fake');
-        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
+        $this->assertInstanceOf(GenericHeader::class, $header);
         $this->assertEquals('Fake', $header->getFieldName());
         $this->assertEquals('foo-bar', $header->getFieldValue());
     }
@@ -56,7 +60,7 @@ class HeadersTest extends TestCase
         $this->assertEquals(1, $headers->count());
 
         $header = $headers->get('fake');
-        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
+        $this->assertInstanceOf(GenericHeader::class, $header);
         $this->assertEquals('Fake', $header->getFieldName());
         $this->assertEquals('foo-bar, blah-blah', $header->getFieldValue());
     }
@@ -67,21 +71,21 @@ class HeadersTest extends TestCase
         $this->assertEquals(1, $headers->count());
 
         $header = $headers->get('fake');
-        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
+        $this->assertInstanceOf(GenericHeader::class, $header);
         $this->assertEquals('Fake', $header->getFieldName());
         $this->assertEquals('foo-bar', $header->getFieldValue());
     }
 
     public function testHeadersFromStringFactoryThrowsExceptionOnMalformedHeaderLine()
     {
-        $this->expectException('Laminas\Mail\Exception\RuntimeException');
+        $this->expectException(Mail\Exception\RuntimeException::class);
         $this->expectExceptionMessage('does not match');
         Mail\Headers::fromString("Fake = foo-bar\r\n\r\n");
     }
 
     public function testHeadersFromStringFactoryThrowsExceptionOnMalformedHeaderLines()
     {
-        $this->expectException('Laminas\Mail\Exception\RuntimeException');
+        $this->expectException(Mail\Exception\RuntimeException::class);
         $this->expectExceptionMessage('Malformed header detected');
         Mail\Headers::fromString("Fake: foo-bar\r\n\r\n\r\n\r\nAnother-Fake: boo-baz");
     }
@@ -92,12 +96,12 @@ class HeadersTest extends TestCase
         $this->assertEquals(2, $headers->count());
 
         $header = $headers->get('fake');
-        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
+        $this->assertInstanceOf(GenericHeader::class, $header);
         $this->assertEquals('Fake', $header->getFieldName());
         $this->assertEquals('foo-bar', $header->getFieldValue());
 
         $header = $headers->get('anotherfake');
-        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
+        $this->assertInstanceOf(GenericHeader::class, $header);
         $this->assertEquals('Another-Fake', $header->getFieldName());
         $this->assertEquals('boo-baz', $header->getFieldValue());
     }
@@ -115,7 +119,7 @@ class HeadersTest extends TestCase
         $headers = new Mail\Headers();
         /* @var $pcl \Laminas\Loader\PluginClassLoader */
         $pcl = $headers->getPluginClassLoader();
-        $pcl->registerPlugin('foo', 'Laminas\Mail\Header\GenericMultiHeader');
+        $pcl->registerPlugin('foo', GenericMultiHeader::class);
         $headers->addHeaderLine('foo: bar1,bar2,bar3');
         $headers->forceLoading();
         $this->assertEquals(3, $headers->count());
@@ -148,7 +152,7 @@ class HeadersTest extends TestCase
         $headers = new Mail\Headers();
         $headers->addHeader(new Header\GenericHeader('Fake', 'bar'));
         $this->assertEquals(1, $headers->count());
-        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $headers->get('Fake'));
+        $this->assertInstanceOf(GenericHeader::class, $headers->get('Fake'));
     }
 
     public function testHeadersAggregatesHeaderThroughAddHeaderLine()
@@ -156,12 +160,12 @@ class HeadersTest extends TestCase
         $headers = new Mail\Headers();
         $headers->addHeaderLine('Fake', 'bar');
         $this->assertEquals(1, $headers->count());
-        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $headers->get('Fake'));
+        $this->assertInstanceOf(GenericHeader::class, $headers->get('Fake'));
     }
 
     public function testHeadersAddHeaderLineThrowsExceptionOnMissingFieldValue()
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Header must match with the format "name:value"');
         $headers = new Mail\Headers();
         $headers->addHeaderLine('Foo');
@@ -171,7 +175,7 @@ class HeadersTest extends TestCase
     {
         $headers = new Mail\Headers();
 
-        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectException(Mail\Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('expects its first argument to be a string');
         $headers->addHeaderLine(null);
     }
@@ -181,7 +185,7 @@ class HeadersTest extends TestCase
         $headers = new Mail\Headers();
         $object = new \stdClass();
 
-        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectException(Mail\Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('expects its first argument to be a string');
         $headers->addHeaderLine($object);
     }
@@ -191,43 +195,43 @@ class HeadersTest extends TestCase
         $headers = new Mail\Headers();
         $headers->addHeaders([new Header\GenericHeader('Foo', 'bar'), new Header\GenericHeader('Baz', 'baz')]);
         $this->assertEquals(2, $headers->count());
-        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $headers->get('Foo'));
+        $this->assertInstanceOf(GenericHeader::class, $headers->get('Foo'));
         $this->assertEquals('bar', $headers->get('foo')->getFieldValue());
         $this->assertEquals('baz', $headers->get('baz')->getFieldValue());
 
         $headers = new Mail\Headers();
         $headers->addHeaders(['Foo: bar', 'Baz: baz']);
         $this->assertEquals(2, $headers->count());
-        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $headers->get('Foo'));
+        $this->assertInstanceOf(GenericHeader::class, $headers->get('Foo'));
         $this->assertEquals('bar', $headers->get('foo')->getFieldValue());
         $this->assertEquals('baz', $headers->get('baz')->getFieldValue());
 
         $headers = new Mail\Headers();
         $headers->addHeaders([['Foo' => 'bar'], ['Baz' => 'baz']]);
         $this->assertEquals(2, $headers->count());
-        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $headers->get('Foo'));
+        $this->assertInstanceOf(GenericHeader::class, $headers->get('Foo'));
         $this->assertEquals('bar', $headers->get('foo')->getFieldValue());
         $this->assertEquals('baz', $headers->get('baz')->getFieldValue());
 
         $headers = new Mail\Headers();
         $headers->addHeaders([['Foo', 'bar'], ['Baz', 'baz']]);
         $this->assertEquals(2, $headers->count());
-        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $headers->get('Foo'));
+        $this->assertInstanceOf(GenericHeader::class, $headers->get('Foo'));
         $this->assertEquals('bar', $headers->get('foo')->getFieldValue());
         $this->assertEquals('baz', $headers->get('baz')->getFieldValue());
 
         $headers = new Mail\Headers();
         $headers->addHeaders(['Foo' => 'bar', 'Baz' => 'baz']);
         $this->assertEquals(2, $headers->count());
-        $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $headers->get('Foo'));
+        $this->assertInstanceOf(GenericHeader::class, $headers->get('Foo'));
         $this->assertEquals('bar', $headers->get('foo')->getFieldValue());
         $this->assertEquals('baz', $headers->get('baz')->getFieldValue());
     }
 
     public function testHeadersAddHeadersThrowsExceptionOnInvalidArguments()
     {
-        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
-        $this->expectExceptionMessage('Expected array or Trav');
+        $this->expectException(Mail\Exception\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expected array or Traversable');
         $headers = new Mail\Headers();
         $headers->addHeaders('foo');
     }
@@ -288,7 +292,7 @@ class HeadersTest extends TestCase
         $iterations = 0;
         foreach ($headers as $index => $header) {
             $iterations++;
-            $this->assertInstanceOf('Laminas\Mail\Header\GenericHeader', $header);
+            $this->assertInstanceOf(GenericHeader::class, $header);
             switch ($index) {
                 case 0:
                     $this->assertEquals('bar', $header->getFieldValue());
@@ -365,7 +369,7 @@ class HeadersTest extends TestCase
         $headers->addHeader($received);
 
         $return = $headers->get('Received');
-        $this->assertSame('ArrayIterator', \get_class($return));
+        $this->assertSame(\ArrayIterator::class, \get_class($return));
     }
 
     /**
@@ -408,23 +412,23 @@ class HeadersTest extends TestCase
     public static function expectedHeaders()
     {
         return [
-            ['bcc', 'Laminas\Mail\Header\Bcc'],
-            ['cc', 'Laminas\Mail\Header\Cc'],
-            ['contenttype', 'Laminas\Mail\Header\ContentType'],
-            ['content_type', 'Laminas\Mail\Header\ContentType'],
-            ['content-type', 'Laminas\Mail\Header\ContentType'],
-            ['date', 'Laminas\Mail\Header\Date'],
-            ['from', 'Laminas\Mail\Header\From'],
-            ['mimeversion', 'Laminas\Mail\Header\MimeVersion'],
-            ['mime_version', 'Laminas\Mail\Header\MimeVersion'],
-            ['mime-version', 'Laminas\Mail\Header\MimeVersion'],
-            ['received', 'Laminas\Mail\Header\Received'],
-            ['replyto', 'Laminas\Mail\Header\ReplyTo'],
-            ['reply_to', 'Laminas\Mail\Header\ReplyTo'],
-            ['reply-to', 'Laminas\Mail\Header\ReplyTo'],
-            ['sender', 'Laminas\Mail\Header\Sender'],
-            ['subject', 'Laminas\Mail\Header\Subject'],
-            ['to', 'Laminas\Mail\Header\To'],
+            ['bcc', Header\Bcc::class],
+            ['cc', Header\Cc::class],
+            ['contenttype', Header\ContentType::class],
+            ['content_type', Header\ContentType::class],
+            ['content-type', Header\ContentType::class],
+            ['date', Header\Date::class],
+            ['from', Header\From::class],
+            ['mimeversion', Header\MimeVersion::class],
+            ['mime_version', Header\MimeVersion::class],
+            ['mime-version', Header\MimeVersion::class],
+            ['received', Header\Received::class],
+            ['replyto', Header\ReplyTo::class],
+            ['reply_to', Header\ReplyTo::class],
+            ['reply-to', Header\ReplyTo::class],
+            ['sender', Header\Sender::class],
+            ['subject', Header\Subject::class],
+            ['to', Header\To::class],
         ];
     }
 
@@ -455,7 +459,7 @@ class HeadersTest extends TestCase
      */
     public function testHeaderCrLfAttackFromString()
     {
-        $this->expectException('Laminas\Mail\Exception\RuntimeException');
+        $this->expectException(Mail\Exception\RuntimeException::class);
         Mail\Headers::fromString("Fake: foo-bar\r\n\r\nevilContent");
     }
 
@@ -465,7 +469,7 @@ class HeadersTest extends TestCase
     public function testHeaderCrLfAttackAddHeaderLineSingle()
     {
         $headers = new Mail\Headers();
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $headers->addHeaderLine("Fake: foo-bar\r\n\r\nevilContent");
     }
 
@@ -475,7 +479,7 @@ class HeadersTest extends TestCase
     public function testHeaderCrLfAttackAddHeaderLineWithValue()
     {
         $headers = new Mail\Headers();
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $headers->addHeaderLine('Fake', "foo-bar\r\n\r\nevilContent");
     }
 
@@ -485,7 +489,7 @@ class HeadersTest extends TestCase
     public function testHeaderCrLfAttackAddHeaderLineMultiple()
     {
         $headers = new Mail\Headers();
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $headers->addHeaderLine('Fake', ["foo-bar\r\n\r\nevilContent"]);
         $headers->forceLoading();
     }
@@ -496,7 +500,7 @@ class HeadersTest extends TestCase
     public function testHeaderCrLfAttackAddHeadersSingle()
     {
         $headers = new Mail\Headers();
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $headers->addHeaders(["Fake: foo-bar\r\n\r\nevilContent"]);
     }
 
@@ -506,7 +510,7 @@ class HeadersTest extends TestCase
     public function testHeaderCrLfAttackAddHeadersWithValue()
     {
         $headers = new Mail\Headers();
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $headers->addHeaders(['Fake' => "foo-bar\r\n\r\nevilContent"]);
     }
 
@@ -516,7 +520,7 @@ class HeadersTest extends TestCase
     public function testHeaderCrLfAttackAddHeadersMultiple()
     {
         $headers = new Mail\Headers();
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $headers->addHeaders(['Fake' => ["foo-bar\r\n\r\nevilContent"]]);
         $headers->forceLoading();
     }
@@ -591,7 +595,7 @@ class HeadersTest extends TestCase
         $headers = new Mail\Headers();
         $headers->setEncoding('UTF-8');
 
-        $subject = new Header\Subject('test subject');
+        $subject = new Header\Subject();
         // default to ASCII
         $this->assertSame('ASCII', $subject->getEncoding());
 

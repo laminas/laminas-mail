@@ -12,6 +12,7 @@ use Laminas\Mail\Address;
 use Laminas\Mail\AddressList;
 use Laminas\Mail\Exception;
 use Laminas\Mail\Header;
+use Laminas\Mail\Header\ContentType;
 use Laminas\Mail\Header\GenericHeader;
 use Laminas\Mail\Headers;
 use Laminas\Mail\Message;
@@ -43,7 +44,7 @@ class MessageTest extends TestCase
     public function testSetsOrigDateHeaderByDefault()
     {
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
+        $this->assertInstanceOf(Headers::class, $headers);
         $this->assertTrue($headers->has('date'));
         $header  = $headers->get('date');
         $date    = date('r');
@@ -62,14 +63,14 @@ class MessageTest extends TestCase
     public function testHeadersMethodReturnsHeadersObject()
     {
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
+        $this->assertInstanceOf(Headers::class, $headers);
     }
 
     public function testToMethodReturnsAddressListObject()
     {
         $this->message->addTo('test@example.com');
         $to = $this->message->getTo();
-        $this->assertInstanceOf('Laminas\Mail\AddressList', $to);
+        $this->assertInstanceOf(AddressList::class, $to);
     }
 
     public function testToAddressListLivesInHeaders()
@@ -77,7 +78,7 @@ class MessageTest extends TestCase
         $this->message->addTo('test@example.com');
         $to      = $this->message->getTo();
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
+        $this->assertInstanceOf(Headers::class, $headers);
         $this->assertTrue($headers->has('to'));
         $header  = $headers->get('to');
         $this->assertSame($header->getAddressList(), $to);
@@ -87,7 +88,7 @@ class MessageTest extends TestCase
     {
         $this->message->addFrom('test@example.com');
         $from = $this->message->getFrom();
-        $this->assertInstanceOf('Laminas\Mail\AddressList', $from);
+        $this->assertInstanceOf(AddressList::class, $from);
     }
 
     public function testFromAddressListLivesInHeaders()
@@ -95,7 +96,7 @@ class MessageTest extends TestCase
         $this->message->addFrom('test@example.com');
         $from    = $this->message->getFrom();
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
+        $this->assertInstanceOf(Headers::class, $headers);
         $this->assertTrue($headers->has('from'));
         $header  = $headers->get('from');
         $this->assertSame($header->getAddressList(), $from);
@@ -105,7 +106,7 @@ class MessageTest extends TestCase
     {
         $this->message->addCc('test@example.com');
         $cc = $this->message->getCc();
-        $this->assertInstanceOf('Laminas\Mail\AddressList', $cc);
+        $this->assertInstanceOf(AddressList::class, $cc);
     }
 
     public function testCcAddressListLivesInHeaders()
@@ -113,7 +114,7 @@ class MessageTest extends TestCase
         $this->message->addCc('test@example.com');
         $cc      = $this->message->getCc();
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
+        $this->assertInstanceOf(Headers::class, $headers);
         $this->assertTrue($headers->has('cc'));
         $header  = $headers->get('cc');
         $this->assertSame($header->getAddressList(), $cc);
@@ -123,7 +124,7 @@ class MessageTest extends TestCase
     {
         $this->message->addBcc('test@example.com');
         $bcc = $this->message->getBcc();
-        $this->assertInstanceOf('Laminas\Mail\AddressList', $bcc);
+        $this->assertInstanceOf(AddressList::class, $bcc);
     }
 
     public function testBccAddressListLivesInHeaders()
@@ -131,7 +132,7 @@ class MessageTest extends TestCase
         $this->message->addBcc('test@example.com');
         $bcc     = $this->message->getBcc();
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
+        $this->assertInstanceOf(Headers::class, $headers);
         $this->assertTrue($headers->has('bcc'));
         $header  = $headers->get('bcc');
         $this->assertSame($header->getAddressList(), $bcc);
@@ -141,7 +142,7 @@ class MessageTest extends TestCase
     {
         $this->message->addReplyTo('test@example.com');
         $replyTo = $this->message->getReplyTo();
-        $this->assertInstanceOf('Laminas\Mail\AddressList', $replyTo);
+        $this->assertInstanceOf(AddressList::class, $replyTo);
     }
 
     public function testReplyToAddressListLivesInHeaders()
@@ -149,7 +150,7 @@ class MessageTest extends TestCase
         $this->message->addReplyTo('test@example.com');
         $replyTo = $this->message->getReplyTo();
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
+        $this->assertInstanceOf(Headers::class, $headers);
         $this->assertTrue($headers->has('reply-to'));
         $header  = $headers->get('reply-to');
         $this->assertSame($header->getAddressList(), $replyTo);
@@ -171,14 +172,14 @@ class MessageTest extends TestCase
     {
         $this->message->setSender('test@example.com');
         $sender = $this->message->getSender();
-        $this->assertInstanceOf('Laminas\Mail\Address', $sender);
+        $this->assertInstanceOf(Address::class, $sender);
     }
 
     public function testCanSpecifyNameWhenSettingSender()
     {
         $this->message->setSender('test@example.com', 'Example Test');
         $sender = $this->message->getSender();
-        $this->assertInstanceOf('Laminas\Mail\Address', $sender);
+        $this->assertInstanceOf(Address::class, $sender);
         $this->assertEquals('Example Test', $sender->getName());
     }
 
@@ -488,7 +489,7 @@ class MessageTest extends TestCase
     {
         $this->message->setSubject('test subject');
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
+        $this->assertInstanceOf(Headers::class, $headers);
         $this->assertTrue($headers->has('subject'));
         $header = $headers->get('subject');
         $this->assertEquals('test subject', $header->getFieldValue());
@@ -541,7 +542,7 @@ class MessageTest extends TestCase
      */
     public function testSettingNonScalarNonMimeNonStringSerializableValueForBodyRaisesException($body)
     {
-        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->message->setBody($body);
     }
 
@@ -556,7 +557,7 @@ class MessageTest extends TestCase
 
         $this->message->setBody($body);
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
+        $this->assertInstanceOf(Headers::class, $headers);
 
         $this->assertTrue($headers->has('mime-version'));
         $header = $headers->get('mime-version');
@@ -602,7 +603,7 @@ class MessageTest extends TestCase
 
         $this->message->setBody($body);
         $headers = $this->message->getHeaders();
-        $this->assertInstanceOf('Laminas\Mail\Headers', $headers);
+        $this->assertInstanceOf(Headers::class, $headers);
 
         $this->assertTrue($headers->has('mime-version'));
         $header = $headers->get('mime-version');
@@ -766,7 +767,7 @@ class MessageTest extends TestCase
             '',
             '<html><body><iframe src="http://example.com/"></iframe></body></html> <!--',
         ];
-        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->message->{$recipientMethod}(implode(Headers::EOL, $subject));
     }
 
@@ -818,7 +819,7 @@ class MessageTest extends TestCase
         $this->message->setBody($message);
 
         $contentType = $this->message->getHeaders()->get('Content-Type');
-        $this->assertInstanceOf('Laminas\Mail\Header\ContentType', $contentType);
+        $this->assertInstanceOf(ContentType::class, $contentType);
         $this->assertContains('multipart/alternative', $contentType->getFieldValue());
         $this->assertContains($multipartContent->getMime()->boundary(), $contentType->getFieldValue());
     }
