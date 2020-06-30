@@ -76,6 +76,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#75](https://github.com/laminas/laminas-mail/pull/75) fixes how `Laminas\Mail\Header\ListParser::parse()` parses the string with quotes.
 
+- [#31](https://github.com/laminas/laminas-mail/pull/31) Properly encode `content-disposition` header.
+
 - [#88](https://github.com/laminas/laminas-mail/pull/88) fixes recognising encoding of `Subject` and `GenericHeader` headers.
 
 ## 2.10.0 - 2018-06-07
