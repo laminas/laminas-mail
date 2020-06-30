@@ -9,6 +9,7 @@
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header;
+use Laminas\Mail\Header\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -48,7 +49,7 @@ class MimeVersionTest extends TestCase
      */
     public function testFromStringRaisesExceptionOnDetectionOfCrlfInjection($header)
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mime = Header\MimeVersion::fromString($header);
     }
 
@@ -69,13 +70,13 @@ class MimeVersionTest extends TestCase
     public function testRaisesExceptionOnInvalidVersionFromSetVersion($value)
     {
         $header = new Header\MimeVersion();
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $header->setVersion($value);
     }
 
     public function testFromStringRaisesExceptionOnInvalidHeader()
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid header line for MIME-Version string');
         Header\MimeVersion::fromString('Foo: bar');
     }

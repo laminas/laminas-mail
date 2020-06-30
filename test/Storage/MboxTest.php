@@ -10,6 +10,7 @@ namespace LaminasTest\Mail\Storage;
 
 use Laminas\Config;
 use Laminas\Mail\Storage;
+use Laminas\Mail\Storage\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -74,19 +75,19 @@ class MboxTest extends TestCase
 
     public function testNoParams()
     {
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Mbox([]);
     }
 
     public function testLoadFailure()
     {
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         new Storage\Mbox(['filename' => 'ThisFileDoesNotExist']);
     }
 
     public function testLoadInvalid()
     {
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Mbox(['filename' => __FILE__]);
     }
 
@@ -207,7 +208,7 @@ class MboxTest extends TestCase
     {
         $mail = new Storage\Mbox(['filename' => $this->mboxFile]);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $mail->removeMessage(1);
     }
 
@@ -232,7 +233,7 @@ class MboxTest extends TestCase
     {
         $mail = new Storage\Mbox(['filename' => $this->mboxFile]);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         $mail->seek(INF);
     }
 

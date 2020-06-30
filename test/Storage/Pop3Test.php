@@ -11,6 +11,7 @@ namespace LaminasTest\Mail\Storage;
 use Laminas\Config;
 use Laminas\Mail\Protocol;
 use Laminas\Mail\Storage;
+use Laminas\Mail\Storage\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -105,13 +106,13 @@ class Pop3Test extends TestCase
     {
         $this->params['host'] = 'example.example';
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Pop3($this->params);
     }
 
     public function testNoParams()
     {
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Pop3([]);
     }
 
@@ -141,7 +142,7 @@ class Pop3Test extends TestCase
     {
         $this->params['port'] = getenv('TESTS_LAMINAS_MAIL_POP3_INVALID_PORT');
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Pop3($this->params);
     }
 
@@ -149,7 +150,7 @@ class Pop3Test extends TestCase
     {
         $this->params['port'] = getenv('TESTS_LAMINAS_MAIL_POP3_WRONG_PORT');
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Pop3($this->params);
     }
 
@@ -262,7 +263,7 @@ class Pop3Test extends TestCase
         $protocol = new Protocol\Pop3($this->params['host']);
         $mail = new Storage\Pop3($protocol);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         // because we did no login this has to throw an exception
         $mail->getMessage(1);
     }
@@ -272,7 +273,7 @@ class Pop3Test extends TestCase
         $mail = new Storage\Pop3($this->params);
         $mail->close();
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->getMessage(1);
     }
 
@@ -328,7 +329,7 @@ class Pop3Test extends TestCase
     {
         $mail = new Storage\Pop3($this->params);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->getNumberByUniqueId('this_is_an_invalid_id');
     }
 
@@ -337,7 +338,7 @@ class Pop3Test extends TestCase
         $protocol = new Protocol\Pop3($this->params['host']);
         $protocol->logout();
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $protocol->readResponse();
     }
 

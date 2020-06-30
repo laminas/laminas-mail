@@ -9,7 +9,7 @@
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header\ContentType;
-use Laminas\Mail\Header\Exception\InvalidArgumentException;
+use Laminas\Mail\Header\Exception;
 use Laminas\Mail\Header\HeaderInterface;
 use Laminas\Mail\Header\UnstructuredInterface;
 use PHPUnit\Framework\TestCase;
@@ -159,7 +159,7 @@ class ContentTypeTest extends TestCase
 
     public function invalidParametersProvider()
     {
-        $invalidArgumentException = InvalidArgumentException::class;
+        $invalidArgumentException = Exception\InvalidArgumentException::class;
 
         // @codingStandardsIgnoreStart
         return [
@@ -173,7 +173,7 @@ class ContentTypeTest extends TestCase
 
     public function invalidHeaderLinesProvider()
     {
-        $invalidArgumentException = InvalidArgumentException::class;
+        $invalidArgumentException = Exception\InvalidArgumentException::class;
 
         // @codingStandardsIgnoreStart
         return [
@@ -190,7 +190,7 @@ class ContentTypeTest extends TestCase
 
     public function testFromStringRaisesExceptionOnInvalidHeader()
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid header line for Content-Type string');
         ContentType::fromString('Foo: bar');
     }
@@ -211,7 +211,7 @@ class ContentTypeTest extends TestCase
     public function testSetTypeThrowsOnInvalidValue()
     {
         $header = new ContentType();
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('setType expects a value in the format "type/subtype"');
         $header->setType('invalid');
     }

@@ -30,7 +30,7 @@ class Crammd5Test extends TestCase
 
     public function testHmacMd5ReturnsExpectedHash()
     {
-        $class = new ReflectionClass('Laminas\Mail\Protocol\Smtp\Auth\Crammd5');
+        $class = new ReflectionClass(Crammd5::class);
         $method = $class->getMethod('hmacMd5');
         $method->setAccessible(true);
 

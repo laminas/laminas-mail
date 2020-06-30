@@ -9,6 +9,8 @@
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header\ContentTransferEncoding;
+use Laminas\Mail\Header\Exception;
+use Laminas\Mail\Header\HeaderInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -41,8 +43,8 @@ class ContentTransferEncodingTest extends TestCase
     public function testContentTransferEncodingFromStringCreatesValidContentTransferEncodingHeader($encoding)
     {
         $contentTransferEncodingHeader = ContentTransferEncoding::fromString('Content-Transfer-Encoding: '.$encoding);
-        $this->assertInstanceOf('Laminas\Mail\Header\HeaderInterface', $contentTransferEncodingHeader);
-        $this->assertInstanceOf('Laminas\Mail\Header\ContentTransferEncoding', $contentTransferEncodingHeader);
+        $this->assertInstanceOf(HeaderInterface::class, $contentTransferEncodingHeader);
+        $this->assertInstanceOf(ContentTransferEncoding::class, $contentTransferEncodingHeader);
     }
 
     /**
@@ -50,7 +52,7 @@ class ContentTransferEncodingTest extends TestCase
      */
     public function testContentTransferEncodingFromStringRaisesException($encoding)
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $contentTransferEncodingHeader = ContentTransferEncoding::fromString('Content-Transfer-Encoding: '.$encoding);
     }
 
@@ -105,7 +107,7 @@ class ContentTransferEncodingTest extends TestCase
      */
     public function testFromStringRaisesExceptionOnInvalidHeaderName()
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         ContentTransferEncoding::fromString('Content-Transfer-Encoding' . chr(32) . ': 8bit');
     }
 
@@ -124,7 +126,7 @@ class ContentTransferEncodingTest extends TestCase
      */
     public function testFromStringRaisesExceptionForInvalidMultilineValues($headerLine)
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         ContentTransferEncoding::fromString($headerLine);
     }
 
@@ -133,7 +135,7 @@ class ContentTransferEncodingTest extends TestCase
      */
     public function testFromStringRaisesExceptionForContinuations()
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('expects');
         ContentTransferEncoding::fromString("Content-Transfer-Encoding: 8bit\r\n 7bit");
     }
@@ -144,14 +146,14 @@ class ContentTransferEncodingTest extends TestCase
     public function testSetTransferEncodingRaisesExceptionForInvalidValues()
     {
         $header = new ContentTransferEncoding();
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('expects');
         $header->setTransferEncoding("8bit\r\n 7bit");
     }
 
     public function testFromStringRaisesExceptionOnInvalidHeader()
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid header line for Content-Transfer-Encoding string');
         ContentTransferEncoding::fromString('Foo: bar');
     }

@@ -11,8 +11,10 @@ namespace LaminasTest\Mail\Transport;
 use Laminas\Mail\Headers;
 use Laminas\Mail\Message;
 use Laminas\Mail\Protocol\Smtp as SmtpProtocol;
+use Laminas\Mail\Protocol\Smtp\Auth\Login;
 use Laminas\Mail\Protocol\SmtpPluginManager;
 use Laminas\Mail\Transport\Envelope;
+use Laminas\Mail\Transport\Exception;
 use Laminas\Mail\Transport\Smtp;
 use Laminas\Mail\Transport\SmtpOptions;
 use LaminasTest\Mail\TestAsset\SmtpProtocolSpy;
@@ -62,7 +64,7 @@ class SmtpTest extends TestCase
      */
     public function testSendMailWithoutMinimalHeaders()
     {
-        $this->expectException('Laminas\Mail\Transport\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage(
             'transport expects either a Sender or at least one From address in the Message; none provided'
         );
@@ -76,7 +78,7 @@ class SmtpTest extends TestCase
      */
     public function testSendMailWithoutRecipient()
     {
-        $this->expectException('Laminas\Mail\Transport\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('at least one recipient if the message has at least one header or body');
         $message = new Message();
         $message->setSender('ralph@example.com', 'Ralph Schindler');
@@ -208,7 +210,7 @@ class SmtpTest extends TestCase
             'password' => 'password',
             'host'     => 'localhost',
         ]);
-        $this->assertInstanceOf('Laminas\Mail\Protocol\Smtp\Auth\Login', $connection);
+        $this->assertInstanceOf(Login::class, $connection);
         $this->assertEquals('matthew', $connection->getUsername());
         $this->assertEquals('password', $connection->getPassword());
     }

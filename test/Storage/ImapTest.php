@@ -11,6 +11,7 @@ namespace LaminasTest\Mail\Storage;
 use Laminas\Config;
 use Laminas\Mail\Protocol;
 use Laminas\Mail\Storage;
+use Laminas\Mail\Storage\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -98,13 +99,13 @@ class ImapTest extends TestCase
     public function testConnectFailure()
     {
         $this->params['host'] = 'example.example';
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Imap($this->params);
     }
 
     public function testNoParams()
     {
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Imap([]);
     }
 
@@ -132,14 +133,14 @@ class ImapTest extends TestCase
     public function testInvalidService()
     {
         $this->params['port'] = getenv('TESTS_LAMINAS_MAIL_IMAP_INVALID_PORT');
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Imap($this->params);
     }
 
     public function testWrongService()
     {
         $this->params['port'] = getenv('TESTS_LAMINAS_MAIL_IMAP_WRONG_PORT');
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Imap($this->params);
     }
 
@@ -147,7 +148,7 @@ class ImapTest extends TestCase
     {
         // this also triggers ...{chars}<NL>token for coverage
         $this->params['user'] = "there is no\nnobody";
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Imap($this->params);
     }
 
@@ -162,14 +163,14 @@ class ImapTest extends TestCase
     public function testWithNotConnectedInstance()
     {
         $protocol = new Protocol\Imap();
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Imap($protocol);
     }
 
     public function testWithNotLoggedInstance()
     {
         $protocol = new Protocol\Imap($this->params['host']);
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Imap($protocol);
     }
 
@@ -177,7 +178,7 @@ class ImapTest extends TestCase
     {
         $this->params['folder'] = 'this folder does not exist on your server';
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Imap($this->params);
     }
 
@@ -287,14 +288,14 @@ class ImapTest extends TestCase
         $mail->close();
         // after closing we can't count messages
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->countMessages();
     }
 
     public function testLoadUnkownFolder()
     {
         $this->params['folder'] = 'UnknownFolder';
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Imap($this->params);
     }
 
@@ -309,7 +310,7 @@ class ImapTest extends TestCase
     public function testUnknownFolder()
     {
         $mail = new Storage\Imap($this->params);
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->selectFolder('/Unknown/Folder/');
     }
 
@@ -435,7 +436,7 @@ class ImapTest extends TestCase
     public function testWrongUniqueId()
     {
         $mail = new Storage\Imap($this->params);
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->getNumberByUniqueId('this_is_an_invalid_id');
     }
 
@@ -455,7 +456,7 @@ class ImapTest extends TestCase
     {
         $mail = new Storage\Imap($this->params);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->createFolder('subfolder/test');
     }
 
@@ -464,7 +465,7 @@ class ImapTest extends TestCase
         $mail = new Storage\Imap($this->params);
         $mail->removeFolder('subfolder/test');
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->getFolders()->subfolder->test;
     }
 
@@ -473,7 +474,7 @@ class ImapTest extends TestCase
         $mail = new Storage\Imap($this->params);
         $mail->removeFolder($mail->getFolders()->subfolder->test);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->getFolders()->subfolder->test;
     }
 
@@ -481,7 +482,7 @@ class ImapTest extends TestCase
     {
         $mail = new Storage\Imap($this->params);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->removeFolder('thisFolderDoestNotExist');
     }
 
@@ -492,7 +493,7 @@ class ImapTest extends TestCase
         $mail->renameFolder('subfolder/test', 'subfolder/test1');
         $mail->renameFolder($mail->getFolders()->subfolder->test1, 'subfolder/test');
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->renameFolder('subfolder/test', 'INBOX');
     }
 
@@ -512,7 +513,7 @@ class ImapTest extends TestCase
         $this->assertEquals($count + 1, $mail->countMessages());
         $this->assertEquals($mail->getMessage($count + 1)->subject, 'append test');
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->appendMessage('');
     }
 
@@ -532,7 +533,7 @@ class ImapTest extends TestCase
         $this->assertEquals($mail->getMessage($count + 1)->from, $message->from);
         $this->assertEquals($mail->getMessage($count + 1)->to, $message->to);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->copyMessage(1, 'justARandomFolder');
     }
 
@@ -561,7 +562,7 @@ class ImapTest extends TestCase
         $this->assertFalse($message->hasFlag(Storage::FLAG_FLAGGED));
         $this->assertTrue($message->hasFlag('myflag'));
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->setFlags(1, [Storage::FLAG_RECENT]);
     }
 
@@ -610,7 +611,7 @@ class ImapTest extends TestCase
         $protocol->login($this->params['user'], $this->params['password']);
         $protocol->logout();
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $protocol->select("foo\nbar");
     }
 
@@ -645,7 +646,7 @@ class ImapTest extends TestCase
             $this->assertInternalType('array', $v['FLAGS']);
         }
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $protocol->fetch('UID', 99);
     }
 

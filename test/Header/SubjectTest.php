@@ -9,6 +9,7 @@
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header;
+use Laminas\Mail\Header\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -75,7 +76,7 @@ class SubjectTest extends TestCase
 
     public function testFromStringRaisesExceptionOnInvalidHeader()
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid header line for Subject string');
         Header\Subject::fromString('Foo: bar');
     }
@@ -117,7 +118,7 @@ class SubjectTest extends TestCase
 
     public function invalidSubjectValuesProvider()
     {
-        $invalidArgumentException = 'Laminas\Mail\Header\Exception\InvalidArgumentException';
+        $invalidArgumentException = Exception\InvalidArgumentException::class;
         $invalidHeaderValueDetected = 'Invalid header value detected';
 
         return [

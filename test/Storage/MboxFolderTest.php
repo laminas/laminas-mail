@@ -9,6 +9,7 @@
 namespace LaminasTest\Mail\Storage;
 
 use Laminas\Config;
+use Laminas\Mail\Storage\Exception;
 use Laminas\Mail\Storage\Folder;
 use PHPUnit\Framework\TestCase;
 use RecursiveIteratorIterator;
@@ -100,20 +101,20 @@ class MboxFolderTest extends TestCase
 
     public function testNoParams()
     {
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Folder\Mbox([]);
     }
 
     public function testFilenameParam()
     {
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         // filename is not allowed in this subclass
         new Folder\Mbox(['filename' => 'foobar']);
     }
 
     public function testLoadFailure()
     {
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Folder\Mbox(['dirname' => 'This/Folder/Does/Not/Exist']);
     }
 
@@ -121,7 +122,7 @@ class MboxFolderTest extends TestCase
     {
         $this->params['folder'] = 'UnknownFolder';
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Folder\Mbox($this->params);
     }
 
@@ -140,14 +141,14 @@ class MboxFolderTest extends TestCase
     public function testChangeFolderUnselectable()
     {
         $mail = new Folder\Mbox($this->params);
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $mail->selectFolder(DIRECTORY_SEPARATOR . 'subfolder');
     }
 
     public function testUnknownFolder()
     {
         $mail = new Folder\Mbox($this->params);
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->selectFolder('/Unknown/Folder/');
     }
 
@@ -287,7 +288,7 @@ class MboxFolderTest extends TestCase
         touch($this->params['dirname'] . 'foobar');
         $mail = new Folder\Mbox($this->params);
 
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->getFolders()->foobar;
     }
 
@@ -330,7 +331,7 @@ class MboxFolderTest extends TestCase
         $mail = new Folder\Mbox($this->params);
         $root = $mail->getFolders();
         $root->foobar = new Folder('x', 'x');
-        $this->expectException('Laminas\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->getFolders('foobar');
     }
 
@@ -340,7 +341,7 @@ class MboxFolderTest extends TestCase
         $root = $mail->getFolders();
         $root->foobar = new Folder('foobar', DIRECTORY_SEPARATOR . 'foobar');
 
-        $this->expectException('Laminas\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $mail->selectFolder('foobar');
     }
 }

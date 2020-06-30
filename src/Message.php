@@ -381,9 +381,10 @@ class Message
             if (! $body instanceof Mime\Message) {
                 if (! method_exists($body, '__toString')) {
                     throw new Exception\InvalidArgumentException(sprintf(
-                        '%s expects object arguments of type Laminas\Mime\Message or implementing __toString();'
+                        '%s expects object arguments of type %s or implementing __toString();'
                         . ' object of type "%s" received',
                         __METHOD__,
+                        Mime\Message::class,
                         get_class($body)
                     ));
                 }

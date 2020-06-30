@@ -8,6 +8,7 @@
 
 namespace LaminasTest\Mail\Transport;
 
+use Laminas\Mail\Exception;
 use Laminas\Mail\Transport\FileOptions;
 use PHPUnit\Framework\TestCase;
 
@@ -17,6 +18,9 @@ use PHPUnit\Framework\TestCase;
  */
 class FileOptionsTest extends TestCase
 {
+    /** @var FileOptions  */
+    private $options;
+
     public function setUp()
     {
         $this->options = new FileOptions();
@@ -58,14 +62,14 @@ class FileOptionsTest extends TestCase
 
     public function testSetCallbackThrowsWhenNotCallable()
     {
-        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('expects a valid callback');
         $this->options->setCallback(null);
     }
 
     public function testSetPathThrowsWhenPathNotWritable()
     {
-        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('expects a valid path in which to write mail files');
         $this->options->setPath('/');
     }

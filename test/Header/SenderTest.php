@@ -11,6 +11,8 @@ namespace LaminasTest\Mail\Header;
 use Laminas\Mail\Address;
 use Laminas\Mail\Exception;
 use Laminas\Mail\Header;
+use Laminas\Mail\Header\HeaderInterface;
+use Laminas\Mail\Header\Sender;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,8 +24,8 @@ class SenderTest extends TestCase
     public function testFromStringCreatesValidReceivedHeader()
     {
         $sender = Header\Sender::fromString('Sender: <foo@bar>');
-        $this->assertInstanceOf('Laminas\Mail\Header\HeaderInterface', $sender);
-        $this->assertInstanceOf('Laminas\Mail\Header\Sender', $sender);
+        $this->assertInstanceOf(HeaderInterface::class, $sender);
+        $this->assertInstanceOf(Sender::class, $sender);
     }
 
     public function testGetFieldNameReturnsHeaderName()
@@ -91,7 +93,7 @@ class SenderTest extends TestCase
     public function testSetAddressInvalidValue($email, $name)
     {
         $header = new Header\Sender();
-        $this->expectException('Laminas\Mail\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $header->setAddress($email, $name);
     }
 
@@ -161,7 +163,7 @@ class SenderTest extends TestCase
 
     public function invalidSenderDataProvider()
     {
-        $mailInvalidArgumentException = 'Laminas\Mail\Exception\InvalidArgumentException';
+        $mailInvalidArgumentException = Exception\InvalidArgumentException::class;
 
         return [
             // Description => [sender address, sender name, exception class, exception message],
@@ -184,8 +186,8 @@ class SenderTest extends TestCase
 
     public function invalidSenderEncodedDataProvider()
     {
-        $mailInvalidArgumentException = 'Laminas\Mail\Exception\InvalidArgumentException';
-        $headerInvalidArgumentException = 'Laminas\Mail\Header\Exception\InvalidArgumentException';
+        $mailInvalidArgumentException = Exception\InvalidArgumentException::class;
+        $headerInvalidArgumentException = Header\Exception\InvalidArgumentException::class;
 
         return [
             // Description => [decoded format, exception class, exception message],
@@ -282,7 +284,7 @@ class SenderTest extends TestCase
 
     public function testFromStringRaisesExceptionOnInvalidHeader()
     {
-        $this->expectException('Laminas\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid header name for Sender string');
         Header\Sender::fromString('Foo: bar');
     }
