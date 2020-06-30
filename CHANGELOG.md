@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#31](https://github.com/laminas/laminas-mail/pull/31) adds the class `Laminas\Main\Header\ContentDisposition`, which implements `Laminas\Mail\Header\UnstructuredInterface`, and which provides propery encoding and escaping for `Content-Disposition` mail headers.
 
 ### Changed
 
@@ -22,7 +22,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#31](https://github.com/laminas/laminas-mail/pull/31) provides a fix to ensure that the `Content-Disposition` header is properly encoded.
 
 ## 2.10.2 - 2020-06-30
 
@@ -75,8 +75,6 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#82](https://github.com/laminas/laminas-mail/pull/82) fixes numerous issues in `Storage\Maildir`. This storage adapter was not working before and unit tests were disabled. 
 
 - [#75](https://github.com/laminas/laminas-mail/pull/75) fixes how `Laminas\Mail\Header\ListParser::parse()` parses the string with quotes.
-
-- [#31](https://github.com/laminas/laminas-mail/pull/31) Properly encode `content-disposition` header.
 
 - [#88](https://github.com/laminas/laminas-mail/pull/88) fixes recognising encoding of `Subject` and `GenericHeader` headers.
 
