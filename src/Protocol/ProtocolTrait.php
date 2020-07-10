@@ -13,6 +13,12 @@ namespace Laminas\Mail\Protocol;
  */
 trait ProtocolTrait
 {
+    /**
+     * If set to true, do not validate the SSL certificate
+     * @var null|bool
+     */
+    protected $novalidatecert;
+
     public function getCryptoMethod()
     {
         // Allow the best TLS version(s) we can
@@ -26,5 +32,28 @@ trait ProtocolTrait
         }
 
         return $cryptoMethod;
+    }
+
+    /**
+     * Do not validate SSL certificate
+     *
+     * @param bool $novalidatecert Set to true to disable certificate validation
+     *
+     * @return Imap
+     */
+    public function setNoValidateCert(bool $novalidatecert)
+    {
+        $this->novalidatecert = $novalidatecert;
+        return $this;
+    }
+
+    /**
+     * Should we validate SSL certificate?
+     *
+     * @return bool
+     */
+    public function validateCert()
+    {
+        return !$this->novalidatecert;
     }
 }

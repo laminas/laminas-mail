@@ -26,12 +26,6 @@ class Pop3
     public $hasTop = null;
 
     /**
-     * If set to true, do not validate the SSL certificate
-     * @var null|bool
-     */
-    protected $novalidatecert;
-
-    /**
      * socket to pop3
      * @var null|resource
      */
@@ -46,14 +40,14 @@ class Pop3
     /**
      * Public constructor
      *
-     * @param  string      $host            hostname or IP address of POP3 server, if given connect() is called
-     * @param  int|null    $port            port of POP3 server, null for default (110 or 995 for ssl)
-     * @param  bool|string $ssl             use ssl? 'SSL', 'TLS' or false
-     * @param  bool        $novalidatecert  set to true to skip SSL certificate validation
+     * @param  string      $host           hostname or IP address of POP3 server, if given connect() is called
+     * @param  int|null    $port           port of POP3 server, null for default (110 or 995 for ssl)
+     * @param  bool|string $ssl            use ssl? 'SSL', 'TLS' or false
+     * @param  bool        $novalidatecert set to true to skip SSL certificate validation
      */
     public function __construct($host = '', $port = null, $ssl = false, $novalidatecert = false)
     {
-        $this->novalidatecert = $novalidatecert;
+        $this->setNoValidateCert($novalidatecert);
 
         if ($host) {
             $this->connect($host, $port, $ssl);
@@ -66,14 +60,6 @@ class Pop3
     public function __destruct()
     {
         $this->logout();
-    }
-
-    public function setNoValidateCert($novalidatecert)
-    {
-
-        if (is_bool($novalidatecert)) {
-            $this->novalidatecert = $novalidatecert;
-        }
     }
 
     /**
@@ -111,7 +97,7 @@ class Pop3
 
         $socket_options = [];
 
-        if ($this->novalidatecert) {
+        if (!$this->validateCert()) {
             $socket_options = [
                 'ssl' => [
                     'verify_peer_name' => false,
