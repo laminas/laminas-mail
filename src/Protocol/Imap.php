@@ -20,12 +20,6 @@ class Imap
     const TIMEOUT_CONNECTION = 30;
 
     /**
-     * If set to true, do not validate the SSL certificate
-     * @var null|bool
-     */
-    protected $novalidatecert;
-
-    /**
      * socket to imap server
      * @var resource|null
      */
@@ -40,15 +34,15 @@ class Imap
     /**
      * Public constructor
      *
-     * @param  string   $host            hostname or IP address of IMAP server, if given connect() is called
-     * @param  int|null $port            port of IMAP server, null for default (143 or 993 for ssl)
-     * @param  bool     $ssl             use ssl? 'SSL', 'TLS' or false
-     * @param  bool     $novalidatecert  set to true to skip SSL certificate validation
+     * @param  string   $host           hostname or IP address of IMAP server, if given connect() is called
+     * @param  int|null $port           port of IMAP server, null for default (143 or 993 for ssl)
+     * @param  bool     $ssl            use ssl? 'SSL', 'TLS' or false
+     * @param  bool     $novalidatecert set to true to skip SSL certificate validation
      * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
      */
     public function __construct($host = '', $port = null, $ssl = false, $novalidatecert = false)
     {
-        $this->novalidatecert = $novalidatecert;
+        $this->setNoValidateCert($novalidatecert);
 
         if ($host) {
             $this->connect($host, $port, $ssl);
@@ -61,14 +55,6 @@ class Imap
     public function __destruct()
     {
         $this->logout();
-    }
-
-    public function setNoValidateCert($novalidatecert)
-    {
-
-        if (is_bool($novalidatecert)) {
-            $this->novalidatecert = $novalidatecert;
-        }
     }
 
     /**
@@ -106,7 +92,7 @@ class Imap
 
         $socket_options = [];
 
-        if ($this->novalidatecert) {
+        if (!$this->validateCert()) {
             $socket_options = [
                 'ssl' => [
                     'verify_peer_name' => false,
