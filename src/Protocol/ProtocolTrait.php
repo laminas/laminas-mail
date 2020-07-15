@@ -14,12 +14,6 @@ namespace Laminas\Mail\Protocol;
 trait ProtocolTrait
 {
     /**
-     * socket to mail server
-     * @var resource|null
-     */
-    protected $socket;
-
-    /**
      * If set to true, do not validate the SSL certificate
      * @var null|bool
      */
