@@ -20,12 +20,6 @@ class Imap
     const TIMEOUT_CONNECTION = 30;
 
     /**
-     * socket to imap server
-     * @var resource|null
-     */
-    protected $socket;
-
-    /**
      * counter for request tag
      * @var int
      */
@@ -90,36 +84,7 @@ class Imap
                 }
         }
 
-        $socket_options = [];
-
-        if (!$this->validateCert()) {
-            $socket_options = [
-                'ssl' => [
-                    'verify_peer_name' => false,
-                    'verify_peer'      => false,
-                ]
-            ];
-        }
-
-        $socket_context = stream_context_create($socket_options);
-
-        ErrorHandler::start();
-        $this->socket = stream_socket_client(
-            $host . ":" . $port,
-            $errno,
-            $errstr,
-            self::TIMEOUT_CONNECTION,
-            STREAM_CLIENT_CONNECT,
-            $socket_context
-        );
-
-        $error = ErrorHandler::stop();
-        if (! $this->socket) {
-            throw new Exception\RuntimeException(sprintf(
-                'cannot connect to host %s',
-                ($error ? sprintf('; error = %s (errno = %d )', $error->getMessage(), $error->getCode()) : '')
-            ), 0, $error);
-        }
+        $this->setSocket($host, $port);
 
         if (! $this->assumedNextLine('* OK')) {
             throw new Exception\RuntimeException('host doesn\'t allow connection');
