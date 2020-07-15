@@ -26,12 +26,6 @@ class Pop3
     public $hasTop = null;
 
     /**
-     * socket to pop3
-     * @var null|resource
-     */
-    protected $socket;
-
-    /**
      * greeting timestamp for apop
      * @var null|string
      */
@@ -95,36 +89,7 @@ class Pop3
                 }
         }
 
-        $socket_options = [];
-
-        if (!$this->validateCert()) {
-            $socket_options = [
-                'ssl' => [
-                    'verify_peer_name' => false,
-                    'verify_peer'      => false,
-                ]
-            ];
-        }
-
-        $socket_context = stream_context_create($socket_options);
-
-        ErrorHandler::start();
-        $this->socket = stream_socket_client(
-            $host . ":" . $port,
-            $errno,
-            $errstr,
-            self::TIMEOUT_CONNECTION,
-            STREAM_CLIENT_CONNECT,
-            $socket_context
-        );
-
-        $error = ErrorHandler::stop();
-        if (! $this->socket) {
-            throw new Exception\RuntimeException(sprintf(
-                'cannot connect to host %s',
-                ($error ? sprintf('; error = %s (errno = %d )', $error->getMessage(), $error->getCode()) : '')
-            ), 0, $error);
-        }
+        $this->setSocket($host, $port);
 
         $welcome = $this->readResponse();
 
