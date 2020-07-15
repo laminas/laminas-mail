@@ -14,6 +14,12 @@ namespace Laminas\Mail\Protocol;
 trait ProtocolTrait
 {
     /**
+     * socket to mail server
+     * @var resource|null
+     */
+    protected $socket;
+
+    /**
      * If set to true, do not validate the SSL certificate
      * @var null|bool
      */
@@ -39,7 +45,7 @@ trait ProtocolTrait
      *
      * @param bool $novalidatecert Set to true to disable certificate validation
      *
-     * @return Imap
+     * @return Imap|Pop3
      */
     public function setNoValidateCert(bool $novalidatecert)
     {
@@ -55,5 +61,47 @@ trait ProtocolTrait
     public function validateCert()
     {
         return !$this->novalidatecert;
+    }
+
+    /**
+     * Setup connection socket
+     *
+     * @param  string   $host hostname or IP address of IMAP server
+     * @param  int|null $port of IMAP server, default is 143 (993 for ssl)
+     *
+     * @return void
+     */
+    protected function setSocket($host, $port)
+    {
+        $socketOptions = [];
+
+        if (!$this->validateCert()) {
+            $socketOptions = [
+                'ssl' => [
+                    'verify_peer_name' => false,
+                    'verify_peer'      => false,
+                ]
+            ];
+        }
+
+        $socketContext = stream_context_create($socketOptions);
+
+        ErrorHandler::start();
+        $this->socket = stream_socket_client(
+            $host . ":" . $port,
+            $errno,
+            $errstr,
+            self::TIMEOUT_CONNECTION,
+            STREAM_CLIENT_CONNECT,
+            $socketContext
+        );
+
+        $error = ErrorHandler::stop();
+        if (! $this->socket) {
+            throw new Exception\RuntimeException(sprintf(
+                'cannot connect to host %s',
+                ($error ? sprintf('; error = %s (errno = %d )', $error->getMessage(), $error->getCode()) : '')
+            ), 0, $error);
+        }
     }
 }
