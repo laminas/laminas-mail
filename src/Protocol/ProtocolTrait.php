@@ -64,6 +64,22 @@ trait ProtocolTrait
     }
 
     /**
+     * Prepare socket options
+     *
+     * @return array
+     */
+    protected function prepareSocketOptions()
+    {
+        return $this->novalidatecert
+            ? [
+                'ssl' => [
+                    'verify_peer_name' => false,
+                    'verify_peer'      => false,
+                ]
+            ] : [];
+    }
+
+    /**
      * Setup connection socket
      *
      * @param  string   $host hostname or IP address of IMAP server
@@ -75,17 +91,6 @@ trait ProtocolTrait
     {
         $socketOptions = [];
 
-        if (!$this->validateCert()) {
-            $socketOptions = [
-                'ssl' => [
-                    'verify_peer_name' => false,
-                    'verify_peer'      => false,
-                ]
-            ];
-        }
-
-        $socketContext = stream_context_create($socketOptions);
-
         ErrorHandler::start();
         $this->socket = stream_socket_client(
             $host . ":" . $port,
@@ -93,7 +98,7 @@ trait ProtocolTrait
             $errstr,
             self::TIMEOUT_CONNECTION,
             STREAM_CLIENT_CONNECT,
-            $socketContext
+            stream_context_create($this->prepareSocketOptions())
         );
 
         $error = ErrorHandler::stop();
