@@ -54,7 +54,7 @@ trait ProtocolTrait
      */
     public function validateCert()
     {
-        return !$this->novalidatecert;
+        return ! $this->novalidatecert;
     }
 
     /**
