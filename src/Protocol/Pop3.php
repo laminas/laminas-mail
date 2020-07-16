@@ -89,7 +89,7 @@ class Pop3
                 }
         }
 
-        $this->setSocket($host, $port);
+        $this->setupSocket($host, $port);
 
         $welcome = $this->readResponse();
 
