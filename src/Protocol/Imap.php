@@ -84,7 +84,7 @@ class Imap
                 }
         }
 
-        $this->setSocket($host, $port);
+        $this->setupSocket($host, $port);
 
         if (! $this->assumedNextLine('* OK')) {
             throw new Exception\RuntimeException('host doesn\'t allow connection');
