@@ -62,7 +62,7 @@ trait ProtocolTrait
      *
      * @return array
      */
-    protected function prepareSocketOptions()
+    private function prepareSocketOptions()
     {
         return $this->novalidatecert
             ? [
