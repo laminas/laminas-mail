@@ -81,10 +81,8 @@ trait ProtocolTrait
      *
      * @return void
      */
-    protected function setSocket($host, $port)
+    protected function setupSocket($host, $port)
     {
-        $socketOptions = [];
-
         ErrorHandler::start();
         $this->socket = stream_socket_client(
             $host . ":" . $port,
