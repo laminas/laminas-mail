@@ -94,8 +94,8 @@ trait ProtocolTrait
             STREAM_CLIENT_CONNECT,
             stream_context_create($this->prepareSocketOptions())
         );
-
         $error = ErrorHandler::stop();
+
         if (! $this->socket) {
             throw new Exception\RuntimeException(sprintf(
                 'cannot connect to host %s',
