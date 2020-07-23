@@ -117,10 +117,7 @@ class HeadersTest extends TestCase
     public function testHeadersFromStringMultiHeaderWillAggregateLazyLoadedHeaders()
     {
         $headers = new Mail\Headers();
-        /* @var $pcl \Laminas\Loader\PluginClassLoader */
-        $pcl = $headers->getPluginClassLoader();
-        $pcl->registerPlugin('foo', GenericMultiHeader::class);
-        $headers->addHeaderLine('foo: bar1,bar2,bar3');
+        $headers->addHeaderLine('foo', ['bar1@domain.com', 'bar2@domain.com', 'bar3@domain.com']);
         $headers->forceLoading();
         $this->assertEquals(3, $headers->count());
     }
@@ -407,40 +404,6 @@ class HeadersTest extends TestCase
             'Subject' => '=?UTF-8?Q?PD:=20My:=20Go=C5=82blahblah?=',
         ];
         $this->assertEquals($expected, $array);
-    }
-
-    public static function expectedHeaders()
-    {
-        return [
-            ['bcc', Header\Bcc::class],
-            ['cc', Header\Cc::class],
-            ['contenttype', Header\ContentType::class],
-            ['content_type', Header\ContentType::class],
-            ['content-type', Header\ContentType::class],
-            ['date', Header\Date::class],
-            ['from', Header\From::class],
-            ['mimeversion', Header\MimeVersion::class],
-            ['mime_version', Header\MimeVersion::class],
-            ['mime-version', Header\MimeVersion::class],
-            ['received', Header\Received::class],
-            ['replyto', Header\ReplyTo::class],
-            ['reply_to', Header\ReplyTo::class],
-            ['reply-to', Header\ReplyTo::class],
-            ['sender', Header\Sender::class],
-            ['subject', Header\Subject::class],
-            ['to', Header\To::class],
-        ];
-    }
-
-    /**
-     * @dataProvider expectedHeaders
-     */
-    public function testDefaultPluginLoaderIsSeededWithHeaders($plugin, $class)
-    {
-        $headers = new Mail\Headers();
-        $loader  = $headers->getPluginClassLoader();
-        $test    = $loader->load($plugin);
-        $this->assertEquals($class, $test);
     }
 
     public function testClone()
