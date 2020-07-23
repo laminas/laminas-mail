@@ -846,7 +846,7 @@ class MessageTest extends TestCase
         $this->assertTrue($headers->has('Auto-Submitted'));
 
         $contentType = $headers->get('Content-Type');
-        $this->assertEquals('multipart/report', $contentType->getType());
+        $this->assertContains('multipart/report', $contentType->getFieldValue());
     }
 
     public function testMailHeaderContainsZeroValue()
