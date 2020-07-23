@@ -14,9 +14,9 @@ namespace Laminas\Mail\Header;
 class HeaderLoader
 {
     /**
-     * @var array Pre-aliased Header plugins
+     * @var array Pre-aliased Header classes
      */
-    protected $plugins = [
+    protected $headerClassMap = [
         'bcc'                       => Bcc::class,
         'cc'                        => Cc::class,
         'contentdisposition'        => ContentDisposition::class,
