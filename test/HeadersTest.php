@@ -106,14 +106,6 @@ class HeadersTest extends TestCase
         $this->assertEquals('boo-baz', $header->getFieldValue());
     }
 
-    public function testPluginClassLoaderAccessors()
-    {
-        $headers = new Mail\Headers();
-        $pcl = new Header\HeaderLoader();
-        $headers->setPluginClassLoader($pcl);
-        $this->assertSame($pcl, $headers->getPluginClassLoader());
-    }
-
     public function testHeadersFromStringMultiHeaderWillAggregateLazyLoadedHeaders()
     {
         $headers = new Mail\Headers();
