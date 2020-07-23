@@ -11,7 +11,6 @@ namespace Laminas\Mail;
 use ArrayIterator;
 use Countable;
 use Iterator;
-use Laminas\Loader\PluginClassLocator;
 use Laminas\Mail\Header\GenericHeader;
 use Laminas\Mail\Header\HeaderInterface;
 use Traversable;
@@ -30,9 +29,9 @@ class Headers implements Countable, Iterator
     const FOLDING = "\r\n ";
 
     /**
-     * @var \Laminas\Loader\PluginClassLoader
+     * @var Header\HeaderLoader
      */
-    protected $pluginClassLoader = null;
+    protected $headerLoader = null;
 
     /**
      * @var array key names for $headers array
@@ -116,31 +115,6 @@ class Headers implements Countable, Iterator
             $headers->addHeaderLine($currentLine);
         }
         return $headers;
-    }
-
-    /**
-     * Set an alternate implementation for the PluginClassLoader
-     *
-     * @param  PluginClassLocator $pluginClassLoader
-     * @return Headers
-     */
-    public function setPluginClassLoader(PluginClassLocator $pluginClassLoader)
-    {
-        $this->pluginClassLoader = $pluginClassLoader;
-        return $this;
-    }
-
-    /**
-     * Return an instance of a PluginClassLocator, lazyload and inject map if necessary
-     *
-     * @return PluginClassLocator
-     */
-    public function getPluginClassLoader()
-    {
-        if ($this->pluginClassLoader === null) {
-            $this->pluginClassLoader = new Header\HeaderLoader();
-        }
-        return $this->pluginClassLoader;
     }
 
     /**
@@ -481,7 +455,7 @@ class Headers implements Countable, Iterator
         list($name, ) = Header\GenericHeader::splitHeaderLine($headerLine);
 
         /** @var HeaderInterface $class */
-        $class = $this->getPluginClassLoader()->load($name) ?: Header\GenericHeader::class;
+        $class = $this->resolveHeaderClass($name);
         return $class::fromString($headerLine);
     }
 
@@ -496,7 +470,7 @@ class Headers implements Countable, Iterator
         $key   = $this->headersKeys[$index];
 
         /** @var GenericHeader $class */
-        $class = ($this->getPluginClassLoader()->load($key)) ?: Header\GenericHeader::class;
+        $class = $this->resolveHeaderClass($key);
 
         $encoding = $current->getEncoding();
         $headers  = $class::fromString($current->toString());
@@ -527,5 +501,18 @@ class Headers implements Countable, Iterator
     protected function normalizeFieldName($fieldName)
     {
         return str_replace(['-', '_', ' ', '.'], '', strtolower($fieldName));
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    private function resolveHeaderClass($key)
+    {
+        if ($this->headerLoader === null) {
+            $this->headerLoader = new Header\HeaderLoader();
+        }
+
+        return $this->headerLoader->get($key, Header\GenericHeader::class);
     }
 }
