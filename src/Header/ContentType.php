@@ -155,7 +155,7 @@ class ContentType implements UnstructuredInterface
             );
         }
 
-        $this->parameters[$name] = $value;
+        $this->parameters[trim($name)] = $value;
         return $this;
     }
 
