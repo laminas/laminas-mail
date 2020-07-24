@@ -77,10 +77,6 @@ class FactoryTest extends TestCase
             [Smtp::class],
         ];
 
-        if (version_compare(PHP_VERSION, '7.0', '<')) {
-            $types[] = [NullTransport::class];
-        }
-
         return $types;
     }
 
@@ -102,15 +98,12 @@ class FactoryTest extends TestCase
     {
         return [
             ['file', File::class],
-            ['null', InMemory::class],
             ['memory', InMemory::class],
             ['inmemory', InMemory::class],
             ['InMemory', InMemory::class],
             ['sendmail', Sendmail::class],
             ['smtp', Smtp::class],
             ['File', File::class],
-            ['Null', InMemory::class],
-            ['NULL', InMemory::class],
             ['Sendmail', Sendmail::class],
             ['SendMail', Sendmail::class],
             ['Smtp', Smtp::class],
@@ -124,7 +117,7 @@ class FactoryTest extends TestCase
     public function testCanUseTraversableAsSpec()
     {
         $spec = new ArrayObject([
-            'type' => 'null'
+            'type' => 'inMemory'
         ]);
 
         $transport = Factory::create($spec);
