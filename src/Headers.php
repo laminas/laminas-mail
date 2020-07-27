@@ -31,7 +31,7 @@ class Headers implements Countable, Iterator
     /**
      * @var Header\HeaderLoader
      */
-    protected $headerLoader = null;
+    protected $pluginClassLoader = null;
 
     /**
      * @var array key names for $headers array
@@ -115,6 +115,47 @@ class Headers implements Countable, Iterator
             $headers->addHeaderLine($currentLine);
         }
         return $headers;
+    }
+
+    /**
+     * Set an alternate implementation for the PluginClassLoader
+     *
+     * @param  Header\HeaderLoader|\Laminas\Loader\PluginClassLocator $pluginClassLoader
+     * @return Headers
+     */
+    public function setPluginClassLoader($pluginClassLoader)
+    {
+        if ($pluginClassLoader instanceof \Laminas\Loader\PluginClassLocator) {
+            trigger_error(
+                sprintf(
+                    'The class %s has been deprecated; please use %s',
+                    __CLASS__,
+                    Header\HeaderLoader::class
+                ),
+                E_USER_DEPRECATED
+            );
+        }
+
+        $this->pluginClassLoader = $pluginClassLoader;
+        return $this;
+    }
+
+    /**
+     * Return an instance of a Header\HeaderLoader or \Laminas\Loader\PluginClassLocator, lazyload and inject map if necessary
+     *
+     * @return Header\HeaderLoader|\Laminas\Loader\PluginClassLocator
+     */
+    public function getPluginClassLoader()
+    {
+        trigger_error(
+            'The method has been deprecated; please use ::resolveHeaderClass',
+            E_USER_DEPRECATED
+        );
+
+        if ($this->pluginClassLoader === null) {
+            $this->pluginClassLoader = new Header\HeaderLoader();
+        }
+        return $this->pluginClassLoader;
     }
 
     /**
@@ -509,10 +550,10 @@ class Headers implements Countable, Iterator
      */
     private function resolveHeaderClass($key)
     {
-        if ($this->headerLoader === null) {
-            $this->headerLoader = new Header\HeaderLoader();
+        if ($this->pluginClassLoader === null) {
+            $this->pluginClassLoader = new Header\HeaderLoader();
         }
 
-        return $this->headerLoader->get($key, Header\GenericHeader::class);
+        return $this->pluginClassLoader->get($key, Header\GenericHeader::class);
     }
 }
