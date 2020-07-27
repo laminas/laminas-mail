@@ -14,9 +14,9 @@ namespace Laminas\Mail\Header;
 class HeaderLoader
 {
     /**
-     * @var array Pre-aliased Header classes
+     * @var array Pre-aliased Header plugins
      */
-    protected $headerClassMap = [
+    protected $plugins = [
         'bcc'                       => Bcc::class,
         'cc'                        => Cc::class,
         'contentdisposition'        => ContentDisposition::class,
@@ -53,7 +53,7 @@ class HeaderLoader
     public function get($name, $default = null)
     {
         $name = $this->normalizeName($name);
-        return isset($this->headerClassMap[$name]) ? $this->headerClassMap[$name] : $default;
+        return isset($this->plugins[$name]) ? $this->plugins[$name] : $default;
     }
 
     /**
@@ -62,17 +62,17 @@ class HeaderLoader
      */
     public function has($name)
     {
-        return isset($this->headerClassMap[$this->normalizeName($name)]);
+        return isset($this->plugins[$this->normalizeName($name)]);
     }
 
     public function add($name, $class)
     {
-        $this->headerClassMap[$this->normalizeName($name)] = $class;
+        $this->plugins[$this->normalizeName($name)] = $class;
     }
 
     public function remove($name)
     {
-        unset($this->headerClassMap[$this->normalizeName($name)]);
+        unset($this->plugins[$this->normalizeName($name)]);
     }
 
     private function normalizeName($name)
