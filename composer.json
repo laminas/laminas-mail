@@ -54,6 +54,9 @@
         }
     },
     "autoload-dev": {
+        "files": [
+            "test/TestAsset/PluginClassLocator.php"
+        ],
         "psr-4": {
             "LaminasTest\\Mail\\": "test/"
         }
