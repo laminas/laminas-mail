@@ -22,7 +22,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#97](https://github.com/laminas/laminas-mail/pull/97) adds code to `Header\ContentType::addParameter()` to ensure the value is trimmed of whitespace, fixing issues whereby filenames might contain a leading or trailing space.
 
 ## 2.11.0 - 2020-06-30
 
