@@ -26,9 +26,9 @@ class HeaderLoaderTest extends TestCase
     public function provideHeaderNames()
     {
         return [
-            'with existing name' => ['to', Header\To::class],
+            'with existing name'     => ['to', Header\To::class],
             'with non-existent name' => ['foo', null],
-            'with default value' => ['foo', Header\GenericHeader::class, Header\GenericHeader::class],
+            'with default value'     => ['foo', Header\GenericHeader::class, Header\GenericHeader::class],
         ];
     }
 
@@ -70,30 +70,30 @@ class HeaderLoaderTest extends TestCase
     public static function expectedHeaders()
     {
         return [
-            ['bcc', Header\Bcc::class],
-            ['cc', Header\Cc::class],
-            ['contenttype', Header\ContentType::class],
-            ['content_type', Header\ContentType::class],
-            ['content-type', Header\ContentType::class],
-            ['date', Header\Date::class],
-            ['from', Header\From::class],
-            ['mimeversion', Header\MimeVersion::class],
-            ['mime_version', Header\MimeVersion::class],
-            ['mime-version', Header\MimeVersion::class],
-            ['received', Header\Received::class],
-            ['replyto', Header\ReplyTo::class],
-            ['reply_to', Header\ReplyTo::class],
-            ['reply-to', Header\ReplyTo::class],
-            ['sender', Header\Sender::class],
-            ['subject', Header\Subject::class],
-            ['to', Header\To::class],
+            'bcc'          => ['bcc', Header\Bcc::class],
+            'cc'           => ['cc', Header\Cc::class],
+            'contenttype'  => ['contenttype', Header\ContentType::class],
+            'content_type' => ['content_type', Header\ContentType::class],
+            'content-type' => ['content-type', Header\ContentType::class],
+            'date'         => ['date', Header\Date::class],
+            'from'         => ['from', Header\From::class],
+            'mimeversion'  => ['mimeversion', Header\MimeVersion::class],
+            'mime_version' => ['mime_version', Header\MimeVersion::class],
+            'mime-version' => ['mime-version', Header\MimeVersion::class],
+            'received'     => ['received', Header\Received::class],
+            'replyto'      => ['replyto', Header\ReplyTo::class],
+            'reply_to'     => ['reply_to', Header\ReplyTo::class],
+            'reply-to'     => ['reply-to', Header\ReplyTo::class],
+            'sender'       => ['sender', Header\Sender::class],
+            'subject'      => ['subject', Header\Subject::class],
+            'to'           => ['to', Header\To::class],
         ];
     }
 
     /**
      * @dataProvider expectedHeaders
-     * @param $name
-     * @param $class
+     * @param string $name
+     * @param Header\HeaderInterface $class
      */
     public function testDefaultHeadersMapResolvesProperHeader($name, $class)
     {

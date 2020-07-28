@@ -8,12 +8,13 @@
 
 namespace LaminasTest\Mail;
 
+use Laminas\Loader\PluginClassLocator;
 use Laminas\Mail;
 use Laminas\Mail\Header;
 use Laminas\Mail\Header\Exception;
 use Laminas\Mail\Header\GenericHeader;
 use Laminas\Mail\Header\GenericMultiHeader;
-use Laminas\Mail\Header\To;
+use PHPUnit\Framework\Error\Deprecated;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -109,7 +110,9 @@ class HeadersTest extends TestCase
     public function testHeadersFromStringMultiHeaderWillAggregateLazyLoadedHeaders()
     {
         $headers = new Mail\Headers();
-        $headers->addHeaderLine('foo', ['bar1@domain.com', 'bar2@domain.com', 'bar3@domain.com']);
+        $loader  = $headers->getHeaderLoader();
+        $loader->add('foo', GenericMultiHeader::class);
+        $headers->addHeaderLine('foo: bar1,bar2,bar3');
         $headers->forceLoading();
         $this->assertEquals(3, $headers->count());
     }
@@ -557,5 +560,76 @@ class HeadersTest extends TestCase
         $headers->addHeader($subject);
         // now UTF-8 via addHeader() call
         $this->assertSame('UTF-8', $subject->getEncoding());
+    }
+
+    /**
+     * @todo Remove for 3.0.0
+     */
+    public function testGetPluginClassLoaderEmitsDeprecationNotice()
+    {
+        if (! class_exists(Deprecated::class)) {
+            $this->markTestSkipped('Requires a PHPUnit version that contains Error exceptions');
+        }
+
+        $headers = new Mail\Headers();
+
+        $this->expectException(Deprecated::class);
+        $this->expectExceptionMessage('getPluginClassLoader has been deprecated');
+        $headers->getPluginClassLoader();
+    }
+
+    /**
+     * @todo Remove for 3.0.0
+     */
+    public function testSetPluginClassLoaderEmitsDeprecationNoticeWhenPluginClassLocatorUsed()
+    {
+        if (! class_exists(Deprecated::class)) {
+            $this->markTestSkipped('Requires a PHPUnit version that contains Error exceptions');
+        }
+
+        $headers = new Mail\Headers();
+        $loader  = $this->prophesize(PluginClassLocator::class)->reveal();
+
+        $this->expectException(Deprecated::class);
+        $this->expectExceptionMessage('deprecated');
+        $headers->setPluginClassLoader($loader);
+    }
+
+    /**
+     * @todo Remove for 3.0.0
+     */
+    public function testGetPluginClassLoaderReturnsHeaderLoaderInstanceByDefault()
+    {
+        $headers = new Mail\Headers();
+        $loader  = @$headers->getPluginClassLoader();
+        $this->assertInstanceOf(Mail\Header\HeaderLoader::class, $loader);
+    }
+
+    /**
+     * @todo Remove for 3.0.0
+     */
+    public function testSetPluginClassLoaderAcceptsHeaderLoaderInstance()
+    {
+        $headers = new Mail\Headers();
+        $loader  = new Mail\Header\HeaderLoader();
+
+        @$headers->setPluginClassLoader($loader);
+        $this->assertSame($loader, $headers->getHeaderLoader());
+    }
+
+    public function testGetHeaderLoaderReturnsHeaderLoaderInstanceByDefault()
+    {
+        $headers = new Mail\Headers();
+        $loader  = $headers->getHeaderLoader();
+        $this->assertInstanceOf(Mail\Header\HeaderLoader::class, $loader);
+    }
+
+    public function testCanInjectAlternateHeaderLoaderInstance()
+    {
+        $headers = new Mail\Headers();
+        $loader  = new Mail\Header\HeaderLoader();
+
+        $headers->setHeaderLoader($loader);
+        $this->assertSame($loader, $headers->getHeaderLoader());
     }
 }
