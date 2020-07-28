@@ -8,6 +8,8 @@
 
 namespace Laminas\Mail\Protocol;
 
+use Laminas\Stdlib\ErrorHandler;
+
 /**
  * https://bugs.php.net/bug.php?id=69195
  */
@@ -37,9 +39,8 @@ trait ProtocolTrait
     /**
      * Do not validate SSL certificate
      *
-     * @param bool $novalidatecert Set to true to disable certificate validation
-     *
-     * @return Imap|Pop3
+     * @param  bool $novalidatecert Set to true to disable certificate validation
+     * @return self
      */
     public function setNoValidateCert(bool $novalidatecert)
     {
@@ -70,7 +71,8 @@ trait ProtocolTrait
                     'verify_peer_name' => false,
                     'verify_peer'      => false,
                 ]
-            ] : [];
+            ]
+            : [];
     }
 
     /**
@@ -78,17 +80,18 @@ trait ProtocolTrait
      *
      * @param  string   $host hostname or IP address of IMAP server
      * @param  int|null $port of IMAP server, default is 143 (993 for ssl)
-     *
+     * @param  int      $timeout timeout in seconds for initiating session
      * @return void
+     * @throws Exception\RuntimeException If unable to connect to host.
      */
-    protected function setupSocket($host, $port)
+    protected function setupSocket($host, $port, $timeout)
     {
         ErrorHandler::start();
         $this->socket = stream_socket_client(
             $host . ":" . $port,
             $errno,
             $errstr,
-            self::TIMEOUT_CONNECTION,
+            $timeout,
             STREAM_CLIENT_CONNECT,
             stream_context_create($this->prepareSocketOptions())
         );
