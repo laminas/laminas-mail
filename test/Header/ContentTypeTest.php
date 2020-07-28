@@ -222,6 +222,12 @@ class ContentTypeTest extends TestCase
         $this->assertSame('top', $header->getParameter('level'));
     }
 
+    public function testGetParameterWithSpaceTrimmed()
+    {
+        $header = ContentType::fromString('content-type: text/plain; level=top; name="logfile.log";');
+        $this->assertSame('logfile.log', $header->getParameter('name'));
+    }
+
     public function testGetParameterNotExists()
     {
         $header = ContentType::fromString('content-type: text/plain');
