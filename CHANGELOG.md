@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#94](https://github.com/laminas/laminas-mail/pull/94) adds the "novalidatecert" option for POP3 and IMAP connections. When toggled true, you can connect to servers using self-signed certificates.
 
 ### Changed
 
