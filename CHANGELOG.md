@@ -6,15 +6,17 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
+- [#95](https://github.com/laminas/laminas-mail/pull/95) adds the methods `setHeaderLoader(Header\HeaderLoader $loader)` and `getHeaderLoader()` to the `Headers` implementation. Users are encouraged to use these if they need access to the header class lazy-loader.
+
 - [#94](https://github.com/laminas/laminas-mail/pull/94) adds the "novalidatecert" option for POP3 and IMAP connections. When toggled true, you can connect to servers using self-signed certificates.
 
 ### Changed
 
-- Nothing.
+- [#95](https://github.com/laminas/laminas-mail/pull/95) modifies `Laminas\Header\HeaderLoader` to no longer extend `Laminas\Loader\PluginClassLoader`.
 
 ### Deprecated
 
-- Nothing.
+- [#95](https://github.com/laminas/laminas-mail/pull/95) deprecates the `Headers::getPluginClassLoader()` and `Headers::setPluginClassLoader()` methods, in favor of the new `setHeaderLoader()` and `getHeaderLoader()` methods. These methods will be removed in version 3.0.0, and laminas-loader `PluginClassLocator` instances will no longer be supported.
 
 ### Removed
 
