@@ -8,8 +8,6 @@
 
 namespace Laminas\Mail\Protocol;
 
-use Laminas\Stdlib\ErrorHandler;
-
 class Imap
 {
     use ProtocolTrait;
@@ -84,7 +82,7 @@ class Imap
                 }
         }
 
-        $this->setupSocket($host, $port);
+        $this->setupSocket($host, $port, self::TIMEOUT_CONNECTION);
 
         if (! $this->assumedNextLine('* OK')) {
             throw new Exception\RuntimeException('host doesn\'t allow connection');

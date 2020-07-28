@@ -89,7 +89,7 @@ class Pop3
                 }
         }
 
-        $this->setupSocket($host, $port);
+        $this->setupSocket($host, $port, self::TIMEOUT_CONNECTION);
 
         $welcome = $this->readResponse();
 
