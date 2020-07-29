@@ -6,17 +6,23 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#95](https://github.com/laminas/laminas-mail/pull/95) adds the methods `setHeaderLoader(Header\HeaderLoader $loader)` and `getHeaderLoader()` to the `Headers` implementation. Users are encouraged to use these if they need access to the header class lazy-loader.
+- [#95](https://github.com/laminas/laminas-mail/pull/95) adds a new interface, `Laminas\Mail\Header\HeaderLocatorInterface`. This defines classes that will locate header classes based on an email header name.
+
+- [#95](https://github.com/laminas/laminas-mail/pull/95) adds a new class, `Laminas\Mail\Header\HeaderLocator`, implementing `Laminas\Mail\Header\HeaderLocatorInterface`. This is the default implementation of that new interface.
+
+- [#95](https://github.com/laminas/laminas-mail/pull/95) adds the methods `setHeaderLocator(Laminas\Mail\Header\HeaderLocatorInterface $locator)` and `getHeaderLocator(): Laminas\Mail\Header\HeaderLocatorInterface` to the `Laminas\Mail\Headers` implementation. Users are encouraged to use these when providing custom header implementations in order to prepare for a 3.0 release.  **The value of `getHeaderLocator()` will now be used as the default mechanism for resolving header names to header classes.**
 
 - [#94](https://github.com/laminas/laminas-mail/pull/94) adds the "novalidatecert" option for POP3 and IMAP connections. When toggled true, you can connect to servers using self-signed certificates.
 
 ### Changed
 
-- [#95](https://github.com/laminas/laminas-mail/pull/95) modifies `Laminas\Header\HeaderLoader` to no longer extend `Laminas\Loader\PluginClassLoader`.
+- [#95](https://github.com/laminas/laminas-mail/pull/95) bumps the minimum supported PHP version to 7.1.
 
 ### Deprecated
 
-- [#95](https://github.com/laminas/laminas-mail/pull/95) deprecates the `Headers::getPluginClassLoader()` and `Headers::setPluginClassLoader()` methods, in favor of the new `setHeaderLoader()` and `getHeaderLoader()` methods. These methods will be removed in version 3.0.0, and laminas-loader `PluginClassLocator` instances will no longer be supported.
+- [#95](https://github.com/laminas/laminas-mail/pull/95) deprecates `Laminas\Mail\Header\HeaderLoader` in favor of the new `Laminas\Mail\Header\HeaderLocator` class. The class will be removed in version 3.0.0.
+
+- [#95](https://github.com/laminas/laminas-mail/pull/95) deprecates the `Headers::getPluginClassLoader()` and `Headers::setPluginClassLoader()` methods, in favor of the new `setHeaderLocator()` and `getHeaderLocator()` methods. These methods will be removed in version 3.0.0, and laminas-loader `PluginClassLocator` instances will no longer be supported. Please update your code to use the new `HeaderLocatorInterface` instead.
 
 ### Removed
 
