@@ -31,6 +31,7 @@
     "require": {
         "php": "^7.1",
         "ext-iconv": "*",
+        "laminas/laminas-loader": "^2.5",
         "laminas/laminas-mime": "^2.5",
         "laminas/laminas-stdlib": "^2.7 || ^3.0",
         "laminas/laminas-validator": "^2.10.2",
@@ -54,9 +55,6 @@
         }
     },
     "autoload-dev": {
-        "files": [
-            "test/TestAsset/PluginClassLocator.php"
-        ],
         "psr-4": {
             "LaminasTest\\Mail\\": "test/"
         }
