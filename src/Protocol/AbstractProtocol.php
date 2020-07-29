@@ -197,7 +197,7 @@ abstract class AbstractProtocol
     protected function _connect($remote)
     {
         // @codingStandardsIgnoreEnd
-        if (!preg_match('/^(?<host>.*):(?<port>\d+)$/', $remote, $matches)) {
+        if (! preg_match('/^(?<host>.*):(?<port>\d+)$/', $remote, $matches)) {
             throw new Exception\RuntimeException(sprintf('Invalid remote: %s', $remote));
         }
 
