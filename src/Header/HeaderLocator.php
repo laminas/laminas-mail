@@ -6,17 +6,19 @@
  * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types=1);
+
 namespace Laminas\Mail\Header;
 
 /**
  * Plugin Class Loader implementation for HTTP headers
  */
-class HeaderLocator
+final class HeaderLocator implements HeaderLocatorInterface
 {
     /**
      * @var array Pre-aliased Header plugins
      */
-    protected $plugins = [
+    private $plugins = [
         'bcc'                       => Bcc::class,
         'cc'                        => Cc::class,
         'contentdisposition'        => ContentDisposition::class,
@@ -45,37 +47,28 @@ class HeaderLocator
         'to'                        => To::class,
     ];
 
-    /**
-     * @param string $name
-     * @param string|null $default
-     * @return string|null
-     */
-    public function get($name, $default = null)
+    public function get(string $name, ?string $default = null): ?string
     {
         $name = $this->normalizeName($name);
         return isset($this->plugins[$name]) ? $this->plugins[$name] : $default;
     }
 
-    /**
-     * @param string $name
-     * @return bool
-     */
-    public function has($name)
+    public function has(string $name): bool
     {
         return isset($this->plugins[$this->normalizeName($name)]);
     }
 
-    public function add($name, $class)
+    public function add(string $name, string $class): void
     {
         $this->plugins[$this->normalizeName($name)] = $class;
     }
 
-    public function remove($name)
+    public function remove(string $name): void
     {
         unset($this->plugins[$this->normalizeName($name)]);
     }
 
-    private function normalizeName($name)
+    private function normalizeName(string $name): string
     {
         return strtolower($name);
     }
