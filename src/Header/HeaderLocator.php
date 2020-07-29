@@ -8,12 +8,10 @@
 
 namespace Laminas\Mail\Header;
 
-use Laminas\Loader\PluginClassLoader;
-
 /**
  * Plugin Class Loader implementation for HTTP headers
  */
-class HeaderLoader extends PluginClassLoader
+class HeaderLocator
 {
     /**
      * @var array Pre-aliased Header plugins
@@ -46,4 +44,39 @@ class HeaderLoader extends PluginClassLoader
         'subject'                   => Subject::class,
         'to'                        => To::class,
     ];
+
+    /**
+     * @param string $name
+     * @param string|null $default
+     * @return string|null
+     */
+    public function get($name, $default = null)
+    {
+        $name = $this->normalizeName($name);
+        return isset($this->plugins[$name]) ? $this->plugins[$name] : $default;
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function has($name)
+    {
+        return isset($this->plugins[$this->normalizeName($name)]);
+    }
+
+    public function add($name, $class)
+    {
+        $this->plugins[$this->normalizeName($name)] = $class;
+    }
+
+    public function remove($name)
+    {
+        unset($this->plugins[$this->normalizeName($name)]);
+    }
+
+    private function normalizeName($name)
+    {
+        return strtolower($name);
+    }
 }

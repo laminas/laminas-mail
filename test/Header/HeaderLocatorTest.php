@@ -11,16 +11,16 @@ namespace LaminasTest\Mail\Header;
 use PHPUnit\Framework\TestCase;
 use Laminas\Mail\Header;
 
-class HeaderLoaderTest extends TestCase
+class HeaderLocatorTest extends TestCase
 {
     /**
-     * @var Header\HeaderLoader
+     * @var Header\HeaderLocator
      */
-    private $headerLoader;
+    private $headerLocator;
 
     public function setUp()
     {
-        $this->headerLoader = new Header\HeaderLoader();
+        $this->headerLocator = new Header\HeaderLocator();
     }
 
     public function provideHeaderNames()
@@ -40,31 +40,31 @@ class HeaderLoaderTest extends TestCase
      */
     public function testHeaderIsProperlyLoaded($name, $expected, $default = null)
     {
-        $this->assertEquals($expected, $this->headerLoader->get($name, $default));
+        $this->assertEquals($expected, $this->headerLocator->get($name, $default));
     }
 
     public function testHeaderExistenceIsProperlyChecked()
     {
-        $this->assertTrue($this->headerLoader->has('to'));
-        $this->assertTrue($this->headerLoader->has('To'));
-        $this->assertTrue($this->headerLoader->has('Reply_to'));
-        $this->assertTrue($this->headerLoader->has('SUBJECT'));
-        $this->assertFalse($this->headerLoader->has('foo'));
-        $this->assertFalse($this->headerLoader->has('bar'));
+        $this->assertTrue($this->headerLocator->has('to'));
+        $this->assertTrue($this->headerLocator->has('To'));
+        $this->assertTrue($this->headerLocator->has('Reply_to'));
+        $this->assertTrue($this->headerLocator->has('SUBJECT'));
+        $this->assertFalse($this->headerLocator->has('foo'));
+        $this->assertFalse($this->headerLocator->has('bar'));
     }
 
     public function testHeaderCanBeAdded()
     {
-        $this->assertFalse($this->headerLoader->has('foo'));
-        $this->headerLoader->add('foo', Header\GenericHeader::class);
-        $this->assertTrue($this->headerLoader->has('foo'));
+        $this->assertFalse($this->headerLocator->has('foo'));
+        $this->headerLocator->add('foo', Header\GenericHeader::class);
+        $this->assertTrue($this->headerLocator->has('foo'));
     }
 
     public function testHeaderCanBeRemoved()
     {
-        $this->assertTrue($this->headerLoader->has('to'));
-        $this->headerLoader->remove('to');
-        $this->assertFalse($this->headerLoader->has('to'));
+        $this->assertTrue($this->headerLocator->has('to'));
+        $this->headerLocator->remove('to');
+        $this->assertFalse($this->headerLocator->has('to'));
     }
 
     public static function expectedHeaders()
@@ -97,6 +97,6 @@ class HeaderLoaderTest extends TestCase
      */
     public function testDefaultHeadersMapResolvesProperHeader($name, $class)
     {
-        $this->assertEquals($class, $this->headerLoader->get($name));
+        $this->assertEquals($class, $this->headerLocator->get($name));
     }
 }
