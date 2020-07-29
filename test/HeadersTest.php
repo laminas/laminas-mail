@@ -18,11 +18,47 @@ use PHPUnit\Framework\Error\Deprecated;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group      Laminas_Mail
  * @covers \Laminas\Mail\Headers<extended>
  */
 class HeadersTest extends TestCase
 {
+    /** @var null|callable */
+    private $originalErrorHandler;
+
+    public function tearDown(): void
+    {
+        $this->restoreErrorHandler();
+    }
+
+    /**
+     * Handle deprecation errors and throw them.
+     *
+     * This is necessary as we are silencing the trigger_error call. This is
+     * done so that there is no impact on users, but, if they are logging errors
+     * using an error handler, they will see them in their logs. As such, we
+     * cannot rely on PHPUnit to catch them, and need to instead handle them
+     * ourselves in a similar fashion.
+     */
+    public function setDeprecationErrorHandler(): void
+    {
+        $this->originalErrorHandler = set_error_handler(
+            function (int $errno, string $errstr, string $errfile, int $errline) {
+                throw new Deprecated($errstr, $errno, $errfile, $errline);
+            },
+            E_USER_DEPRECATED
+        );
+    }
+
+    public function restoreErrorHandler(): void
+    {
+        if (null !== $this->originalErrorHandler) {
+            return;
+        }
+
+        restore_error_handler();
+        $this->originalErrorHandler = null;
+    }
+
     public function testHeadersImplementsProperClasses()
     {
         $headers = new Mail\Headers();
@@ -110,7 +146,7 @@ class HeadersTest extends TestCase
     public function testHeadersFromStringMultiHeaderWillAggregateLazyLoadedHeaders()
     {
         $headers = new Mail\Headers();
-        $loader  = $headers->getHeaderLoader();
+        $loader  = $headers->getHeaderLocator();
         $loader->add('foo', GenericMultiHeader::class);
         $headers->addHeaderLine('foo: bar1,bar2,bar3');
         $headers->forceLoading();
@@ -265,7 +301,7 @@ class HeadersTest extends TestCase
     public function testRemoveHeaderWhenEmpty()
     {
         $headers = new Mail\Headers();
-        $this->assertFalse($headers->removeHeader(null));
+        $this->assertFalse($headers->removeHeader(''));
     }
 
     public function testHeadersCanClearAllHeaders()
@@ -567,26 +603,20 @@ class HeadersTest extends TestCase
      */
     public function testGetPluginClassLoaderEmitsDeprecationNotice()
     {
-        if (! class_exists(Deprecated::class)) {
-            $this->markTestSkipped('Requires a PHPUnit version that contains Error exceptions');
-        }
-
+        $this->setDeprecationErrorHandler();
         $headers = new Mail\Headers();
 
         $this->expectException(Deprecated::class);
-        $this->expectExceptionMessage('getPluginClassLoader has been deprecated');
+        $this->expectExceptionMessage('getPluginClassLoader is deprecated');
         $headers->getPluginClassLoader();
     }
 
     /**
      * @todo Remove for 3.0.0
      */
-    public function testSetPluginClassLoaderEmitsDeprecationNoticeWhenPluginClassLocatorUsed()
+    public function testSetPluginClassLoaderEmitsDeprecationNotice()
     {
-        if (! class_exists(Deprecated::class)) {
-            $this->markTestSkipped('Requires a PHPUnit version that contains Error exceptions');
-        }
-
+        $this->setDeprecationErrorHandler();
         $headers = new Mail\Headers();
         $loader  = $this->prophesize(PluginClassLocator::class)->reveal();
 
@@ -595,41 +625,19 @@ class HeadersTest extends TestCase
         $headers->setPluginClassLoader($loader);
     }
 
-    /**
-     * @todo Remove for 3.0.0
-     */
-    public function testGetPluginClassLoaderReturnsHeaderLoaderInstanceByDefault()
+    public function testGetHeaderLocatorReturnsHeaderLocatorInstanceByDefault()
     {
         $headers = new Mail\Headers();
-        $loader  = @$headers->getPluginClassLoader();
-        $this->assertInstanceOf(Mail\Header\HeaderLoader::class, $loader);
+        $locator = $headers->getHeaderLocator();
+        $this->assertInstanceOf(Mail\Header\HeaderLocator::class, $locator);
     }
 
-    /**
-     * @todo Remove for 3.0.0
-     */
-    public function testSetPluginClassLoaderAcceptsHeaderLoaderInstance()
+    public function testCanInjectAlternateHeaderLocatorInstance()
     {
         $headers = new Mail\Headers();
-        $loader  = new Mail\Header\HeaderLoader();
+        $locator = $this->prophesize(Mail\Header\HeaderLocatorInterface::class)->reveal();
 
-        @$headers->setPluginClassLoader($loader);
-        $this->assertSame($loader, $headers->getHeaderLoader());
-    }
-
-    public function testGetHeaderLoaderReturnsHeaderLoaderInstanceByDefault()
-    {
-        $headers = new Mail\Headers();
-        $loader  = $headers->getHeaderLoader();
-        $this->assertInstanceOf(Mail\Header\HeaderLoader::class, $loader);
-    }
-
-    public function testCanInjectAlternateHeaderLoaderInstance()
-    {
-        $headers = new Mail\Headers();
-        $loader  = new Mail\Header\HeaderLoader();
-
-        $headers->setHeaderLoader($loader);
-        $this->assertSame($loader, $headers->getHeaderLoader());
+        $headers->setHeaderLocator($locator);
+        $this->assertSame($locator, $headers->getHeaderLocator());
     }
 }
