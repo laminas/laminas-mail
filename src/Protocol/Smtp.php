@@ -16,8 +16,6 @@ namespace Laminas\Mail\Protocol;
  */
 class Smtp extends AbstractProtocol
 {
-    use ProtocolTrait;
-
     /**
      * The transport method for the socket
      *

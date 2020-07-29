@@ -18,6 +18,8 @@ use Laminas\Validator;
  */
 abstract class AbstractProtocol
 {
+    use ProtocolTrait;
+
     /**
      * Mail default EOL string
      */
@@ -51,12 +53,6 @@ abstract class AbstractProtocol
      * @var \Laminas\Validator\ValidatorChain
      */
     protected $validHost;
-
-    /**
-     * Socket connection resource
-     * @var resource
-     */
-    protected $socket;
 
     /**
      * Last request sent to server
@@ -201,25 +197,11 @@ abstract class AbstractProtocol
     protected function _connect($remote)
     {
         // @codingStandardsIgnoreEnd
-        $errorNum = 0;
-        $errorStr = '';
-
-        // open connection
-        set_error_handler(
-            function ($error, $message = '') {
-                throw new Exception\RuntimeException(sprintf('Could not open socket: %s', $message), $error);
-            },
-            E_WARNING
-        );
-        $this->socket = stream_socket_client($remote, $errorNum, $errorStr, self::TIMEOUT_CONNECTION);
-        restore_error_handler();
-
-        if ($this->socket === false) {
-            if ($errorNum == 0) {
-                $errorStr = 'Could not open socket';
-            }
-            throw new Exception\RuntimeException($errorStr);
+        if (!preg_match('/^(?<host>.*):(?<port>\d+)$/', $remote, $matches)) {
+            throw new Exception\RuntimeException(sprintf('Invalid remote: %s', $remote));
         }
+
+        $this->setupSocket($matches['host'], $matches['port'], self::TIMEOUT_CONNECTION);
 
         if (($result = stream_set_timeout($this->socket, self::TIMEOUT_CONNECTION)) === false) {
             throw new Exception\RuntimeException('Could not set stream timeout');
