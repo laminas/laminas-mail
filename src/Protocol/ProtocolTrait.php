@@ -20,6 +20,12 @@ trait ProtocolTrait
      * @var null|bool
      */
     protected $novalidatecert;
+    
+    /**	
+     * Socket to server	
+     * @var resource|null	
+     */	
+    protected $socket;
 
     public function getCryptoMethod()
     {
