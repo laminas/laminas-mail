@@ -10,7 +10,6 @@ namespace LaminasTest\Mail\Transport;
 
 use Laminas\Mail\Transport\Factory;
 use Laminas\Mail\Transport\InMemory;
-use Laminas\Mail\Transport\Null as NullTransport;
 use Laminas\Mail\Transport\Sendmail;
 use Laminas\Stdlib\ArrayObject;
 use PHPUnit\Framework\TestCase;
@@ -104,6 +103,9 @@ class FactoryTest extends TestCase
             ['sendmail', Sendmail::class],
             ['smtp', Smtp::class],
             ['File', File::class],
+            ['null', InMemory::class],
+            ['Null', InMemory::class],
+            ['NULL', InMemory::class],
             ['Sendmail', Sendmail::class],
             ['SendMail', Sendmail::class],
             ['Smtp', Smtp::class],
@@ -117,7 +119,7 @@ class FactoryTest extends TestCase
     public function testCanUseTraversableAsSpec()
     {
         $spec = new ArrayObject([
-            'type' => 'inMemory'
+            'type' => 'inMemory',
         ]);
 
         $transport = Factory::create($spec);

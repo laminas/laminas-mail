@@ -20,6 +20,7 @@ abstract class Factory
         'file'      => File::class,
         'inmemory'  => InMemory::class,
         'memory'    => InMemory::class,
+        'null'      => InMemory::class,
         'sendmail'  => Sendmail::class,
         'smtp'      => Smtp::class,
     ];
