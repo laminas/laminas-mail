@@ -525,6 +525,9 @@ $mail = new Pop3([
     'ssl'      =&gt; 'TLS',
 ]);</code></pre>
 
+<p>If you are connecting to a mail server with a self-signed certificate and want to
+skip the SSL verification, you can also pass an additional argument <code>novalidatecert</code> 
+with the value <code>true</code>.</p>
 <p>Both constructors throw <code>Laminas\Mail\Exception</code> or <code>Laminas\Mail\Protocol\Exception</code>
 (extends <code>Laminas\Mail\Exception</code>) for connection errors, depending on the type of
 error encountered.</p>
