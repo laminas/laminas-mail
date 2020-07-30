@@ -26,6 +26,11 @@ class Pop3
     public $hasTop = null;
 
     /**
+     * @var null|resource
+     */
+    protected $socket;
+
+    /**
      * greeting timestamp for apop
      * @var null|string
      */
@@ -67,6 +72,7 @@ class Pop3
      */
     public function connect($host, $port = null, $ssl = false)
     {
+        $transport = 'tcp';
         $isTls = false;
 
         if ($ssl) {
@@ -75,7 +81,7 @@ class Pop3
 
         switch ($ssl) {
             case 'ssl':
-                $host = 'ssl://' . $host;
+                $transport = 'ssl';
                 if (! $port) {
                     $port = 995;
                 }
@@ -89,7 +95,7 @@ class Pop3
                 }
         }
 
-        $this->setupSocket($host, $port, self::TIMEOUT_CONNECTION);
+        $this->socket = $this->setupSocket($transport, $host, $port, self::TIMEOUT_CONNECTION);
 
         $welcome = $this->readResponse();
 

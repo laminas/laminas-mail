@@ -18,8 +18,6 @@ use Laminas\Validator;
  */
 abstract class AbstractProtocol
 {
-    use ProtocolTrait;
-
     /**
      * Mail default EOL string
      */
@@ -53,6 +51,12 @@ abstract class AbstractProtocol
      * @var \Laminas\Validator\ValidatorChain
      */
     protected $validHost;
+
+    /**
+     * Socket connection resource
+     * @var null|resource
+     */
+    protected $socket;
 
     /**
      * Last request sent to server
@@ -190,18 +194,34 @@ abstract class AbstractProtocol
      *
      * An example $remote string may be 'tcp://mail.example.com:25' or 'ssh://hostname.com:2222'
      *
+     * @deprecated Since 1.12.0. Implementations should use the ProtocolTrait::setupSocket() method instead.
+     * @todo Remove for 3.0.0.
      * @param  string $remote Remote
      * @throws Exception\RuntimeException
      * @return bool
      */
     protected function _connect($remote)
     {
-        // @codingStandardsIgnoreEnd
-        if (! preg_match('/^(?<host>.*):(?<port>\d+)$/', $remote, $matches)) {
-            throw new Exception\RuntimeException(sprintf('Invalid remote: %s', $remote));
-        }
+		// @codingStandardsIgnoreEnd
+        $errorNum = 0;
+        $errorStr = '';
 
-        $this->setupSocket($matches['host'], $matches['port'], self::TIMEOUT_CONNECTION);
+        // open connection
+        set_error_handler(
+            function ($error, $message = '') {
+                throw new Exception\RuntimeException(sprintf('Could not open socket: %s', $message), $error);
+            },
+            E_WARNING
+        );
+        $this->socket = stream_socket_client($remote, $errorNum, $errorStr, self::TIMEOUT_CONNECTION);
+        restore_error_handler();
+
+        if ($this->socket === false) {
+            if ($errorNum == 0) {
+                $errorStr = 'Could not open socket';
+            }
+            throw new Exception\RuntimeException($errorStr);
+        }
 
         if (($result = stream_set_timeout($this->socket, self::TIMEOUT_CONNECTION)) === false) {
             throw new Exception\RuntimeException('Could not set stream timeout');

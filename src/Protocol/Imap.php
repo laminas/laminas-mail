@@ -18,6 +18,11 @@ class Imap
     const TIMEOUT_CONNECTION = 30;
 
     /**
+     * @var null|resource
+     */
+    protected $socket;
+
+    /**
      * counter for request tag
      * @var int
      */
@@ -60,6 +65,7 @@ class Imap
      */
     public function connect($host, $port = null, $ssl = false)
     {
+        $transport = 'tcp';
         $isTls = false;
 
         if ($ssl) {
@@ -68,7 +74,7 @@ class Imap
 
         switch ($ssl) {
             case 'ssl':
-                $host = 'ssl://' . $host;
+                $transport = 'ssl';
                 if (! $port) {
                     $port = 993;
                 }
@@ -82,7 +88,7 @@ class Imap
                 }
         }
 
-        $this->setupSocket($host, $port, self::TIMEOUT_CONNECTION);
+        $this->socket = $this->setupSocket($transport, $host, $port, self::TIMEOUT_CONNECTION);
 
         if (! $this->assumedNextLine('* OK')) {
             throw new Exception\RuntimeException('host doesn\'t allow connection');
