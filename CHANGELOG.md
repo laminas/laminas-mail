@@ -26,7 +26,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
+- [#98](https://github.com/laminas/laminas-mail/pull/98) removes `Laminas\Mail\Transport\Null`, as it is unusable with the new minimum supported PHP version (7.1). Users should use `Laminas\Mail\Transport\InMemory` instead. As this has been the default when requesting a "null" transport from `Laminas\Mail\Transport\Factory` for the past several minor releases, end-users should be unaffected. However, **users are encouraged to specify "inmemory" instead of "null" when requiring a no-op transport.**
 
 ### Fixed
 
