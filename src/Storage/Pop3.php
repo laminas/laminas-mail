@@ -146,6 +146,11 @@ class Pop3 extends AbstractStorage
         $ssl      = isset($params->ssl) ? $params->ssl : false;
 
         $this->protocol = new Protocol\Pop3();
+
+        if (isset($params->novalidatecert)) {
+            $this->protocol->setNoValidateCert((bool)$params->novalidatecert);
+        }
+
         $this->protocol->connect($host, $port, $ssl);
         $this->protocol->login($params->user, $password);
     }

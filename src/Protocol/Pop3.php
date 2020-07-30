@@ -26,7 +26,6 @@ class Pop3
     public $hasTop = null;
 
     /**
-     * socket to pop3
      * @var null|resource
      */
     protected $socket;
@@ -40,12 +39,15 @@ class Pop3
     /**
      * Public constructor
      *
-     * @param  string      $host  hostname or IP address of POP3 server, if given connect() is called
-     * @param  int|null    $port  port of POP3 server, null for default (110 or 995 for ssl)
-     * @param  bool|string $ssl   use ssl? 'SSL', 'TLS' or false
+     * @param  string      $host           hostname or IP address of POP3 server, if given connect() is called
+     * @param  int|null    $port           port of POP3 server, null for default (110 or 995 for ssl)
+     * @param  bool|string $ssl            use ssl? 'SSL', 'TLS' or false
+     * @param  bool        $novalidatecert set to true to skip SSL certificate validation
      */
-    public function __construct($host = '', $port = null, $ssl = false)
+    public function __construct($host = '', $port = null, $ssl = false, $novalidatecert = false)
     {
+        $this->setNoValidateCert($novalidatecert);
+
         if ($host) {
             $this->connect($host, $port, $ssl);
         }
@@ -70,6 +72,7 @@ class Pop3
      */
     public function connect($host, $port = null, $ssl = false)
     {
+        $transport = 'tcp';
         $isTls = false;
 
         if ($ssl) {
@@ -78,7 +81,7 @@ class Pop3
 
         switch ($ssl) {
             case 'ssl':
-                $host = 'ssl://' . $host;
+                $transport = 'ssl';
                 if (! $port) {
                     $port = 995;
                 }
@@ -92,15 +95,7 @@ class Pop3
                 }
         }
 
-        ErrorHandler::start();
-        $this->socket = fsockopen($host, $port, $errno, $errstr, self::TIMEOUT_CONNECTION);
-        $error = ErrorHandler::stop();
-        if (! $this->socket) {
-            throw new Exception\RuntimeException(sprintf(
-                'cannot connect to host %s',
-                ($error ? sprintf('; error = %s (errno = %d )', $error->getMessage(), $error->getCode()) : '')
-            ), 0, $error);
-        }
+        $this->socket = $this->setupSocket($transport, $host, $port, self::TIMEOUT_CONNECTION);
 
         $welcome = $this->readResponse();
 

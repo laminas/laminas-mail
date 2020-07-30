@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.12.0 - 2020-07-30
+
+### Added
+
+- [#95](https://github.com/laminas/laminas-mail/pull/95) adds a new interface, `Laminas\Mail\Header\HeaderLocatorInterface`. This defines classes that will locate header classes based on an email header name.
+
+- [#95](https://github.com/laminas/laminas-mail/pull/95) adds a new class, `Laminas\Mail\Header\HeaderLocator`, implementing `Laminas\Mail\Header\HeaderLocatorInterface`. This is the default implementation of that new interface.
+
+- [#95](https://github.com/laminas/laminas-mail/pull/95) adds the methods `setHeaderLocator(Laminas\Mail\Header\HeaderLocatorInterface $locator)` and `getHeaderLocator(): Laminas\Mail\Header\HeaderLocatorInterface` to the `Laminas\Mail\Headers` implementation. Users are encouraged to use these when providing custom header implementations in order to prepare for a 3.0 release.  **The value of `getHeaderLocator()` will now be used as the default mechanism for resolving header names to header classes.**
+
+- [#94](https://github.com/laminas/laminas-mail/pull/94) and [#99](https://github.com/laminas/laminas-mail/pull/99) add the "novalidatecert" option for each of the POP3, IMAP, and SMTP protocol implementations. When toggled true, you can connect to servers using self-signed certificates.
+
+### Changed
+
+- [#95](https://github.com/laminas/laminas-mail/pull/95) bumps the minimum supported PHP version to 7.1.
+
+### Deprecated
+
+- [#99](https://github.com/laminas/laminas-mail/pull/99) deprecates the `Laminas\Mail\Protocol\AbstractProtocol::_connect()` method, as it is no longer used internally.
+
+- [#95](https://github.com/laminas/laminas-mail/pull/95) deprecates `Laminas\Mail\Header\HeaderLoader` in favor of the new `Laminas\Mail\Header\HeaderLocator` class. The class will be removed in version 3.0.0.
+
+- [#95](https://github.com/laminas/laminas-mail/pull/95) deprecates the `Headers::getPluginClassLoader()` and `Headers::setPluginClassLoader()` methods, in favor of the new `setHeaderLocator()` and `getHeaderLocator()` methods. These methods will be removed in version 3.0.0, and laminas-loader `PluginClassLocator` instances will no longer be supported. Please update your code to use the new `HeaderLocatorInterface` instead.
+
+### Removed
+
+- [#98](https://github.com/laminas/laminas-mail/pull/98) removes `Laminas\Mail\Transport\Null`, as it is unusable with the new minimum supported PHP version (7.1). Users should use `Laminas\Mail\Transport\InMemory` instead. As this has been the default when requesting a "null" transport from `Laminas\Mail\Transport\Factory` for the past several minor releases, end-users should be unaffected. However, **users are encouraged to specify "inmemory" instead of "null" when requiring a no-op transport.**
+
+### Fixed
+
+- Nothing.
+
 ## 2.11.1 - 2020-07-28
 
 ### Added

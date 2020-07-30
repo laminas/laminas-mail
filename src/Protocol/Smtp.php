@@ -152,6 +152,10 @@ class Smtp extends AbstractProtocol
             }
         }
 
+        if (array_key_exists('novalidatecert', $config)) {
+            $this->setNoValidateCert($config['novalidatecert']);
+        }
+
         parent::__construct($host, $port);
     }
 
@@ -183,9 +187,14 @@ class Smtp extends AbstractProtocol
      */
     public function connect()
     {
-        return $this->_connect($this->transport . '://' . $this->host . ':' . $this->port);
+        $this->socket = $this->setupSocket(
+            $this->transport,
+            $this->host,
+            $this->port,
+            self::TIMEOUT_CONNECTION
+        );
+        return true;
     }
-
 
     /**
      * Initiate HELO/EHLO sequence and set flag to indicate valid smtp session

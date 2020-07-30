@@ -130,6 +130,17 @@ class ImapTest extends TestCase
         new Storage\Imap($this->params);
     }
 
+    public function testConnectSelfSignedSSL()
+    {
+        if (! getenv('TESTS_LAMINAS_MAIL_IMAP_SSL')) {
+            return;
+        }
+
+        $this->params['ssl'] = 'SSL';
+        $this->params['novalidatecert'] = true;
+        new Storage\Imap($this->params);
+    }
+
     public function testInvalidService()
     {
         $this->params['port'] = getenv('TESTS_LAMINAS_MAIL_IMAP_INVALID_PORT');
