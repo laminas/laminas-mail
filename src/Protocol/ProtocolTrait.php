@@ -21,13 +21,8 @@ trait ProtocolTrait
      */
     protected $novalidatecert;
 
-    /**
-     * Socket to server
-     * @var resource|null
-     */
-    protected $socket;
 
-    public function getCryptoMethod()
+    public function getCryptoMethod(): int
     {
         // Allow the best TLS version(s) we can
         $cryptoMethod = STREAM_CRYPTO_METHOD_TLS_CLIENT;
@@ -45,8 +40,9 @@ trait ProtocolTrait
     /**
      * Do not validate SSL certificate
      *
+     * @todo Update to return self when minimum supported PHP version is 7.4+
      * @param  bool $novalidatecert Set to true to disable certificate validation
-     * @return self
+     * @return $this
      */
     public function setNoValidateCert(bool $novalidatecert)
     {
@@ -59,7 +55,7 @@ trait ProtocolTrait
      *
      * @return bool
      */
-    public function validateCert()
+    public function validateCert(): bool
     {
         return ! $this->novalidatecert;
     }
@@ -69,7 +65,7 @@ trait ProtocolTrait
      *
      * @return array
      */
-    private function prepareSocketOptions()
+    private function prepareSocketOptions(): array
     {
         return $this->novalidatecert
             ? [
@@ -87,14 +83,18 @@ trait ProtocolTrait
      * @param  string   $host hostname or IP address of IMAP server
      * @param  int|null $port of IMAP server, default is 143 (993 for ssl)
      * @param  int      $timeout timeout in seconds for initiating session
-     * @return void
+     * @return resource The socket created.
      * @throws Exception\RuntimeException If unable to connect to host.
      */
-    protected function setupSocket($host, $port, $timeout)
-    {
+    protected function setupSocket(
+        string $transport,
+        string $host,
+        ?int $port,
+        int $timeout
+    ) {
         ErrorHandler::start();
-        $this->socket = stream_socket_client(
-            $host . ":" . $port,
+        $socket = stream_socket_client(
+            sprintf('%s://%s:%d', $transport, $host, $port),
             $errno,
             $errstr,
             $timeout,
@@ -103,11 +103,17 @@ trait ProtocolTrait
         );
         $error = ErrorHandler::stop();
 
-        if (! $this->socket) {
+        if (! $socket) {
             throw new Exception\RuntimeException(sprintf(
-                'cannot connect to host %s',
-                ($error ? sprintf('; error = %s (errno = %d )', $error->getMessage(), $error->getCode()) : '')
+                'cannot connect to host%s',
+                $error ? sprintf('; error = %s (errno = %d )', $error->getMessage(), $error->getCode()) : ''
             ), 0, $error);
         }
+
+        if (false === stream_set_timeout($socket, $timeout)) {
+            throw new Exception\RuntimeException('Could not set stream timeout');
+        }
+
+        return $socket;
     }
 }
