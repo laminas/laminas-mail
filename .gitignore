@@ -6,3 +6,4 @@
 /laminas-mkdoc-theme/
 /phpunit.xml
 /vendor/
+/test/_files/test.maildir/
