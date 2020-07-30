@@ -138,6 +138,18 @@ class Pop3Test extends TestCase
         new Storage\Pop3($this->params);
     }
 
+    public function testConnectSelfSignedSSL()
+    {
+        if (! getenv('TESTS_LAMINAS_MAIL_POP3_SSL')) {
+            return;
+        }
+
+        $this->params['ssl'] = 'SSL';
+        $this->params['novalidatecert'] = true;
+
+        new Storage\Pop3($this->params);
+    }
+
     public function testInvalidService()
     {
         $this->params['port'] = getenv('TESTS_LAMINAS_MAIL_POP3_INVALID_PORT');

@@ -8,20 +8,57 @@
 
 namespace LaminasTest\Mail;
 
+use Laminas\Loader\PluginClassLocator;
 use Laminas\Mail;
 use Laminas\Mail\Header;
 use Laminas\Mail\Header\Exception;
 use Laminas\Mail\Header\GenericHeader;
 use Laminas\Mail\Header\GenericMultiHeader;
-use Laminas\Mail\Header\To;
+use PHPUnit\Framework\Error\Deprecated;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group      Laminas_Mail
  * @covers \Laminas\Mail\Headers<extended>
  */
 class HeadersTest extends TestCase
 {
+    /** @var null|callable */
+    private $originalErrorHandler;
+
+    public function tearDown(): void
+    {
+        $this->restoreErrorHandler();
+    }
+
+    /**
+     * Handle deprecation errors and throw them.
+     *
+     * This is necessary as we are silencing the trigger_error call. This is
+     * done so that there is no impact on users, but, if they are logging errors
+     * using an error handler, they will see them in their logs. As such, we
+     * cannot rely on PHPUnit to catch them, and need to instead handle them
+     * ourselves in a similar fashion.
+     */
+    public function setDeprecationErrorHandler(): void
+    {
+        $this->originalErrorHandler = set_error_handler(
+            function (int $errno, string $errstr, string $errfile, int $errline) {
+                throw new Deprecated($errstr, $errno, $errfile, $errline);
+            },
+            E_USER_DEPRECATED
+        );
+    }
+
+    public function restoreErrorHandler(): void
+    {
+        if (null !== $this->originalErrorHandler) {
+            return;
+        }
+
+        restore_error_handler();
+        $this->originalErrorHandler = null;
+    }
+
     public function testHeadersImplementsProperClasses()
     {
         $headers = new Mail\Headers();
@@ -106,20 +143,11 @@ class HeadersTest extends TestCase
         $this->assertEquals('boo-baz', $header->getFieldValue());
     }
 
-    public function testPluginClassLoaderAccessors()
-    {
-        $headers = new Mail\Headers();
-        $pcl = new Header\HeaderLoader();
-        $headers->setPluginClassLoader($pcl);
-        $this->assertSame($pcl, $headers->getPluginClassLoader());
-    }
-
     public function testHeadersFromStringMultiHeaderWillAggregateLazyLoadedHeaders()
     {
         $headers = new Mail\Headers();
-        /* @var $pcl \Laminas\Loader\PluginClassLoader */
-        $pcl = $headers->getPluginClassLoader();
-        $pcl->registerPlugin('foo', GenericMultiHeader::class);
+        $loader  = $headers->getHeaderLocator();
+        $loader->add('foo', GenericMultiHeader::class);
         $headers->addHeaderLine('foo: bar1,bar2,bar3');
         $headers->forceLoading();
         $this->assertEquals(3, $headers->count());
@@ -273,7 +301,7 @@ class HeadersTest extends TestCase
     public function testRemoveHeaderWhenEmpty()
     {
         $headers = new Mail\Headers();
-        $this->assertFalse($headers->removeHeader(null));
+        $this->assertFalse($headers->removeHeader(''));
     }
 
     public function testHeadersCanClearAllHeaders()
@@ -407,40 +435,6 @@ class HeadersTest extends TestCase
             'Subject' => '=?UTF-8?Q?PD:=20My:=20Go=C5=82blahblah?=',
         ];
         $this->assertEquals($expected, $array);
-    }
-
-    public static function expectedHeaders()
-    {
-        return [
-            ['bcc', Header\Bcc::class],
-            ['cc', Header\Cc::class],
-            ['contenttype', Header\ContentType::class],
-            ['content_type', Header\ContentType::class],
-            ['content-type', Header\ContentType::class],
-            ['date', Header\Date::class],
-            ['from', Header\From::class],
-            ['mimeversion', Header\MimeVersion::class],
-            ['mime_version', Header\MimeVersion::class],
-            ['mime-version', Header\MimeVersion::class],
-            ['received', Header\Received::class],
-            ['replyto', Header\ReplyTo::class],
-            ['reply_to', Header\ReplyTo::class],
-            ['reply-to', Header\ReplyTo::class],
-            ['sender', Header\Sender::class],
-            ['subject', Header\Subject::class],
-            ['to', Header\To::class],
-        ];
-    }
-
-    /**
-     * @dataProvider expectedHeaders
-     */
-    public function testDefaultPluginLoaderIsSeededWithHeaders($plugin, $class)
-    {
-        $headers = new Mail\Headers();
-        $loader  = $headers->getPluginClassLoader();
-        $test    = $loader->load($plugin);
-        $this->assertEquals($class, $test);
     }
 
     public function testClone()
@@ -602,5 +596,48 @@ class HeadersTest extends TestCase
         $headers->addHeader($subject);
         // now UTF-8 via addHeader() call
         $this->assertSame('UTF-8', $subject->getEncoding());
+    }
+
+    /**
+     * @todo Remove for 3.0.0
+     */
+    public function testGetPluginClassLoaderEmitsDeprecationNotice()
+    {
+        $this->setDeprecationErrorHandler();
+        $headers = new Mail\Headers();
+
+        $this->expectException(Deprecated::class);
+        $this->expectExceptionMessage('getPluginClassLoader is deprecated');
+        $headers->getPluginClassLoader();
+    }
+
+    /**
+     * @todo Remove for 3.0.0
+     */
+    public function testSetPluginClassLoaderEmitsDeprecationNotice()
+    {
+        $this->setDeprecationErrorHandler();
+        $headers = new Mail\Headers();
+        $loader  = $this->prophesize(PluginClassLocator::class)->reveal();
+
+        $this->expectException(Deprecated::class);
+        $this->expectExceptionMessage('deprecated');
+        $headers->setPluginClassLoader($loader);
+    }
+
+    public function testGetHeaderLocatorReturnsHeaderLocatorInstanceByDefault()
+    {
+        $headers = new Mail\Headers();
+        $locator = $headers->getHeaderLocator();
+        $this->assertInstanceOf(Mail\Header\HeaderLocator::class, $locator);
+    }
+
+    public function testCanInjectAlternateHeaderLocatorInstance()
+    {
+        $headers = new Mail\Headers();
+        $locator = $this->prophesize(Mail\Header\HeaderLocatorInterface::class)->reveal();
+
+        $headers->setHeaderLocator($locator);
+        $this->assertSame($locator, $headers->getHeaderLocator());
     }
 }
