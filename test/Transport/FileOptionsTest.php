@@ -35,7 +35,7 @@ class FileOptionsTest extends TestCase
     {
         $callback = $this->options->getCallback();
         $this->assertInternalType('callable', $callback);
-        $test     = call_user_func($callback, '');
+        $test     = $callback('');
         $this->assertRegExp('#^LaminasMail_\d+_\d+\.eml$#', $test);
     }
 
