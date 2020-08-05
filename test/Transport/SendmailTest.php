@@ -28,6 +28,7 @@ class SendmailTest extends TestCase
     public $message;
     public $additional_headers;
     public $additional_parameters;
+    public $operating_system;
 
     public function setUp()
     {
@@ -72,9 +73,14 @@ class SendmailTest extends TestCase
         return $message;
     }
 
+    public function isWindows()
+    {
+        return $this->operating_system === 'WIN';
+    }
+
     public function testReceivesMailArtifactsOnUnixSystems()
     {
-        if ($this->operating_system == 'WIN') {
+        if ($this->isWindows()) {
             $this->markTestSkipped('This test is *nix-specific');
         }
 
@@ -96,7 +102,7 @@ class SendmailTest extends TestCase
 
     public function testReceivesMailArtifactsOnWindowsSystems()
     {
-        if ($this->operating_system != 'WIN') {
+        if (! $this->isWindows()) {
             $this->markTestSkipped('This test is Windows-specific');
         }
 
@@ -120,7 +126,7 @@ class SendmailTest extends TestCase
 
     public function testLinesStartingWithFullStopsArePreparedProperlyForWindows()
     {
-        if ($this->operating_system != 'WIN') {
+        if (! $this->isWindows()) {
             $this->markTestSkipped('This test is Windows-specific');
         }
 
@@ -254,5 +260,34 @@ class SendmailTest extends TestCase
 
         $this->expectException(RuntimeException::class);
         $this->transport->send($message);
+    }
+
+    /**
+     * @see @see https://github.com/laminas/laminas-mail/issues/19
+     */
+    public function testHeadersToAndSubjectAreNotDuplicated()
+    {
+        $lineBreak = $this->isWindows() ? "\r\n" : "\n";
+
+        $message = new Message();
+        $message
+            ->addTo('matthew@example.org')
+            ->addFrom('ralph@example.org')
+            ->setSubject('Greetings and Salutations!')
+            ->setBody("Sorry, I'm going to be late today!");
+
+        $this->transport->send($message);
+
+        $this->assertEquals('matthew@example.org', $this->to);
+        $this->assertEquals('Greetings and Salutations!', $this->subject);
+
+        $this->assertNotContains(
+            'To: matthew@example.org, matthew@example.org' . $lineBreak,
+            $this->additional_headers
+        );
+        $this->assertNotContains(
+            'Subject: Greetings and Salutations!, Greetings and Salutations!' . $lineBreak,
+            $this->additional_headers
+        );
     }
 }
