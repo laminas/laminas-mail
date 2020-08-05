@@ -282,4 +282,30 @@ class SendmailTest extends TestCase
         $this->assertNotRegExp('/^To: matthew\@example\.org$/m', $this->additional_headers);
         $this->assertNotRegExp('/^Subject: Greetings and Salutations!$/m', $this->additional_headers);
     }
+
+    public function testNotSetOptionAutomaticallyOnLeadingF()
+    {
+        if ($this->operating_system == 'WIN') {
+            $this->markTestSkipped('This test is *nix-specific');
+        }
+
+        $message = $this->getMessage();
+        $this->transport->setParameters('-f\'foo@example.com\'');
+
+        $this->transport->send($message);
+        $this->assertEquals('-f\'foo@example.com\'', $this->additional_parameters);
+    }
+
+    public function testNotSetOptionAutomaticallyOnMiddleF()
+    {
+        if ($this->operating_system == 'WIN') {
+            $this->markTestSkipped('This test is *nix-specific');
+        }
+
+        $message = $this->getMessage();
+        $this->transport->setParameters('-bs -f\'foo@example.com\'');
+
+        $this->transport->send($message);
+        $this->assertEquals('-bs -f\'foo@example.com\'', $this->additional_parameters);
+    }
 }

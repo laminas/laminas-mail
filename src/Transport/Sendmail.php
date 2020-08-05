@@ -255,6 +255,9 @@ class Sendmail implements TransportInterface
         }
 
         $parameters = (string) $this->parameters;
+        if (preg_match('/^\-f.+$/', $parameters) || strpos($parameters, ' -f') !== false) {
+            return $parameters;
+        }
 
         $sender = $message->getSender();
         if ($sender instanceof AddressInterface) {
