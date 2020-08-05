@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#102](https://github.com/laminas/laminas-mail/pull/102) corrects a parameter typehint and a return type within the Protocol\Imap subcomponent to correctly detail what they allow.
 
 ### Deprecated
 
