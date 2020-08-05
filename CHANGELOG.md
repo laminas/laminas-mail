@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.12.1 - TBD
+## 2.12.1 - 2020-08-05
 
 ### Added
 
@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- [#102](https://github.com/laminas/laminas-mail/pull/102) corrects a parameter typehint and a return type within the Protocol\Imap subcomponent to correctly detail what they allow.
+- Nothing.
 
 ### Deprecated
 
@@ -22,7 +22,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#102](https://github.com/laminas/laminas-mail/pull/102) corrects a parameter typehint and a return type within the `Protocol\Imap` subcomponent to correctly detail what they allow.
 
 ## 2.12.0 - 2020-07-30
 
