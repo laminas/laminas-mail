@@ -255,7 +255,7 @@ class Sendmail implements TransportInterface
         }
 
         $parameters = (string) $this->parameters;
-        if (preg_match('/^\-f.+$/', $parameters) || strpos($parameters, ' -f') !== false) {
+        if (preg_match('/(^| )\-f.+/', $parameters)) {
             return $parameters;
         }
 
