@@ -281,13 +281,7 @@ class SendmailTest extends TestCase
         $this->assertEquals('matthew@example.org', $this->to);
         $this->assertEquals('Greetings and Salutations!', $this->subject);
 
-        $this->assertNotContains(
-            'To: matthew@example.org, matthew@example.org' . $lineBreak,
-            $this->additional_headers
-        );
-        $this->assertNotContains(
-            'Subject: Greetings and Salutations!, Greetings and Salutations!' . $lineBreak,
-            $this->additional_headers
-        );
+        $this->assertNotRegExp('/^To: matthew\@example\.org$/m', $this->additional_headers);
+        $this->assertNotRegExp('/^Subject: Greetings and Salutations\!$/m', $this->additional_headers);
     }
 }
