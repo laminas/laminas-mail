@@ -70,7 +70,7 @@ class File implements TransportInterface
     public function send(Message $message)
     {
         $options  = $this->options;
-        $filename = call_user_func($options->getCallback(), $this);
+        $filename = $options->getCallback()($this);
         $file     = $options->getPath() . DIRECTORY_SEPARATOR . $filename;
         $email    = $message->toString();
 
