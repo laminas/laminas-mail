@@ -31,10 +31,10 @@ class Imap
     /**
      * Public constructor
      *
-     * @param  string   $host           hostname or IP address of IMAP server, if given connect() is called
-     * @param  int|null $port           port of IMAP server, null for default (143 or 993 for ssl)
-     * @param  bool     $ssl            use ssl? 'SSL', 'TLS' or false
-     * @param  bool     $novalidatecert set to true to skip SSL certificate validation
+     * @param  string       $host           hostname or IP address of IMAP server, if given connect() is called
+     * @param  int|null     $port           port of IMAP server, null for default (143 or 993 for ssl)
+     * @param  string|bool  $ssl            use ssl? 'SSL', 'TLS' or false
+     * @param  bool         $novalidatecert set to true to skip SSL certificate validation
      * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
      */
     public function __construct($host = '', $port = null, $ssl = false, $novalidatecert = false)
@@ -61,7 +61,7 @@ class Imap
      * @param  int|null    $port  of IMAP server, default is 143 (993 for ssl)
      * @param  string|bool $ssl   use 'SSL', 'TLS' or false
      * @throws Exception\RuntimeException
-     * @return string welcome message
+     * @return void
      */
     public function connect($host, $port = null, $ssl = false)
     {
