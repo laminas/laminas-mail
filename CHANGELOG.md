@@ -24,6 +24,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#103](https://github.com/laminas/laminas-mail/pull/103) fixes issues on Windows whereby the "Subject" and "To" headers were duplicated.
 
+- [#104](https://github.com/laminas/laminas-mail/pull/104) fixes an issue that occured when the `Sendmail` transport was configured with a `-f` option (From address). Prior to the fix, the option would be overwritten by the message `From` or `Sender` headers, which could lead to errors on systems where all mail must be sent from a specific address. The fixed behavior is to always honor the `-f` option, and ignore the `From` and `Sender` headers if it was provided to the transport.
+
 ## 2.12.1 - 2020-08-05
 
 ### Added
