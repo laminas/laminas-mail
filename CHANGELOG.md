@@ -22,7 +22,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#103](https://github.com/laminas/laminas-mail/pull/103) fixes issues on Windows whereby the "Subject" and "To" headers were duplicated.
 
 ## 2.12.1 - 2020-08-05
 
