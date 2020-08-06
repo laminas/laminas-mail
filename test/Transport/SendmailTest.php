@@ -283,29 +283,25 @@ class SendmailTest extends TestCase
         $this->assertNotRegExp('/^Subject: Greetings and Salutations!$/m', $this->additional_headers);
     }
 
-    public function testNotSetOptionAutomaticallyOnLeadingF()
+    public function additionalParametersContainingFromSwitch(): iterable
     {
-        if ($this->operating_system == 'WIN') {
-            $this->markTestSkipped('This test is *nix-specific');
-        }
-
-        $message = $this->getMessage();
-        $this->transport->setParameters('-f\'foo@example.com\'');
-
-        $this->transport->send($message);
-        $this->assertEquals('-f\'foo@example.com\'', $this->additional_parameters);
+        yield 'leading'     => ['-f\'foo@example.com\''];
+        yield 'not-leading' => ['-bs -f\'foo@example.com\''];
     }
 
-    public function testNotSetOptionAutomaticallyOnMiddleF()
+    /**
+     * @dataProvider additionalParametersContainingFromSwitch
+     */
+    public function testDoesNotInjectFromParameterFromSenderWhenFromOptionPresentInParameters(string $parameters): void
     {
         if ($this->operating_system == 'WIN') {
             $this->markTestSkipped('This test is *nix-specific');
         }
 
         $message = $this->getMessage();
-        $this->transport->setParameters('-bs -f\'foo@example.com\'');
+        $this->transport->setParameters($parameters);
 
         $this->transport->send($message);
-        $this->assertEquals('-bs -f\'foo@example.com\'', $this->additional_parameters);
+        $this->assertEquals($parameters, $this->additional_parameters);
     }
 }
