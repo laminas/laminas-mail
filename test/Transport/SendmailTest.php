@@ -73,7 +73,7 @@ class SendmailTest extends TestCase
         return $message;
     }
 
-    public function isWindows()
+    private function isWindows()
     {
         return $this->operating_system === 'WIN';
     }
@@ -263,12 +263,10 @@ class SendmailTest extends TestCase
     }
 
     /**
-     * @see @see https://github.com/laminas/laminas-mail/issues/19
+     * @see https://github.com/laminas/laminas-mail/issues/19
      */
     public function testHeadersToAndSubjectAreNotDuplicated()
     {
-        $lineBreak = $this->isWindows() ? "\r\n" : "\n";
-
         $message = new Message();
         $message
             ->addTo('matthew@example.org')
@@ -282,6 +280,6 @@ class SendmailTest extends TestCase
         $this->assertEquals('Greetings and Salutations!', $this->subject);
 
         $this->assertNotRegExp('/^To: matthew\@example\.org$/m', $this->additional_headers);
-        $this->assertNotRegExp('/^Subject: Greetings and Salutations\!$/m', $this->additional_headers);
+        $this->assertNotRegExp('/^Subject: Greetings and Salutations!$/m', $this->additional_headers);
     }
 }
