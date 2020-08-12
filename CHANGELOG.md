@@ -22,7 +22,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#107](https://github.com/laminas/laminas-mail/pull/107) corrects a return type annotation in Laminas\Mail\Address\AddressInterface and in implementer.
 
 ## 2.12.1 - 2020-08-05
 
