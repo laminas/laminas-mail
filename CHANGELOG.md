@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.12.3 - TBD
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#107](https://github.com/laminas/laminas-mail/pull/107) corrects a return type annotation in Laminas\Mail\Address\AddressInterface and in implementer.
+
 ## 2.12.2 - 2020-08-06
 
 ### Added
