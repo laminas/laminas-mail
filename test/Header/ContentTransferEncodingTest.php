@@ -160,13 +160,13 @@ class ContentTransferEncodingTest extends TestCase
 
     public function testDefaultEncoding()
     {
-        $header = new ContentTransferEncoding('today');
+        $header = new ContentTransferEncoding();
         $this->assertSame('ASCII', $header->getEncoding());
     }
 
     public function testChangeEncodingHasNoEffect()
     {
-        $header = new ContentTransferEncoding('today');
+        $header = new ContentTransferEncoding();
         $header->setEncoding('UTF-8');
         $this->assertSame('ASCII', $header->getEncoding());
     }
