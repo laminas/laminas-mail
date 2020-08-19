@@ -130,6 +130,20 @@ class ContentDispositionTest extends TestCase
     }
 
     /**
+     * Should not throw if the optional count is missing
+     *
+     * @see https://tools.ietf.org/html/rfc2231
+     */
+    public function testParameterValueOptionalContinuationsRFC2231(): void
+    {
+        $input = "Content-Disposition: attachment; filename*=UTF-8''%64%61%61%6D%69%2D%6D%C3%B5%72%76%2E%6A%70%67";
+        $header = ContentDisposition::fromString($input);
+
+        $this->assertEquals('attachment', $header->getDisposition());
+        $this->assertEquals(['filename' => "UTF-8''%64%61%61%6D%69%2D%6D%C3%B5%72%76%2E%6A%70%67"], $header->getParameters());
+    }
+
+    /**
      * @dataProvider invalidParametersProvider
      */
     public function testSetParameterThrowException($paramName, $paramValue, $expectedException, $exceptionMessage)
