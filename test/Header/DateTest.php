@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  */
 class DateTest extends TestCase
 {
-    public function headerLines()
+    public function headerLines(): array
     {
         return [
             'newline'      => ["Date: xxx yyy\n"],
@@ -31,7 +31,7 @@ class DateTest extends TestCase
      * @dataProvider headerLines
      * @group ZF2015-04
      */
-    public function testFromStringRaisesExceptionOnCrlfInjectionAttempt($header)
+    public function testFromStringRaisesExceptionOnCrlfInjectionAttempt($header): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         Header\Date::fromString($header);
@@ -40,33 +40,33 @@ class DateTest extends TestCase
     /**
      * @group ZF2015-04
      */
-    public function testPreventsCRLFInjectionViaConstructor()
+    public function testPreventsCRLFInjectionViaConstructor(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $address = new Header\Date("This\ris\r\na\nCRLF Attack");
     }
 
-    public function testFromStringRaisesExceptionOnInvalidHeader()
+    public function testFromStringRaisesExceptionOnInvalidHeader(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid header line for Date string');
         Header\Date::fromString('Foo: bar');
     }
 
-    public function testDefaultEncoding()
+    public function testDefaultEncoding(): void
     {
         $header = new Header\Date('today');
         $this->assertSame('ASCII', $header->getEncoding());
     }
 
-    public function testSetEncodingHasNoEffect()
+    public function testSetEncodingHasNoEffect(): void
     {
         $header = new Header\Date('today');
         $header->setEncoding('UTF-8');
         $this->assertSame('ASCII', $header->getEncoding());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $header = new Header\Date('today');
         $this->assertEquals('Date: today', $header->toString());

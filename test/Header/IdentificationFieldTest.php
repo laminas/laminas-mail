@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 class IdentificationFieldTest extends TestCase
 {
-    public function stringHeadersProvider()
+    public function stringHeadersProvider(): array
     {
         return array_merge(
             [
@@ -30,7 +30,7 @@ class IdentificationFieldTest extends TestCase
         );
     }
 
-    public function reversibleStringHeadersProvider()
+    public function reversibleStringHeadersProvider(): array
     {
         return [
             [References::class, 'References: <1234@local.machine.example>', ['1234@local.machine.example']],
@@ -43,7 +43,7 @@ class IdentificationFieldTest extends TestCase
         ];
     }
 
-    public function invalidIds()
+    public function invalidIds(): array
     {
         return [
             [References::class, ["1234@local.machine.example\r\n"]],
@@ -58,7 +58,7 @@ class IdentificationFieldTest extends TestCase
      * @param string $headerString
      * @param string[] $ids
      */
-    public function testDeserializationFromString($className, $headerString, $ids)
+    public function testDeserializationFromString($className, $headerString, $ids): void
     {
         /** @var IdentificationField $header */
         $header = $className::fromString($headerString);
@@ -71,7 +71,7 @@ class IdentificationFieldTest extends TestCase
      * @param string $headerString
      * @param string[] $ids
      */
-    public function testSerializationToString($className, $headerString, $ids)
+    public function testSerializationToString($className, $headerString, $ids): void
     {
         /** @var IdentificationField $header */
         $header = new $className();
@@ -85,7 +85,7 @@ class IdentificationFieldTest extends TestCase
      * @param string $headerString
      * @param string[] $ids
      */
-    public function testDefaultEncoding($className, $headerString, array $ids)
+    public function testDefaultEncoding($className, $headerString, array $ids): void
     {
         /** @var IdentificationField $header */
         $header = $className::fromString($headerString);
@@ -98,7 +98,7 @@ class IdentificationFieldTest extends TestCase
      * @param string $headerString
      * @param string[] $ids
      */
-    public function testSetEncodingHasNoEffect($className, $headerString, array $ids)
+    public function testSetEncodingHasNoEffect($className, $headerString, array $ids): void
     {
         /** @var IdentificationField $header */
         $header = $className::fromString($headerString);
@@ -111,7 +111,7 @@ class IdentificationFieldTest extends TestCase
      * @param string $className
      * @param string[] $ids
      */
-    public function testSetIdsThrowsOnInvalidInput($className, $ids)
+    public function testSetIdsThrowsOnInvalidInput($className, $ids): void
     {
         /** @var IdentificationField $header */
         $header = new $className();
@@ -125,7 +125,7 @@ class IdentificationFieldTest extends TestCase
      * @param string $className
      * @param string[] $ids
      */
-    public function testFromStringRaisesExceptionOnInvalidHeader($className, $ids)
+    public function testFromStringRaisesExceptionOnInvalidHeader($className, $ids): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid header line');

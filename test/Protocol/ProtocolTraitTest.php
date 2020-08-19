@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ProtocolTraitTest extends TestCase
 {
-    public function testTls12Version()
+    public function testTls12Version(): void
     {
         $mock = $this->getMockForTrait(ProtocolTrait::class);
 

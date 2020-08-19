@@ -17,13 +17,13 @@ use PHPUnit\Framework\TestCase;
  */
 class GenericMultiHeaderTest extends TestCase
 {
-    public function testFromStringSingle()
+    public function testFromStringSingle(): void
     {
         $multiHeader = GenericMultiHeader::fromString('x-custom: test');
         $this->assertSame(GenericMultiHeader::class, \get_class($multiHeader));
     }
 
-    public function testFromStringMultiple()
+    public function testFromStringMultiple(): void
     {
         $headers = GenericMultiHeader::fromString('x-custom: foo,bar');
         $this->assertSame(2, \count($headers));
@@ -32,14 +32,14 @@ class GenericMultiHeaderTest extends TestCase
         }
     }
 
-    public function testToStringSingle()
+    public function testToStringSingle(): void
     {
         $multiHeader = new GenericMultiHeader('x-custom', 'test');
 
         $this->assertSame('X-Custom: test', $multiHeader->toStringMultipleHeaders([]));
     }
 
-    public function testToStringMultiple()
+    public function testToStringMultiple(): void
     {
         $multiHeader = new GenericMultiHeader('x-custom', 'test');
         $anotherHeader = new GenericMultiHeader('x-custom', 'two');
@@ -47,7 +47,7 @@ class GenericMultiHeaderTest extends TestCase
         $this->assertSame('X-Custom: test,two', $multiHeader->toStringMultipleHeaders([$anotherHeader]));
     }
 
-    public function testToStringInvalid()
+    public function testToStringInvalid(): void
     {
         $multiHeader = new GenericMultiHeader('x-custom', 'test');
 

@@ -21,12 +21,12 @@ class MboxInterfaceTest extends TestCase
 {
     protected $mboxFile;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->mboxFile = __DIR__ . '/../_files/test.mbox/INBOX';
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 
@@ -34,21 +34,21 @@ class MboxInterfaceTest extends TestCase
         $this->assertEquals(7, $count);
     }
 
-    public function testIsset()
+    public function testIsset(): void
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 
         $this->assertTrue(isset($list[1]));
     }
 
-    public function testNotIsset()
+    public function testNotIsset(): void
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 
         $this->assertFalse(isset($list[10]));
     }
 
-    public function testArrayGet()
+    public function testArrayGet(): void
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 
@@ -56,7 +56,7 @@ class MboxInterfaceTest extends TestCase
         $this->assertEquals('Simple Message', $subject);
     }
 
-    public function testArraySetFail()
+    public function testArraySetFail(): void
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 
@@ -64,7 +64,7 @@ class MboxInterfaceTest extends TestCase
         $list[1] = 'test';
     }
 
-    public function testIterationKey()
+    public function testIterationKey(): void
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 
@@ -75,7 +75,7 @@ class MboxInterfaceTest extends TestCase
         }
     }
 
-    public function testIterationIsMessage()
+    public function testIterationIsMessage(): void
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 
@@ -88,7 +88,7 @@ class MboxInterfaceTest extends TestCase
         }
     }
 
-    public function testIterationRounds()
+    public function testIterationRounds(): void
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 
@@ -100,7 +100,7 @@ class MboxInterfaceTest extends TestCase
         $this->assertEquals(7, $count);
     }
 
-    public function testIterationWithSeek()
+    public function testIterationWithSeek(): void
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 
@@ -112,7 +112,7 @@ class MboxInterfaceTest extends TestCase
         $this->assertEquals(3, $count);
     }
 
-    public function testIterationWithSeekCapped()
+    public function testIterationWithSeekCapped(): void
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 
@@ -124,7 +124,7 @@ class MboxInterfaceTest extends TestCase
         $this->assertEquals(5, $count);
     }
 
-    public function testFallback()
+    public function testFallback(): void
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 
@@ -132,7 +132,7 @@ class MboxInterfaceTest extends TestCase
         $this->assertTrue($result);
     }
 
-    public function testWrongVariable()
+    public function testWrongVariable(): void
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 
@@ -140,14 +140,14 @@ class MboxInterfaceTest extends TestCase
         $list->thisdoesnotexist;
     }
 
-    public function testGetHeaders()
+    public function testGetHeaders(): void
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
         $headers = $list[1]->getHeaders();
         $this->assertNotEmpty($headers);
     }
 
-    public function testWrongHeader()
+    public function testWrongHeader(): void
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 

@@ -20,20 +20,20 @@ use PHPUnit\Framework\TestCase;
  */
 class ReceivedTest extends TestCase
 {
-    public function testFromStringCreatesValidReceivedHeader()
+    public function testFromStringCreatesValidReceivedHeader(): void
     {
         $receivedHeader = Header\Received::fromString('Received: xxx');
         $this->assertInstanceOf(HeaderInterface::class, $receivedHeader);
         $this->assertInstanceOf(Received::class, $receivedHeader);
     }
 
-    public function testGetFieldNameReturnsHeaderName()
+    public function testGetFieldNameReturnsHeaderName(): void
     {
         $receivedHeader = new Header\Received();
         $this->assertEquals('Received', $receivedHeader->getFieldName());
     }
 
-    public function testReceivedGetFieldValueReturnsProperValue()
+    public function testReceivedGetFieldValueReturnsProperValue(): void
     {
         $this->markTestIncomplete('Received needs to be completed');
 
@@ -41,7 +41,7 @@ class ReceivedTest extends TestCase
         $this->assertEquals('xxx', $receivedHeader->getFieldValue());
     }
 
-    public function testReceivedToStringReturnsHeaderFormattedString()
+    public function testReceivedToStringReturnsHeaderFormattedString(): void
     {
         $this->markTestIncomplete('Received needs to be completed');
 
@@ -53,7 +53,7 @@ class ReceivedTest extends TestCase
 
     /** Implementation specific tests here */
 
-    public function headerLines()
+    public function headerLines(): array
     {
         return [
             'newline'      => ["Received: xx\nx"],
@@ -68,13 +68,13 @@ class ReceivedTest extends TestCase
      * @dataProvider headerLines
      * @group ZF2015-04
      */
-    public function testRaisesExceptionViaFromStringOnDetectionOfCrlfInjection($header)
+    public function testRaisesExceptionViaFromStringOnDetectionOfCrlfInjection($header): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $received = Header\Received::fromString($header);
     }
 
-    public function invalidValues()
+    public function invalidValues(): array
     {
         return [
             'newline'      => ["xx\nx"],
@@ -88,39 +88,39 @@ class ReceivedTest extends TestCase
      * @dataProvider invalidValues
      * @group ZF2015-04
      */
-    public function testConstructorRaisesExceptionOnValueWithCRLFInjectionAttempt($value)
+    public function testConstructorRaisesExceptionOnValueWithCRLFInjectionAttempt($value): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         new Header\Received($value);
     }
 
-    public function testFromStringRaisesExceptionOnInvalidHeader()
+    public function testFromStringRaisesExceptionOnInvalidHeader(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid header line for Received string');
         Header\Received::fromString('Foo: bar');
     }
 
-    public function testDefaultEncoding()
+    public function testDefaultEncoding(): void
     {
         $header = Header\Received::fromString('Received: test');
         $this->assertSame('ASCII', $header->getEncoding());
     }
 
-    public function testSetEncodingHasNoEffect()
+    public function testSetEncodingHasNoEffect(): void
     {
         $header = Header\Received::fromString('Received: test');
         $header->setEncoding('UTF-8');
         $this->assertSame('ASCII', $header->getEncoding());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $header = new Header\Received('test');
         $this->assertEquals('Received: test', $header->toString());
     }
 
-    public function testToStringMultipleHeaders()
+    public function testToStringMultipleHeaders(): void
     {
         $header = new Header\Received('test');
         $this->assertEquals('Received: test', $header->toStringMultipleHeaders([]));
@@ -138,7 +138,7 @@ class ReceivedTest extends TestCase
         );
     }
 
-    public function testToStringMultipleHeadersThrows()
+    public function testToStringMultipleHeadersThrows(): void
     {
         $header = new Header\Received('test');
         $this->expectException(Exception\RuntimeException::class);

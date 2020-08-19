@@ -30,11 +30,11 @@ class SendmailTest extends TestCase
     public $additional_parameters;
     public $operating_system;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->transport = new Sendmail();
         $this->transport->setCallable(
-            function ($to, $subject, $message, $additional_headers, $additional_parameters = null) {
+            function ($to, $subject, $message, $additional_headers, $additional_parameters = null): void {
                 $this->to                    = $to;
                 $this->subject               = $subject;
                 $this->message               = $message;
@@ -45,7 +45,7 @@ class SendmailTest extends TestCase
         $this->operating_system      = strtoupper(substr(PHP_OS, 0, 3));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->to                    = null;
         $this->subject               = null;
@@ -54,7 +54,7 @@ class SendmailTest extends TestCase
         $this->additional_parameters = null;
     }
 
-    public function getMessage()
+    public function getMessage(): Message
     {
         $message = new Message();
         $message->addTo('test@example.com', 'Example Test')
@@ -73,12 +73,12 @@ class SendmailTest extends TestCase
         return $message;
     }
 
-    private function isWindows()
+    private function isWindows(): bool
     {
         return $this->operating_system === 'WIN';
     }
 
-    public function testReceivesMailArtifactsOnUnixSystems()
+    public function testReceivesMailArtifactsOnUnixSystems(): void
     {
         if ($this->isWindows()) {
             $this->markTestSkipped('This test is *nix-specific');
@@ -100,7 +100,7 @@ class SendmailTest extends TestCase
         $this->assertEquals('-R hdrs -f\'ralph@example.com\'', $this->additional_parameters);
     }
 
-    public function testReceivesMailArtifactsOnWindowsSystems()
+    public function testReceivesMailArtifactsOnWindowsSystems(): void
     {
         if (! $this->isWindows()) {
             $this->markTestSkipped('This test is Windows-specific');
@@ -124,7 +124,7 @@ class SendmailTest extends TestCase
         $this->assertNull($this->additional_parameters);
     }
 
-    public function testLinesStartingWithFullStopsArePreparedProperlyForWindows()
+    public function testLinesStartingWithFullStopsArePreparedProperlyForWindows(): void
     {
         if (! $this->isWindows()) {
             $this->markTestSkipped('This test is Windows-specific');
@@ -136,7 +136,7 @@ class SendmailTest extends TestCase
         $this->assertContains("line.\n.. This", trim($this->message));
     }
 
-    public function testAssertSubjectEncoded()
+    public function testAssertSubjectEncoded(): void
     {
         $message = $this->getMessage();
         $message->setEncoding('UTF-8');
@@ -144,7 +144,7 @@ class SendmailTest extends TestCase
         $this->assertEquals('=?UTF-8?Q?Testing=20Laminas\Mail\Transport\Sendmail?=', $this->subject);
     }
 
-    public function testCodeInjectionInFromHeader()
+    public function testCodeInjectionInFromHeader(): void
     {
         $this->expectException(RuntimeException::class);
         $message = $this->getMessage();
@@ -156,7 +156,7 @@ class SendmailTest extends TestCase
         $this->transport->send($message);
     }
 
-    public function testValidEmailLocaDomainInFromHeader()
+    public function testValidEmailLocaDomainInFromHeader(): void
     {
         $message = $this->getMessage();
         $message->setBody('This is the text of the email.');
@@ -171,7 +171,7 @@ class SendmailTest extends TestCase
     /**
      * @ref CVE-2016-10033 which targeted WordPress
      */
-    public function testPrepareParametersEscapesSenderUsingEscapeShellArg()
+    public function testPrepareParametersEscapesSenderUsingEscapeShellArg(): void
     {
         // @codingStandardsIgnoreStart
         $injectedEmail = 'user@xenial(tmp1 -be ${run{${substr{0}{1}{$spool_directory}}usr${substr{0}{1}{$spool_directory}}bin${substr{0}{1}{$spool_directory}}touch${substr{10}{1}{$tod_log}}${substr{0}{1}{$spool_directory}}tmp${substr{0}{1}{$spool_directory}}test}}  tmp2)';
@@ -194,7 +194,7 @@ class SendmailTest extends TestCase
     /**
      * @ref CVE-2016-10033 which targeted WordPress
      */
-    public function testPrepareParametersEscapesFromAddressUsingEscapeShellArg()
+    public function testPrepareParametersEscapesFromAddressUsingEscapeShellArg(): void
     {
         // @codingStandardsIgnoreStart
         $injectedEmail = 'user@xenial(tmp1 -be ${run{${substr{0}{1}{$spool_directory}}usr${substr{0}{1}{$spool_directory}}bin${substr{0}{1}{$spool_directory}}touch${substr{10}{1}{$tod_log}}${substr{0}{1}{$spool_directory}}tmp${substr{0}{1}{$spool_directory}}test}}  tmp2)';
@@ -217,7 +217,7 @@ class SendmailTest extends TestCase
         $this->assertEquals(' -f' . escapeshellarg($injectedEmail), $parameters);
     }
 
-    public function testTrimmedParameters()
+    public function testTrimmedParameters(): void
     {
         $this->transport->setParameters([' -R', 'hdrs ']);
 
@@ -227,7 +227,7 @@ class SendmailTest extends TestCase
         $this->assertSame('-R hdrs', $r->getValue($this->transport));
     }
 
-    public function testAllowMessageWithEmptyToHeaderButHasCcHeader()
+    public function testAllowMessageWithEmptyToHeaderButHasCcHeader(): void
     {
         $message = new Message();
         $message->addCc('matthew@example.com')
@@ -239,7 +239,7 @@ class SendmailTest extends TestCase
         $this->assertContains('Sender: Ralph Schindler <ralph@example.com>', $this->additional_headers);
     }
 
-    public function testAllowMessageWithEmptyToHeaderButHasBccHeader()
+    public function testAllowMessageWithEmptyToHeaderButHasBccHeader(): void
     {
         $message = new Message();
         $message->addBcc('list@example.com', 'Example, List')
@@ -251,7 +251,7 @@ class SendmailTest extends TestCase
         $this->assertContains('Sender: Ralph Schindler <ralph@example.com>', $this->additional_headers);
     }
 
-    public function testDoNotAllowMessageWithoutToAndCcAndBccHeaders()
+    public function testDoNotAllowMessageWithoutToAndCcAndBccHeaders(): void
     {
         $message = new Message();
         $message->setSender('ralph@example.com', 'Ralph Schindler')
@@ -265,7 +265,7 @@ class SendmailTest extends TestCase
     /**
      * @see https://github.com/laminas/laminas-mail/issues/19
      */
-    public function testHeadersToAndSubjectAreNotDuplicated()
+    public function testHeadersToAndSubjectAreNotDuplicated(): void
     {
         $message = new Message();
         $message

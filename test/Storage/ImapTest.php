@@ -21,7 +21,7 @@ class ImapTest extends TestCase
 {
     protected $params;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (! getenv('TESTS_LAMINAS_MAIL_IMAP_ENABLED')) {
             $this->markTestSkipped('Laminas_Mail IMAP tests are not enabled');
@@ -49,7 +49,7 @@ class ImapTest extends TestCase
         }
     }
 
-    protected function cleanDir($dir)
+    protected function cleanDir($dir): void
     {
         $dh = opendir($dir);
         while (($entry = readdir($dh)) !== false) {
@@ -67,7 +67,7 @@ class ImapTest extends TestCase
         closedir($dh);
     }
 
-    protected function copyDir($dir, $dest)
+    protected function copyDir($dir, $dest): void
     {
         $dh = opendir($dir);
         while (($entry = readdir($dh)) !== false) {
@@ -86,30 +86,30 @@ class ImapTest extends TestCase
         closedir($dh);
     }
 
-    public function testConnectOk()
+    public function testConnectOk(): void
     {
         new Storage\Imap($this->params);
     }
 
-    public function testConnectConfig()
+    public function testConnectConfig(): void
     {
         new Storage\Imap(new Config\Config($this->params));
     }
 
-    public function testConnectFailure()
+    public function testConnectFailure(): void
     {
         $this->params['host'] = 'example.example';
         $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Imap($this->params);
     }
 
-    public function testNoParams()
+    public function testNoParams(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Imap([]);
     }
 
-    public function testConnectSSL()
+    public function testConnectSSL(): void
     {
         if (! getenv('TESTS_LAMINAS_MAIL_IMAP_SSL')) {
             return;
@@ -119,7 +119,7 @@ class ImapTest extends TestCase
         new Storage\Imap($this->params);
     }
 
-    public function testConnectTLS()
+    public function testConnectTLS(): void
     {
         if (! getenv('TESTS_LAMINAS_MAIL_IMAP_TLS')) {
             return;
@@ -129,7 +129,7 @@ class ImapTest extends TestCase
         new Storage\Imap($this->params);
     }
 
-    public function testConnectSelfSignedSSL()
+    public function testConnectSelfSignedSSL(): void
     {
         if (! getenv('TESTS_LAMINAS_MAIL_IMAP_SSL')) {
             return;
@@ -140,21 +140,21 @@ class ImapTest extends TestCase
         new Storage\Imap($this->params);
     }
 
-    public function testInvalidService()
+    public function testInvalidService(): void
     {
         $this->params['port'] = getenv('TESTS_LAMINAS_MAIL_IMAP_INVALID_PORT');
         $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Imap($this->params);
     }
 
-    public function testWrongService()
+    public function testWrongService(): void
     {
         $this->params['port'] = getenv('TESTS_LAMINAS_MAIL_IMAP_WRONG_PORT');
         $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Imap($this->params);
     }
 
-    public function testWrongUsername()
+    public function testWrongUsername(): void
     {
         // this also triggers ...{chars}<NL>token for coverage
         $this->params['user'] = "there is no\nnobody";
@@ -162,7 +162,7 @@ class ImapTest extends TestCase
         new Storage\Imap($this->params);
     }
 
-    public function testWithInstanceConstruction()
+    public function testWithInstanceConstruction(): void
     {
         $protocol = new Protocol\Imap($this->params['host']);
         $protocol->login($this->params['user'], $this->params['password']);
@@ -170,21 +170,21 @@ class ImapTest extends TestCase
         new Storage\Imap($protocol);
     }
 
-    public function testWithNotConnectedInstance()
+    public function testWithNotConnectedInstance(): void
     {
         $protocol = new Protocol\Imap();
         $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Imap($protocol);
     }
 
-    public function testWithNotLoggedInstance()
+    public function testWithNotLoggedInstance(): void
     {
         $protocol = new Protocol\Imap($this->params['host']);
         $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Imap($protocol);
     }
 
-    public function testWrongFolder()
+    public function testWrongFolder(): void
     {
         $this->params['folder'] = 'this folder does not exist on your server';
 
@@ -192,7 +192,7 @@ class ImapTest extends TestCase
         new Storage\Imap($this->params);
     }
 
-    public function testClose()
+    public function testClose(): void
     {
         $mail = new Storage\Imap($this->params);
         $mail->close();
@@ -207,20 +207,20 @@ class ImapTest extends TestCase
         $this->assertTrue($mail->hasTop);
     }
 */
-    public function testHasCreate()
+    public function testHasCreate(): void
     {
         $mail = new Storage\Imap($this->params);
 
         $this->assertFalse($mail->hasCreate);
     }
 
-    public function testNoop()
+    public function testNoop(): void
     {
         $mail = new Storage\Imap($this->params);
         $mail->noop();
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $mail = new Storage\Imap($this->params);
 
@@ -228,7 +228,7 @@ class ImapTest extends TestCase
         $this->assertEquals(7, $count);
     }
 
-    public function testSize()
+    public function testSize(): void
     {
         $mail = new Storage\Imap($this->params);
         $shouldSizes = [1 => 397, 89, 694, 452, 497, 101, 139];
@@ -237,7 +237,7 @@ class ImapTest extends TestCase
         $this->assertEquals($shouldSizes, $sizes);
     }
 
-    public function testSingleSize()
+    public function testSingleSize(): void
     {
         $mail = new Storage\Imap($this->params);
 
@@ -245,7 +245,7 @@ class ImapTest extends TestCase
         $this->assertEquals(89, $size);
     }
 
-    public function testFetchHeader()
+    public function testFetchHeader(): void
     {
         $mail = new Storage\Imap($this->params);
 
@@ -264,7 +264,7 @@ class ImapTest extends TestCase
         $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
     }
 */
-    public function testFetchMessageHeader()
+    public function testFetchMessageHeader(): void
     {
         $mail = new Storage\Imap($this->params);
 
@@ -272,7 +272,7 @@ class ImapTest extends TestCase
         $this->assertEquals('Simple Message', $subject);
     }
 
-    public function testFetchMessageBody()
+    public function testFetchMessageBody(): void
     {
         $mail = new Storage\Imap($this->params);
 
@@ -281,7 +281,7 @@ class ImapTest extends TestCase
         $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
     }
 
-    public function testRemove()
+    public function testRemove(): void
     {
         $mail = new Storage\Imap($this->params);
 
@@ -290,7 +290,7 @@ class ImapTest extends TestCase
         $this->assertEquals($mail->countMessages(), $count - 1);
     }
 
-    public function testTooLateCount()
+    public function testTooLateCount(): void
     {
         $mail = new Storage\Imap($this->params);
         $mail->close();
@@ -300,14 +300,14 @@ class ImapTest extends TestCase
         $mail->countMessages();
     }
 
-    public function testLoadUnkownFolder()
+    public function testLoadUnkownFolder(): void
     {
         $this->params['folder'] = 'UnknownFolder';
         $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Imap($this->params);
     }
 
-    public function testChangeFolder()
+    public function testChangeFolder(): void
     {
         $mail = new Storage\Imap($this->params);
         $mail->selectFolder('subfolder/test');
@@ -315,26 +315,26 @@ class ImapTest extends TestCase
         $this->assertEquals($mail->getCurrentFolder(), 'subfolder/test');
     }
 
-    public function testUnknownFolder()
+    public function testUnknownFolder(): void
     {
         $mail = new Storage\Imap($this->params);
         $this->expectException(Exception\InvalidArgumentException::class);
         $mail->selectFolder('/Unknown/Folder/');
     }
 
-    public function testGlobalName()
+    public function testGlobalName(): void
     {
         $mail = new Storage\Imap($this->params);
         $this->assertEquals($mail->getFolders()->subfolder->__toString(), 'subfolder');
     }
 
-    public function testLocalName()
+    public function testLocalName(): void
     {
         $mail = new Storage\Imap($this->params);
         $this->assertEquals($mail->getFolders()->subfolder->key(), 'test');
     }
 
-    public function testKeyLocalName()
+    public function testKeyLocalName(): void
     {
         $mail = new Storage\Imap($this->params);
         $iterator = new \RecursiveIteratorIterator($mail->getFolders(), \RecursiveIteratorIterator::SELF_FIRST);
@@ -356,7 +356,7 @@ class ImapTest extends TestCase
         $this->assertEquals($search_folders, $found_folders);
     }
 
-    public function testSelectable()
+    public function testSelectable(): void
     {
         $mail = new Storage\Imap($this->params);
         $iterator = new \RecursiveIteratorIterator($mail->getFolders(), \RecursiveIteratorIterator::SELF_FIRST);
@@ -366,7 +366,7 @@ class ImapTest extends TestCase
         }
     }
 
-    public function testCountFolder()
+    public function testCountFolder(): void
     {
         $mail = new Storage\Imap($this->params);
 
@@ -375,7 +375,7 @@ class ImapTest extends TestCase
         $this->assertEquals(1, $count);
     }
 
-    public function testSizeFolder()
+    public function testSizeFolder(): void
     {
         $mail = new Storage\Imap($this->params);
 
@@ -384,7 +384,7 @@ class ImapTest extends TestCase
         $this->assertEquals([1 => 410], $sizes);
     }
 
-    public function testFetchHeaderFolder()
+    public function testFetchHeaderFolder(): void
     {
         $mail = new Storage\Imap($this->params);
 
@@ -393,14 +393,14 @@ class ImapTest extends TestCase
         $this->assertEquals('Message in subfolder', $subject);
     }
 
-    public function testHasFlag()
+    public function testHasFlag(): void
     {
         $mail = new Storage\Imap($this->params);
 
         $this->assertTrue($mail->getMessage(1)->hasFlag(Storage::FLAG_RECENT));
     }
 
-    public function testGetFlags()
+    public function testGetFlags(): void
     {
         $mail = new Storage\Imap($this->params);
 
@@ -409,14 +409,14 @@ class ImapTest extends TestCase
         $this->assertContains(Storage::FLAG_RECENT, $flags);
     }
 
-    public function testRawHeader()
+    public function testRawHeader(): void
     {
         $mail = new Storage\Imap($this->params);
 
         $this->assertContains("\r\nSubject: Simple Message\r\n", $mail->getRawHeader(1));
     }
 
-    public function testUniqueId()
+    public function testUniqueId(): void
     {
         $mail = new Storage\Imap($this->params);
 
@@ -440,14 +440,14 @@ class ImapTest extends TestCase
         }
     }
 
-    public function testWrongUniqueId()
+    public function testWrongUniqueId(): void
     {
         $mail = new Storage\Imap($this->params);
         $this->expectException(Exception\InvalidArgumentException::class);
         $mail->getNumberByUniqueId('this_is_an_invalid_id');
     }
 
-    public function testCreateFolder()
+    public function testCreateFolder(): void
     {
         $mail = new Storage\Imap($this->params);
         $mail->createFolder('subfolder/test1');
@@ -459,7 +459,7 @@ class ImapTest extends TestCase
         $mail->getFolders()->subfolder->test3;
     }
 
-    public function testCreateExistingFolder()
+    public function testCreateExistingFolder(): void
     {
         $mail = new Storage\Imap($this->params);
 
@@ -467,7 +467,7 @@ class ImapTest extends TestCase
         $mail->createFolder('subfolder/test');
     }
 
-    public function testRemoveFolderName()
+    public function testRemoveFolderName(): void
     {
         $mail = new Storage\Imap($this->params);
         $mail->removeFolder('subfolder/test');
@@ -476,7 +476,7 @@ class ImapTest extends TestCase
         $mail->getFolders()->subfolder->test;
     }
 
-    public function testRemoveFolderInstance()
+    public function testRemoveFolderInstance(): void
     {
         $mail = new Storage\Imap($this->params);
         $mail->removeFolder($mail->getFolders()->subfolder->test);
@@ -485,7 +485,7 @@ class ImapTest extends TestCase
         $mail->getFolders()->subfolder->test;
     }
 
-    public function testRemoveInvalidFolder()
+    public function testRemoveInvalidFolder(): void
     {
         $mail = new Storage\Imap($this->params);
 
@@ -493,7 +493,7 @@ class ImapTest extends TestCase
         $mail->removeFolder('thisFolderDoestNotExist');
     }
 
-    public function testRenameFolder()
+    public function testRenameFolder(): void
     {
         $mail = new Storage\Imap($this->params);
 
@@ -504,7 +504,7 @@ class ImapTest extends TestCase
         $mail->renameFolder('subfolder/test', 'INBOX');
     }
 
-    public function testAppend()
+    public function testAppend(): void
     {
         $mail = new Storage\Imap($this->params);
         $count = $mail->countMessages();
@@ -524,7 +524,7 @@ class ImapTest extends TestCase
         $mail->appendMessage('');
     }
 
-    public function testCopy()
+    public function testCopy(): void
     {
         $mail = new Storage\Imap($this->params);
 
@@ -544,7 +544,7 @@ class ImapTest extends TestCase
         $mail->copyMessage(1, 'justARandomFolder');
     }
 
-    public function testSetFlags()
+    public function testSetFlags(): void
     {
         $mail = new Storage\Imap($this->params);
 
@@ -576,7 +576,7 @@ class ImapTest extends TestCase
     /**
      * @group 7353
      */
-    public function testCanMarkMessageUnseen()
+    public function testCanMarkMessageUnseen(): void
     {
         $mail = new Storage\Imap($this->params);
         $mail->setFlags(1, [Storage::FLAG_UNSEEN]);
@@ -584,7 +584,7 @@ class ImapTest extends TestCase
         $this->assertTrue($message->hasFlag(Storage::FLAG_UNSEEN));
     }
 
-    public function testCapability()
+    public function testCapability(): void
     {
         $protocol = new Protocol\Imap($this->params['host']);
         $protocol->login($this->params['user'], $this->params['password']);
@@ -593,7 +593,7 @@ class ImapTest extends TestCase
         $this->assertEquals($capa[0], 'CAPABILITY');
     }
 
-    public function testSelect()
+    public function testSelect(): void
     {
         $protocol = new Protocol\Imap($this->params['host']);
         $protocol->login($this->params['user'], $this->params['password']);
@@ -602,7 +602,7 @@ class ImapTest extends TestCase
         $this->assertEquals($status['exists'], 7);
     }
 
-    public function testExamine()
+    public function testExamine(): void
     {
         $protocol = new Protocol\Imap($this->params['host']);
         $protocol->login($this->params['user'], $this->params['password']);
@@ -611,7 +611,7 @@ class ImapTest extends TestCase
         $this->assertEquals($status['exists'], 7);
     }
 
-    public function testClosedSocketNewlineToken()
+    public function testClosedSocketNewlineToken(): void
     {
         $protocol = new Protocol\Imap($this->params['host']);
         $protocol->login($this->params['user'], $this->params['password']);
@@ -621,7 +621,7 @@ class ImapTest extends TestCase
         $protocol->select("foo\nbar");
     }
 
-    public function testEscaping()
+    public function testEscaping(): void
     {
         $protocol = new Protocol\Imap();
         $this->assertEquals($protocol->escapeString('foo'), '"foo"');
@@ -634,7 +634,7 @@ class ImapTest extends TestCase
         $this->assertEquals($protocol->escapeList(['foo', 'bar']), '(foo bar)');
     }
 
-    public function testFetch()
+    public function testFetch(): void
     {
         $protocol = new Protocol\Imap($this->params['host']);
         $protocol->login($this->params['user'], $this->params['password']);
@@ -656,7 +656,7 @@ class ImapTest extends TestCase
         $protocol->fetch('UID', 99);
     }
 
-    public function testFetchByUid()
+    public function testFetchByUid(): void
     {
         $protocol = new Protocol\Imap($this->params['host']);
         $protocol->login($this->params['user'], $this->params['password']);
@@ -668,7 +668,7 @@ class ImapTest extends TestCase
         $this->assertEquals($uid, $message['UID']);
     }
 
-    public function testStore()
+    public function testStore(): void
     {
         $protocol = new Protocol\Imap($this->params['host']);
         $protocol->login($this->params['user'], $this->params['password']);
@@ -686,7 +686,7 @@ class ImapTest extends TestCase
         $this->assertContains('\Flagged', $result[1]);
     }
 
-    public function testMove()
+    public function testMove(): void
     {
         $mail = new Storage\Imap($this->params);
         $mail->selectFolder('subfolder/test');
@@ -700,7 +700,7 @@ class ImapTest extends TestCase
         $this->assertEquals($toCount + 1, $mail->countMessages());
     }
 
-    public function testCountFlags()
+    public function testCountFlags(): void
     {
         $mail = new Storage\Imap($this->params);
         foreach ($mail as $id => $message) {
@@ -719,7 +719,7 @@ class ImapTest extends TestCase
         $this->assertEquals($mail->countMessages(Storage::FLAG_FLAGGED), 0);
     }
 
-    public function testDelimiter()
+    public function testDelimiter(): void
     {
         $mail = new Storage\Imap($this->params);
         $delimiter = $mail->delimiter();

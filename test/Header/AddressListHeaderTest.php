@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
  */
 class AddressListHeaderTest extends TestCase
 {
-    public static function getHeaderInstances()
+    public static function getHeaderInstances(): array
     {
         return [
             [new Bcc(), 'Bcc'],
@@ -37,7 +37,7 @@ class AddressListHeaderTest extends TestCase
     /**
      * @dataProvider getHeaderInstances
      */
-    public function testConcreteHeadersExtendAbstractAddressListHeader($header)
+    public function testConcreteHeadersExtendAbstractAddressListHeader($header): void
     {
         $this->assertInstanceOf(AbstractAddressList::class, $header);
     }
@@ -45,7 +45,7 @@ class AddressListHeaderTest extends TestCase
     /**
      * @dataProvider getHeaderInstances
      */
-    public function testConcreteHeaderFieldNamesAreDiscrete($header, $type)
+    public function testConcreteHeaderFieldNamesAreDiscrete($header, $type): void
     {
         $this->assertEquals($type, $header->getFieldName());
     }
@@ -53,19 +53,19 @@ class AddressListHeaderTest extends TestCase
     /**
      * @dataProvider getHeaderInstances
      */
-    public function testConcreteHeadersComposeAddressLists($header)
+    public function testConcreteHeadersComposeAddressLists($header): void
     {
         $list = $header->getAddressList();
         $this->assertInstanceOf(AddressList::class, $list);
     }
 
-    public function testFieldValueIsEmptyByDefault()
+    public function testFieldValueIsEmptyByDefault(): void
     {
         $header = new To();
         $this->assertEquals('', $header->getFieldValue());
     }
 
-    public function testFieldValueIsCreatedFromAddressList()
+    public function testFieldValueIsCreatedFromAddressList(): void
     {
         $header = new To();
         $list   = $header->getAddressList();
@@ -74,7 +74,7 @@ class AddressListHeaderTest extends TestCase
         $this->assertEquals($expected, $header->getFieldValue());
     }
 
-    public function populateAddressList(AddressList $list)
+    public function populateAddressList(AddressList $list): void
     {
         $address = new Address('test@example.com', 'Example Test');
         $list->add($address);
@@ -83,7 +83,7 @@ class AddressListHeaderTest extends TestCase
         $list->add('first@last.example.com', 'Last, First');
     }
 
-    public function getExpectedFieldValue()
+    public function getExpectedFieldValue(): string
     {
         // @codingStandardsIgnoreStart
         return "Example Test <test@example.com>,\r\n list@example.com,\r\n Example Announce List <announce@example.com>,\r\n \"Last, First\" <first@last.example.com>";
@@ -93,14 +93,14 @@ class AddressListHeaderTest extends TestCase
     /**
      * @dataProvider getHeaderInstances
      */
-    public function testStringRepresentationIncludesHeaderAndFieldValue($header, $type)
+    public function testStringRepresentationIncludesHeaderAndFieldValue($header, $type): void
     {
         $this->populateAddressList($header->getAddressList());
         $expected = sprintf('%s: %s', $type, $this->getExpectedFieldValue());
         $this->assertEquals($expected, $header->toString());
     }
 
-    public function getStringHeaders()
+    public function getStringHeaders(): array
     {
         $value = $this->getExpectedFieldValue();
         return [
@@ -115,7 +115,7 @@ class AddressListHeaderTest extends TestCase
     /**
      * @dataProvider getStringHeaders
      */
-    public function testDeserializationFromString($headerLine, $class)
+    public function testDeserializationFromString($headerLine, $class): void
     {
         $callback = sprintf('%s::fromString', $class);
         $header   = $callback($headerLine);
@@ -136,7 +136,7 @@ class AddressListHeaderTest extends TestCase
         $this->assertEquals('Last, First', $address->getName());
     }
 
-    public function getStringHeadersWithNoWhitespaceSeparator()
+    public function getStringHeadersWithNoWhitespaceSeparator(): array
     {
         $value = $this->getExpectedFieldValue();
         return [
@@ -151,7 +151,7 @@ class AddressListHeaderTest extends TestCase
     /**
      * @dataProvider getHeadersWithComments
      */
-    public function testDeserializationFromStringWithComments($value)
+    public function testDeserializationFromStringWithComments($value): void
     {
         $header = From::fromString($value);
         $list = $header->getAddressList();
@@ -159,7 +159,7 @@ class AddressListHeaderTest extends TestCase
         $this->assertTrue($list->has('user@example.com'));
     }
 
-    public function getHeadersWithComments()
+    public function getHeadersWithComments(): array
     {
         return [
             ['From: user@example.com (Comment)'],
@@ -172,7 +172,7 @@ class AddressListHeaderTest extends TestCase
      * @group 3789
      * @dataProvider getStringHeadersWithNoWhitespaceSeparator
      */
-    public function testAllowsNoWhitespaceBetweenHeaderAndValue($headerLine, $class)
+    public function testAllowsNoWhitespaceBetweenHeaderAndValue($headerLine, $class): void
     {
         $callback = sprintf('%s::fromString', $class);
         $header   = $callback($headerLine);
@@ -196,7 +196,7 @@ class AddressListHeaderTest extends TestCase
     /**
      * @dataProvider getAddressListsWithGroup
      */
-    public function testAddressListWithGroup($input, $count, $sample)
+    public function testAddressListWithGroup($input, $count, $sample): void
     {
         $header = To::fromString($input);
         $list = $header->getAddressList();
@@ -206,7 +206,7 @@ class AddressListHeaderTest extends TestCase
         }
     }
 
-    public function getAddressListsWithGroup()
+    public function getAddressListsWithGroup(): array
     {
         return [
             ['To: undisclosed-recipients:;', 0, null],
@@ -214,7 +214,7 @@ class AddressListHeaderTest extends TestCase
         ];
     }
 
-    public function specialCharHeaderProvider()
+    public function specialCharHeaderProvider(): array
     {
         return [
             [
@@ -233,7 +233,7 @@ class AddressListHeaderTest extends TestCase
     /**
      * @dataProvider specialCharHeaderProvider
      */
-    public function testDeserializationFromSpecialCharString($headerLine, $expected, $encoding)
+    public function testDeserializationFromSpecialCharString($headerLine, $expected, $encoding): void
     {
         $header = To::fromString($headerLine);
 

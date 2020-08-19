@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
  */
 class MessageFactoryTest extends TestCase
 {
-    public function testConstructMessageWithOptions()
+    public function testConstructMessageWithOptions(): void
     {
         $options = [
             'encoding'  => 'UTF-8',
@@ -60,7 +60,7 @@ class MessageFactoryTest extends TestCase
         }
     }
 
-    public function testCanCreateMessageWithMultipleRecipientsViaArrayValue()
+    public function testCanCreateMessageWithMultipleRecipientsViaArrayValue(): void
     {
         $options = [
             'from' => ['matthew@example.com' => 'Matthew'],
@@ -85,7 +85,7 @@ class MessageFactoryTest extends TestCase
         $this->assertTrue($to->has('list@example.com'));
     }
 
-    public function testIgnoresUnreconizedOptions()
+    public function testIgnoresUnreconizedOptions(): void
     {
         $options = [
             'foo' => 'bar',
@@ -94,13 +94,13 @@ class MessageFactoryTest extends TestCase
         $this->assertInstanceOf(Message::class, $mail);
     }
 
-    public function testEmptyOption()
+    public function testEmptyOption(): void
     {
         $mail = MessageFactory::getInstance();
         $this->assertInstanceOf(Message::class, $mail);
     }
 
-    public function invalidMessageOptions()
+    public function invalidMessageOptions(): array
     {
         return [
             'null' => [null],
@@ -118,7 +118,7 @@ class MessageFactoryTest extends TestCase
     /**
      * @dataProvider invalidMessageOptions
      */
-    public function testExceptionForOptionsNotArrayOrTraversable($options)
+    public function testExceptionForOptionsNotArrayOrTraversable($options): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         MessageFactory::getInstance($options);

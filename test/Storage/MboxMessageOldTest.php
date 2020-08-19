@@ -16,7 +16,7 @@ class MboxMessageOldTest extends TestCase
     protected $mboxFile;
     protected $tmpdir;
 
-    public function setUp()
+    public function setUp(): void
     {
         if ($this->tmpdir == null) {
             if (getenv('TESTS_LAMINAS_MAIL_TEMPDIR') != null) {
@@ -45,12 +45,12 @@ class MboxMessageOldTest extends TestCase
         copy($this->mboxOriginalFile, $this->mboxFile);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unlink($this->mboxFile);
     }
 
-    public function testFetchHeader()
+    public function testFetchHeader(): void
     {
         $mail = new TestAsset\MboxOldMessage(['filename' => $this->mboxFile]);
 
@@ -68,7 +68,7 @@ class MboxMessageOldTest extends TestCase
     }
 */
 
-    public function testFetchMessageHeader()
+    public function testFetchMessageHeader(): void
     {
         $mail = new TestAsset\MboxOldMessage(['filename' => $this->mboxFile]);
 
@@ -76,7 +76,7 @@ class MboxMessageOldTest extends TestCase
         $this->assertEquals('Simple Message', $subject);
     }
 
-    public function testFetchMessageBody()
+    public function testFetchMessageBody(): void
     {
         $mail = new TestAsset\MboxOldMessage(['filename' => $this->mboxFile]);
 
@@ -85,7 +85,7 @@ class MboxMessageOldTest extends TestCase
         $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
     }
 
-    public function testShortMbox()
+    public function testShortMbox(): void
     {
         $fh = fopen($this->mboxFile, 'w');
         fwrite($fh, "From \r\nSubject: test\r\nFrom \r\nSubject: test2\r\n");

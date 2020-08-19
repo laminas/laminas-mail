@@ -17,21 +17,21 @@ use PHPUnit\Framework\TestCase;
  */
 class AddressTest extends TestCase
 {
-    public function testDoesNotRequireNameForInstantiation()
+    public function testDoesNotRequireNameForInstantiation(): void
     {
         $address = new Address('test@example.com');
         $this->assertEquals('test@example.com', $address->getEmail());
         $this->assertNull($address->getName());
     }
 
-    public function testAcceptsNameViaConstructor()
+    public function testAcceptsNameViaConstructor(): void
     {
         $address = new Address('test@example.com', 'Example Test');
         $this->assertEquals('test@example.com', $address->getEmail());
         $this->assertEquals('Example Test', $address->getName());
     }
 
-    public function testToStringCreatesStringRepresentation()
+    public function testToStringCreatesStringRepresentation(): void
     {
         $address = new Address('test@example.com', 'Example Test');
         $this->assertEquals('Example Test <test@example.com>', $address->toString());
@@ -43,13 +43,13 @@ class AddressTest extends TestCase
      * @param string $email
      * @param null|string $name
      */
-    public function testSetAddressInvalidAddressObject($email, $name)
+    public function testSetAddressInvalidAddressObject($email, $name): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         new Address($email, $name);
     }
 
-    public function invalidSenderDataProvider()
+    public function invalidSenderDataProvider(): array
     {
         return [
             // Description => [sender address, sender name],
@@ -74,13 +74,13 @@ class AddressTest extends TestCase
      * @param string $email
      * @param null|string $name
      */
-    public function testSetAddressValidAddressObject($email, $name)
+    public function testSetAddressValidAddressObject($email, $name): void
     {
         $address = new Address($email, $name);
         $this->assertInstanceOf(Address::class, $address);
     }
 
-    public function validSenderDataProvider()
+    public function validSenderDataProvider(): array
     {
         return [
             // Description => [sender address, sender name],

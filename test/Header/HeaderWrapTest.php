@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
  */
 class HeaderWrapTest extends TestCase
 {
-    public function testWrapUnstructuredHeaderAscii()
+    public function testWrapUnstructuredHeaderAscii(): void
     {
         $string = str_repeat('foobarblahblahblah baz bat', 4);
         $header = $this->createMock(UnstructuredInterface::class);
@@ -35,7 +35,7 @@ class HeaderWrapTest extends TestCase
     /**
      * @group Laminas-258
      */
-    public function testWrapUnstructuredHeaderMime()
+    public function testWrapUnstructuredHeaderMime(): void
     {
         $string = str_repeat('foobarblahblahblah baz bat', 3);
         $header = $this->createMock(UnstructuredInterface::class);
@@ -50,7 +50,7 @@ class HeaderWrapTest extends TestCase
         $this->assertEquals($string, iconv_mime_decode($test, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8'));
     }
 
-    public function testWrapUnknownHeaderType()
+    public function testWrapUnknownHeaderType(): void
     {
         $header = new \Laminas\Mail\Header\Bcc('test@example.org');
         $value = 'value unmodified by wrap function';
@@ -60,7 +60,7 @@ class HeaderWrapTest extends TestCase
     /**
      * @group Laminas-359
      */
-    public function testMimeEncoding()
+    public function testMimeEncoding(): void
     {
         $string   = 'Umlauts: ä';
         $expected = '=?UTF-8?Q?Umlauts:=20=C3=A4?=';
@@ -70,7 +70,7 @@ class HeaderWrapTest extends TestCase
         $this->assertEquals($string, iconv_mime_decode($test, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8'));
     }
 
-    public function testMimeDecoding()
+    public function testMimeDecoding(): void
     {
         $expected = str_repeat('foobarblahblahblah baz bat', 3);
         $encoded = "=?UTF-8?Q?foobarblahblahblah=20baz=20batfoobarblahblahblah=20baz=20?=\r\n"
@@ -86,7 +86,7 @@ class HeaderWrapTest extends TestCase
      * because undocumented behavior in iconv_mime_decode()
      * @see https://github.com/zendframework/zend-mail/pull/187
      */
-    public function testMimeDecodeBreakageBug()
+    public function testMimeDecodeBreakageBug(): void
     {
         $headerValue = 'v=1; a=rsa-sha25; c=relaxed/simple; d=example.org; h='
             . "\r\n\t" . 'content-language:content-type:content-type:in-reply-to';
@@ -113,7 +113,7 @@ class HeaderWrapTest extends TestCase
      * which can be triggered as:
      *   $header = new GenericHeader($name, $value);
      */
-    public function testCanBeEncoded()
+    public function testCanBeEncoded(): void
     {
         // @codingStandardsIgnoreStart
         $value   = "[#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx, tähtaeg xx.xx, xxxx";
@@ -126,7 +126,7 @@ class HeaderWrapTest extends TestCase
     /**
      * @requires extension imap
      */
-    public function testMultilineWithMultibyteSplitAcrossCharacter()
+    public function testMultilineWithMultibyteSplitAcrossCharacter(): void
     {
         $originalValue = 'аф';
 

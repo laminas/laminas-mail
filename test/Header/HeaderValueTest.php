@@ -20,7 +20,7 @@ class HeaderValueTest extends TestCase
     /**
      * Data for filter value
      */
-    public function getFilterValues()
+    public function getFilterValues(): array
     {
         return [
             ["This is a\n test", "This is a test"],
@@ -42,12 +42,12 @@ class HeaderValueTest extends TestCase
      * @dataProvider getFilterValues
      * @group ZF2015-04
      */
-    public function testFilterValue($value, $expected)
+    public function testFilterValue($value, $expected): void
     {
         $this->assertEquals($expected, HeaderValue::filter($value));
     }
 
-    public function validateValues()
+    public function validateValues(): array
     {
         return [
             ["This is a\n test", 'assertFalse'],
@@ -73,12 +73,12 @@ class HeaderValueTest extends TestCase
      * @dataProvider validateValues
      * @group ZF2015-04
      */
-    public function testValidateValue($value, $assertion)
+    public function testValidateValue($value, $assertion): void
     {
         $this->{$assertion}(HeaderValue::isValid($value));
     }
 
-    public function assertValues()
+    public function assertValues(): array
     {
         return [
             ["This is a\n test"],
@@ -98,7 +98,7 @@ class HeaderValueTest extends TestCase
      * @dataProvider assertValues
      * @group ZF2015-04
      */
-    public function testAssertValidRaisesExceptionForInvalidValues($value)
+    public function testAssertValidRaisesExceptionForInvalidValues($value): void
     {
         $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('Invalid');

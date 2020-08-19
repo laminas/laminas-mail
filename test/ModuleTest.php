@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ModuleTest extends TestCase
 {
-    public function testInvoke()
+    public function testInvoke(): void
     {
         $module = new Module();
         $config = $module->getConfig();

@@ -20,32 +20,32 @@ class SmtpProtocolSpy extends Smtp
     protected $mail;
     protected $rcptTest = [];
 
-    public function connect()
+    public function connect(): bool
     {
         $this->connect = true;
 
         return true;
     }
 
-    public function disconnect()
+    public function disconnect(): void
     {
         $this->connect = false;
         parent::disconnect();
     }
 
-    public function quit()
+    public function quit(): void
     {
         $this->calledQuit = true;
         parent::quit();
     }
 
-    public function rset()
+    public function rset(): void
     {
         parent::rset();
         $this->rcptTest = [];
     }
 
-    public function rcpt($to)
+    public function rcpt($to): void
     {
         parent::rcpt($to);
         $this->rcpt = true;
@@ -53,7 +53,7 @@ class SmtpProtocolSpy extends Smtp
     }
 
     // @codingStandardsIgnoreStart
-    protected function _send($request)
+    protected function _send($request): void
     {
         // Save request to internal log
         $this->_addLog($request . self::EOL);
@@ -61,7 +61,7 @@ class SmtpProtocolSpy extends Smtp
     // @codingStandardsIgnoreEnd
 
     // @codingStandardsIgnoreStart
-    protected function _expect($code, $timeout = null)
+    protected function _expect($code, $timeout = null): string
     {
         return '';
     }
@@ -72,7 +72,7 @@ class SmtpProtocolSpy extends Smtp
      *
      * @return bool
      */
-    public function isConnected()
+    public function isConnected(): bool
     {
         return $this->connect;
     }
@@ -82,7 +82,7 @@ class SmtpProtocolSpy extends Smtp
      *
      * @return array
      */
-    public function getRecipients()
+    public function getRecipients(): array
     {
         return $this->rcptTest;
     }
@@ -92,7 +92,7 @@ class SmtpProtocolSpy extends Smtp
      *
      * @return bool
      */
-    public function getAuth()
+    public function getAuth(): bool
     {
         return $this->auth;
     }
@@ -103,7 +103,7 @@ class SmtpProtocolSpy extends Smtp
      * @param  bool $status
      * @return self
      */
-    public function setAuth($status)
+    public function setAuth($status): self
     {
         $this->auth = (bool) $status;
 
@@ -116,7 +116,7 @@ class SmtpProtocolSpy extends Smtp
      * @param  bool $status
      * @return self
      */
-    public function setSessionStatus($status)
+    public function setSessionStatus($status): self
     {
         $this->sess = (bool) $status;
 
