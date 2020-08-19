@@ -79,7 +79,7 @@ class ContentDisposition implements UnstructuredInterface
 
             foreach ($continuedValues as $name => $values) {
                 $value = '';
-                for ($i = 0; $i < count($values); $i++) {
+                for ($i = 0, $iMax = count($values); $i < $iMax; $i++) {
                     if (! isset($values[$i])) {
                         throw new Exception\InvalidArgumentException(
                             'Invalid header line for Content-Disposition string - incomplete continuation'
