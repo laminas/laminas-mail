@@ -133,19 +133,14 @@ class ContentDispositionTest extends TestCase
      * Should not throw if the optional count is missing
      *
      * @see https://tools.ietf.org/html/rfc2231
+     * @dataProvider parameterWrappingProvider
      */
-    public function testParameterValueOptionalContinuationsRFC2231(): void
+    public function testParameterWrapping(string $input, string $disposition, array $parameters): void
     {
-        $input1 = "Content-Disposition: attachment; filename*=UTF-8''%64%61%61%6D%69%2D%6D%C3%B5%72%76%2E%6A%70%67";
-        $header = ContentDisposition::fromString($input1);
+        $header = ContentDisposition::fromString($input);
 
-        $this->assertEquals('attachment', $header->getDisposition());
-        $this->assertEquals(['filename' => "UTF-8''%64%61%61%6D%69%2D%6D%C3%B5%72%76%2E%6A%70%67"], $header->getParameters());
-
-        $input2 = "Content-Type: application/x-stuff; title*=us-ascii'en-us'This%20is%20%2A%2A%2Afun%2A%2A%2A";
-        $header = ContentType::fromString($input2);
-
-        $this->assertEquals(['title*' => "us-ascii'en-us'This%20is%20%2A%2A%2Afun%2A%2A%2A"], $header->getParameters());
+        $this->assertEquals($disposition, $header->getDisposition());
+        $this->assertEquals($parameters, $header->getParameters());
     }
 
     /**
@@ -264,5 +259,14 @@ class ContentDispositionTest extends TestCase
             ]
         ];
         // @codingStandardsIgnoreEnd
+    }
+
+    public function parameterWrappingProvider(): iterable
+    {
+        yield 'Without sequence number' => [
+            "Content-Disposition: attachment; filename*=UTF-8''%64%61%61%6D%69%2D%6D%C3%B5%72%76%2E%6A%70%67",
+            'attachment',
+            ['filename' => "UTF-8''%64%61%61%6D%69%2D%6D%C3%B5%72%76%2E%6A%70%67"]
+        ];
     }
 }
