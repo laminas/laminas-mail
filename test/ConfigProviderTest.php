@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ConfigProviderTest extends TestCase
 {
-    public function testInvoke()
+    public function testInvoke(): void
     {
         $configProvider = new ConfigProvider();
         $config = $configProvider();

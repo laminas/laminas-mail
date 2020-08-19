@@ -15,7 +15,7 @@ use Laminas\Mail\Protocol\AbstractProtocol;
  */
 final class ErroneousSmtp extends AbstractProtocol
 {
-    public function connect($customRemote = null)
+    public function connect($customRemote = null): bool
     {
         return $this->_connect($customRemote);
     }

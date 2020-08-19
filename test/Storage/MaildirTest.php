@@ -21,7 +21,7 @@ class MaildirTest extends TestCase
     protected $maildir;
     protected $tmpdir;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (\strtoupper(\substr(PHP_OS, 0, 3)) == 'WIN') {
             $this->markTestSkipped('This test does not work on Windows');
@@ -82,7 +82,7 @@ class MaildirTest extends TestCase
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         foreach (['cur', 'new'] as $dir) {
             if (! is_dir($this->tmpdir . $dir)) {
@@ -111,67 +111,67 @@ class MaildirTest extends TestCase
         }
     }
 
-    public function testLoadOk()
+    public function testLoadOk(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
         $this->assertSame(Storage\Maildir::class, \get_class($mail));
     }
 
-    public function testLoadConfig()
+    public function testLoadConfig(): void
     {
         $mail = new Storage\Maildir(new Config\Config(['dirname' => $this->maildir]));
         $this->assertSame(Storage\Maildir::class, \get_class($mail));
     }
 
-    public function testLoadFailure()
+    public function testLoadFailure(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('no valid dirname given in params');
         new Storage\Maildir(['dirname' => '/This/Dir/Does/Not/Exist']);
     }
 
-    public function testLoadInvalid()
+    public function testLoadInvalid(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('invalid maildir given');
         new Storage\Maildir(['dirname' => __DIR__]);
     }
 
-    public function testClose()
+    public function testClose(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
         $this->assertNull($mail->close());
     }
 
-    public function testHasFlags()
+    public function testHasFlags(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
         $this->assertTrue($mail->hasFlags);
     }
 
-    public function testHasTop()
+    public function testHasTop(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
         $this->assertTrue($mail->hasTop);
     }
 
-    public function testHasCreate()
+    public function testHasCreate(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
         $this->assertFalse($mail->hasCreate);
     }
 
-    public function testNoop()
+    public function testNoop(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
         $this->assertTrue($mail->noop());
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
@@ -179,7 +179,7 @@ class MaildirTest extends TestCase
         $this->assertEquals(5, $count);
     }
 
-    public function testSize()
+    public function testSize(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
         $shouldSizes = [1 => 397, 89, 694, 452, 497];
@@ -188,7 +188,7 @@ class MaildirTest extends TestCase
         $this->assertEquals($shouldSizes, $sizes);
     }
 
-    public function testSingleSize()
+    public function testSingleSize(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
@@ -196,7 +196,7 @@ class MaildirTest extends TestCase
         $this->assertEquals(89, $size);
     }
 
-    public function testFetchHeader()
+    public function testFetchHeader(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
@@ -213,7 +213,7 @@ class MaildirTest extends TestCase
         $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
     }
 */
-    public function testFetchMessageHeader()
+    public function testFetchMessageHeader(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
@@ -221,7 +221,7 @@ class MaildirTest extends TestCase
         $this->assertEquals('Simple Message', $subject);
     }
 
-    public function testFetchMessageBody()
+    public function testFetchMessageBody(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
@@ -230,7 +230,7 @@ class MaildirTest extends TestCase
         $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
     }
 
-    public function testFetchWrongSize()
+    public function testFetchWrongSize(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
@@ -239,7 +239,7 @@ class MaildirTest extends TestCase
         $mail->getSize(0);
     }
 
-    public function testFetchWrongMessageBody()
+    public function testFetchWrongMessageBody(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
@@ -248,7 +248,7 @@ class MaildirTest extends TestCase
         $mail->getMessage(0);
     }
 
-    public function testFailedRemove()
+    public function testFailedRemove(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
@@ -257,7 +257,7 @@ class MaildirTest extends TestCase
         $mail->removeMessage(1);
     }
 
-    public function testHasFlag()
+    public function testHasFlag(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
@@ -267,7 +267,7 @@ class MaildirTest extends TestCase
         $this->assertFalse($mail->getMessage(2)->hasFlag(Storage::FLAG_ANSWERED));
     }
 
-    public function testGetFlags()
+    public function testGetFlags(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
@@ -276,7 +276,7 @@ class MaildirTest extends TestCase
         $this->assertContains(Storage::FLAG_SEEN, $flags);
     }
 
-    public function testUniqueId()
+    public function testUniqueId(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
@@ -299,7 +299,7 @@ class MaildirTest extends TestCase
         }
     }
 
-    public function testWrongUniqueId()
+    public function testWrongUniqueId(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
@@ -308,7 +308,7 @@ class MaildirTest extends TestCase
         $mail->getNumberByUniqueId('this_is_an_invalid_id');
     }
 
-    public function testCurIsFile()
+    public function testCurIsFile(): void
     {
         \rename($this->maildir . 'cur', $this->maildir . 'cur-isFileTest');
         \touch($this->maildir . 'cur');
@@ -318,7 +318,7 @@ class MaildirTest extends TestCase
         new Storage\Maildir(['dirname' => $this->maildir]);
     }
 
-    public function testNewIsFile()
+    public function testNewIsFile(): void
     {
         \rename($this->maildir . 'new', $this->maildir . 'new-isFileTest');
         \touch($this->maildir . 'new');
@@ -328,7 +328,7 @@ class MaildirTest extends TestCase
         new Storage\Maildir(['dirname' => $this->maildir]);
     }
 
-    public function testTmpIsFile()
+    public function testTmpIsFile(): void
     {
         \touch($this->maildir . 'tmp');
 
@@ -337,7 +337,7 @@ class MaildirTest extends TestCase
         new Storage\Maildir(['dirname' => $this->maildir]);
     }
 
-    public function testNotReadableCur()
+    public function testNotReadableCur(): void
     {
         \chmod($this->maildir . 'cur', 0);
 
@@ -346,7 +346,7 @@ class MaildirTest extends TestCase
         new Storage\Maildir(['dirname' => $this->maildir]);
     }
 
-    public function testNotReadableNew()
+    public function testNotReadableNew(): void
     {
         \chmod($this->maildir . 'new', 0);
 
@@ -355,7 +355,7 @@ class MaildirTest extends TestCase
         new Storage\Maildir(['dirname' => $this->maildir]);
     }
 
-    public function testCountFlags()
+    public function testCountFlags(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
         $this->assertEquals($mail->countMessages(Storage::FLAG_DELETED), 0);
@@ -366,19 +366,19 @@ class MaildirTest extends TestCase
         $this->assertEquals($mail->countMessages([Storage::FLAG_SEEN, Storage::FLAG_RECENT]), 0);
     }
 
-    public function testFetchPart()
+    public function testFetchPart(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
         $this->assertEquals($mail->getMessage(4)->getPart(2)->contentType, 'text/x-vertical');
     }
 
-    public function testPartSize()
+    public function testPartSize(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
         $this->assertEquals($mail->getMessage(4)->getPart(2)->getSize(), 88);
     }
 
-    public function testSizePlusPlus()
+    public function testSizePlusPlus(): void
     {
         rename(
             $this->maildir . '/cur/1000000000.P1.example.org:2,S',
@@ -395,7 +395,7 @@ class MaildirTest extends TestCase
         $this->assertEquals($shouldSizes, $sizes);
     }
 
-    public function testSingleSizePlusPlus()
+    public function testSingleSizePlusPlus(): void
     {
         rename(
             $this->maildir . '/cur/1000000001.P1.example.org:2,FS',

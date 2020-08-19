@@ -24,69 +24,69 @@ class AddressListTest extends TestCase
     /** @var AddressList */
     private $list;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->list = new AddressList();
     }
 
-    public function testImplementsCountable()
+    public function testImplementsCountable(): void
     {
         $this->assertInstanceOf(\Countable::class, $this->list);
     }
 
-    public function testIsEmptyByDefault()
+    public function testIsEmptyByDefault(): void
     {
         $this->assertEquals(0, count($this->list));
     }
 
-    public function testAddingEmailsIncreasesCount()
+    public function testAddingEmailsIncreasesCount(): void
     {
         $this->list->add('test@example.com');
         $this->assertEquals(1, count($this->list));
     }
 
-    public function testAddingEmailFromStringIncreasesCount()
+    public function testAddingEmailFromStringIncreasesCount(): void
     {
         $this->list->addFromString('test@example.com');
         $this->assertEquals(1, count($this->list));
     }
 
-    public function testImplementsTraversable()
+    public function testImplementsTraversable(): void
     {
         $this->assertInstanceOf(\Traversable::class, $this->list);
     }
 
-    public function testHasReturnsFalseWhenAddressNotInList()
+    public function testHasReturnsFalseWhenAddressNotInList(): void
     {
         $this->assertFalse($this->list->has('foo@example.com'));
     }
 
-    public function testHasReturnsTrueWhenAddressInList()
+    public function testHasReturnsTrueWhenAddressInList(): void
     {
         $this->list->add('test@example.com');
         $this->assertTrue($this->list->has('test@example.com'));
     }
 
-    public function testGetReturnsFalseWhenEmailNotFound()
+    public function testGetReturnsFalseWhenEmailNotFound(): void
     {
         $this->assertFalse($this->list->get('foo@example.com'));
     }
 
-    public function testThrowExceptionOnInvalidInputAdd()
+    public function testThrowExceptionOnInvalidInputAdd(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('add expects an email address or Laminas\Mail\Address object');
         $this->list->add(null);
     }
 
-    public function testThrowExceptionOnInvalidInputAddMany()
+    public function testThrowExceptionOnInvalidInputAddMany(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('add expects an email address or Laminas\Mail\Address object');
         $this->list->addMany([null]);
     }
 
-    public function testGetReturnsAddressObjectWhenEmailFound()
+    public function testGetReturnsAddressObjectWhenEmailFound(): void
     {
         $this->list->add('test@example.com');
         $address = $this->list->get('test@example.com');
@@ -94,7 +94,7 @@ class AddressListTest extends TestCase
         $this->assertEquals('test@example.com', $address->getEmail());
     }
 
-    public function testCanAddAddressWithName()
+    public function testCanAddAddressWithName(): void
     {
         $this->list->add('test@example.com', 'Example Test');
         $address = $this->list->get('test@example.com');
@@ -103,7 +103,7 @@ class AddressListTest extends TestCase
         $this->assertEquals('Example Test', $address->getName());
     }
 
-    public function testCanAddManyAddressesAtOnce()
+    public function testCanAddManyAddressesAtOnce(): void
     {
         $addresses = [
             'test@example.com',
@@ -117,7 +117,7 @@ class AddressListTest extends TestCase
         $this->assertTrue($this->list->has('announce@example.com'));
     }
 
-    public function testCanAddFromStringFluently()
+    public function testCanAddFromStringFluently(): void
     {
         $this->list->addFromString('test_fromstring_fluency1@example.com')
             ->addFromString('test_fromstring_fluency2@example.com');
@@ -126,7 +126,7 @@ class AddressListTest extends TestCase
         $this->assertTrue($this->list->has('test_fromstring_fluency2@example.com'));
     }
 
-    public function testLosesParensInName()
+    public function testLosesParensInName(): void
     {
         $header = '"Supports (E-mail)" <support@example.org>';
 
@@ -138,7 +138,7 @@ class AddressListTest extends TestCase
         $this->assertEquals('support@example.org', $address->getEmail());
     }
 
-    public function testDoesNotStoreDuplicatesAndFirstWins()
+    public function testDoesNotStoreDuplicatesAndFirstWins(): void
     {
         $addresses = [
             'test@example.com',
@@ -156,7 +156,7 @@ class AddressListTest extends TestCase
      *
      * @see https://blogs.msdn.microsoft.com/oldnewthing/20150119-00/?p=44883
      */
-    public function testSemicolonSeparator()
+    public function testSemicolonSeparator(): void
     {
         $header = 'Some User <some.user@example.com>; uzer2.surname@example.org;'
             . ' asda.fasd@example.net, root@example.org';
@@ -176,7 +176,7 @@ class AddressListTest extends TestCase
         $this->assertTrue($addressList->has('root@example.org'));
     }
 
-    public function testMergeTwoLists()
+    public function testMergeTwoLists(): void
     {
         $otherList = new AddressList();
         $this->list->add('one@example.net');
@@ -185,19 +185,19 @@ class AddressListTest extends TestCase
         $this->assertEquals(2, count($this->list));
     }
 
-    public function testDeleteSuccess()
+    public function testDeleteSuccess(): void
     {
         $this->list->add('test@example.com');
         $this->assertTrue($this->list->delete('test@example.com'));
         $this->assertEquals(0, count($this->list));
     }
 
-    public function testDeleteNotExist()
+    public function testDeleteNotExist(): void
     {
         $this->assertFalse($this->list->delete('test@example.com'));
     }
 
-    public function testKey()
+    public function testKey(): void
     {
         $this->assertNull($this->list->key());
         $this->list->add('test@example.com');
@@ -214,7 +214,7 @@ class AddressListTest extends TestCase
     /**
      * If name-field is quoted with "", then ' inside it should not treated as terminator, but as value.
      */
-    public function testMixedQuotesInName()
+    public function testMixedQuotesInName(): void
     {
         $header = '"Bob O\'Reilly" <bob@example.com>,blah@example.com';
 

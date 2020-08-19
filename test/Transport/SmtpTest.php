@@ -31,14 +31,14 @@ class SmtpTest extends TestCase
     /** @var SmtpProtocolSpy */
     public $connection;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->transport  = new Smtp();
         $this->connection = new SmtpProtocolSpy();
         $this->transport->setConnection($this->connection);
     }
 
-    public function getMessage()
+    public function getMessage(): Message
     {
         $message = new Message();
         $message->addTo('test@example.com', 'Example Test');
@@ -62,7 +62,7 @@ class SmtpTest extends TestCase
     /**
      *  Per RFC 2822 3.6
      */
-    public function testSendMailWithoutMinimalHeaders()
+    public function testSendMailWithoutMinimalHeaders(): void
     {
         $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage(
@@ -76,7 +76,7 @@ class SmtpTest extends TestCase
      *  Per RFC 2821 3.3 (page 18)
      *  - RCPT (recipient) must be called before DATA (headers or body)
      */
-    public function testSendMailWithoutRecipient()
+    public function testSendMailWithoutRecipient(): void
     {
         $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('at least one recipient if the message has at least one header or body');
@@ -85,7 +85,7 @@ class SmtpTest extends TestCase
         $this->transport->send($message);
     }
 
-    public function testSendMailWithEnvelopeFrom()
+    public function testSendMailWithEnvelopeFrom(): void
     {
         $message = $this->getMessage();
         $envelope = new Envelope([
@@ -101,7 +101,7 @@ class SmtpTest extends TestCase
         $this->assertContains("From: test@example.com,\r\n Matthew <matthew@example.com>\r\n", $data);
     }
 
-    public function testSendMailWithEnvelopeTo()
+    public function testSendMailWithEnvelopeTo(): void
     {
         $message = $this->getMessage();
         $envelope = new Envelope([
@@ -116,7 +116,7 @@ class SmtpTest extends TestCase
         $this->assertContains('To: Example Test <test@example.com>', $data);
     }
 
-    public function testSendMailWithEnvelope()
+    public function testSendMailWithEnvelope(): void
     {
         $message = $this->getMessage();
         $to = ['users@example.com', 'dev@example.com'];
@@ -135,7 +135,7 @@ class SmtpTest extends TestCase
         $this->assertContains('RCPT TO:<dev@example.com>', $data);
     }
 
-    public function testSendMinimalMail()
+    public function testSendMinimalMail(): void
     {
         $headers = new Headers();
         $headers->addHeaderLine('Date', 'Sun, 10 Jun 2012 20:07:24 +0200');
@@ -157,7 +157,7 @@ class SmtpTest extends TestCase
         $this->assertContains($expectedMessage, $this->connection->getLog());
     }
 
-    public function testSendMinimalMailWithoutSender()
+    public function testSendMinimalMailWithoutSender(): void
     {
         $headers = new Headers();
         $headers->addHeaderLine('Date', 'Sun, 10 Jun 2012 20:07:24 +0200');
@@ -179,7 +179,7 @@ class SmtpTest extends TestCase
         $this->assertContains($expectedMessage, $this->connection->getLog());
     }
 
-    public function testReceivesMailArtifacts()
+    public function testReceivesMailArtifacts(): void
     {
         $message = $this->getMessage();
         $this->transport->send($message);
@@ -199,7 +199,7 @@ class SmtpTest extends TestCase
         $this->assertContains("\r\n\r\nThis is only a test.", $data, $data);
     }
 
-    public function testCanUseAuthenticationExtensionsViaPluginManager()
+    public function testCanUseAuthenticationExtensionsViaPluginManager(): void
     {
         $options    = new SmtpOptions([
             'connection_class' => 'login',
@@ -215,25 +215,25 @@ class SmtpTest extends TestCase
         $this->assertEquals('password', $connection->getPassword());
     }
 
-    public function testSetAutoDisconnect()
+    public function testSetAutoDisconnect(): void
     {
         $this->transport->setAutoDisconnect(false);
         $this->assertFalse($this->transport->getAutoDisconnect());
     }
 
-    public function testGetDefaultAutoDisconnectValue()
+    public function testGetDefaultAutoDisconnectValue(): void
     {
         $this->assertTrue($this->transport->getAutoDisconnect());
     }
 
-    public function testAutoDisconnectTrue()
+    public function testAutoDisconnectTrue(): void
     {
         $this->connection->connect();
         unset($this->transport);
         $this->assertFalse($this->connection->hasSession());
     }
 
-    public function testAutoDisconnectFalse()
+    public function testAutoDisconnectFalse(): void
     {
         $this->connection->connect();
         $this->transport->setAutoDisconnect(false);
@@ -241,7 +241,7 @@ class SmtpTest extends TestCase
         $this->assertTrue($this->connection->isConnected());
     }
 
-    public function testDisconnect()
+    public function testDisconnect(): void
     {
         $this->connection->connect();
         $this->assertTrue($this->connection->isConnected());
@@ -249,7 +249,7 @@ class SmtpTest extends TestCase
         $this->assertFalse($this->connection->isConnected());
     }
 
-    public function testDisconnectSendReconnects()
+    public function testDisconnectSendReconnects(): void
     {
         $this->assertFalse($this->connection->hasSession());
         $this->transport->send($this->getMessage());
@@ -261,7 +261,7 @@ class SmtpTest extends TestCase
         $this->assertTrue($this->connection->hasSession());
     }
 
-    public function testAutoReconnect()
+    public function testAutoReconnect(): void
     {
         $options = new SmtpOptions();
         $options->setConnectionTimeLimit(5 * 3600);

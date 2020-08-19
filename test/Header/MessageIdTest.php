@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  */
 class MessageIdTest extends TestCase
 {
-    public function testSettingManually()
+    public function testSettingManually(): void
     {
         $id = "CALTvGe4_oYgf9WsYgauv7qXh2-6=KbPLExmJNG7fCs9B=1nOYg@mail.example.com";
         $messageid = new Header\MessageId();
@@ -30,7 +30,7 @@ class MessageIdTest extends TestCase
         $this->assertEquals("Message-ID: $expected", $messageid->toString());
     }
 
-    public function testAutoGeneration()
+    public function testAutoGeneration(): void
     {
         $messageid = new Header\MessageId();
         $messageid->setId();
@@ -38,7 +38,7 @@ class MessageIdTest extends TestCase
         $this->assertContains('@', $messageid->getFieldValue());
     }
 
-    public function testAutoGenerationWithServerVars()
+    public function testAutoGenerationWithServerVars(): void
     {
         $serverBeforeTest = $_SERVER;
         $_SERVER['REMOTE_ADDR'] = '172.16.0.1';
@@ -50,7 +50,7 @@ class MessageIdTest extends TestCase
         $_SERVER = $serverBeforeTest;
     }
 
-    public function headerLines()
+    public function headerLines(): array
     {
         return [
             'newline'      => ["Message-ID: foo\nbar"],
@@ -64,13 +64,13 @@ class MessageIdTest extends TestCase
      * @dataProvider headerLines
      * @group ZF2015-04
      */
-    public function testFromStringPreventsCrlfInjectionOnDetection($header)
+    public function testFromStringPreventsCrlfInjectionOnDetection($header): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $messageid = Header\MessageId::fromString($header);
     }
 
-    public function invalidIdentifiers()
+    public function invalidIdentifiers(): array
     {
         return [
             'newline'      => ["foo\nbar"],
@@ -85,27 +85,27 @@ class MessageIdTest extends TestCase
      * @dataProvider invalidIdentifiers
      * @group ZF2015-04
      */
-    public function testInvalidIdentifierRaisesException($id)
+    public function testInvalidIdentifierRaisesException($id): void
     {
         $header = new Header\MessageId();
         $this->expectException(Exception\InvalidArgumentException::class);
         $header->setId($id);
     }
 
-    public function testFromStringRaisesExceptionOnInvalidHeader()
+    public function testFromStringRaisesExceptionOnInvalidHeader(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid header line for Message-ID string');
         Header\MessageId::fromString('Foo: bar');
     }
 
-    public function testDefaultEncoding()
+    public function testDefaultEncoding(): void
     {
         $header = new Header\MessageId();
         $this->assertSame('ASCII', $header->getEncoding());
     }
 
-    public function testSetEncodingHasNoEffect()
+    public function testSetEncodingHasNoEffect(): void
     {
         $header = new Header\MessageId();
         $header->setEncoding('UTF-8');

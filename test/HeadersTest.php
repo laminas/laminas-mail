@@ -42,7 +42,7 @@ class HeadersTest extends TestCase
     public function setDeprecationErrorHandler(): void
     {
         $this->originalErrorHandler = set_error_handler(
-            function (int $errno, string $errstr, string $errfile, int $errline) {
+            function (int $errno, string $errstr, string $errfile, int $errline): void {
                 throw new Deprecated($errstr, $errno, $errfile, $errline);
             },
             E_USER_DEPRECATED
@@ -59,14 +59,14 @@ class HeadersTest extends TestCase
         $this->originalErrorHandler = null;
     }
 
-    public function testHeadersImplementsProperClasses()
+    public function testHeadersImplementsProperClasses(): void
     {
         $headers = new Mail\Headers();
         $this->assertInstanceOf(\Iterator::class, $headers);
         $this->assertInstanceOf(\Countable::class, $headers);
     }
 
-    public function testHeadersFromStringFactoryCreatesSingleObject()
+    public function testHeadersFromStringFactoryCreatesSingleObject(): void
     {
         $headers = Mail\Headers::fromString("Fake: foo-bar");
         $this->assertEquals(1, $headers->count());
@@ -77,7 +77,7 @@ class HeadersTest extends TestCase
         $this->assertEquals('foo-bar', $header->getFieldValue());
     }
 
-    public function testHeadersFromStringFactoryHandlesMissingWhitespace()
+    public function testHeadersFromStringFactoryHandlesMissingWhitespace(): void
     {
         $headers = Mail\Headers::fromString("Fake:foo-bar");
         $this->assertEquals(1, $headers->count());
@@ -91,7 +91,7 @@ class HeadersTest extends TestCase
     /**
      * @group 6657
      */
-    public function testHeadersFromStringFactoryCreatesSingleObjectWithContinuationLine()
+    public function testHeadersFromStringFactoryCreatesSingleObjectWithContinuationLine(): void
     {
         $headers = Mail\Headers::fromString("Fake: foo-bar,\r\n      blah-blah");
         $this->assertEquals(1, $headers->count());
@@ -102,7 +102,7 @@ class HeadersTest extends TestCase
         $this->assertEquals('foo-bar, blah-blah', $header->getFieldValue());
     }
 
-    public function testHeadersFromStringFactoryCreatesSingleObjectWithHeaderBreakLine()
+    public function testHeadersFromStringFactoryCreatesSingleObjectWithHeaderBreakLine(): void
     {
         $headers = Mail\Headers::fromString("Fake: foo-bar\r\n\r\n");
         $this->assertEquals(1, $headers->count());
@@ -113,21 +113,21 @@ class HeadersTest extends TestCase
         $this->assertEquals('foo-bar', $header->getFieldValue());
     }
 
-    public function testHeadersFromStringFactoryThrowsExceptionOnMalformedHeaderLine()
+    public function testHeadersFromStringFactoryThrowsExceptionOnMalformedHeaderLine(): void
     {
         $this->expectException(Mail\Exception\RuntimeException::class);
         $this->expectExceptionMessage('does not match');
         Mail\Headers::fromString("Fake = foo-bar\r\n\r\n");
     }
 
-    public function testHeadersFromStringFactoryThrowsExceptionOnMalformedHeaderLines()
+    public function testHeadersFromStringFactoryThrowsExceptionOnMalformedHeaderLines(): void
     {
         $this->expectException(Mail\Exception\RuntimeException::class);
         $this->expectExceptionMessage('Malformed header detected');
         Mail\Headers::fromString("Fake: foo-bar\r\n\r\n\r\n\r\nAnother-Fake: boo-baz");
     }
 
-    public function testHeadersFromStringFactoryCreatesMultipleObjects()
+    public function testHeadersFromStringFactoryCreatesMultipleObjects(): void
     {
         $headers = Mail\Headers::fromString("Fake: foo-bar\r\nAnother-Fake: boo-baz");
         $this->assertEquals(2, $headers->count());
@@ -143,7 +143,7 @@ class HeadersTest extends TestCase
         $this->assertEquals('boo-baz', $header->getFieldValue());
     }
 
-    public function testHeadersFromStringMultiHeaderWillAggregateLazyLoadedHeaders()
+    public function testHeadersFromStringMultiHeaderWillAggregateLazyLoadedHeaders(): void
     {
         $headers = new Mail\Headers();
         $loader  = $headers->getHeaderLocator();
@@ -153,7 +153,7 @@ class HeadersTest extends TestCase
         $this->assertEquals(3, $headers->count());
     }
 
-    public function testHeadersHasAndGetWorkProperly()
+    public function testHeadersHasAndGetWorkProperly(): void
     {
         $headers = new Mail\Headers();
         $headers->addHeaders([
@@ -166,7 +166,7 @@ class HeadersTest extends TestCase
         $this->assertEquals('bar', $headers->get('foo')->getFieldValue());
     }
 
-    public function testHeadersAggregatesHeaderObjects()
+    public function testHeadersAggregatesHeaderObjects(): void
     {
         $fakeHeader = new Header\GenericHeader('Fake', 'bar');
         $headers = new Mail\Headers();
@@ -175,7 +175,7 @@ class HeadersTest extends TestCase
         $this->assertEquals('bar', $headers->get('Fake')->getFieldValue());
     }
 
-    public function testHeadersAggregatesHeaderThroughAddHeader()
+    public function testHeadersAggregatesHeaderThroughAddHeader(): void
     {
         $headers = new Mail\Headers();
         $headers->addHeader(new Header\GenericHeader('Fake', 'bar'));
@@ -183,7 +183,7 @@ class HeadersTest extends TestCase
         $this->assertInstanceOf(GenericHeader::class, $headers->get('Fake'));
     }
 
-    public function testHeadersAggregatesHeaderThroughAddHeaderLine()
+    public function testHeadersAggregatesHeaderThroughAddHeaderLine(): void
     {
         $headers = new Mail\Headers();
         $headers->addHeaderLine('Fake', 'bar');
@@ -191,7 +191,7 @@ class HeadersTest extends TestCase
         $this->assertInstanceOf(GenericHeader::class, $headers->get('Fake'));
     }
 
-    public function testHeadersAddHeaderLineThrowsExceptionOnMissingFieldValue()
+    public function testHeadersAddHeaderLineThrowsExceptionOnMissingFieldValue(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Header must match with the format "name:value"');
@@ -199,7 +199,7 @@ class HeadersTest extends TestCase
         $headers->addHeaderLine('Foo');
     }
 
-    public function testHeadersAddHeaderLineThrowsExceptionOnInvalidFieldNull()
+    public function testHeadersAddHeaderLineThrowsExceptionOnInvalidFieldNull(): void
     {
         $headers = new Mail\Headers();
 
@@ -208,7 +208,7 @@ class HeadersTest extends TestCase
         $headers->addHeaderLine(null);
     }
 
-    public function testHeadersAddHeaderLineThrowsExceptionOnInvalidFieldObject()
+    public function testHeadersAddHeaderLineThrowsExceptionOnInvalidFieldObject(): void
     {
         $headers = new Mail\Headers();
         $object = new \stdClass();
@@ -218,7 +218,7 @@ class HeadersTest extends TestCase
         $headers->addHeaderLine($object);
     }
 
-    public function testHeadersAggregatesHeadersThroughAddHeaders()
+    public function testHeadersAggregatesHeadersThroughAddHeaders(): void
     {
         $headers = new Mail\Headers();
         $headers->addHeaders([new Header\GenericHeader('Foo', 'bar'), new Header\GenericHeader('Baz', 'baz')]);
@@ -256,7 +256,7 @@ class HeadersTest extends TestCase
         $this->assertEquals('baz', $headers->get('baz')->getFieldValue());
     }
 
-    public function testHeadersAddHeadersThrowsExceptionOnInvalidArguments()
+    public function testHeadersAddHeadersThrowsExceptionOnInvalidArguments(): void
     {
         $this->expectException(Mail\Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Expected array or Traversable');
@@ -264,7 +264,7 @@ class HeadersTest extends TestCase
         $headers->addHeaders('foo');
     }
 
-    public function testHeadersCanRemoveHeader()
+    public function testHeadersCanRemoveHeader(): void
     {
         $headers = new Mail\Headers();
         $headers->addHeaders(['Foo' => 'bar', 'Baz' => 'baz']);
@@ -275,7 +275,7 @@ class HeadersTest extends TestCase
         $this->assertTrue($headers->has('baz'));
     }
 
-    public function testRemoveHeaderWithFieldNameWillRemoveAllInstances()
+    public function testRemoveHeaderWithFieldNameWillRemoveAllInstances(): void
     {
         $headers = new Mail\Headers();
         $headers->addHeaders([['Foo' => 'foo'], ['Foo' => 'bar'], 'Baz' => 'baz']);
@@ -286,7 +286,7 @@ class HeadersTest extends TestCase
         $this->assertTrue($headers->has('baz'));
     }
 
-    public function testRemoveHeaderWithInstanceWillRemoveThatInstance()
+    public function testRemoveHeaderWithInstanceWillRemoveThatInstance(): void
     {
         $headers = new Mail\Headers();
         $headers->addHeaders([['Foo' => 'foo'], ['Foo' => 'bar'], 'Baz' => 'baz']);
@@ -298,13 +298,13 @@ class HeadersTest extends TestCase
         $this->assertNotSame($header, $headers->get('foo'));
     }
 
-    public function testRemoveHeaderWhenEmpty()
+    public function testRemoveHeaderWhenEmpty(): void
     {
         $headers = new Mail\Headers();
         $this->assertFalse($headers->removeHeader(''));
     }
 
-    public function testHeadersCanClearAllHeaders()
+    public function testHeadersCanClearAllHeaders(): void
     {
         $headers = new Mail\Headers();
         $headers->addHeaders(['Foo' => 'bar', 'Baz' => 'baz']);
@@ -313,7 +313,7 @@ class HeadersTest extends TestCase
         $this->assertEquals(0, $headers->count());
     }
 
-    public function testHeadersCanBeIterated()
+    public function testHeadersCanBeIterated(): void
     {
         $headers = new Mail\Headers();
         $headers->addHeaders(['Foo' => 'bar', 'Baz' => 'baz']);
@@ -335,21 +335,21 @@ class HeadersTest extends TestCase
         $this->assertEquals(2, $iterations);
     }
 
-    public function testHeadersCanBeCastToString()
+    public function testHeadersCanBeCastToString(): void
     {
         $headers = new Mail\Headers();
         $headers->addHeaders(['Foo' => 'bar', 'Baz' => 'baz']);
         $this->assertEquals('Foo: bar' . "\r\n" . 'Baz: baz' . "\r\n", $headers->toString());
     }
 
-    public function testHeadersCanBeCastToArray()
+    public function testHeadersCanBeCastToArray(): void
     {
         $headers = new Mail\Headers();
         $headers->addHeaders(['Foo' => 'bar', 'Baz' => 'baz']);
         $this->assertEquals(['Foo' => 'bar', 'Baz' => 'baz'], $headers->toArray());
     }
 
-    public function testCastingToArrayReturnsMultiHeadersAsArrays()
+    public function testCastingToArrayReturnsMultiHeadersAsArrays(): void
     {
         $headers = new Mail\Headers();
 
@@ -370,7 +370,7 @@ class HeadersTest extends TestCase
         $this->assertEquals($expected, $array);
     }
 
-    public function testCastingToStringReturnsAllMultiHeaderValues()
+    public function testCastingToStringReturnsAllMultiHeaderValues(): void
     {
         $headers = new Mail\Headers();
 
@@ -390,7 +390,7 @@ class HeadersTest extends TestCase
         $this->assertEquals($expected, $string);
     }
 
-    public function testGetReturnsArrayIterator()
+    public function testGetReturnsArrayIterator(): void
     {
         $headers = new Mail\Headers();
         $received = Header\Received::fromString('Received: from framework (localhost [127.0.0.1])');
@@ -401,10 +401,10 @@ class HeadersTest extends TestCase
     }
 
     /**
-     * @test that toArray can take format parameter
+     * Test that toArray can take format parameter
      * @see https://github.com/zendframework/zend-mail/pull/61
      */
-    public function testToArrayFormatRaw()
+    public function testToArrayFormatRaw(): void
     {
         $raw_subject = '=?ISO-8859-2?Q?PD=3A_My=3A_Go=B3?= =?ISO-8859-2?Q?blahblah?=';
         $headers = new Mail\Headers();
@@ -419,10 +419,10 @@ class HeadersTest extends TestCase
     }
 
     /**
-     * @test that toArray can take format parameter
+     * Test that toArray can take format parameter
      * @see https://github.com/zendframework/zend-mail/pull/61
      */
-    public function testToArrayFormatEncoded()
+    public function testToArrayFormatEncoded(): void
     {
         $raw_subject = '=?ISO-8859-2?Q?PD=3A_My=3A_Go=B3?= =?ISO-8859-2?Q?blahblah?=';
         $headers = new Mail\Headers();
@@ -437,7 +437,7 @@ class HeadersTest extends TestCase
         $this->assertEquals($expected, $array);
     }
 
-    public function testClone()
+    public function testClone(): void
     {
         $headers = new Mail\Headers();
         $headers->addHeader(new Header\Bcc());
@@ -451,7 +451,7 @@ class HeadersTest extends TestCase
     /**
      * @group ZF2015-04
      */
-    public function testHeaderCrLfAttackFromString()
+    public function testHeaderCrLfAttackFromString(): void
     {
         $this->expectException(Mail\Exception\RuntimeException::class);
         Mail\Headers::fromString("Fake: foo-bar\r\n\r\nevilContent");
@@ -460,7 +460,7 @@ class HeadersTest extends TestCase
     /**
      * @group ZF2015-04
      */
-    public function testHeaderCrLfAttackAddHeaderLineSingle()
+    public function testHeaderCrLfAttackAddHeaderLineSingle(): void
     {
         $headers = new Mail\Headers();
         $this->expectException(Exception\InvalidArgumentException::class);
@@ -470,7 +470,7 @@ class HeadersTest extends TestCase
     /**
      * @group ZF2015-04
      */
-    public function testHeaderCrLfAttackAddHeaderLineWithValue()
+    public function testHeaderCrLfAttackAddHeaderLineWithValue(): void
     {
         $headers = new Mail\Headers();
         $this->expectException(Exception\InvalidArgumentException::class);
@@ -480,7 +480,7 @@ class HeadersTest extends TestCase
     /**
      * @group ZF2015-04
      */
-    public function testHeaderCrLfAttackAddHeaderLineMultiple()
+    public function testHeaderCrLfAttackAddHeaderLineMultiple(): void
     {
         $headers = new Mail\Headers();
         $this->expectException(Exception\InvalidArgumentException::class);
@@ -491,7 +491,7 @@ class HeadersTest extends TestCase
     /**
      * @group ZF2015-04
      */
-    public function testHeaderCrLfAttackAddHeadersSingle()
+    public function testHeaderCrLfAttackAddHeadersSingle(): void
     {
         $headers = new Mail\Headers();
         $this->expectException(Exception\InvalidArgumentException::class);
@@ -501,7 +501,7 @@ class HeadersTest extends TestCase
     /**
      * @group ZF2015-04
      */
-    public function testHeaderCrLfAttackAddHeadersWithValue()
+    public function testHeaderCrLfAttackAddHeadersWithValue(): void
     {
         $headers = new Mail\Headers();
         $this->expectException(Exception\InvalidArgumentException::class);
@@ -511,7 +511,7 @@ class HeadersTest extends TestCase
     /**
      * @group ZF2015-04
      */
-    public function testHeaderCrLfAttackAddHeadersMultiple()
+    public function testHeaderCrLfAttackAddHeadersMultiple(): void
     {
         $headers = new Mail\Headers();
         $this->expectException(Exception\InvalidArgumentException::class);
@@ -519,7 +519,7 @@ class HeadersTest extends TestCase
         $headers->forceLoading();
     }
 
-    public function testAddressListGetEncodedFieldValueWithUtf8Domain()
+    public function testAddressListGetEncodedFieldValueWithUtf8Domain(): void
     {
         $to = new Header\To();
         $to->setEncoding('UTF-8');
@@ -545,7 +545,7 @@ class HeadersTest extends TestCase
      *
      * @see https://github.com/zendframework/zend-mail/issues/127
      */
-    public function testEmailNameParser()
+    public function testEmailNameParser(): void
     {
         $to = Header\To::fromString('To: "=?UTF-8?Q?=C3=B5lu?= <bar" <foo.bar@test.com>');
 
@@ -561,20 +561,20 @@ class HeadersTest extends TestCase
         $this->assertEquals('õlu <bar <foo.bar@test.com>', $encodedValue);
     }
 
-    public function testDefaultEncoding()
+    public function testDefaultEncoding(): void
     {
         $headers = new Mail\Headers();
         $this->assertSame('ASCII', $headers->getEncoding());
     }
 
-    public function testSetEncodingNoHeaders()
+    public function testSetEncodingNoHeaders(): void
     {
         $headers = new Mail\Headers();
         $headers->setEncoding('UTF-8');
         $this->assertSame('UTF-8', $headers->getEncoding());
     }
 
-    public function testSetEncodingWithHeaders()
+    public function testSetEncodingWithHeaders(): void
     {
         $headers = new Mail\Headers();
         $headers->addHeaderLine('To: test@example.com');
@@ -584,7 +584,7 @@ class HeadersTest extends TestCase
         $this->assertSame('UTF-8', $headers->getEncoding());
     }
 
-    public function testAddHeaderCallsSetEncoding()
+    public function testAddHeaderCallsSetEncoding(): void
     {
         $headers = new Mail\Headers();
         $headers->setEncoding('UTF-8');
@@ -601,7 +601,7 @@ class HeadersTest extends TestCase
     /**
      * @todo Remove for 3.0.0
      */
-    public function testGetPluginClassLoaderEmitsDeprecationNotice()
+    public function testGetPluginClassLoaderEmitsDeprecationNotice(): void
     {
         $this->setDeprecationErrorHandler();
         $headers = new Mail\Headers();
@@ -614,7 +614,7 @@ class HeadersTest extends TestCase
     /**
      * @todo Remove for 3.0.0
      */
-    public function testSetPluginClassLoaderEmitsDeprecationNotice()
+    public function testSetPluginClassLoaderEmitsDeprecationNotice(): void
     {
         $this->setDeprecationErrorHandler();
         $headers = new Mail\Headers();
@@ -625,14 +625,14 @@ class HeadersTest extends TestCase
         $headers->setPluginClassLoader($loader);
     }
 
-    public function testGetHeaderLocatorReturnsHeaderLocatorInstanceByDefault()
+    public function testGetHeaderLocatorReturnsHeaderLocatorInstanceByDefault(): void
     {
         $headers = new Mail\Headers();
         $locator = $headers->getHeaderLocator();
         $this->assertInstanceOf(Mail\Header\HeaderLocator::class, $locator);
     }
 
-    public function testCanInjectAlternateHeaderLocatorInstance()
+    public function testCanInjectAlternateHeaderLocatorInstance(): void
     {
         $headers = new Mail\Headers();
         $locator = $this->prophesize(Mail\Header\HeaderLocatorInterface::class)->reveal();
