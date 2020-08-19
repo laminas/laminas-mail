@@ -197,13 +197,13 @@ class ContentTypeTest extends TestCase
 
     public function testDefaultEncoding()
     {
-        $header = new ContentType('today');
+        $header = new ContentType();
         $this->assertSame('ASCII', $header->getEncoding());
     }
 
     public function testSetEncoding()
     {
-        $header = new ContentType('today');
+        $header = new ContentType();
         $header->setEncoding('UTF-8');
         $this->assertSame('UTF-8', $header->getEncoding());
     }

@@ -83,13 +83,13 @@ class MimeVersionTest extends TestCase
 
     public function testDefaultEncoding()
     {
-        $header = new Header\MimeVersion('1.0');
+        $header = new Header\MimeVersion();
         $this->assertSame('ASCII', $header->getEncoding());
     }
 
     public function testSetEncodingHasNoEffect()
     {
-        $header = new Header\MimeVersion('1.0');
+        $header = new Header\MimeVersion();
         $header->setEncoding('UTF-8');
         $this->assertSame('ASCII', $header->getEncoding());
     }

@@ -271,13 +271,13 @@ class SenderTest extends TestCase
 
     public function testDefaultEncoding()
     {
-        $header = new Header\Sender('<test@example.com>');
+        $header = new Header\Sender();
         $this->assertSame('ASCII', $header->getEncoding());
     }
 
     public function testSetEncoding()
     {
-        $header = new Header\Sender('<test@example.com>');
+        $header = new Header\Sender();
         $header->setEncoding('UTF-8');
         $this->assertSame('UTF-8', $header->getEncoding());
     }
