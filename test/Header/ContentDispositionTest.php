@@ -268,5 +268,12 @@ class ContentDispositionTest extends TestCase
             'attachment',
             ['filename' => "UTF-8''%64%61%61%6D%69%2D%6D%C3%B5%72%76%2E%6A%70%67"]
         ];
+        yield 'With two ordered items' => [
+            "Content-Disposition: attachment;" .
+            "filename*0*=UTF-8''%76%C3%A4%6C%6A%61%70%C3%A4%C3%A4%73%75%2D%65%69%2D%6F;" .
+            "filename*1*=%6C%65%2E%6A%70%67",
+            'attachment',
+            ['filename' => "UTF-8''%76%C3%A4%6C%6A%61%70%C3%A4%C3%A4%73%75%2D%65%69%2D%6F%6C%65%2E%6A%70%67"]
+        ];
     }
 }
