@@ -372,7 +372,7 @@ class MessageTest extends TestCase
     {
         $origFlags = [
             'foo' => 'bar',
-            'baz' => 'bat'
+            'baz' => 'bat',
         ];
         $message = new Message(['flags' => $origFlags]);
 

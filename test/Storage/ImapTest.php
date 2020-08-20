@@ -28,7 +28,7 @@ class ImapTest extends TestCase
         }
         $this->params = ['host'     => getenv('TESTS_LAMINAS_MAIL_IMAP_HOST'),
                                'user'     => getenv('TESTS_LAMINAS_MAIL_IMAP_USER'),
-                               'password' => getenv('TESTS_LAMINAS_MAIL_IMAP_PASSWORD')];
+                               'password' => getenv('TESTS_LAMINAS_MAIL_IMAP_PASSWORD'), ];
         if (getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR') && getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR')) {
             if (! file_exists(getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'inbox')
                 && ! file_exists(getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'INBOX')
@@ -341,7 +341,7 @@ class ImapTest extends TestCase
         // we search for this folder because we can't assume an order while iterating
         $search_folders = ['subfolder'      => 'subfolder',
                                 'subfolder/test' => 'test',
-                                'INBOX'          => 'INBOX'];
+                                'INBOX'          => 'INBOX', ];
         $found_folders = [];
 
         foreach ($iterator as $localName => $folder) {

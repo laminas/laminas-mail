@@ -175,7 +175,7 @@ class MboxFolderTest extends TestCase
         $search_folders = [
             DIRECTORY_SEPARATOR . 'subfolder'                                => 'subfolder',
             DIRECTORY_SEPARATOR . 'subfolder' . DIRECTORY_SEPARATOR . 'test' => 'test',
-            DIRECTORY_SEPARATOR . 'INBOX'                                    => 'INBOX'
+            DIRECTORY_SEPARATOR . 'INBOX'                                    => 'INBOX',
         ];
         $found_folders = [];
 
@@ -199,7 +199,7 @@ class MboxFolderTest extends TestCase
         $search_folders = [
             DIRECTORY_SEPARATOR . 'subfolder'                                => 'subfolder',
             DIRECTORY_SEPARATOR . 'subfolder' . DIRECTORY_SEPARATOR . 'test' => 'test',
-            DIRECTORY_SEPARATOR . 'INBOX'                                    => 'INBOX'
+            DIRECTORY_SEPARATOR . 'INBOX'                                    => 'INBOX',
         ];
         $found_folders = [];
 

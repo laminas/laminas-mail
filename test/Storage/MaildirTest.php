@@ -284,8 +284,12 @@ class MaildirTest extends TestCase
         $this->assertEquals(1, $mail->getNumberByUniqueId($mail->getUniqueId(1)));
 
         $ids = $mail->getUniqueId();
-        $should_ids = [1 => '1000000000.P1.example.org', '1000000001.P1.example.org', '1000000002.P1.example.org',
-                            '1000000003.P1.example.org', '1000000004.P1.example.org'];
+        $should_ids = [1 => '1000000000.P1.example.org',
+            '1000000001.P1.example.org',
+            '1000000002.P1.example.org',
+            '1000000003.P1.example.org',
+            '1000000004.P1.example.org',
+        ];
         foreach ($ids as $num => $id) {
             $this->assertEquals($id, $should_ids[$num]);
 

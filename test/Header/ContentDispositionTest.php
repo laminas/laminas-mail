@@ -42,15 +42,15 @@ class ContentDispositionTest extends TestCase
         return [
             [
                 ['filename' => 'foo; bar.txt'],
-                'attachment; filename="foo; bar.txt"'
+                'attachment; filename="foo; bar.txt"',
             ],
             [
                 ['filename' => 'foo&bar.txt'],
-                'attachment; filename="foo&bar.txt"'
+                'attachment; filename="foo&bar.txt"',
             ],
             [
                 [],
-                'inline'
+                'inline',
             ],
         ];
     }
@@ -226,7 +226,7 @@ class ContentDispositionTest extends TestCase
             'newline' => ["Content-Disposition: inline;\nlevel=1", $invalidArgumentException, 'header value'],
             'cr-lf' => ["Content-Disposition: inline\r\n;level=1", $invalidArgumentException, 'header value'],
             'multiline' => ["Content-Disposition: inline;\r\nlevel=1\r\nq=0.1", $invalidArgumentException, 'header value'],
-            'incomplete sequence' => ["Content-Disposition: attachment;\r\n filename*0=\"first-part\";\r\n filename*2=\"third-part\"", $invalidArgumentException, 'incomplete continuation']
+            'incomplete sequence' => ["Content-Disposition: attachment;\r\n filename*0=\"first-part\";\r\n filename*2=\"third-part\"", $invalidArgumentException, 'incomplete continuation'],
         ];
         // @codingStandardsIgnoreEnd
     }
@@ -242,7 +242,7 @@ class ContentDispositionTest extends TestCase
                 "Content-Disposition: attachment;\r\n filename*0=\"this-file-name-is-so-long-that-it-does-not-even\";\r\n filename*1=\"-fit-on-a-whole-line-by-itself-so-we-need-to-sp\";\r\n filename*2=\"lit-it-with-value-continuation.txt\"",
                 'filename',
                 'this-file-name-is-so-long-that-it-does-not-even-fit-on-a-whole-line-by-itself-so-we-need-to-split-it-with-value-continuation.txt',
-            ]
+            ],
         ];
         // @codingStandardsIgnoreEnd
     }

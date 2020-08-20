@@ -390,10 +390,12 @@ class Maildir extends Folder\Maildir implements WritableInterface
             );
         }
 
-        return ['dirname'  => $this->rootdir . '.' . $folder,
-                     'uniq'     => $uniq,
-                     'filename' => $tmpdir . $uniq,
-                     'handle'   => $fh];
+        return [
+            'dirname' => $this->rootdir . '.' . $folder,
+            'uniq' => $uniq,
+            'filename' => $tmpdir . $uniq,
+            'handle' => $fh,
+        ];
     }
 
     /**
@@ -495,9 +497,11 @@ class Maildir extends Folder\Maildir implements WritableInterface
             throw $exception;
         }
 
-        $this->files[] = ['uniq'     => $tempFile['uniq'],
-                                'flags'    => $flags,
-                                'filename' => $newFilename];
+        $this->files[] = [
+            'uniq' => $tempFile['uniq'],
+            'flags' => $flags,
+            'filename' => $newFilename,
+        ];
         if ($this->quota) {
             $this->addQuotaEntry((int) $size, 1);
         }
@@ -563,9 +567,11 @@ class Maildir extends Folder\Maildir implements WritableInterface
         if ($folder->getGlobalName() == $this->currentFolder
             || ($this->currentFolder == 'INBOX' && $folder->getGlobalName() == '/')
         ) {
-            $this->files[] = ['uniq'     => $tempFile['uniq'],
-                                    'flags'    => $flags,
-                                    'filename' => $newFile];
+            $this->files[] = [
+                'uniq' => $tempFile['uniq'],
+                'flags' => $flags,
+                'filename' => $newFile,
+            ];
         }
 
         if ($this->quota) {
@@ -841,9 +847,11 @@ class Maildir extends Folder\Maildir implements WritableInterface
             }
         }
 
-        return ['size'  => $totalSize,
-                     'count' => $messages,
-                     'quota' => $quota];
+        return [
+            'size' => $totalSize,
+            'count' => $messages,
+            'quota' => $quota,
+        ];
     }
 
     /**
@@ -921,10 +929,12 @@ class Maildir extends Folder\Maildir implements WritableInterface
             fclose($fh);
         }
 
-        return ['size'       => $totalSize,
-                     'count'      => $messages,
-                     'quota'      => $quota,
-                     'over_quota' => $overQuota];
+        return [
+            'size' => $totalSize,
+            'count' => $messages,
+            'quota' => $quota,
+            'over_quota' => $overQuota,
+        ];
     }
 
     protected function addQuotaEntry($size, $count = 1)

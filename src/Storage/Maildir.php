@@ -329,7 +329,7 @@ class Maildir extends AbstractStorage
                 'uniq'       => $uniq,
                 'flags'      => $namedFlags,
                 'flaglookup' => array_flip($namedFlags),
-                'filename'   => $dirname . $entry
+                'filename'   => $dirname . $entry,
             ];
             if ($size !== null) {
                 $data['size'] = (int) $size;
