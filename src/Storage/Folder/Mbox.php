@@ -8,6 +8,7 @@
 
 namespace Laminas\Mail\Storage\Folder;
 
+use Laminas\Config\Config;
 use Laminas\Mail\Storage;
 use Laminas\Mail\Storage\Exception;
 use Laminas\Stdlib\ErrorHandler;
@@ -43,7 +44,7 @@ class Mbox extends Storage\Mbox implements FolderInterface
      * - dirname rootdir of mbox structure
      * - folder initial selected folder, default is 'INBOX'
      *
-     * @param  $params array mail reader specific parameters
+     * @param  $params array|object|Config mail reader specific parameters
      * @throws Exception\InvalidArgumentException
      */
     public function __construct($params)
