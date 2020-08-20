@@ -85,7 +85,6 @@ class MboxMessageOldTest extends TestCase
         $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
     }
 
-
     public function testShortMbox()
     {
         $fh = fopen($this->mboxFile, 'w');

@@ -209,7 +209,6 @@ class Pop3
         }
     }
 
-
     /**
      * Get capabilities from POP3 server
      *
@@ -220,7 +219,6 @@ class Pop3
         $result = $this->request('CAPA', true);
         return explode("\n", $result);
     }
-
 
     /**
      * Login to POP3 server. Can use APOP
@@ -244,7 +242,6 @@ class Pop3
         $this->request("PASS $password");
     }
 
-
     /**
      * Make STAT call for message count and size sum
      *
@@ -259,7 +256,6 @@ class Pop3
 
         list($messages, $octets) = explode(' ', $result);
     }
-
 
     /**
      * Make LIST call for size of message(s)
@@ -287,7 +283,6 @@ class Pop3
 
         return $messages;
     }
-
 
     /**
      * Make UIDL call for getting a uniqueid
@@ -318,7 +313,6 @@ class Pop3
 
         return $messages;
     }
-
 
     /**
      * Make TOP call for getting headers and maybe some body lines

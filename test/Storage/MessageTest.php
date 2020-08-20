@@ -91,7 +91,6 @@ class MessageTest extends TestCase
         $this->assertEquals(substr($message->getPart(1)->getContent(), 0, 14), 'The first part');
     }
 
-
     public function testGetWrongPart()
     {
         $this->expectException(GeneralException::class);

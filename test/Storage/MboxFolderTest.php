@@ -225,7 +225,6 @@ class MboxFolderTest extends TestCase
         }
     }
 
-
     public function testCount()
     {
         $mail = new Folder\Mbox($this->params);
