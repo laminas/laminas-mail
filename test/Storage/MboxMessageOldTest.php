@@ -89,7 +89,7 @@ class MboxMessageOldTest extends TestCase
     public function testShortMbox()
     {
         $fh = fopen($this->mboxFile, 'w');
-        fputs($fh, "From \r\nSubject: test\r\nFrom \r\nSubject: test2\r\n");
+        fwrite($fh, "From \r\nSubject: test\r\nFrom \r\nSubject: test2\r\n");
         fclose($fh);
         $mail = new TestAsset\MboxOldMessage(['filename' => $this->mboxFile]);
         $this->assertEquals($mail->countMessages(), 2);

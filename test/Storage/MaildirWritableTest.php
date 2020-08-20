@@ -514,7 +514,7 @@ class MaildirWritableTest extends TestCase
     {
         $mail = new Writable\Maildir($this->params);
         $fh = fopen('php://memory', 'rw');
-        fputs($fh, "Subject: test\r\n\r\n");
+        fwrite($fh, "Subject: test\r\n\r\n");
         fseek($fh, 0);
         $mail->appendMessage($fh);
         fclose($fh);
