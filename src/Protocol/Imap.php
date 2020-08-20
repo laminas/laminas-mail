@@ -364,10 +364,11 @@ class Imap
         if (func_num_args() < 2) {
             if (strpos($string, "\n") !== false) {
                 return ['{' . strlen($string) . '}', $string];
-            } else {
-                return '"' . str_replace(['\\', '"'], ['\\\\', '\\"'], $string) . '"';
             }
+
+            return '"' . str_replace(['\\', '"'], ['\\\\', '\\"'], $string) . '"';
         }
+
         $result = [];
         foreach (func_get_args() as $string) {
             $result[] = $this->escapeString($string);
