@@ -61,7 +61,7 @@ abstract class Factory
             ));
         }
 
-        $transport = new $type;
+        $transport = new $type();
 
         if (! $transport instanceof TransportInterface) {
             throw new Exception\DomainException(sprintf(
