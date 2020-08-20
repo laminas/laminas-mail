@@ -19,6 +19,9 @@ use PHPUnit\Framework\TestCase;
  */
 class FileTest extends TestCase
 {
+    /** @var string */
+    private $tempDir;
+
     public function setUp()
     {
         $this->tempDir = sys_get_temp_dir() . '/mail_file_transport';
