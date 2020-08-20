@@ -8,6 +8,7 @@
 
 namespace Laminas\Mail\Storage;
 
+use Laminas\Config\Config;
 use Laminas\Stdlib\ErrorHandler;
 
 class Mbox extends AbstractStorage
@@ -184,7 +185,7 @@ class Mbox extends AbstractStorage
      * Supported parameters are:
      *   - filename filename of mbox file
      *
-     * @param  $params array mail reader specific parameters
+     * @param  $params array|object|Config mail reader specific parameters
      * @throws Exception\InvalidArgumentException
      */
     public function __construct($params)
