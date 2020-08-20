@@ -290,13 +290,13 @@ class Imap
             // last to chars are still needed for response code
             $tokens = [substr($tokens, 0, 2)];
         }
+
         // last line has response code
         if ($tokens[0] == 'OK') {
             return $lines ? $lines : true;
         } elseif ($tokens[0] == 'NO') {
             return false;
         }
-        return;
     }
 
     /**
