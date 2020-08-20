@@ -127,7 +127,7 @@ class Pop3
     public function sendRequest($request)
     {
         ErrorHandler::start();
-        $result = fputs($this->socket, $request . "\r\n");
+        $result = fwrite($this->socket, $request . "\r\n");
         $error  = ErrorHandler::stop();
         if (! $result) {
             throw new Exception\RuntimeException('send failed - connection closed?', 0, $error);
