@@ -134,7 +134,7 @@ class FactoryTest extends TestCase
     public function testInvalidClassThrowsDomainException($class)
     {
         Factory::create([
-            'type' => $class
+            'type' => $class,
         ]);
     }
 
@@ -155,7 +155,7 @@ class FactoryTest extends TestCase
             'type' => 'smtp',
             'options' => [
                 'host' => 'somehost',
-            ]
+            ],
         ]);
 
         $this->assertEquals($transport->getOptions()->getHost(), 'somehost');
@@ -170,7 +170,7 @@ class FactoryTest extends TestCase
             'type' => 'file',
             'options' => [
                 'path' => __DIR__,
-            ]
+            ],
         ]);
 
         $this->assertEquals($transport->getOptions()->getPath(), __DIR__);

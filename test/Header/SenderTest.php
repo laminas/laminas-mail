@@ -128,21 +128,21 @@ class SenderTest extends TestCase
                 null,
                 '<foo@bar>',
                 '<foo@bar>',
-                'ASCII'
+                'ASCII',
             ],
             'ASCII name' => [
                 'foo@bar',
                 'foo',
                 'foo <foo@bar>',
                 'foo <foo@bar>',
-                'ASCII'
+                'ASCII',
             ],
             'UTF-8 name' => [
                 'foo@bar',
                 'ázÁZ09',
                 'ázÁZ09 <foo@bar>',
                 '=?UTF-8?Q?=C3=A1z=C3=81Z09?= <foo@bar>',
-                'UTF-8'
+                'UTF-8',
             ],
         ];
     }
@@ -156,8 +156,8 @@ class SenderTest extends TestCase
             'Unbracketed email' => [
                 '<foo@bar>',
                 'foo@bar',
-                'ASCII'
-            ]
+                'ASCII',
+            ],
         ]);
     }
 

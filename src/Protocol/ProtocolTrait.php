@@ -71,7 +71,7 @@ trait ProtocolTrait
                 'ssl' => [
                     'verify_peer_name' => false,
                     'verify_peer'      => false,
-                ]
+                ],
             ]
             : [];
     }

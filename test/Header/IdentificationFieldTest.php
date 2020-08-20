@@ -23,8 +23,8 @@ class IdentificationFieldTest extends TestCase
                 [
                     References::class,
                     'References: <1234@local.machine.example> <3456@example.net>',
-                    ['1234@local.machine.example', '3456@example.net']
-                ]
+                    ['1234@local.machine.example', '3456@example.net'],
+                ],
             ],
             $this->reversibleStringHeadersProvider()
         );
@@ -37,9 +37,9 @@ class IdentificationFieldTest extends TestCase
             [
                 References::class,
                 "References: <1234@local.machine.example>\r\n <3456@example.net>",
-                ['1234@local.machine.example', '3456@example.net']
+                ['1234@local.machine.example', '3456@example.net'],
             ],
-            [InReplyTo::class, 'In-Reply-To: <3456@example.net>', ['3456@example.net']]
+            [InReplyTo::class, 'In-Reply-To: <3456@example.net>', ['3456@example.net']],
         ];
     }
 

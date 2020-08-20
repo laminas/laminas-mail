@@ -220,13 +220,13 @@ class AddressListHeaderTest extends TestCase
             [
                 "To: =?UTF-8?B?dGVzdCxsYWJlbA==?= <john@example.com>, john2@example.com",
                 ['john@example.com' => 'test,label', 'john2@example.com' => null],
-                'UTF-8'
+                'UTF-8',
             ],
             [
                 'To: "TEST\",QUOTE" <john@example.com>, john2@example.com',
                 ['john@example.com' => 'TEST",QUOTE', 'john2@example.com' => null],
-                'ASCII'
-            ]
+                'ASCII',
+            ],
         ];
     }
 

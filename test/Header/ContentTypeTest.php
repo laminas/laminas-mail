@@ -51,11 +51,11 @@ class ContentTypeTest extends TestCase
         return [
             [
                 ['name' => 'foo; bar.txt'],
-                'text/plain; name="foo; bar.txt"'
+                'text/plain; name="foo; bar.txt"',
             ],
             [
                 ['name' => 'foo&bar.txt'],
-                'text/plain; name="foo&bar.txt"'
+                'text/plain; name="foo&bar.txt"',
             ],
         ];
     }

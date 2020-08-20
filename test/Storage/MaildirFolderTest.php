@@ -200,7 +200,7 @@ class MaildirFolderTest extends TestCase
         // we search for this folder because we can't assume an order while iterating
         $search_folders = ['subfolder'      => 'subfolder',
                                 'subfolder.test' => 'test',
-                                'INBOX'          => 'INBOX'];
+                                'INBOX'          => 'INBOX', ];
         $found_folders = [];
 
         foreach ($iterator as $localName => $folder) {
@@ -223,7 +223,7 @@ class MaildirFolderTest extends TestCase
         // we search for this folder because we can't assume an order while iterating
         $search_folders = ['subfolder'      => 'subfolder',
                                 'subfolder.test' => 'test',
-                                'INBOX'          => 'INBOX'];
+                                'INBOX'          => 'INBOX', ];
         $found_folders = [];
 
         foreach ($iterator as $localName => $folder) {

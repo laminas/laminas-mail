@@ -115,7 +115,7 @@ class Mbox extends AbstractStorage
             $messageClassParams = [
                 'file' => $this->fh,
                 'startPos' => $messagePos['start'],
-                'endPos' => $messagePos['end']
+                'endPos' => $messagePos['end'],
             ];
 
             if (isset($this->messageEOL)) {

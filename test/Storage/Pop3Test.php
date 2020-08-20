@@ -31,7 +31,7 @@ class Pop3Test extends TestCase
         $this->params = [
             'host'     => getenv('TESTS_LAMINAS_MAIL_POP3_HOST'),
             'user'     => getenv('TESTS_LAMINAS_MAIL_POP3_USER'),
-            'password' => getenv('TESTS_LAMINAS_MAIL_POP3_PASSWORD')
+            'password' => getenv('TESTS_LAMINAS_MAIL_POP3_PASSWORD'),
         ];
 
         if (getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR') && getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR')) {

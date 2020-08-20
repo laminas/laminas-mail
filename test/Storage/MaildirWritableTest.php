@@ -375,9 +375,9 @@ class MaildirWritableTest extends TestCase
             'quota' => [
                     'count' => 10,
                     'L'     => 1,
-                    'size'  => 3000
+                    'size'  => 3000,
                 ],
-            'over_quota' => false
+            'over_quota' => false,
         ];
         $this->assertEquals($quotaResult, $mail->checkQuota(true));
     }
@@ -404,9 +404,9 @@ class MaildirWritableTest extends TestCase
             'quota' => [
                     'size'  => 100,
                     'count' => 2,
-                    'X'     => 0
+                    'X'     => 0,
                 ],
-            'over_quota' => true
+            'over_quota' => true,
         ];
         $this->assertEquals($quotaResult, $mail->checkQuota(true, true));
         $this->assertEquals(['size' => 100, 'count' => 2, 'X' => 0], $mail->getQuota(true));
@@ -439,9 +439,9 @@ class MaildirWritableTest extends TestCase
             'quota' => [
                     'size'  => 100,
                     'count' => 2,
-                    'X'     => 0
+                    'X'     => 0,
                 ],
-            'over_quota' => true
+            'over_quota' => true,
         ];
         $this->assertEquals($mail->checkQuota(true), $quotaResult);
 
@@ -461,9 +461,9 @@ class MaildirWritableTest extends TestCase
             'quota' => [
                     'size'  => 3000,
                     'count' => 6,
-                    'X'     => 0
+                    'X'     => 0,
                 ],
-            'over_quota' => true
+            'over_quota' => true,
         ];
         $this->assertEquals($mail->checkQuota(true), $quotaResult);
 
@@ -503,9 +503,9 @@ class MaildirWritableTest extends TestCase
             'quota' => [
                     'size'  => 3000,
                     'count' => 6,
-                    'X'     => 0
+                    'X'     => 0,
                 ],
-            'over_quota' => true
+            'over_quota' => true,
         ];
         $this->assertEquals($mail->checkQuota(true), $quotaResult);
     }

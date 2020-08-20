@@ -151,7 +151,10 @@ class File extends Part
             throw new Exception\RuntimeException('part not found');
         }
 
-        return new static(['file' => $this->fh, 'startPos' => $this->partPos[$num][0],
-                              'endPos' => $this->partPos[$num][1]]);
+        return new static([
+            'file' => $this->fh,
+            'startPos' => $this->partPos[$num][0],
+            'endPos' => $this->partPos[$num][1],
+        ]);
     }
 }
