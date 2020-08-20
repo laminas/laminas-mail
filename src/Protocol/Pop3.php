@@ -17,7 +17,7 @@ class Pop3
     /**
      * Default timeout in seconds for initiating session
      */
-    const TIMEOUT_CONNECTION = 30;
+    public const TIMEOUT_CONNECTION = 30;
 
     /**
      * saves if server supports top

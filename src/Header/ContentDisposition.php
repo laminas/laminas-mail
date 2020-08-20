@@ -18,7 +18,7 @@ class ContentDisposition implements UnstructuredInterface
      *
      * @var int
      */
-    const MAX_PARAMETER_LENGTH = 76;
+    public const MAX_PARAMETER_LENGTH = 76;
 
     /**
      * @var string

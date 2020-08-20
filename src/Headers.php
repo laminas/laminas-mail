@@ -26,10 +26,10 @@ use Traversable;
 class Headers implements Countable, Iterator
 {
     /** @var string End of Line for fields */
-    const EOL = "\r\n";
+    public const EOL = "\r\n";
 
     /** @var string Start of Line when folding */
-    const FOLDING = "\r\n ";
+    public const FOLDING = "\r\n ";
 
     /**
      * @var null|Header\HeaderLocatorInterface
