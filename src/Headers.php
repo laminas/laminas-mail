@@ -538,7 +538,7 @@ class Headers implements Countable, Iterator
      */
     public function loadHeader($headerLine)
     {
-        list($name, ) = Header\GenericHeader::splitHeaderLine($headerLine);
+        list($name) = Header\GenericHeader::splitHeaderLine($headerLine);
 
         /** @var HeaderInterface $class */
         $class = $this->resolveHeaderClass($name);
