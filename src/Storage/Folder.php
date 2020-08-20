@@ -61,7 +61,7 @@ class Folder implements RecursiveIterator
     public function hasChildren()
     {
         $current = $this->current();
-        return $current && $current instanceof Folder && ! $current->isLeaf();
+        return $current && $current instanceof self && ! $current->isLeaf();
     }
 
     /**
@@ -142,7 +142,7 @@ class Folder implements RecursiveIterator
      * @param string $name local name of subfolder
      * @param \Laminas\Mail\Storage\Folder $folder instance for new subfolder
      */
-    public function __set($name, Folder $folder)
+    public function __set($name, self $folder)
     {
         $this->folders[$name] = $folder;
     }
