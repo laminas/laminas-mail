@@ -144,6 +144,16 @@ class ContentDispositionTest extends TestCase
     }
 
     /**
+     * @dataProvider parameterWrappingProviderExceptions
+     */
+    public function testParameterWrappingExceptions(string $input, string $exception, string $message): void
+    {
+        $this->expectException($exception);
+        $this->expectExceptionMessage($message);
+        ContentDisposition::fromString($input);
+    }
+
+    /**
      * @dataProvider invalidParametersProvider
      */
     public function testSetParameterThrowException($paramName, $paramValue, $expectedException, $exceptionMessage)
@@ -275,5 +285,18 @@ class ContentDispositionTest extends TestCase
             'attachment',
             ['filename' => "UTF-8''%76%C3%A4%6C%6A%61%70%C3%A4%C3%A4%73%75%2D%65%69%2D%6F%6C%65%2E%6A%70%67"]
         ];
+    }
+
+    public function parameterWrappingProviderExceptions(): iterable
+    {
+        // @codingStandardsIgnoreStart
+        yield 'With non-numeric-sequence' => [
+            "Content-Disposition: attachment;" .
+            "filename*0*=UTF-8''%76%C3%A4%6C%6A%61%70%C3%A4%C3%A4%73%75%2D%65%69%2D%6F;" .
+            "filename*a*=%6C%65%2E%6A%70%67",
+            InvalidArgumentException::class,
+            "Invalid header line for Content-Disposition string - count expected to be numeric, got string with value 'a'"
+        ];
+        // @codingStandardsIgnoreEnd
     }
 }
