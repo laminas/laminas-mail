@@ -271,7 +271,6 @@ class MboxFolderTest extends TestCase
         $content = $mail->getMessage(1)->getContent();
 
         $serialzed = serialize($mail);
-        $mail = null;
         $mail = unserialize($serialzed);
 
         $this->assertEquals($mail->countMessages(), $count);

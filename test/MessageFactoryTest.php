@@ -96,7 +96,6 @@ class MessageFactoryTest extends TestCase
 
     public function testEmptyOption()
     {
-        $options = [];
         $mail = MessageFactory::getInstance();
         $this->assertInstanceOf(Message::class, $mail);
     }
