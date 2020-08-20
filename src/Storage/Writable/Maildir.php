@@ -51,9 +51,9 @@ class Maildir extends Folder\Maildir implements WritableInterface
                     throw new StorageException\InvalidArgumentException("parent $dir not found", 0, $error);
                 } elseif (! is_dir($dir)) {
                     throw new StorageException\InvalidArgumentException("parent $dir not a directory", 0, $error);
-                } else {
-                    throw new StorageException\RuntimeException('cannot create maildir', 0, $error);
                 }
+
+                throw new StorageException\RuntimeException('cannot create maildir', 0, $error);
             }
         }
 

@@ -339,9 +339,9 @@ class Pop3
         if ($this->hasTop === false) {
             if ($fallback) {
                 return $this->retrieve($msgno);
-            } else {
-                throw new Exception\RuntimeException('top not supported and no fallback wanted');
             }
+
+            throw new Exception\RuntimeException('top not supported and no fallback wanted');
         }
         $this->hasTop = true;
 

@@ -391,10 +391,8 @@ class Headers implements Countable, Iterator
             case 1:
                 if ($results[0] instanceof Header\MultipleHeadersInterface) {
                     return new ArrayIterator($results);
-                } else {
-                    return $results[0];
                 }
-                //fall-trough
+                return $results[0];
             default:
                 return new ArrayIterator($results);
         }
