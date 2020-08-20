@@ -407,7 +407,7 @@ class Part implements RecursiveIterator, Part\PartInterface
     public function hasChildren()
     {
         $current = $this->current();
-        return $current && $current instanceof Part && $current->isMultipart();
+        return $current && $current instanceof self && $current->isMultipart();
     }
 
     /**

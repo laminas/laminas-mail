@@ -80,7 +80,7 @@ class Received implements HeaderInterface, MultipleHeadersInterface
     {
         $strings = [$this->toString()];
         foreach ($headers as $header) {
-            if (! $header instanceof Received) {
+            if (! $header instanceof self) {
                 throw new Exception\RuntimeException(
                     'The Received multiple header implementation can only accept an array of Received headers'
                 );
