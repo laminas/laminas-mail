@@ -533,7 +533,7 @@ class MessageTest extends TestCase
             [['foo']],
             [true],
             [false],
-            [new stdClass],
+            [new stdClass()],
         ];
     }
 

@@ -521,7 +521,7 @@ class HeadersTest extends TestCase
 
     public function testAddressListGetEncodedFieldValueWithUtf8Domain()
     {
-        $to = new Header\To;
+        $to = new Header\To();
         $to->setEncoding('UTF-8');
         $to->getAddressList()->add('local-part@ä-umlaut.de');
         $encodedValue = $to->getFieldValue(Header\HeaderInterface::FORMAT_ENCODED);

@@ -184,7 +184,7 @@ class GenericHeaderTest extends TestCase
 
     public function testToStringThrowsWithoutFieldName()
     {
-        $header = new GenericHeader;
+        $header = new GenericHeader();
 
         $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('Header name is not set, use setFieldName()');
