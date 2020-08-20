@@ -402,7 +402,7 @@ class HeadersTest extends TestCase
 
     /**
      * @test that toArray can take format parameter
-     * @link https://github.com/zendframework/zend-mail/pull/61
+     * @see https://github.com/zendframework/zend-mail/pull/61
      */
     public function testToArrayFormatRaw()
     {
@@ -420,7 +420,7 @@ class HeadersTest extends TestCase
 
     /**
      * @test that toArray can take format parameter
-     * @link https://github.com/zendframework/zend-mail/pull/61
+     * @see https://github.com/zendframework/zend-mail/pull/61
      */
     public function testToArrayFormatEncoded()
     {
