@@ -57,7 +57,6 @@ class FactoryTest extends TestCase
     {
         set_error_handler(function ($code, $message) {
             // skip deprecation notices
-            return;
         }, E_USER_DEPRECATED);
         $transport = Factory::create([
             'type' => $type,
