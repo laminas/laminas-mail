@@ -312,7 +312,6 @@ class Mbox extends AbstractStorage
         $this->positions = [];
     }
 
-
     /**
      * Waste some CPU cycles doing nothing.
      *
@@ -322,7 +321,6 @@ class Mbox extends AbstractStorage
     {
         return true;
     }
-
 
     /**
      * stub for not supported message deletion

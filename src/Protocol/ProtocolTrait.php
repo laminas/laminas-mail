@@ -21,7 +21,6 @@ trait ProtocolTrait
      */
     protected $novalidatecert;
 
-
     public function getCryptoMethod(): int
     {
         // Allow the best TLS version(s) we can

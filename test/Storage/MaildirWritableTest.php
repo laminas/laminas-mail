@@ -533,7 +533,6 @@ class MaildirWritableTest extends TestCase
         $fromCount = $mail->countMessages();
         $mail->moveMessage(1, $target);
 
-
         $this->assertEquals($fromCount - 1, $mail->countMessages());
         $mail->selectFolder($target);
         $this->assertEquals($toCount + 1, $mail->countMessages());

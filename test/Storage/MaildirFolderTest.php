@@ -272,7 +272,6 @@ class MaildirFolderTest extends TestCase
         }
     }
 
-
     public function testCount()
     {
         $this->markTestIncomplete("Fail");

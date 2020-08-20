@@ -101,7 +101,6 @@ class Pop3Test extends TestCase
         new Storage\Pop3(new Config\Config($this->params));
     }
 
-
     public function testConnectFailure()
     {
         $this->params['host'] = 'example.example';
@@ -206,7 +205,6 @@ class Pop3Test extends TestCase
     {
         $mail = new Storage\Pop3($this->params);
         $shouldSizes = [1 => 397, 89, 694, 452, 497, 101, 139];
-
 
         $sizes = $mail->getSize();
         $this->assertEquals($shouldSizes, $sizes);

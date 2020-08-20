@@ -321,7 +321,6 @@ class SmtpTest extends TestCase
 
         $this->transport->setPluginManager($pluginManagerMock);
 
-
         // Send the first email - first connect()
         $this->transport->send($this->getMessage());
 
@@ -334,13 +333,11 @@ class SmtpTest extends TestCase
         $connectedTimeAfterFirstMail = $connectedTimeProperty->getValue($this->transport);
         $this->assertNotNull($connectedTimeAfterFirstMail);
 
-
         // Send the second email - no new connect()
         $this->transport->send($this->getMessage());
 
         // Make sure that there was no new connect() (and no new timestamp was written)
         $this->assertEquals($connectedTimeAfterFirstMail, $connectedTimeProperty->getValue($this->transport));
-
 
         // Manipulate the timestamp to trigger the auto-reconnect
         $connectedTimeProperty->setValue($this->transport, time() - 10 * 3600);

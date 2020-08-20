@@ -184,7 +184,6 @@ class MaildirTest extends TestCase
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
         $shouldSizes = [1 => 397, 89, 694, 452, 497];
 
-
         $sizes = $mail->getSize();
         $this->assertEquals($shouldSizes, $sizes);
     }
@@ -387,7 +386,6 @@ class MaildirTest extends TestCase
         );
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
         $shouldSizes = [1 => 123, 456, 694, 452, 497];
-
 
         $sizes = $mail->getSize();
         $this->assertEquals($shouldSizes, $sizes);

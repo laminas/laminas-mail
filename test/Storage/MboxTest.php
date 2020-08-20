@@ -133,7 +133,6 @@ class MboxTest extends TestCase
         $mail = new Storage\Mbox(['filename' => $this->mboxFile]);
         $shouldSizes = [1 => 397, 89, 694, 452, 497, 101, 139];
 
-
         $sizes = $mail->getSize();
         $this->assertEquals($shouldSizes, $sizes);
     }
@@ -228,7 +227,6 @@ class MboxTest extends TestCase
         $this->assertTrue($mail->valid());
     }
 
-
     public function testOutOfBounds()
     {
         $mail = new Storage\Mbox(['filename' => $this->mboxFile]);
@@ -277,8 +275,6 @@ class MboxTest extends TestCase
             );
             return;
         }
-
-
 
         $check = false;
         try {

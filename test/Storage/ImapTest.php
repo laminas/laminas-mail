@@ -109,7 +109,6 @@ class ImapTest extends TestCase
         new Storage\Imap([]);
     }
 
-
     public function testConnectSSL()
     {
         if (! getenv('TESTS_LAMINAS_MAIL_IMAP_SSL')) {
@@ -193,7 +192,6 @@ class ImapTest extends TestCase
         new Storage\Imap($this->params);
     }
 
-
     public function testClose()
     {
         $mail = new Storage\Imap($this->params);
@@ -234,7 +232,6 @@ class ImapTest extends TestCase
     {
         $mail = new Storage\Imap($this->params);
         $shouldSizes = [1 => 397, 89, 694, 452, 497, 101, 139];
-
 
         $sizes = $mail->getSize();
         $this->assertEquals($shouldSizes, $sizes);
@@ -368,7 +365,6 @@ class ImapTest extends TestCase
             $this->assertEquals($localName, $folder->getLocalName());
         }
     }
-
 
     public function testCountFolder()
     {
@@ -606,7 +602,6 @@ class ImapTest extends TestCase
         $this->assertEquals($status['exists'], 7);
     }
 
-
     public function testExamine()
     {
         $protocol = new Protocol\Imap($this->params['host']);
@@ -699,7 +694,6 @@ class ImapTest extends TestCase
         $mail->selectFolder('INBOX');
         $fromCount = $mail->countMessages();
         $mail->moveMessage(1, 'subfolder/test');
-
 
         $this->assertEquals($fromCount - 1, $mail->countMessages());
         $mail->selectFolder('subfolder/test');
