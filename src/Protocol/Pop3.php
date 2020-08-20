@@ -171,7 +171,7 @@ class Pop3
                 }
                 $message .= $line;
                 $line = fgets($this->socket);
-            };
+            }
         }
 
         return $message;
