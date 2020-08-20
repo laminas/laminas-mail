@@ -656,7 +656,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
 
         // NOTE: double dirname to make sure we always move to cur. if recent
         // flag has been set (message is in new) it will be moved to cur.
-        $newFilename = dirname(dirname($filedata['filename']))
+        $newFilename = dirname($filedata['filename'], 2)
             . DIRECTORY_SEPARATOR
             . 'cur'
             . DIRECTORY_SEPARATOR
