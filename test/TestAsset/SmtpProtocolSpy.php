@@ -33,11 +33,6 @@ class SmtpProtocolSpy extends Smtp
         parent::disconnect();
     }
 
-    public function helo($serverName = '127.0.0.1')
-    {
-        parent::helo($serverName);
-    }
-
     public function quit()
     {
         $this->calledQuit = true;
@@ -48,11 +43,6 @@ class SmtpProtocolSpy extends Smtp
     {
         parent::rset();
         $this->rcptTest = [];
-    }
-
-    public function mail($from)
-    {
-        parent::mail($from);
     }
 
     public function rcpt($to)
@@ -88,16 +78,6 @@ class SmtpProtocolSpy extends Smtp
     }
 
     /**
-     * Get value of mail property
-     *
-     * @return null|string
-     */
-    public function getMail()
-    {
-        return $this->mail;
-    }
-
-    /**
      * Get recipients
      *
      * @return array
@@ -128,16 +108,6 @@ class SmtpProtocolSpy extends Smtp
         $this->auth = (bool) $status;
 
         return $this;
-    }
-
-    /**
-     * Get Session Status
-     *
-     * @return bool
-     */
-    public function getSessionStatus()
-    {
-        return $this->sess;
     }
 
     /**
