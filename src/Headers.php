@@ -13,7 +13,6 @@ namespace Laminas\Mail;
 use ArrayIterator;
 use Countable;
 use Iterator;
-use Laminas\Loader\PluginClassLoader;
 use Laminas\Loader\PluginClassLocator;
 use Laminas\Mail\Header\GenericHeader;
 use Laminas\Mail\Header\HeaderInterface;
