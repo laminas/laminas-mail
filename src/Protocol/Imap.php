@@ -29,6 +29,12 @@ class Imap
     protected $tagCount = 0;
 
     /**
+     * Last line returned from server
+     * @var string|null
+     */
+    protected $lastResponseLine;
+
+    /**
      * Public constructor
      *
      * @param  string       $host           hostname or IP address of IMAP server, if given connect() is called
@@ -128,8 +134,8 @@ class Imap
      */
     protected function assumedNextLine($start)
     {
-        $line = $this->nextLine();
-        return strpos($line, $start) === 0;
+        $this->lastResponseLine = $this->nextLine();
+        return strpos($this->lastResponseLine, $start) === 0;
     }
 
     /**
@@ -143,9 +149,9 @@ class Imap
         $line = $this->nextLine();
 
         // separate tag from line
-        list($tag, $line) = explode(' ', $line, 2);
+        list($tag, $this->lastResponseLine) = explode(' ', $line, 2);
 
-        return $line;
+        return $this->lastResponseLine;
     }
 
     /**
@@ -821,4 +827,13 @@ class Imap
         }
         return [];
     }
+
+    /**
+     * @return string|null
+     */
+    public function getLastResponseLine()
+    {
+        return $this->lastResponseLine;
+    }
+
 }

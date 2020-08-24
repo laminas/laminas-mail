@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#110](https://github.com/laminas/laminas-mail/pull/110) adds a Protocol\Imap::getLastResponseLine() function.
 
 ### Deprecated
 
