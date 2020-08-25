@@ -32,7 +32,7 @@ class Imap
      * Last line returned from server
      * @var string|null
      */
-    protected $lastResponseLine;
+    private $lastResponseLine;
 
     /**
      * Public constructor
