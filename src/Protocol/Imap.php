@@ -149,7 +149,7 @@ class Imap
         $line = $this->nextLine();
 
         // separate tag from line
-        list($tag, $this->lastResponseLine) = explode(' ', $line, 2);
+        [$tag, $this->lastResponseLine] = explode(' ', $line, 2);
 
         return $this->lastResponseLine;
     }
