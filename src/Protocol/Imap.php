@@ -302,7 +302,7 @@ class Imap
         } elseif ($tokens[0] == 'NO') {
             return false;
         }
-        return;
+        return null;
     }
 
     /**
