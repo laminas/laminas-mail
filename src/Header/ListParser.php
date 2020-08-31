@@ -24,9 +24,10 @@ class ListParser
      * @param array $delims Delimiters allowed between values; parser will
      *     split on these, as long as they are not within quotes. Defaults
      *     to ListParser::CHAR_DELIMS.
+     * @param bool $handleAsKeyValuePairs Handles as a list of key/values pairs.
      * @return array
      */
-    public static function parse($value, array $delims = self::CHAR_DELIMS)
+    public static function parse($value, array $delims = self::CHAR_DELIMS, bool $handleAsKeyValuePairs = false)
     {
         $values            = [];
         $length            = strlen($value);
@@ -92,6 +93,22 @@ class ListParser
         // append it to the list (no delimiter was reached).
         if ('' !== $currentValue) {
             $values [] = $currentValue;
+        }
+
+        // Handle values in RFC5987 format.
+        if ($handleAsKeyValuePairs) {
+            $length = count($values);
+
+            for ($i = 0; $i < $length; $i += 2) {
+                $key = $values[$i];
+                $value = $values[$i + 1];
+
+                if (preg_match('/\*$/', $key)) {
+                    $values[$i] = substr($key, 0, -1);
+                    list(, $encodedValue) = explode('\'\'', $values[$i + 1]);
+                    $values[$i + 1] = urldecode($encodedValue);
+                }
+            }
         }
 
         return $values;

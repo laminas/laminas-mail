@@ -52,6 +52,10 @@ class ContentDispositionTest extends TestCase
                 [],
                 'inline'
             ],
+            [
+                ['filename' => 'Capture d’écran 2020-05-13 à 17.13.47.png'],
+                'attachment; filename*=utf-8\'\'Capture%20d%E2%80%99e%CC%81cran%202020%2D05%2D13%20a%CC%80%2017.13.47.png'
+            ],
         ];
     }
 

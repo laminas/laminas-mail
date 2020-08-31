@@ -57,7 +57,7 @@ class ContentDisposition implements UnstructuredInterface
         $header->setDisposition($parts[0]);
 
         if (isset($parts[1])) {
-            $values = ListParser::parse(trim($parts[1]), [';', '=']);
+            $values = ListParser::parse(trim($parts[1]), [';', '='], true);
             $length = count($values);
             $continuedValues = [];
 
