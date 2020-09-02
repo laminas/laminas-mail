@@ -835,5 +835,4 @@ class Imap
     {
         return $this->lastResponseLine;
     }
-
 }
