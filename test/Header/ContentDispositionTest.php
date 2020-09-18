@@ -285,6 +285,11 @@ class ContentDispositionTest extends TestCase
             'attachment',
             ['filename' => "UTF-8''%76%C3%A4%6C%6A%61%70%C3%A4%C3%A4%73%75%2D%65%69%2D%6F%6C%65%2E%6A%70%67"]
         ];
+        yield 'With two ordered items' => [
+            "Content-Disposition: attachment; filename*=utf-8''Capture%20d%E2%80%99e%CC%81cran%202020%2D05%2D13%20a%CC%80%2017.13.47.png",
+            'attachment',
+            ['filename' => "utf-8''Capture%20d%E2%80%99e%CC%81cran%202020%2D05%2D13%20a%CC%80%2017.13.47.png"]
+        ];
     }
 
     public function parameterWrappingProviderExceptions(): iterable
