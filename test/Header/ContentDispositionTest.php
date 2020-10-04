@@ -273,6 +273,7 @@ class ContentDispositionTest extends TestCase
 
     public function parameterWrappingProvider(): iterable
     {
+        // @codingStandardsIgnoreStart
         yield 'Without sequence number' => [
             "Content-Disposition: attachment; filename*=UTF-8''%64%61%61%6D%69%2D%6D%C3%B5%72%76%2E%6A%70%67",
             'attachment',
@@ -290,6 +291,7 @@ class ContentDispositionTest extends TestCase
             'attachment',
             ['filename' => "utf-8''Capture%20d%E2%80%99e%CC%81cran%202020%2D05%2D13%20a%CC%80%2017.13.47.png"]
         ];
+        // @codingStandardsIgnoreEnd
     }
 
     public function parameterWrappingProviderExceptions(): iterable
