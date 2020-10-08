@@ -148,7 +148,11 @@ class ContentDisposition implements UnstructuredInterface
                     $decodedLength = strlen($value);
                     $maxValueLength -= ($encodedLength - $decodedLength);
                 }
-
+                
+                // there are cases when the value becomes less than 1, str_split tell "Warning: str_split(): The length of each segment must be greater than zero"
+                if ( $maxValueLength < 1 )
+                    $maxValueLength = 1;
+                
                 $valueParts = str_split($value, $maxValueLength);
                 $i = 0;
                 foreach ($valueParts as $valuePart) {
