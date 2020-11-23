@@ -13,6 +13,7 @@ use Laminas\Mail\Transport\InMemory;
 use Laminas\Mail\Transport\Sendmail;
 use Laminas\Stdlib\ArrayObject;
 use PHPUnit\Framework\TestCase;
+use Laminas\Mail\Transport\Exception;
 use Laminas\Mail\Transport\File;
 use Laminas\Mail\Transport\Smtp;
 
@@ -23,11 +24,11 @@ class FactoryTest extends TestCase
 {
     /**
      * @dataProvider invalidSpecTypeProvider
-     * @expectedException \Laminas\Mail\Transport\Exception\InvalidArgumentException
      * @param $spec
      */
     public function testInvalidSpecThrowsInvalidArgumentException($spec): void
     {
+        $this->expectException(Exception\InvalidArgumentException::class);
         Factory::create($spec);
     }
 
@@ -128,11 +129,11 @@ class FactoryTest extends TestCase
 
     /**
      * @dataProvider invalidClassProvider
-     * @expectedException \Laminas\Mail\Transport\Exception\DomainException
      * @param $class
      */
     public function testInvalidClassThrowsDomainException($class): void
     {
+        $this->expectException(Exception\DomainException::class);
         Factory::create([
             'type' => $class,
         ]);

@@ -95,10 +95,10 @@ class SmtpTest extends TestCase
         $this->transport->send($message);
 
         $data = $this->connection->getLog();
-        $this->assertContains('MAIL FROM:<mailer@example.com>', $data);
-        $this->assertContains('RCPT TO:<matthew@example.com>', $data);
-        $this->assertContains('RCPT TO:<list@example.com>', $data);
-        $this->assertContains("From: test@example.com,\r\n Matthew <matthew@example.com>\r\n", $data);
+        $this->assertStringContainsString('MAIL FROM:<mailer@example.com>', $data);
+        $this->assertStringContainsString('RCPT TO:<matthew@example.com>', $data);
+        $this->assertStringContainsString('RCPT TO:<list@example.com>', $data);
+        $this->assertStringContainsString("From: test@example.com,\r\n Matthew <matthew@example.com>\r\n", $data);
     }
 
     public function testSendMailWithEnvelopeTo(): void
@@ -111,9 +111,9 @@ class SmtpTest extends TestCase
         $this->transport->send($message);
 
         $data = $this->connection->getLog();
-        $this->assertContains('MAIL FROM:<ralph@example.com>', $data);
-        $this->assertContains('RCPT TO:<users@example.com>', $data);
-        $this->assertContains('To: Example Test <test@example.com>', $data);
+        $this->assertStringContainsString('MAIL FROM:<ralph@example.com>', $data);
+        $this->assertStringContainsString('RCPT TO:<users@example.com>', $data);
+        $this->assertStringContainsString('To: Example Test <test@example.com>', $data);
     }
 
     public function testSendMailWithEnvelope(): void
@@ -130,9 +130,9 @@ class SmtpTest extends TestCase
         $this->assertEquals($to, $this->connection->getRecipients());
 
         $data = $this->connection->getLog();
-        $this->assertContains('MAIL FROM:<mailer@example.com>', $data);
-        $this->assertContains('RCPT TO:<users@example.com>', $data);
-        $this->assertContains('RCPT TO:<dev@example.com>', $data);
+        $this->assertStringContainsString('MAIL FROM:<mailer@example.com>', $data);
+        $this->assertStringContainsString('RCPT TO:<users@example.com>', $data);
+        $this->assertStringContainsString('RCPT TO:<dev@example.com>', $data);
     }
 
     public function testSendMinimalMail(): void
@@ -154,7 +154,7 @@ class SmtpTest extends TestCase
 
         $this->transport->send($message);
 
-        $this->assertContains($expectedMessage, $this->connection->getLog());
+        $this->assertStringContainsString($expectedMessage, $this->connection->getLog());
     }
 
     public function testSendMinimalMailWithoutSender(): void
@@ -176,7 +176,7 @@ class SmtpTest extends TestCase
 
         $this->transport->send($message);
 
-        $this->assertContains($expectedMessage, $this->connection->getLog());
+        $this->assertStringContainsString($expectedMessage, $this->connection->getLog());
     }
 
     public function testReceivesMailArtifacts(): void
@@ -188,15 +188,15 @@ class SmtpTest extends TestCase
         $this->assertEquals($expectedRecipients, $this->connection->getRecipients());
 
         $data = $this->connection->getLog();
-        $this->assertContains('MAIL FROM:<ralph@example.com>', $data);
-        $this->assertContains('To: Example Test <test@example.com>', $data);
-        $this->assertContains('Subject: Testing Laminas\Mail\Transport\Sendmail', $data);
-        $this->assertContains("Cc: matthew@example.com\r\n", $data);
-        $this->assertNotContains("Bcc: \"Example List\" <list@example.com>\r\n", $data);
-        $this->assertContains("From: test@example.com,\r\n Matthew <matthew@example.com>\r\n", $data);
-        $this->assertContains("X-Foo-Bar: Matthew\r\n", $data);
-        $this->assertContains("Sender: Ralph Schindler <ralph@example.com>\r\n", $data);
-        $this->assertContains("\r\n\r\nThis is only a test.", $data, $data);
+        $this->assertStringContainsString('MAIL FROM:<ralph@example.com>', $data);
+        $this->assertStringContainsString('To: Example Test <test@example.com>', $data);
+        $this->assertStringContainsString('Subject: Testing Laminas\Mail\Transport\Sendmail', $data);
+        $this->assertStringContainsString("Cc: matthew@example.com\r\n", $data);
+        $this->assertStringNotContainsString("Bcc: \"Example List\" <list@example.com>\r\n", $data);
+        $this->assertStringContainsString("From: test@example.com,\r\n Matthew <matthew@example.com>\r\n", $data);
+        $this->assertStringContainsString("X-Foo-Bar: Matthew\r\n", $data);
+        $this->assertStringContainsString("Sender: Ralph Schindler <ralph@example.com>\r\n", $data);
+        $this->assertStringContainsString("\r\n\r\nThis is only a test.", $data, $data);
     }
 
     public function testCanUseAuthenticationExtensionsViaPluginManager(): void
@@ -328,7 +328,7 @@ class SmtpTest extends TestCase
         $reflClass             = new \ReflectionClass($this->transport);
         $connectedTimeProperty = $reflClass->getProperty('connectedTime');
 
-        self::assertNotNull($connectedTimeProperty);
+        $this->assertNotNull($connectedTimeProperty);
         $connectedTimeProperty->setAccessible(true);
         $connectedTimeAfterFirstMail = $connectedTimeProperty->getValue($this->transport);
         $this->assertNotNull($connectedTimeAfterFirstMail);
