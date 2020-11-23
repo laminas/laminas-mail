@@ -99,7 +99,7 @@ class ContentTransferEncodingTest extends TestCase
         $header->setTransferEncoding('quoted-printable');
         $string = $header->toString();
 
-        $this->assertContains("Content-Transfer-Encoding: quoted-printable", $string);
+        $this->assertStringContainsString("Content-Transfer-Encoding: quoted-printable", $string);
     }
 
     /**

@@ -681,7 +681,7 @@ class ImapTest extends TestCase
         $result = $protocol->store(['\Flagged'], 1, null, '', false);
         $this->assertContains('\Flagged', $result[1]);
         $result = $protocol->store(['\Flagged'], 1, null, '-', false);
-        $this->assertNotContains('\Flagged', $result[1]);
+        $this->assertStringNotContainsString('\Flagged', $result[1]);
         $result = $protocol->store(['\Flagged'], 1, null, '+', false);
         $this->assertContains('\Flagged', $result[1]);
     }
