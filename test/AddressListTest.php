@@ -13,6 +13,7 @@ use Laminas\Mail\AddressList;
 use Laminas\Mail\Exception\InvalidArgumentException;
 use Laminas\Mail\Header;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 
 /**
  * @group      Laminas_Mail
@@ -114,6 +115,18 @@ class AddressListTest extends TestCase
         $this->assertTrue($this->list->has('test@example.com'));
         $this->assertTrue($this->list->has('list@example.com'));
         $this->assertTrue($this->list->has('announce@example.com'));
+    }
+
+    public function testCanAddFromStringFluently()
+    {
+        try {
+            $this->list->addFromString('test_fromstring_fluency1@example.com')
+                ->addFromString('test_fromstring_fluency2@example.com');
+        } catch (Throwable $e) {
+            $this->fail('Throwable caught when chaining AddressList::addFromString calls');
+        }
+        $this->assertTrue($this->list->has('test_fromstring_fluency1@example.com'));
+        $this->assertTrue($this->list->has('test_fromstring_fluency2@example.com'));
     }
 
     public function testLosesParensInName()
