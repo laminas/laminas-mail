@@ -119,12 +119,9 @@ class AddressListTest extends TestCase
 
     public function testCanAddFromStringFluently()
     {
-        try {
-            $this->list->addFromString('test_fromstring_fluency1@example.com')
-                ->addFromString('test_fromstring_fluency2@example.com');
-        } catch (Throwable $e) {
-            $this->fail('Throwable caught when chaining AddressList::addFromString calls');
-        }
+        $this->list->addFromString('test_fromstring_fluency1@example.com')
+            ->addFromString('test_fromstring_fluency2@example.com');
+
         $this->assertTrue($this->list->has('test_fromstring_fluency1@example.com'));
         $this->assertTrue($this->list->has('test_fromstring_fluency2@example.com'));
     }
