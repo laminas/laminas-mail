@@ -96,6 +96,7 @@ class AddressList implements Countable, Iterator
     public function addFromString($address, $comment = null)
     {
         $this->add(Address::fromString($address, $comment));
+        return $this;
     }
 
     /**
