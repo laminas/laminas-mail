@@ -759,7 +759,7 @@ class MessageTest extends TestCase
      * @group ZF2015-04
      * @dataProvider messageRecipients
      */
-    public function testRaisesExceptionWhenAttemptingToSerializeMessageWithCRLFInjectionViaHeader($recipientMethod): void
+    public function testExceptionWhenAttemptingToSerializeMessageWithCRLFInjectionViaHeader($recipientMethod): void
     {
         $subject = [
             'test1',
