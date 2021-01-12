@@ -50,7 +50,7 @@ final class HeaderLocator implements HeaderLocatorInterface
     public function get(string $name, ?string $default = null): ?string
     {
         $name = $this->normalizeName($name);
-        return isset($this->plugins[$name]) ? $this->plugins[$name] : $default;
+        return $this->plugins[$name] ?? $default;
     }
 
     public function has(string $name): bool

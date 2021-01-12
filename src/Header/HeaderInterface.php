@@ -15,14 +15,14 @@ interface HeaderInterface
      *
      * @var bool
      */
-    const FORMAT_ENCODED = true;
+    public const FORMAT_ENCODED = true;
 
     /**
      * Return value in internal encoding which is usually UTF-8
      *
      * @var bool
      */
-    const FORMAT_RAW     = false;
+    public const FORMAT_RAW     = false;
 
     /**
      * Factory to generate a header object from a string
@@ -47,7 +47,7 @@ interface HeaderInterface
      * @param  bool $format Return the value in Mime::Encoded or in Raw format
      * @return string
      */
-    public function getFieldValue($format = HeaderInterface::FORMAT_RAW);
+    public function getFieldValue($format = self::FORMAT_RAW);
 
     /**
      * Set header encoding

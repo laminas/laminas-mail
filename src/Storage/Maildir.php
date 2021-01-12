@@ -8,6 +8,7 @@
 
 namespace Laminas\Mail\Storage;
 
+use Laminas\Config\Config;
 use Laminas\Mail;
 use Laminas\Stdlib\ErrorHandler;
 
@@ -112,12 +113,12 @@ class Maildir extends AbstractStorage
     {
         if ($id !== null) {
             $filedata = $this->getFileData($id);
-            return isset($filedata['size']) ? $filedata['size'] : filesize($filedata['filename']);
+            return $filedata['size'] ?? filesize($filedata['filename']);
         }
 
         $result = [];
         foreach ($this->files as $num => $data) {
-            $result[$num + 1] = isset($data['size']) ? $data['size'] : filesize($data['filename']);
+            $result[$num + 1] = $data['size'] ?? filesize($data['filename']);
         }
 
         return $result;
@@ -215,7 +216,7 @@ class Maildir extends AbstractStorage
      * Supported parameters are:
      *   - dirname dirname of mbox file
      *
-     * @param  $params array mail reader specific parameters
+     * @param  $params array|object|Config mail reader specific parameters
      * @throws Exception\InvalidArgumentException
      */
     public function __construct($params)
@@ -322,14 +323,14 @@ class Maildir extends AbstractStorage
             $length = strlen($flags);
             for ($i = 0; $i < $length; ++$i) {
                 $flag = $flags[$i];
-                $namedFlags[$flag] = isset(static::$knownFlags[$flag]) ? static::$knownFlags[$flag] : $flag;
+                $namedFlags[$flag] = static::$knownFlags[$flag] ?? $flag;
             }
 
             $data = [
                 'uniq'       => $uniq,
                 'flags'      => $namedFlags,
                 'flaglookup' => array_flip($namedFlags),
-                'filename'   => $dirname . $entry
+                'filename'   => $dirname . $entry,
             ];
             if ($size !== null) {
                 $data['size'] = (int) $size;

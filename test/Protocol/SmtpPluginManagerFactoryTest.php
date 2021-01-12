@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 
 class SmtpPluginManagerFactoryTest extends TestCase
 {
-    public function testFactoryReturnsPluginManager()
+    public function testFactoryReturnsPluginManager(): void
     {
         $container = $this->prophesize(ContainerInterface::class)->reveal();
         $factory = new SmtpPluginManagerFactory();
@@ -37,7 +37,7 @@ class SmtpPluginManagerFactoryTest extends TestCase
     /**
      * @depends testFactoryReturnsPluginManager
      */
-    public function testFactoryConfiguresPluginManagerUnderContainerInterop()
+    public function testFactoryConfiguresPluginManagerUnderContainerInterop(): void
     {
         $container = $this->prophesize(ContainerInterface::class)->reveal();
         $smtp = $this->prophesize(Smtp::class)->reveal();
@@ -54,7 +54,7 @@ class SmtpPluginManagerFactoryTest extends TestCase
     /**
      * @depends testFactoryReturnsPluginManager
      */
-    public function testFactoryConfiguresPluginManagerUnderServiceManagerV2()
+    public function testFactoryConfiguresPluginManagerUnderServiceManagerV2(): void
     {
         $container = $this->prophesize(ServiceLocatorInterface::class);
         $container->willImplement(ContainerInterface::class);

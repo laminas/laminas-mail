@@ -105,7 +105,7 @@ class AddressList implements Countable, Iterator
      * @param  AddressList $addressList
      * @return AddressList
      */
-    public function merge(AddressList $addressList)
+    public function merge(self $addressList)
     {
         foreach ($addressList as $address) {
             $this->add($address);

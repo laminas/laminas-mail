@@ -26,12 +26,12 @@ class FactoryTest extends TestCase
      * @expectedException \Laminas\Mail\Transport\Exception\InvalidArgumentException
      * @param $spec
      */
-    public function testInvalidSpecThrowsInvalidArgumentException($spec)
+    public function testInvalidSpecThrowsInvalidArgumentException($spec): void
     {
         Factory::create($spec);
     }
 
-    public function invalidSpecTypeProvider()
+    public function invalidSpecTypeProvider(): array
     {
         return [
             ['spec'],
@@ -42,7 +42,7 @@ class FactoryTest extends TestCase
     /**
      *
      */
-    public function testDefaultTypeIsSendmail()
+    public function testDefaultTypeIsSendmail(): void
     {
         $transport = Factory::create();
 
@@ -53,11 +53,10 @@ class FactoryTest extends TestCase
      * @dataProvider typeProvider
      * @param $type
      */
-    public function testCanCreateClassUsingTypeKey($type)
+    public function testCanCreateClassUsingTypeKey($type): void
     {
-        set_error_handler(function ($code, $message) {
+        set_error_handler(function ($code, $message): void {
             // skip deprecation notices
-            return;
         }, E_USER_DEPRECATED);
         $transport = Factory::create([
             'type' => $type,
@@ -67,7 +66,7 @@ class FactoryTest extends TestCase
         $this->assertInstanceOf($type, $transport);
     }
 
-    public function typeProvider()
+    public function typeProvider(): array
     {
         $types = [
             [File::class],
@@ -84,7 +83,7 @@ class FactoryTest extends TestCase
      * @param $type
      * @param $expectedClass
      */
-    public function testCanCreateClassFromTypeAlias($type, $expectedClass)
+    public function testCanCreateClassFromTypeAlias($type, $expectedClass): void
     {
         $transport = Factory::create([
             'type' => $type,
@@ -93,7 +92,7 @@ class FactoryTest extends TestCase
         $this->assertInstanceOf($expectedClass, $transport);
     }
 
-    public function typeAliasProvider()
+    public function typeAliasProvider(): array
     {
         return [
             ['file', File::class],
@@ -116,7 +115,7 @@ class FactoryTest extends TestCase
     /**
      *
      */
-    public function testCanUseTraversableAsSpec()
+    public function testCanUseTraversableAsSpec(): void
     {
         $spec = new ArrayObject([
             'type' => 'inMemory',
@@ -132,14 +131,14 @@ class FactoryTest extends TestCase
      * @expectedException \Laminas\Mail\Transport\Exception\DomainException
      * @param $class
      */
-    public function testInvalidClassThrowsDomainException($class)
+    public function testInvalidClassThrowsDomainException($class): void
     {
         Factory::create([
-            'type' => $class
+            'type' => $class,
         ]);
     }
 
-    public function invalidClassProvider()
+    public function invalidClassProvider(): array
     {
         return [
             ['stdClass'],
@@ -150,13 +149,13 @@ class FactoryTest extends TestCase
     /**
      *
      */
-    public function testCanCreateSmtpTransportWithOptions()
+    public function testCanCreateSmtpTransportWithOptions(): void
     {
         $transport = Factory::create([
             'type' => 'smtp',
             'options' => [
                 'host' => 'somehost',
-            ]
+            ],
         ]);
 
         $this->assertEquals($transport->getOptions()->getHost(), 'somehost');
@@ -165,13 +164,13 @@ class FactoryTest extends TestCase
     /**
      *
      */
-    public function testCanCreateFileTransportWithOptions()
+    public function testCanCreateFileTransportWithOptions(): void
     {
         $transport = Factory::create([
             'type' => 'file',
             'options' => [
                 'path' => __DIR__,
-            ]
+            ],
         ]);
 
         $this->assertEquals($transport->getOptions()->getPath(), __DIR__);

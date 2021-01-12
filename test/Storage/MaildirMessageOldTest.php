@@ -16,7 +16,7 @@ class MaildirMessageOldTest extends TestCase
     protected $maildir;
     protected $tmpdir;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (\strtoupper(\substr(PHP_OS, 0, 3)) == 'WIN') {
             $this->markTestSkipped('This test does not work on Windows');
@@ -77,7 +77,7 @@ class MaildirMessageOldTest extends TestCase
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         foreach (['cur', 'new'] as $dir) {
             if (! is_dir($this->tmpdir . $dir)) {
@@ -96,7 +96,7 @@ class MaildirMessageOldTest extends TestCase
         }
     }
 
-    public function testFetchHeader()
+    public function testFetchHeader(): void
     {
         $mail = new TestAsset\MaildirOldMessage(['dirname' => $this->maildir]);
 
@@ -113,7 +113,7 @@ class MaildirMessageOldTest extends TestCase
         $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
     }
 */
-    public function testFetchMessageHeader()
+    public function testFetchMessageHeader(): void
     {
         $mail = new TestAsset\MaildirOldMessage(['dirname' => $this->maildir]);
 
@@ -121,7 +121,7 @@ class MaildirMessageOldTest extends TestCase
         $this->assertEquals('Simple Message', $subject);
     }
 
-    public function testFetchMessageBody()
+    public function testFetchMessageBody(): void
     {
         $mail = new TestAsset\MaildirOldMessage(['dirname' => $this->maildir]);
 
@@ -130,7 +130,7 @@ class MaildirMessageOldTest extends TestCase
         $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
     }
 
-    public function testHasFlag()
+    public function testHasFlag(): void
     {
         $mail = new TestAsset\MaildirOldMessage(['dirname' => $this->maildir]);
 
@@ -140,7 +140,7 @@ class MaildirMessageOldTest extends TestCase
         $this->assertFalse($mail->getMessage(2)->hasFlag(Storage::FLAG_ANSWERED));
     }
 
-    public function testGetFlags()
+    public function testGetFlags(): void
     {
         $mail = new TestAsset\MaildirOldMessage(['dirname' => $this->maildir]);
 
@@ -149,13 +149,13 @@ class MaildirMessageOldTest extends TestCase
         $this->assertContains(Storage::FLAG_SEEN, $flags);
     }
 
-    public function testFetchPart()
+    public function testFetchPart(): void
     {
         $mail = new TestAsset\MaildirOldMessage(['dirname' => $this->maildir]);
         $this->assertEquals($mail->getMessage(4)->getPart(2)->contentType, 'text/x-vertical');
     }
 
-    public function testPartSize()
+    public function testPartSize(): void
     {
         $mail = new TestAsset\MaildirOldMessage(['dirname' => $this->maildir]);
         $this->assertEquals($mail->getMessage(4)->getPart(2)->getSize(), 80);

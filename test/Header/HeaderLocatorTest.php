@@ -18,12 +18,12 @@ class HeaderLocatorTest extends TestCase
      */
     private $headerLocator;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->headerLocator = new Header\HeaderLocator();
     }
 
-    public function provideHeaderNames()
+    public function provideHeaderNames(): array
     {
         return [
             'with existing name'     => ['to', Header\To::class],
@@ -38,12 +38,12 @@ class HeaderLocatorTest extends TestCase
      * @param $default
      * @dataProvider provideHeaderNames
      */
-    public function testHeaderIsProperlyLoaded($name, $expected, $default = null)
+    public function testHeaderIsProperlyLoaded($name, $expected, $default = null): void
     {
         $this->assertEquals($expected, $this->headerLocator->get($name, $default));
     }
 
-    public function testHeaderExistenceIsProperlyChecked()
+    public function testHeaderExistenceIsProperlyChecked(): void
     {
         $this->assertTrue($this->headerLocator->has('to'));
         $this->assertTrue($this->headerLocator->has('To'));
@@ -53,21 +53,21 @@ class HeaderLocatorTest extends TestCase
         $this->assertFalse($this->headerLocator->has('bar'));
     }
 
-    public function testHeaderCanBeAdded()
+    public function testHeaderCanBeAdded(): void
     {
         $this->assertFalse($this->headerLocator->has('foo'));
         $this->headerLocator->add('foo', Header\GenericHeader::class);
         $this->assertTrue($this->headerLocator->has('foo'));
     }
 
-    public function testHeaderCanBeRemoved()
+    public function testHeaderCanBeRemoved(): void
     {
         $this->assertTrue($this->headerLocator->has('to'));
         $this->headerLocator->remove('to');
         $this->assertFalse($this->headerLocator->has('to'));
     }
 
-    public static function expectedHeaders()
+    public static function expectedHeaders(): array
     {
         return [
             'bcc'          => ['bcc', Header\Bcc::class],
@@ -95,7 +95,7 @@ class HeaderLocatorTest extends TestCase
      * @param string $name
      * @param Header\HeaderInterface $class
      */
-    public function testDefaultHeadersMapResolvesProperHeader($name, $class)
+    public function testDefaultHeadersMapResolvesProperHeader($name, $class): void
     {
         $this->assertEquals($class, $this->headerLocator->get($name));
     }

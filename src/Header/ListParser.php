@@ -15,9 +15,9 @@ use function in_array;
  */
 class ListParser
 {
-    const CHAR_QUOTES = ['\'', '"'];
-    const CHAR_DELIMS = [',', ';'];
-    const CHAR_ESCAPE = '\\';
+    public const CHAR_QUOTES = ['\'', '"'];
+    public const CHAR_DELIMS = [',', ';'];
+    public const CHAR_ESCAPE = '\\';
 
     /**
      * @param string $value

@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ContentTypeTest extends TestCase
 {
-    public function testImplementsHeaderInterface()
+    public function testImplementsHeaderInterface(): void
     {
         $header = new ContentType();
 
@@ -31,7 +31,7 @@ class ContentTypeTest extends TestCase
     /**
      * @group 6491
      */
-    public function testTrailingSemiColonFromString()
+    public function testTrailingSemiColonFromString(): void
     {
         $contentTypeHeader = ContentType::fromString(
             'Content-Type: multipart/alternative; boundary="Apple-Mail=_1B852F10-F9C6-463D-AADD-CD503A5428DD";'
@@ -40,22 +40,22 @@ class ContentTypeTest extends TestCase
         $this->assertEquals(['boundary' => 'Apple-Mail=_1B852F10-F9C6-463D-AADD-CD503A5428DD'], $params);
     }
 
-    public function testExtractsExtraInformationWithoutBeingConfusedByTrailingSemicolon()
+    public function testExtractsExtraInformationWithoutBeingConfusedByTrailingSemicolon(): void
     {
         $header = ContentType::fromString('Content-Type: application/pdf;name="foo.pdf";');
         $this->assertEquals($header->getParameters(), ['name' => 'foo.pdf']);
     }
 
-    public static function getLiteralData()
+    public static function getLiteralData(): array
     {
         return [
             [
                 ['name' => 'foo; bar.txt'],
-                'text/plain; name="foo; bar.txt"'
+                'text/plain; name="foo; bar.txt"',
             ],
             [
                 ['name' => 'foo&bar.txt'],
-                'text/plain; name="foo&bar.txt"'
+                'text/plain; name="foo&bar.txt"',
             ],
         ];
     }
@@ -63,7 +63,7 @@ class ContentTypeTest extends TestCase
     /**
      * @dataProvider getLiteralData
      */
-    public function testHandlesLiterals(array $expected, $header)
+    public function testHandlesLiterals(array $expected, $header): void
     {
         $header = ContentType::fromString('Content-Type: '.$header);
         $this->assertEquals($expected, $header->getParameters());
@@ -72,7 +72,7 @@ class ContentTypeTest extends TestCase
     /**
      * @dataProvider setTypeProvider
      */
-    public function testFromString($type, $parameters, $fieldValue, $expectedToString)
+    public function testFromString($type, $parameters, $fieldValue, $expectedToString): void
     {
         $header = ContentType::fromString($expectedToString);
 
@@ -87,7 +87,7 @@ class ContentTypeTest extends TestCase
     /**
      * @dataProvider setTypeProvider
      */
-    public function testSetType($type, $parameters, $fieldValue, $expectedToString)
+    public function testSetType($type, $parameters, $fieldValue, $expectedToString): void
     {
         $header = new ContentType();
 
@@ -106,7 +106,7 @@ class ContentTypeTest extends TestCase
     /**
      * @dataProvider invalidHeaderLinesProvider
      */
-    public function testFromStringThrowException($headerLine, $expectedException, $exceptionMessage)
+    public function testFromStringThrowException($headerLine, $expectedException, $exceptionMessage): void
     {
         $this->expectException($expectedException);
         $this->expectExceptionMessage($exceptionMessage);
@@ -116,7 +116,7 @@ class ContentTypeTest extends TestCase
     /**
      * @group ZF2015-04
      */
-    public function testFromStringHandlesContinuations()
+    public function testFromStringHandlesContinuations(): void
     {
         $header = ContentType::fromString("Content-Type: text/html;\r\n level=1");
         $this->assertEquals('text/html', $header->getType());
@@ -126,7 +126,7 @@ class ContentTypeTest extends TestCase
     /**
      * @dataProvider invalidParametersProvider
      */
-    public function testAddParameterThrowException($paramName, $paramValue, $expectedException, $exceptionMessage)
+    public function testAddParameterThrowException($paramName, $paramValue, $expectedException, $exceptionMessage): void
     {
         $header = new ContentType();
         $header->setType('text/html');
@@ -136,7 +136,7 @@ class ContentTypeTest extends TestCase
         $header->addParameter($paramName, $paramValue);
     }
 
-    public function setTypeProvider()
+    public function setTypeProvider(): array
     {
         $foldingHeaderLine = "Content-Type: foo/baz;\r\n charset=\"us-ascii\"";
         $foldingFieldValue = "foo/baz;\r\n charset=\"us-ascii\"";
@@ -157,7 +157,7 @@ class ContentTypeTest extends TestCase
         // @codingStandardsIgnoreEnd
     }
 
-    public function invalidParametersProvider()
+    public function invalidParametersProvider(): array
     {
         $invalidArgumentException = Exception\InvalidArgumentException::class;
 
@@ -171,7 +171,7 @@ class ContentTypeTest extends TestCase
         // @codingStandardsIgnoreEnd
     }
 
-    public function invalidHeaderLinesProvider()
+    public function invalidHeaderLinesProvider(): array
     {
         $invalidArgumentException = Exception\InvalidArgumentException::class;
 
@@ -188,27 +188,27 @@ class ContentTypeTest extends TestCase
         // @codingStandardsIgnoreEnd
     }
 
-    public function testFromStringRaisesExceptionOnInvalidHeader()
+    public function testFromStringRaisesExceptionOnInvalidHeader(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid header line for Content-Type string');
         ContentType::fromString('Foo: bar');
     }
 
-    public function testDefaultEncoding()
+    public function testDefaultEncoding(): void
     {
-        $header = new ContentType('today');
+        $header = new ContentType();
         $this->assertSame('ASCII', $header->getEncoding());
     }
 
-    public function testSetEncoding()
+    public function testSetEncoding(): void
     {
-        $header = new ContentType('today');
+        $header = new ContentType();
         $header->setEncoding('UTF-8');
         $this->assertSame('UTF-8', $header->getEncoding());
     }
 
-    public function testSetTypeThrowsOnInvalidValue()
+    public function testSetTypeThrowsOnInvalidValue(): void
     {
         $header = new ContentType();
         $this->expectException(Exception\InvalidArgumentException::class);
@@ -216,31 +216,31 @@ class ContentTypeTest extends TestCase
         $header->setType('invalid');
     }
 
-    public function testGetParameter()
+    public function testGetParameter(): void
     {
         $header = ContentType::fromString('content-type: text/plain; level=top');
         $this->assertSame('top', $header->getParameter('level'));
     }
 
-    public function testGetParameterWithSpaceTrimmed()
+    public function testGetParameterWithSpaceTrimmed(): void
     {
         $header = ContentType::fromString('content-type: text/plain; level=top; name="logfile.log";');
         $this->assertSame('logfile.log', $header->getParameter('name'));
     }
 
-    public function testGetParameterNotExists()
+    public function testGetParameterNotExists(): void
     {
         $header = ContentType::fromString('content-type: text/plain');
         $this->assertNull($header->getParameter('level'));
     }
 
-    public function testRemoveParameter()
+    public function testRemoveParameter(): void
     {
         $header = ContentType::fromString('content-type: text/plain; level=top');
         $this->assertTrue($header->removeParameter('level'));
     }
 
-    public function testRemoveParameterNotExists()
+    public function testRemoveParameterNotExists(): void
     {
         $header = ContentType::fromString('content-type: text/plain');
         $this->assertFalse($header->removeParameter('level'));

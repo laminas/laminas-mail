@@ -24,7 +24,7 @@ class MboxFolderTest extends TestCase
     protected $tmpdir;
     protected $subdirs = ['.', 'subfolder'];
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->originalDir = __DIR__ . '/../_files/test.mbox/';
 
@@ -69,7 +69,7 @@ class MboxFolderTest extends TestCase
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         foreach (array_reverse($this->subdirs) as $dir) {
             $dh = opendir($this->tmpdir . $dir);
@@ -87,38 +87,38 @@ class MboxFolderTest extends TestCase
         }
     }
 
-    public function testLoadOk()
+    public function testLoadOk(): void
     {
         new Folder\Mbox($this->params);
         $this->addToAssertionCount(1);
     }
 
-    public function testLoadConfig()
+    public function testLoadConfig(): void
     {
         new Folder\Mbox(new Config\Config($this->params));
         $this->addToAssertionCount(1);
     }
 
-    public function testNoParams()
+    public function testNoParams(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         new Folder\Mbox([]);
     }
 
-    public function testFilenameParam()
+    public function testFilenameParam(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         // filename is not allowed in this subclass
         new Folder\Mbox(['filename' => 'foobar']);
     }
 
-    public function testLoadFailure()
+    public function testLoadFailure(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         new Folder\Mbox(['dirname' => 'This/Folder/Does/Not/Exist']);
     }
 
-    public function testLoadUnkownFolder()
+    public function testLoadUnknownFolder(): void
     {
         $this->params['folder'] = 'UnknownFolder';
 
@@ -126,7 +126,7 @@ class MboxFolderTest extends TestCase
         new Folder\Mbox($this->params);
     }
 
-    public function testChangeFolder()
+    public function testChangeFolder(): void
     {
         $mail = new Folder\Mbox($this->params);
 
@@ -138,35 +138,35 @@ class MboxFolderTest extends TestCase
         );
     }
 
-    public function testChangeFolderUnselectable()
+    public function testChangeFolderUnselectable(): void
     {
         $mail = new Folder\Mbox($this->params);
         $this->expectException(Exception\RuntimeException::class);
         $mail->selectFolder(DIRECTORY_SEPARATOR . 'subfolder');
     }
 
-    public function testUnknownFolder()
+    public function testUnknownFolder(): void
     {
         $mail = new Folder\Mbox($this->params);
         $this->expectException(Exception\InvalidArgumentException::class);
         $mail->selectFolder('/Unknown/Folder/');
     }
 
-    public function testGlobalName()
+    public function testGlobalName(): void
     {
         $mail = new Folder\Mbox($this->params);
 
         $this->assertEquals($mail->getFolders()->subfolder->__toString(), DIRECTORY_SEPARATOR . 'subfolder');
     }
 
-    public function testLocalName()
+    public function testLocalName(): void
     {
         $mail = new Folder\Mbox($this->params);
 
         $this->assertEquals($mail->getFolders()->subfolder->key(), 'test');
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $mail = new Folder\Mbox($this->params);
         $iterator = new RecursiveIteratorIterator($mail->getFolders(), RecursiveIteratorIterator::SELF_FIRST);
@@ -175,7 +175,7 @@ class MboxFolderTest extends TestCase
         $search_folders = [
             DIRECTORY_SEPARATOR . 'subfolder'                                => 'subfolder',
             DIRECTORY_SEPARATOR . 'subfolder' . DIRECTORY_SEPARATOR . 'test' => 'test',
-            DIRECTORY_SEPARATOR . 'INBOX'                                    => 'INBOX'
+            DIRECTORY_SEPARATOR . 'INBOX'                                    => 'INBOX',
         ];
         $found_folders = [];
 
@@ -191,7 +191,7 @@ class MboxFolderTest extends TestCase
         $this->assertEquals($search_folders, $found_folders);
     }
 
-    public function testKeyLocalName()
+    public function testKeyLocalName(): void
     {
         $mail = new Folder\Mbox($this->params);
         $iterator = new RecursiveIteratorIterator($mail->getFolders(), RecursiveIteratorIterator::SELF_FIRST);
@@ -199,7 +199,7 @@ class MboxFolderTest extends TestCase
         $search_folders = [
             DIRECTORY_SEPARATOR . 'subfolder'                                => 'subfolder',
             DIRECTORY_SEPARATOR . 'subfolder' . DIRECTORY_SEPARATOR . 'test' => 'test',
-            DIRECTORY_SEPARATOR . 'INBOX'                                    => 'INBOX'
+            DIRECTORY_SEPARATOR . 'INBOX'                                    => 'INBOX',
         ];
         $found_folders = [];
 
@@ -215,7 +215,7 @@ class MboxFolderTest extends TestCase
         $this->assertEquals($search_folders, $found_folders);
     }
 
-    public function testSelectable()
+    public function testSelectable(): void
     {
         $mail = new Folder\Mbox($this->params);
         $iterator = new RecursiveIteratorIterator($mail->getFolders(), RecursiveIteratorIterator::SELF_FIRST);
@@ -225,8 +225,7 @@ class MboxFolderTest extends TestCase
         }
     }
 
-
-    public function testCount()
+    public function testCount(): void
     {
         $mail = new Folder\Mbox($this->params);
 
@@ -238,7 +237,7 @@ class MboxFolderTest extends TestCase
         $this->assertEquals(1, $count);
     }
 
-    public function testSize()
+    public function testSize(): void
     {
         $mail = new Folder\Mbox($this->params);
         $shouldSizes = [1 => 397, 89, 694, 452, 497, 101, 139];
@@ -251,7 +250,7 @@ class MboxFolderTest extends TestCase
         $this->assertEquals([1 => 410], $sizes);
     }
 
-    public function testFetchHeader()
+    public function testFetchHeader(): void
     {
         $mail = new Folder\Mbox($this->params);
 
@@ -263,7 +262,7 @@ class MboxFolderTest extends TestCase
         $this->assertEquals('Message in subfolder', $subject);
     }
 
-    public function testSleepWake()
+    public function testSleepWake(): void
     {
         $mail = new Folder\Mbox($this->params);
 
@@ -272,7 +271,6 @@ class MboxFolderTest extends TestCase
         $content = $mail->getMessage(1)->getContent();
 
         $serialzed = serialize($mail);
-        $mail = null;
         $mail = unserialize($serialzed);
 
         $this->assertEquals($mail->countMessages(), $count);
@@ -283,7 +281,7 @@ class MboxFolderTest extends TestCase
         $this->assertEquals($mail->getMessage(1)->getContent(), $content);
     }
 
-    public function testNotMboxFile()
+    public function testNotMboxFile(): void
     {
         touch($this->params['dirname'] . 'foobar');
         $mail = new Folder\Mbox($this->params);
@@ -292,7 +290,7 @@ class MboxFolderTest extends TestCase
         $mail->getFolders()->foobar;
     }
 
-    public function testNotReadableFolder()
+    public function testNotReadableFolder(): void
     {
         $stat = stat($this->params['dirname'] . 'subfolder');
         chmod($this->params['dirname'] . 'subfolder', 0);
@@ -326,7 +324,7 @@ class MboxFolderTest extends TestCase
         }
     }
 
-    public function testGetInvalidFolder()
+    public function testGetInvalidFolder(): void
     {
         $mail = new Folder\Mbox($this->params);
         $root = $mail->getFolders();
@@ -335,7 +333,7 @@ class MboxFolderTest extends TestCase
         $mail->getFolders('foobar');
     }
 
-    public function testGetVanishedFolder()
+    public function testGetVanishedFolder(): void
     {
         $mail = new Folder\Mbox($this->params);
         $root = $mail->getFolders();

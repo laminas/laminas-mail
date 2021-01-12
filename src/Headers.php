@@ -13,7 +13,6 @@ namespace Laminas\Mail;
 use ArrayIterator;
 use Countable;
 use Iterator;
-use Laminas\Loader\PluginClassLoader;
 use Laminas\Loader\PluginClassLocator;
 use Laminas\Mail\Header\GenericHeader;
 use Laminas\Mail\Header\HeaderInterface;
@@ -27,10 +26,10 @@ use Traversable;
 class Headers implements Countable, Iterator
 {
     /** @var string End of Line for fields */
-    const EOL = "\r\n";
+    public const EOL = "\r\n";
 
     /** @var string Start of Line when folding */
-    const FOLDING = "\r\n ";
+    public const FOLDING = "\r\n ";
 
     /**
      * @var null|Header\HeaderLocatorInterface
@@ -391,10 +390,8 @@ class Headers implements Countable, Iterator
             case 1:
                 if ($results[0] instanceof Header\MultipleHeadersInterface) {
                     return new ArrayIterator($results);
-                } else {
-                    return $results[0];
                 }
-                //fall-trough
+                return $results[0];
             default:
                 return new ArrayIterator($results);
         }
@@ -541,7 +538,7 @@ class Headers implements Countable, Iterator
      */
     public function loadHeader($headerLine)
     {
-        list($name, ) = Header\GenericHeader::splitHeaderLine($headerLine);
+        list($name) = Header\GenericHeader::splitHeaderLine($headerLine);
 
         /** @var HeaderInterface $class */
         $class = $this->resolveHeaderClass($name);

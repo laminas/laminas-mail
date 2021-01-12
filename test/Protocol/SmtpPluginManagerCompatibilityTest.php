@@ -19,17 +19,17 @@ class SmtpPluginManagerCompatibilityTest extends TestCase
 {
     use CommonPluginManagerTrait;
 
-    protected function getPluginManager()
+    protected function getPluginManager(): SmtpPluginManager
     {
         return new SmtpPluginManager(new ServiceManager());
     }
 
-    protected function getV2InvalidPluginException()
+    protected function getV2InvalidPluginException(): string
     {
         return InvalidArgumentException::class;
     }
 
-    protected function getInstanceOf()
+    protected function getInstanceOf(): string
     {
         return Smtp::class;
     }

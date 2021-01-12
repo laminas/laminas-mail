@@ -20,7 +20,7 @@ use Laminas\Mail\Header\UnstructuredInterface;
  */
 class ContentDispositionTest extends TestCase
 {
-    public function testImplementsHeaderInterface()
+    public function testImplementsHeaderInterface(): void
     {
         $header = new ContentDisposition();
 
@@ -28,7 +28,7 @@ class ContentDispositionTest extends TestCase
         $this->assertInstanceOf(HeaderInterface::class, $header);
     }
 
-    public function testTrailingSemiColonFromString()
+    public function testTrailingSemiColonFromString(): void
     {
         $contentTypeHeader = ContentDisposition::fromString(
             'Content-Disposition: attachment; filename="test-case.txt";'
@@ -37,20 +37,20 @@ class ContentDispositionTest extends TestCase
         $this->assertEquals(['filename' => 'test-case.txt'], $params);
     }
 
-    public static function getLiteralData()
+    public static function getLiteralData(): array
     {
         return [
             [
                 ['filename' => 'foo; bar.txt'],
-                'attachment; filename="foo; bar.txt"'
+                'attachment; filename="foo; bar.txt"',
             ],
             [
                 ['filename' => 'foo&bar.txt'],
-                'attachment; filename="foo&bar.txt"'
+                'attachment; filename="foo&bar.txt"',
             ],
             [
                 [],
-                'inline'
+                'inline',
             ],
         ];
     }
@@ -58,7 +58,7 @@ class ContentDispositionTest extends TestCase
     /**
      * @dataProvider getLiteralData
      */
-    public function testHandlesLiterals($expected, $header)
+    public function testHandlesLiterals($expected, $header): void
     {
         $header = ContentDisposition::fromString('Content-Disposition: ' . $header);
         $this->assertEquals($expected, $header->getParameters());
@@ -67,7 +67,7 @@ class ContentDispositionTest extends TestCase
     /**
      * @dataProvider setDispositionProvider
      */
-    public function testFromString($disposition, $parameters, $fieldValue, $expectedToString)
+    public function testFromString($disposition, $parameters, $fieldValue, $expectedToString): void
     {
         $header = ContentDisposition::fromString($expectedToString);
 
@@ -82,7 +82,7 @@ class ContentDispositionTest extends TestCase
     /**
      * @dataProvider setDispositionProvider
      */
-    public function testSetDisposition($disposition, $parameters, $fieldValue, $expectedToString)
+    public function testSetDisposition($disposition, $parameters, $fieldValue, $expectedToString): void
     {
         $header = new ContentDisposition();
 
@@ -98,7 +98,7 @@ class ContentDispositionTest extends TestCase
         $this->assertEquals($expectedToString, $header->toString(), 'toString() value not match');
     }
 
-    public function testGetSetEncoding()
+    public function testGetSetEncoding(): void
     {
         $header = new ContentDisposition();
 
@@ -115,14 +115,14 @@ class ContentDispositionTest extends TestCase
     /**
      * @dataProvider invalidHeaderLinesProvider
      */
-    public function testFromStringThrowException($headerLine, $expectedException, $exceptionMessage)
+    public function testFromStringThrowException($headerLine, $expectedException, $exceptionMessage): void
     {
         $this->expectException($expectedException);
         $this->expectExceptionMessage($exceptionMessage);
         ContentDisposition::fromString($headerLine);
     }
 
-    public function testFromStringHandlesContinuations()
+    public function testFromStringHandlesContinuations(): void
     {
         $header = ContentDisposition::fromString("Content-Disposition: attachment;\r\n level=1");
         $this->assertEquals('attachment', $header->getDisposition());
@@ -132,7 +132,7 @@ class ContentDispositionTest extends TestCase
     /**
      * @dataProvider invalidParametersProvider
      */
-    public function testSetParameterThrowException($paramName, $paramValue, $expectedException, $exceptionMessage)
+    public function testSetParameterThrowException($paramName, $paramValue, $expectedException, $exceptionMessage): void
     {
         $header = new ContentDisposition();
         $header->setDisposition('attachment');
@@ -145,13 +145,13 @@ class ContentDispositionTest extends TestCase
     /**
      * @dataProvider getParameterProvider
      */
-    public function testGetParameter($fromString, $paramName, $paramValue)
+    public function testGetParameter($fromString, $paramName, $paramValue): void
     {
         $header = ContentDisposition::fromString($fromString);
         $this->assertEquals($paramValue, $header->getParameter($paramName));
     }
 
-    public function testRemoveParameter()
+    public function testRemoveParameter(): void
     {
         $header = ContentDisposition::fromString('Content-Disposition: inline');
 
@@ -161,7 +161,7 @@ class ContentDispositionTest extends TestCase
         $this->assertEquals(true, $header->removeParameter('name'));
     }
 
-    public function setDispositionProvider()
+    public function setDispositionProvider(): array
     {
         // @codingStandardsIgnoreStart
         $foldingFieldValue = "attachment;\r\n filename=\"this-test-filename-is-long-enough-to-flow-to-two-lines.txt\"";
@@ -201,7 +201,7 @@ class ContentDispositionTest extends TestCase
         // @codingStandardsIgnoreEnd
     }
 
-    public function invalidParametersProvider()
+    public function invalidParametersProvider(): array
     {
         $invalidArgumentException = InvalidArgumentException::class;
 
@@ -214,7 +214,7 @@ class ContentDispositionTest extends TestCase
         // @codingStandardsIgnoreEnd
     }
 
-    public function invalidHeaderLinesProvider()
+    public function invalidHeaderLinesProvider(): array
     {
         $invalidArgumentException = InvalidArgumentException::class;
 
@@ -226,12 +226,12 @@ class ContentDispositionTest extends TestCase
             'newline' => ["Content-Disposition: inline;\nlevel=1", $invalidArgumentException, 'header value'],
             'cr-lf' => ["Content-Disposition: inline\r\n;level=1", $invalidArgumentException, 'header value'],
             'multiline' => ["Content-Disposition: inline;\r\nlevel=1\r\nq=0.1", $invalidArgumentException, 'header value'],
-            'incomplete sequence' => ["Content-Disposition: attachment;\r\n filename*0=\"first-part\";\r\n filename*2=\"third-part\"", $invalidArgumentException, 'incomplete continuation']
+            'incomplete sequence' => ["Content-Disposition: attachment;\r\n filename*0=\"first-part\";\r\n filename*2=\"third-part\"", $invalidArgumentException, 'incomplete continuation'],
         ];
         // @codingStandardsIgnoreEnd
     }
 
-    public function getParameterProvider()
+    public function getParameterProvider(): array
     {
         // @codingStandardsIgnoreStart
         return [
@@ -242,7 +242,7 @@ class ContentDispositionTest extends TestCase
                 "Content-Disposition: attachment;\r\n filename*0=\"this-file-name-is-so-long-that-it-does-not-even\";\r\n filename*1=\"-fit-on-a-whole-line-by-itself-so-we-need-to-sp\";\r\n filename*2=\"lit-it-with-value-continuation.txt\"",
                 'filename',
                 'this-file-name-is-so-long-that-it-does-not-even-fit-on-a-whole-line-by-itself-so-we-need-to-split-it-with-value-continuation.txt',
-            ]
+            ],
         ];
         // @codingStandardsIgnoreEnd
     }

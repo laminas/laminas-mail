@@ -21,17 +21,17 @@ class FileOptionsTest extends TestCase
     /** @var FileOptions  */
     private $options;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->options = new FileOptions();
     }
 
-    public function testPathIsSysTempDirByDefault()
+    public function testPathIsSysTempDirByDefault(): void
     {
         $this->assertEquals(sys_get_temp_dir(), $this->options->getPath());
     }
 
-    public function testDefaultCallbackIsSetByDefault()
+    public function testDefaultCallbackIsSetByDefault(): void
     {
         $callback = $this->options->getCallback();
         $this->assertInternalType('callable', $callback);
@@ -39,7 +39,7 @@ class FileOptionsTest extends TestCase
         $this->assertRegExp('#^LaminasMail_\d+_\d+\.eml$#', $test);
     }
 
-    public function testPathIsMutable()
+    public function testPathIsMutable(): void
     {
         $original = $this->options->getPath();
         $this->options->setPath(__DIR__);
@@ -48,10 +48,10 @@ class FileOptionsTest extends TestCase
         $this->assertEquals(__DIR__, $test);
     }
 
-    public function testCallbackIsMutable()
+    public function testCallbackIsMutable(): void
     {
         $original = $this->options->getCallback();
-        $new      = function ($transport) {
+        $new      = function ($transport): void {
         };
 
         $this->options->setCallback($new);
@@ -60,14 +60,14 @@ class FileOptionsTest extends TestCase
         $this->assertSame($new, $test);
     }
 
-    public function testSetCallbackThrowsWhenNotCallable()
+    public function testSetCallbackThrowsWhenNotCallable(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('expects a valid callback');
         $this->options->setCallback(null);
     }
 
-    public function testSetPathThrowsWhenPathNotWritable()
+    public function testSetPathThrowsWhenPathNotWritable(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('expects a valid path in which to write mail files');

@@ -47,7 +47,7 @@ abstract class IdentificationField implements HeaderInterface
         $value = HeaderWrap::mimeDecodeValue($value);
 
         $messageIds = array_map(
-            [IdentificationField::class, "trimMessageId"],
+            [self::class, "trimMessageId"],
             explode(" ", $value)
         );
 
@@ -127,7 +127,7 @@ abstract class IdentificationField implements HeaderInterface
             }
         }
 
-        $this->messageIds = array_map([IdentificationField::class, "trimMessageId"], $ids);
+        $this->messageIds = array_map([self::class, "trimMessageId"], $ids);
         return $this;
     }
 
