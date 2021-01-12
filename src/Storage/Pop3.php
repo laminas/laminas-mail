@@ -60,8 +60,12 @@ class Pop3 extends AbstractStorage
         $bodyLines = 0;
         $message = $this->protocol->top($id, $bodyLines, true);
 
-        return new $this->messageClass(['handler' => $this, 'id' => $id, 'headers' => $message,
-                                              'noToplines' => $bodyLines < 1]);
+        return new $this->messageClass([
+            'handler' => $this,
+            'id' => $id,
+            'headers' => $message,
+            'noToplines' => $bodyLines < 1,
+        ]);
     }
 
     /*

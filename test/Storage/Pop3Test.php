@@ -22,7 +22,7 @@ class Pop3Test extends TestCase
 {
     protected $params;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (! getenv('TESTS_LAMINAS_MAIL_POP3_ENABLED')) {
             $this->markTestSkipped('Laminas_Mail POP3 tests are not enabled');
@@ -31,7 +31,7 @@ class Pop3Test extends TestCase
         $this->params = [
             'host'     => getenv('TESTS_LAMINAS_MAIL_POP3_HOST'),
             'user'     => getenv('TESTS_LAMINAS_MAIL_POP3_USER'),
-            'password' => getenv('TESTS_LAMINAS_MAIL_POP3_PASSWORD')
+            'password' => getenv('TESTS_LAMINAS_MAIL_POP3_PASSWORD'),
         ];
 
         if (getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR') && getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR')) {
@@ -54,7 +54,7 @@ class Pop3Test extends TestCase
         }
     }
 
-    protected function cleanDir($dir)
+    protected function cleanDir($dir): void
     {
         $dh = opendir($dir);
         while (($entry = readdir($dh)) !== false) {
@@ -72,7 +72,7 @@ class Pop3Test extends TestCase
         closedir($dh);
     }
 
-    protected function copyDir($dir, $dest)
+    protected function copyDir($dir, $dest): void
     {
         $dh = opendir($dir);
         while (($entry = readdir($dh)) !== false) {
@@ -91,18 +91,17 @@ class Pop3Test extends TestCase
         closedir($dh);
     }
 
-    public function testConnectOk()
+    public function testConnectOk(): void
     {
         new Storage\Pop3($this->params);
     }
 
-    public function testConnectConfig()
+    public function testConnectConfig(): void
     {
         new Storage\Pop3(new Config\Config($this->params));
     }
 
-
-    public function testConnectFailure()
+    public function testConnectFailure(): void
     {
         $this->params['host'] = 'example.example';
 
@@ -110,13 +109,13 @@ class Pop3Test extends TestCase
         new Storage\Pop3($this->params);
     }
 
-    public function testNoParams()
+    public function testNoParams(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         new Storage\Pop3([]);
     }
 
-    public function testConnectSSL()
+    public function testConnectSSL(): void
     {
         if (! getenv('TESTS_LAMINAS_MAIL_POP3_SSL')) {
             return;
@@ -127,7 +126,7 @@ class Pop3Test extends TestCase
         new Storage\Pop3($this->params);
     }
 
-    public function testConnectTLS()
+    public function testConnectTLS(): void
     {
         if (! getenv('TESTS_LAMINAS_MAIL_POP3_TLS')) {
             return;
@@ -138,7 +137,7 @@ class Pop3Test extends TestCase
         new Storage\Pop3($this->params);
     }
 
-    public function testConnectSelfSignedSSL()
+    public function testConnectSelfSignedSSL(): void
     {
         if (! getenv('TESTS_LAMINAS_MAIL_POP3_SSL')) {
             return;
@@ -150,7 +149,7 @@ class Pop3Test extends TestCase
         new Storage\Pop3($this->params);
     }
 
-    public function testInvalidService()
+    public function testInvalidService(): void
     {
         $this->params['port'] = getenv('TESTS_LAMINAS_MAIL_POP3_INVALID_PORT');
 
@@ -158,7 +157,7 @@ class Pop3Test extends TestCase
         new Storage\Pop3($this->params);
     }
 
-    public function testWrongService()
+    public function testWrongService(): void
     {
         $this->params['port'] = getenv('TESTS_LAMINAS_MAIL_POP3_WRONG_PORT');
 
@@ -166,35 +165,35 @@ class Pop3Test extends TestCase
         new Storage\Pop3($this->params);
     }
 
-    public function testClose()
+    public function testClose(): void
     {
         $mail = new Storage\Pop3($this->params);
 
         $mail->close();
     }
 
-    public function testHasTop()
+    public function testHasTop(): void
     {
         $mail = new Storage\Pop3($this->params);
 
         $this->assertTrue($mail->hasTop);
     }
 
-    public function testHasCreate()
+    public function testHasCreate(): void
     {
         $mail = new Storage\Pop3($this->params);
 
         $this->assertFalse($mail->hasCreate);
     }
 
-    public function testNoop()
+    public function testNoop(): void
     {
         $mail = new Storage\Pop3($this->params);
 
         $mail->noop();
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $mail = new Storage\Pop3($this->params);
 
@@ -202,17 +201,16 @@ class Pop3Test extends TestCase
         $this->assertEquals(7, $count);
     }
 
-    public function testSize()
+    public function testSize(): void
     {
         $mail = new Storage\Pop3($this->params);
         $shouldSizes = [1 => 397, 89, 694, 452, 497, 101, 139];
-
 
         $sizes = $mail->getSize();
         $this->assertEquals($shouldSizes, $sizes);
     }
 
-    public function testSingleSize()
+    public function testSingleSize(): void
     {
         $mail = new Storage\Pop3($this->params);
 
@@ -220,7 +218,7 @@ class Pop3Test extends TestCase
         $this->assertEquals(89, $size);
     }
 
-    public function testFetchHeader()
+    public function testFetchHeader(): void
     {
         $mail = new Storage\Pop3($this->params);
 
@@ -238,7 +236,7 @@ class Pop3Test extends TestCase
     }
 */
 
-    public function testFetchMessageHeader()
+    public function testFetchMessageHeader(): void
     {
         $mail = new Storage\Pop3($this->params);
 
@@ -246,7 +244,7 @@ class Pop3Test extends TestCase
         $this->assertEquals('Simple Message', $subject);
     }
 
-    public function testFetchMessageBody()
+    public function testFetchMessageBody(): void
     {
         $mail = new Storage\Pop3($this->params);
 
@@ -270,7 +268,7 @@ class Pop3Test extends TestCase
     }
 */
 
-    public function testWithInstanceConstruction()
+    public function testWithInstanceConstruction(): void
     {
         $protocol = new Protocol\Pop3($this->params['host']);
         $mail = new Storage\Pop3($protocol);
@@ -280,7 +278,7 @@ class Pop3Test extends TestCase
         $mail->getMessage(1);
     }
 
-    public function testRequestAfterClose()
+    public function testRequestAfterClose(): void
     {
         $mail = new Storage\Pop3($this->params);
         $mail->close();
@@ -289,13 +287,13 @@ class Pop3Test extends TestCase
         $mail->getMessage(1);
     }
 
-    public function testServerCapa()
+    public function testServerCapa(): void
     {
         $mail = new Protocol\Pop3($this->params['host']);
         $this->assertInternalType('array', $mail->capa());
     }
 
-    public function testServerUidl()
+    public function testServerUidl(): void
     {
         $mail = new Protocol\Pop3($this->params['host']);
         $mail->login($this->params['user'], $this->params['password']);
@@ -306,14 +304,14 @@ class Pop3Test extends TestCase
         $this->assertEquals($uids[1], $mail->uniqueid(1));
     }
 
-    public function testRawHeader()
+    public function testRawHeader(): void
     {
         $mail = new Storage\Pop3($this->params);
 
         $this->assertContains("\r\nSubject: Simple Message\r\n", $mail->getRawHeader(1));
     }
 
-    public function testUniqueId()
+    public function testUniqueId(): void
     {
         $mail = new Storage\Pop3($this->params);
 
@@ -337,7 +335,7 @@ class Pop3Test extends TestCase
         }
     }
 
-    public function testWrongUniqueId()
+    public function testWrongUniqueId(): void
     {
         $mail = new Storage\Pop3($this->params);
 
@@ -345,7 +343,7 @@ class Pop3Test extends TestCase
         $mail->getNumberByUniqueId('this_is_an_invalid_id');
     }
 
-    public function testReadAfterClose()
+    public function testReadAfterClose(): void
     {
         $protocol = new Protocol\Pop3($this->params['host']);
         $protocol->logout();
@@ -354,7 +352,7 @@ class Pop3Test extends TestCase
         $protocol->readResponse();
     }
 
-    public function testRemove()
+    public function testRemove(): void
     {
         $mail = new Storage\Pop3($this->params);
         $count = $mail->countMessages();
@@ -366,7 +364,7 @@ class Pop3Test extends TestCase
         $this->assertEquals($mail->countMessages(), --$count);
     }
 
-    public function testDotMessage()
+    public function testDotMessage(): void
     {
         $mail = new Storage\Pop3($this->params);
         $content = '';

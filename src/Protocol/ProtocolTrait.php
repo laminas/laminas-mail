@@ -21,7 +21,6 @@ trait ProtocolTrait
      */
     protected $novalidatecert;
 
-
     public function getCryptoMethod(): int
     {
         // Allow the best TLS version(s) we can
@@ -72,7 +71,7 @@ trait ProtocolTrait
                 'ssl' => [
                     'verify_peer_name' => false,
                     'verify_peer'      => false,
-                ]
+                ],
             ]
             : [];
     }

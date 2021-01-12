@@ -31,17 +31,17 @@ class MessageTest extends TestCase
     /** @var Message */
     public $message;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->message = new Message();
     }
 
-    public function testInvalidByDefault()
+    public function testInvalidByDefault(): void
     {
         $this->assertFalse($this->message->isValid());
     }
 
-    public function testSetsOrigDateHeaderByDefault()
+    public function testSetsOrigDateHeaderByDefault(): void
     {
         $headers = $this->message->getHeaders();
         $this->assertInstanceOf(Headers::class, $headers);
@@ -54,26 +54,26 @@ class MessageTest extends TestCase
         $this->assertEquals($date, $test);
     }
 
-    public function testAddingFromAddressMarksAsValid()
+    public function testAddingFromAddressMarksAsValid(): void
     {
         $this->message->addFrom('test@example.com');
         $this->assertTrue($this->message->isValid());
     }
 
-    public function testHeadersMethodReturnsHeadersObject()
+    public function testHeadersMethodReturnsHeadersObject(): void
     {
         $headers = $this->message->getHeaders();
         $this->assertInstanceOf(Headers::class, $headers);
     }
 
-    public function testToMethodReturnsAddressListObject()
+    public function testToMethodReturnsAddressListObject(): void
     {
         $this->message->addTo('test@example.com');
         $to = $this->message->getTo();
         $this->assertInstanceOf(AddressList::class, $to);
     }
 
-    public function testToAddressListLivesInHeaders()
+    public function testToAddressListLivesInHeaders(): void
     {
         $this->message->addTo('test@example.com');
         $to      = $this->message->getTo();
@@ -84,14 +84,14 @@ class MessageTest extends TestCase
         $this->assertSame($header->getAddressList(), $to);
     }
 
-    public function testFromMethodReturnsAddressListObject()
+    public function testFromMethodReturnsAddressListObject(): void
     {
         $this->message->addFrom('test@example.com');
         $from = $this->message->getFrom();
         $this->assertInstanceOf(AddressList::class, $from);
     }
 
-    public function testFromAddressListLivesInHeaders()
+    public function testFromAddressListLivesInHeaders(): void
     {
         $this->message->addFrom('test@example.com');
         $from    = $this->message->getFrom();
@@ -102,14 +102,14 @@ class MessageTest extends TestCase
         $this->assertSame($header->getAddressList(), $from);
     }
 
-    public function testCcMethodReturnsAddressListObject()
+    public function testCcMethodReturnsAddressListObject(): void
     {
         $this->message->addCc('test@example.com');
         $cc = $this->message->getCc();
         $this->assertInstanceOf(AddressList::class, $cc);
     }
 
-    public function testCcAddressListLivesInHeaders()
+    public function testCcAddressListLivesInHeaders(): void
     {
         $this->message->addCc('test@example.com');
         $cc      = $this->message->getCc();
@@ -120,14 +120,14 @@ class MessageTest extends TestCase
         $this->assertSame($header->getAddressList(), $cc);
     }
 
-    public function testBccMethodReturnsAddressListObject()
+    public function testBccMethodReturnsAddressListObject(): void
     {
         $this->message->addBcc('test@example.com');
         $bcc = $this->message->getBcc();
         $this->assertInstanceOf(AddressList::class, $bcc);
     }
 
-    public function testBccAddressListLivesInHeaders()
+    public function testBccAddressListLivesInHeaders(): void
     {
         $this->message->addBcc('test@example.com');
         $bcc     = $this->message->getBcc();
@@ -138,14 +138,14 @@ class MessageTest extends TestCase
         $this->assertSame($header->getAddressList(), $bcc);
     }
 
-    public function testReplyToMethodReturnsAddressListObject()
+    public function testReplyToMethodReturnsAddressListObject(): void
     {
         $this->message->addReplyTo('test@example.com');
         $replyTo = $this->message->getReplyTo();
         $this->assertInstanceOf(AddressList::class, $replyTo);
     }
 
-    public function testReplyToAddressListLivesInHeaders()
+    public function testReplyToAddressListLivesInHeaders(): void
     {
         $this->message->addReplyTo('test@example.com');
         $replyTo = $this->message->getReplyTo();
@@ -156,26 +156,26 @@ class MessageTest extends TestCase
         $this->assertSame($header->getAddressList(), $replyTo);
     }
 
-    public function testSenderIsNullByDefault()
+    public function testSenderIsNullByDefault(): void
     {
         $this->assertNull($this->message->getSender());
     }
 
-    public function testNullSenderDoesNotCreateHeader()
+    public function testNullSenderDoesNotCreateHeader(): void
     {
         $sender = $this->message->getSender();
         $headers = $this->message->getHeaders();
         $this->assertFalse($headers->has('sender'));
     }
 
-    public function testSettingSenderCreatesAddressObject()
+    public function testSettingSenderCreatesAddressObject(): void
     {
         $this->message->setSender('test@example.com');
         $sender = $this->message->getSender();
         $this->assertInstanceOf(Address::class, $sender);
     }
 
-    public function testCanSpecifyNameWhenSettingSender()
+    public function testCanSpecifyNameWhenSettingSender(): void
     {
         $this->message->setSender('test@example.com', 'Example Test');
         $sender = $this->message->getSender();
@@ -183,7 +183,7 @@ class MessageTest extends TestCase
         $this->assertEquals('Example Test', $sender->getName());
     }
 
-    public function testCanProvideAddressObjectWhenSettingSender()
+    public function testCanProvideAddressObjectWhenSettingSender(): void
     {
         $sender = new Address('test@example.com');
         $this->message->setSender($sender);
@@ -191,7 +191,7 @@ class MessageTest extends TestCase
         $this->assertSame($sender, $test);
     }
 
-    public function testSenderAccessorsProxyToSenderHeader()
+    public function testSenderAccessorsProxyToSenderHeader(): void
     {
         $header = new Header\Sender();
         $this->message->getHeaders()->addHeader($header);
@@ -200,7 +200,7 @@ class MessageTest extends TestCase
         $this->assertSame($address, $header->getAddress());
     }
 
-    public function testCanAddFromAddressUsingName()
+    public function testCanAddFromAddressUsingName(): void
     {
         $this->message->addFrom('test@example.com', 'Example Test');
         $addresses = $this->message->getFrom();
@@ -210,7 +210,7 @@ class MessageTest extends TestCase
         $this->assertEquals('Example Test', $address->getName());
     }
 
-    public function testCanAddFromAddressUsingEmailAndNameAsString()
+    public function testCanAddFromAddressUsingEmailAndNameAsString(): void
     {
         $this->message->addFrom('Example Test <test@example.com>');
         $addresses = $this->message->getFrom();
@@ -220,7 +220,7 @@ class MessageTest extends TestCase
         $this->assertEquals('Example Test', $address->getName());
     }
 
-    public function testCanAddFromAddressUsingAddressObject()
+    public function testCanAddFromAddressUsingAddressObject(): void
     {
         $address = new Address('test@example.com', 'Example Test');
         $this->message->addFrom($address);
@@ -231,7 +231,7 @@ class MessageTest extends TestCase
         $this->assertSame($address, $test);
     }
 
-    public function testCanAddManyFromAddressesUsingArray()
+    public function testCanAddManyFromAddressesUsingArray(): void
     {
         $addresses = [
             'test@example.com',
@@ -248,7 +248,7 @@ class MessageTest extends TestCase
         $this->assertTrue($from->has('announce@example.com'));
     }
 
-    public function testCanAddManyFromAddressesUsingAddressListObject()
+    public function testCanAddManyFromAddressesUsingAddressListObject(): void
     {
         $list = new AddressList();
         $list->add('test@example.com');
@@ -261,7 +261,7 @@ class MessageTest extends TestCase
         $this->assertTrue($from->has('test@example.com'));
     }
 
-    public function testCanSetFromListFromAddressList()
+    public function testCanSetFromListFromAddressList(): void
     {
         $list = new AddressList();
         $list->add('test@example.com');
@@ -274,7 +274,7 @@ class MessageTest extends TestCase
         $this->assertTrue($from->has('test@example.com'));
     }
 
-    public function testCanAddCcAddressUsingName()
+    public function testCanAddCcAddressUsingName(): void
     {
         $this->message->addCc('test@example.com', 'Example Test');
         $addresses = $this->message->getCc();
@@ -284,7 +284,7 @@ class MessageTest extends TestCase
         $this->assertEquals('Example Test', $address->getName());
     }
 
-    public function testCanAddCcAddressUsingAddressObject()
+    public function testCanAddCcAddressUsingAddressObject(): void
     {
         $address = new Address('test@example.com', 'Example Test');
         $this->message->addCc($address);
@@ -295,7 +295,7 @@ class MessageTest extends TestCase
         $this->assertSame($address, $test);
     }
 
-    public function testCanAddManyCcAddressesUsingArray()
+    public function testCanAddManyCcAddressesUsingArray(): void
     {
         $addresses = [
             'test@example.com',
@@ -312,7 +312,7 @@ class MessageTest extends TestCase
         $this->assertTrue($cc->has('announce@example.com'));
     }
 
-    public function testCanAddManyCcAddressesUsingAddressListObject()
+    public function testCanAddManyCcAddressesUsingAddressListObject(): void
     {
         $list = new AddressList();
         $list->add('test@example.com');
@@ -325,7 +325,7 @@ class MessageTest extends TestCase
         $this->assertTrue($cc->has('test@example.com'));
     }
 
-    public function testCanSetCcListFromAddressList()
+    public function testCanSetCcListFromAddressList(): void
     {
         $list = new AddressList();
         $list->add('test@example.com');
@@ -338,7 +338,7 @@ class MessageTest extends TestCase
         $this->assertTrue($cc->has('test@example.com'));
     }
 
-    public function testCanAddBccAddressUsingName()
+    public function testCanAddBccAddressUsingName(): void
     {
         $this->message->addBcc('test@example.com', 'Example Test');
         $addresses = $this->message->getBcc();
@@ -348,7 +348,7 @@ class MessageTest extends TestCase
         $this->assertEquals('Example Test', $address->getName());
     }
 
-    public function testCanAddBccAddressUsingAddressObject()
+    public function testCanAddBccAddressUsingAddressObject(): void
     {
         $address = new Address('test@example.com', 'Example Test');
         $this->message->addBcc($address);
@@ -359,7 +359,7 @@ class MessageTest extends TestCase
         $this->assertSame($address, $test);
     }
 
-    public function testCanAddManyBccAddressesUsingArray()
+    public function testCanAddManyBccAddressesUsingArray(): void
     {
         $addresses = [
             'test@example.com',
@@ -376,7 +376,7 @@ class MessageTest extends TestCase
         $this->assertTrue($bcc->has('announce@example.com'));
     }
 
-    public function testCanAddManyBccAddressesUsingAddressListObject()
+    public function testCanAddManyBccAddressesUsingAddressListObject(): void
     {
         $list = new AddressList();
         $list->add('test@example.com');
@@ -389,7 +389,7 @@ class MessageTest extends TestCase
         $this->assertTrue($bcc->has('test@example.com'));
     }
 
-    public function testCanSetBccListFromAddressList()
+    public function testCanSetBccListFromAddressList(): void
     {
         $list = new AddressList();
         $list->add('test@example.com');
@@ -402,7 +402,7 @@ class MessageTest extends TestCase
         $this->assertTrue($bcc->has('test@example.com'));
     }
 
-    public function testCanAddReplyToAddressUsingName()
+    public function testCanAddReplyToAddressUsingName(): void
     {
         $this->message->addReplyTo('test@example.com', 'Example Test');
         $addresses = $this->message->getReplyTo();
@@ -412,7 +412,7 @@ class MessageTest extends TestCase
         $this->assertEquals('Example Test', $address->getName());
     }
 
-    public function testCanAddReplyToAddressUsingAddressObject()
+    public function testCanAddReplyToAddressUsingAddressObject(): void
     {
         $address = new Address('test@example.com', 'Example Test');
         $this->message->addReplyTo($address);
@@ -423,7 +423,7 @@ class MessageTest extends TestCase
         $this->assertSame($address, $test);
     }
 
-    public function testCanAddManyReplyToAddressesUsingArray()
+    public function testCanAddManyReplyToAddressesUsingArray(): void
     {
         $addresses = [
             'test@example.com',
@@ -440,7 +440,7 @@ class MessageTest extends TestCase
         $this->assertTrue($replyTo->has('announce@example.com'));
     }
 
-    public function testCanAddManyReplyToAddressesUsingAddressListObject()
+    public function testCanAddManyReplyToAddressesUsingAddressListObject(): void
     {
         $list = new AddressList();
         $list->add('test@example.com');
@@ -453,7 +453,7 @@ class MessageTest extends TestCase
         $this->assertTrue($replyTo->has('test@example.com'));
     }
 
-    public function testCanSetReplyToListFromAddressList()
+    public function testCanSetReplyToListFromAddressList(): void
     {
         $list = new AddressList();
         $list->add('test@example.com');
@@ -466,26 +466,26 @@ class MessageTest extends TestCase
         $this->assertTrue($replyTo->has('test@example.com'));
     }
 
-    public function testSubjectIsEmptyByDefault()
+    public function testSubjectIsEmptyByDefault(): void
     {
         $this->assertNull($this->message->getSubject());
     }
 
-    public function testSubjectIsMutable()
+    public function testSubjectIsMutable(): void
     {
         $this->message->setSubject('test subject');
         $subject = $this->message->getSubject();
         $this->assertEquals('test subject', $subject);
     }
 
-    public function testSubjectIsMutableReplaceExisting()
+    public function testSubjectIsMutableReplaceExisting(): void
     {
         $this->message->setSubject('test subject');
         $this->message->setSubject('new subject');
         $this->assertSame('new subject', $this->message->getSubject());
     }
 
-    public function testSettingSubjectProxiesToHeader()
+    public function testSettingSubjectProxiesToHeader(): void
     {
         $this->message->setSubject('test subject');
         $headers = $this->message->getHeaders();
@@ -495,18 +495,18 @@ class MessageTest extends TestCase
         $this->assertEquals('test subject', $header->getFieldValue());
     }
 
-    public function testBodyIsEmptyByDefault()
+    public function testBodyIsEmptyByDefault(): void
     {
         $this->assertNull($this->message->getBody());
     }
 
-    public function testMaySetBodyFromString()
+    public function testMaySetBodyFromString(): void
     {
         $this->message->setBody('body');
         $this->assertEquals('body', $this->message->getBody());
     }
 
-    public function testMaySetBodyFromStringSerializableObject()
+    public function testMaySetBodyFromStringSerializableObject(): void
     {
         $object = new TestAsset\StringSerializableObject('body');
         $this->message->setBody($object);
@@ -514,39 +514,39 @@ class MessageTest extends TestCase
         $this->assertEquals('body', $this->message->getBodyText());
     }
 
-    public function testMaySetBodyFromMimeMessage()
+    public function testMaySetBodyFromMimeMessage(): void
     {
         $body = new MimeMessage();
         $this->message->setBody($body);
         $this->assertSame($body, $this->message->getBody());
     }
 
-    public function testMaySetNullBody()
+    public function testMaySetNullBody(): void
     {
         $this->message->setBody(null);
         $this->assertNull($this->message->getBody());
     }
 
-    public static function invalidBodyValues()
+    public static function invalidBodyValues(): array
     {
         return [
             [['foo']],
             [true],
             [false],
-            [new stdClass],
+            [new stdClass()],
         ];
     }
 
     /**
      * @dataProvider invalidBodyValues
      */
-    public function testSettingNonScalarNonMimeNonStringSerializableValueForBodyRaisesException($body)
+    public function testSettingNonScalarNonMimeNonStringSerializableValueForBodyRaisesException($body): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->message->setBody($body);
     }
 
-    public function testSettingBodyFromSinglePartMimeMessageSetsAppropriateHeaders()
+    public function testSettingBodyFromSinglePartMimeMessageSetsAppropriateHeaders(): void
     {
         $mime = new Mime('foo-bar');
         $part = new MimePart('<b>foo</b>');
@@ -568,7 +568,7 @@ class MessageTest extends TestCase
         $this->assertEquals('text/html', $header->getFieldValue());
     }
 
-    public function testSettingUtf8MailBodyFromSinglePartMimeUtf8MessageSetsAppropriateHeaders()
+    public function testSettingUtf8MailBodyFromSinglePartMimeUtf8MessageSetsAppropriateHeaders(): void
     {
         $mime = new Mime('foo-bar');
         $part = new MimePart('UTF-8 TestString: AaÜüÄäÖöß');
@@ -589,7 +589,7 @@ class MessageTest extends TestCase
         );
     }
 
-    public function testSettingBodyFromMultiPartMimeMessageSetsAppropriateHeaders()
+    public function testSettingBodyFromMultiPartMimeMessageSetsAppropriateHeaders(): void
     {
         $mime = new Mime('foo-bar');
         $text = new MimePart('foo');
@@ -614,7 +614,7 @@ class MessageTest extends TestCase
         $this->assertEquals("multipart/mixed;\r\n boundary=\"foo-bar\"", $header->getFieldValue());
     }
 
-    public function testRetrievingBodyTextFromMessageWithMultiPartMimeBodyReturnsMimeSerialization()
+    public function testRetrievingBodyTextFromMessageWithMultiPartMimeBodyReturnsMimeSerialization(): void
     {
         $mime = new Mime('foo-bar');
         $text = new MimePart('foo');
@@ -636,25 +636,25 @@ class MessageTest extends TestCase
         $this->assertContains('Content-Type: text/html', $text);
     }
 
-    public function testEncodingIsAsciiByDefault()
+    public function testEncodingIsAsciiByDefault(): void
     {
         $this->assertEquals('ASCII', $this->message->getEncoding());
     }
 
-    public function testEncodingIsMutable()
+    public function testEncodingIsMutable(): void
     {
         $this->message->setEncoding('UTF-8');
         $this->assertEquals('UTF-8', $this->message->getEncoding());
     }
 
-    public function testMessageReturnsNonEncodedSubject()
+    public function testMessageReturnsNonEncodedSubject(): void
     {
         $this->message->setSubject('This is a subject');
         $this->message->setEncoding('UTF-8');
         $this->assertEquals('This is a subject', $this->message->getSubject());
     }
 
-    public function testSettingNonAsciiEncodingForcesMimeEncodingOfSomeHeaders()
+    public function testSettingNonAsciiEncodingForcesMimeEncodingOfSomeHeaders(): void
     {
         $this->message->addTo('test@example.com', 'Laminas DevTeam');
         $this->message->addFrom('matthew@example.com', "Matthew Weier O'Phinney");
@@ -688,7 +688,7 @@ class MessageTest extends TestCase
     /**
      * @group Laminas-507
      */
-    public function testDefaultDateHeaderEncodingIsAlwaysAscii()
+    public function testDefaultDateHeaderEncodingIsAlwaysAscii(): void
     {
         $this->message->setEncoding('utf-8');
         $headers = $this->message->getHeaders();
@@ -700,7 +700,7 @@ class MessageTest extends TestCase
         $this->assertEquals($date, $test);
     }
 
-    public function testRestoreFromSerializedString()
+    public function testRestoreFromSerializedString(): void
     {
         $this->message->addTo('test@example.com', 'Example Test');
         $this->message->addFrom('matthew@example.com', "Matthew Weier O'Phinney");
@@ -715,7 +715,7 @@ class MessageTest extends TestCase
     /**
      * @group 45
      */
-    public function testCanRestoreFromSerializedStringWhenBodyContainsMultipleNewlines()
+    public function testCanRestoreFromSerializedStringWhenBodyContainsMultipleNewlines(): void
     {
         $this->message->addTo('test@example.com', 'Example Test');
         $this->message->addFrom('matthew@example.com', "Matthew Weier O'Phinney");
@@ -730,7 +730,7 @@ class MessageTest extends TestCase
     /**
      * @group Laminas-5962
      */
-    public function testPassEmptyArrayIntoSetPartsOfMimeMessageShouldReturnEmptyBodyString()
+    public function testPassEmptyArrayIntoSetPartsOfMimeMessageShouldReturnEmptyBodyString(): void
     {
         $mimeMessage = new MimeMessage();
         $mimeMessage->setParts([]);
@@ -739,7 +739,7 @@ class MessageTest extends TestCase
         $this->assertEquals('', $this->message->getBodyText());
     }
 
-    public function messageRecipients()
+    public function messageRecipients(): array
     {
         return [
             'setFrom' => ['setFrom'],
@@ -759,7 +759,7 @@ class MessageTest extends TestCase
      * @group ZF2015-04
      * @dataProvider messageRecipients
      */
-    public function testRaisesExceptionWhenAttemptingToSerializeMessageWithCRLFInjectionViaHeader($recipientMethod)
+    public function testExceptionWhenAttemptingToSerializeMessageWithCRLFInjectionViaHeader($recipientMethod): void
     {
         $subject = [
             'test1',
@@ -774,7 +774,7 @@ class MessageTest extends TestCase
     /**
      * @group ZF2015-04
      */
-    public function testDetectsCRLFInjectionViaSubject()
+    public function testDetectsCRLFInjectionViaSubject(): void
     {
         $subject = [
             'test1',
@@ -789,7 +789,7 @@ class MessageTest extends TestCase
         $this->assertNotContains("\r\n<html>", $serializedHeaders);
     }
 
-    public function testHeaderUnfoldingWorksAsExpectedForMultipartMessages()
+    public function testHeaderUnfoldingWorksAsExpectedForMultipartMessages(): void
     {
         $text = new MimePart('Test content');
         $text->type = Mime::TYPE_TEXT;
@@ -827,7 +827,7 @@ class MessageTest extends TestCase
     /**
      * @group 19
      */
-    public function testCanParseMultipartReport()
+    public function testCanParseMultipartReport(): void
     {
         $raw = file_get_contents(__DIR__ . '/_files/laminas-mail-19.txt');
         $message = Message::fromString($raw);
@@ -849,7 +849,7 @@ class MessageTest extends TestCase
         $this->assertEquals('multipart/report', $contentType->getType());
     }
 
-    public function testMailHeaderContainsZeroValue()
+    public function testMailHeaderContainsZeroValue(): void
     {
         $message =
             "From: someone@example.com\r\n"
@@ -867,7 +867,7 @@ class MessageTest extends TestCase
     /**
      * @ref CVE-2016-10033 which targeted WordPress
      */
-    public function testSecondCodeInjectionInFromHeader()
+    public function testSecondCodeInjectionInFromHeader(): void
     {
         $message = new Message();
         $this->expectException(Exception\InvalidArgumentException::class);
@@ -876,7 +876,7 @@ class MessageTest extends TestCase
         // @codingStandardsIgnoreEnd
     }
 
-    public function testMessageSubjectFromString()
+    public function testMessageSubjectFromString(): void
     {
         $rawMessage = 'Subject: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
             . ' =?UTF-8?Q?vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=';
@@ -889,7 +889,7 @@ class MessageTest extends TestCase
         );
     }
 
-    public function testMessageSubjectSetSubject()
+    public function testMessageSubjectSetSubject(): void
     {
         $mail = new Message();
         $mail->setSubject('Non “ascii” characters like accented vowels òàùèéì');
@@ -901,7 +901,7 @@ class MessageTest extends TestCase
         );
     }
 
-    public function testCorrectHeaderEncodingAddHeader()
+    public function testCorrectHeaderEncodingAddHeader(): void
     {
         $mail = new Message();
         $header = new GenericHeader('X-Test', 'Non “ascii” characters like accented vowels òàùèéì');
@@ -914,7 +914,7 @@ class MessageTest extends TestCase
         );
     }
 
-    public function testCorrectHeaderEncodingSetHeaders()
+    public function testCorrectHeaderEncodingSetHeaders(): void
     {
         $mail = new Message();
         $header = new GenericHeader('X-Test', 'Non “ascii” characters like accented vowels òàùèéì');
@@ -929,7 +929,7 @@ class MessageTest extends TestCase
         );
     }
 
-    public function testCorrectHeaderEncodingFromString()
+    public function testCorrectHeaderEncodingFromString(): void
     {
         $mail = new Message();
         $str = 'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
@@ -944,7 +944,7 @@ class MessageTest extends TestCase
         );
     }
 
-    public function testCorrectHeaderEncodingFromStringAndSetHeaders()
+    public function testCorrectHeaderEncodingFromStringAndSetHeaders(): void
     {
         $mail = new Message();
         $str = 'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
@@ -962,7 +962,7 @@ class MessageTest extends TestCase
         );
     }
 
-    public function testMessageSubjectEncodingWhenEncodingSetAfterTheSubject()
+    public function testMessageSubjectEncodingWhenEncodingSetAfterTheSubject(): void
     {
         $mail = new Message();
         $mail->setSubject('hello world');
@@ -975,7 +975,7 @@ class MessageTest extends TestCase
         );
     }
 
-    public function testMessageSubjectEncodingWhenEcodingSetBeforeTheSubject()
+    public function testMessageSubjectEncodingWhenEcodingSetBeforeTheSubject(): void
     {
         $mail = new Message();
         $mail->setEncoding('UTF-8');

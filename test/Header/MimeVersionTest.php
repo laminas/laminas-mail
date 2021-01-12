@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  */
 class MimeVersionTest extends TestCase
 {
-    public function testSettingManually()
+    public function testSettingManually(): void
     {
         $version = "2.0";
         $mime = new Header\MimeVersion();
@@ -26,14 +26,14 @@ class MimeVersionTest extends TestCase
         $this->assertEquals($version, $mime->getFieldValue());
     }
 
-    public function testDefaultVersion()
+    public function testDefaultVersion(): void
     {
         $mime = new Header\MimeVersion();
         $this->assertEquals('1.0', $mime->getVersion());
         $this->assertEquals('MIME-Version: 1.0', $mime->toString());
     }
 
-    public function headerLines()
+    public function headerLines(): array
     {
         return [
             'newline'      => ["MIME-Version: 5.0\nbar"],
@@ -47,13 +47,13 @@ class MimeVersionTest extends TestCase
      * @dataProvider headerLines
      * @group ZF2015-04
      */
-    public function testFromStringRaisesExceptionOnDetectionOfCrlfInjection($header)
+    public function testFromStringRaisesExceptionOnDetectionOfCrlfInjection($header): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $mime = Header\MimeVersion::fromString($header);
     }
 
-    public function invalidVersions()
+    public function invalidVersions(): array
     {
         return [
             'no-decimal'    => ['1'],
@@ -67,29 +67,29 @@ class MimeVersionTest extends TestCase
      * @dataProvider invalidVersions
      * @group ZF2015-04
      */
-    public function testRaisesExceptionOnInvalidVersionFromSetVersion($value)
+    public function testRaisesExceptionOnInvalidVersionFromSetVersion($value): void
     {
         $header = new Header\MimeVersion();
         $this->expectException(Exception\InvalidArgumentException::class);
         $header->setVersion($value);
     }
 
-    public function testFromStringRaisesExceptionOnInvalidHeader()
+    public function testFromStringRaisesExceptionOnInvalidHeader(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid header line for MIME-Version string');
         Header\MimeVersion::fromString('Foo: bar');
     }
 
-    public function testDefaultEncoding()
+    public function testDefaultEncoding(): void
     {
-        $header = new Header\MimeVersion('1.0');
+        $header = new Header\MimeVersion();
         $this->assertSame('ASCII', $header->getEncoding());
     }
 
-    public function testSetEncodingHasNoEffect()
+    public function testSetEncodingHasNoEffect(): void
     {
-        $header = new Header\MimeVersion('1.0');
+        $header = new Header\MimeVersion();
         $header->setEncoding('UTF-8');
         $this->assertSame('ASCII', $header->getEncoding());
     }

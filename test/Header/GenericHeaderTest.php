@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  */
 class GenericHeaderTest extends TestCase
 {
-    public function invalidHeaderLines()
+    public function invalidHeaderLines(): array
     {
         return [
             'append-chr-32' => [
@@ -39,14 +39,14 @@ class GenericHeaderTest extends TestCase
      * @dataProvider invalidHeaderLines
      * @group ZF2015-04
      */
-    public function testSplitHeaderLineRaisesExceptionOnInvalidHeader($line, $message)
+    public function testSplitHeaderLineRaisesExceptionOnInvalidHeader($line, $message): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage($message);
         GenericHeader::splitHeaderLine($line);
     }
 
-    public function fieldNames()
+    public function fieldNames(): array
     {
         return [
             'append-chr-13'  => ["Subject" . chr(13)],
@@ -59,7 +59,7 @@ class GenericHeaderTest extends TestCase
      * @dataProvider fieldNames
      * @group ZF2015-04
      */
-    public function testRaisesExceptionOnInvalidFieldName($fieldName)
+    public function testRaisesExceptionOnInvalidFieldName($fieldName): void
     {
         $header = new GenericHeader();
         $this->expectException(Exception\InvalidArgumentException::class);
@@ -67,7 +67,7 @@ class GenericHeaderTest extends TestCase
         $header->setFieldName($fieldName);
     }
 
-    public function fieldValues()
+    public function fieldValues(): array
     {
         return [
             'empty-lines'             => ["\n\n\r\n\r\n\n"],
@@ -86,7 +86,7 @@ class GenericHeaderTest extends TestCase
      * @group ZF2015-04
      * @param string $fieldValue
      */
-    public function testCRLFsequencesAreEncodedOnToString($fieldValue)
+    public function testCRLFsequencesAreEncodedOnToString($fieldValue): void
     {
         $header = new GenericHeader('Foo');
         $header->setFieldValue($fieldValue);
@@ -103,7 +103,7 @@ class GenericHeaderTest extends TestCase
      * @param string $encodedValue
      * @param string $encoding
      */
-    public function testParseValidSubjectHeader($decodedValue, $encodedValue, $encoding)
+    public function testParseValidSubjectHeader($decodedValue, $encodedValue, $encoding): void
     {
         $header = GenericHeader::fromString('Foo:' . $encodedValue);
 
@@ -118,7 +118,7 @@ class GenericHeaderTest extends TestCase
      * @param string $encodedValue
      * @param string $encoding
      */
-    public function testSetFieldValueValidValue($decodedValue, $encodedValue, $encoding)
+    public function testSetFieldValueValidValue($decodedValue, $encodedValue, $encoding): void
     {
         $header = new GenericHeader('Foo');
         $header->setFieldValue($decodedValue);
@@ -128,7 +128,7 @@ class GenericHeaderTest extends TestCase
         $this->assertEquals($encoding, $header->getEncoding());
     }
 
-    public function validFieldValuesProvider()
+    public function validFieldValuesProvider(): array
     {
         return [
             // Description => [decoded format, encoded format, encoding],
@@ -149,7 +149,7 @@ class GenericHeaderTest extends TestCase
     /**
      * @group ZF2015-04
      */
-    public function testCastingToStringHandlesContinuationsProperly()
+    public function testCastingToStringHandlesContinuationsProperly(): void
     {
         $encoded = '=?UTF-8?Q?foo=0D=0A=20bar?=';
         $raw = "foo\r\n bar";
@@ -162,36 +162,36 @@ class GenericHeaderTest extends TestCase
         $this->assertEquals('Foo: ' . $encoded, $header->toString());
     }
 
-    public function testAllowZeroInHeaderValueInConstructor()
+    public function testAllowZeroInHeaderValueInConstructor(): void
     {
         $header = new GenericHeader('Foo', 0);
         $this->assertEquals(0, $header->getFieldValue());
         $this->assertEquals('Foo: 0', $header->toString());
     }
 
-    public function testDefaultEncoding()
+    public function testDefaultEncoding(): void
     {
         $header = new GenericHeader('Foo');
         $this->assertSame('ASCII', $header->getEncoding());
     }
 
-    public function testSetEncoding()
+    public function testSetEncoding(): void
     {
         $header = new GenericHeader('Foo');
         $header->setEncoding('UTF-8');
         $this->assertSame('UTF-8', $header->getEncoding());
     }
 
-    public function testToStringThrowsWithoutFieldName()
+    public function testToStringThrowsWithoutFieldName(): void
     {
-        $header = new GenericHeader;
+        $header = new GenericHeader();
 
         $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('Header name is not set, use setFieldName()');
         $header->toString();
     }
 
-    public function testChangeEncodingToAsciiNotAllowedWhenHeaderValueContainsUtf8Characters()
+    public function testChangeEncodingToAsciiNotAllowedWhenHeaderValueContainsUtf8Characters(): void
     {
         $subject = new GenericHeader();
         $subject->setFieldValue('Accents òàùèéì');
@@ -202,7 +202,7 @@ class GenericHeaderTest extends TestCase
         self::assertSame('UTF-8', $subject->getEncoding());
     }
 
-    public function testChangeEncodingBackToAscii()
+    public function testChangeEncodingBackToAscii(): void
     {
         $subject = new GenericHeader('X-Test');
         $subject->setFieldValue('test');
@@ -216,7 +216,7 @@ class GenericHeaderTest extends TestCase
         self::assertSame('ASCII', $subject->getEncoding());
     }
 
-    public function testSetNullEncoding()
+    public function testSetNullEncoding(): void
     {
         $subject = GenericHeader::fromString('X-Test: test');
         self::assertSame('ASCII', $subject->getEncoding());
@@ -225,7 +225,7 @@ class GenericHeaderTest extends TestCase
         self::assertSame('ASCII', $subject->getEncoding());
     }
 
-    public function testSettingFieldValueCanChangeEncoding()
+    public function testSettingFieldValueCanChangeEncoding(): void
     {
         $subject = GenericHeader::fromString('X-Test: test');
         self::assertSame('ASCII', $subject->getEncoding());
@@ -234,7 +234,7 @@ class GenericHeaderTest extends TestCase
         self::assertSame('UTF-8', $subject->getEncoding());
     }
 
-    public function testSettingTheSameEncoding()
+    public function testSettingTheSameEncoding(): void
     {
         $subject = GenericHeader::fromString('X-Test: test');
         self::assertSame('ASCII', $subject->getEncoding());

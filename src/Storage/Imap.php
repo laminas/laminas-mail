@@ -121,7 +121,7 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
 
         $flags = [];
         foreach ($data['FLAGS'] as $flag) {
-            $flags[] = isset(static::$knownFlags[$flag]) ? static::$knownFlags[$flag] : $flag;
+            $flags[] = static::$knownFlags[$flag] ?? $flag;
         }
 
         return new $this->messageClass(['handler' => $this, 'id' => $id, 'headers' => $header, 'flags' => $flags]);

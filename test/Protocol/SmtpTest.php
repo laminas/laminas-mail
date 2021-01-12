@@ -26,14 +26,14 @@ class SmtpTest extends TestCase
     /** @var SmtpProtocolSpy */
     public $connection;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->transport  = new Smtp();
         $this->connection = new SmtpProtocolSpy();
         $this->transport->setConnection($this->connection);
     }
 
-    public function testSendMinimalMail()
+    public function testSendMinimalMail(): void
     {
         $headers = new Headers();
         $headers->addHeaderLine('Date', 'Sun, 10 Jun 2012 20:07:24 +0200');
@@ -60,7 +60,7 @@ class SmtpTest extends TestCase
         $this->assertEquals($expectedMessage, $this->connection->getLog());
     }
 
-    public function testSendEscapedEmail()
+    public function testSendEscapedEmail(): void
     {
         $headers = new Headers();
         $headers->addHeaderLine('Date', 'Sun, 10 Jun 2012 20:07:24 +0200');
@@ -88,13 +88,13 @@ class SmtpTest extends TestCase
         $this->assertEquals($expectedMessage, $this->connection->getLog());
     }
 
-    public function testDisconnectCallsQuit()
+    public function testDisconnectCallsQuit(): void
     {
         $this->connection->disconnect();
         $this->assertTrue($this->connection->calledQuit);
     }
 
-    public function testDisconnectResetsAuthFlag()
+    public function testDisconnectResetsAuthFlag(): void
     {
         $this->connection->connect();
         $this->connection->setSessionStatus(true);
@@ -104,7 +104,7 @@ class SmtpTest extends TestCase
         $this->assertFalse($this->connection->getAuth());
     }
 
-    public function testConnectHasVerboseErrors()
+    public function testConnectHasVerboseErrors(): void
     {
         $smtp = new TestAsset\ErroneousSmtp();
 
@@ -114,7 +114,7 @@ class SmtpTest extends TestCase
         $smtp->connect('nonexistentremote');
     }
 
-    public function testCanAvoidQuitRequest()
+    public function testCanAvoidQuitRequest(): void
     {
         $this->assertTrue($this->connection->useCompleteQuit(), 'Default behaviour must be BC');
 
@@ -141,7 +141,7 @@ class SmtpTest extends TestCase
         $this->assertFalse($connection->useCompleteQuit());
     }
 
-    public function testAuthThrowsWhenAlreadyAuthed()
+    public function testAuthThrowsWhenAlreadyAuthed(): void
     {
         $this->connection->setAuth(true);
         $this->expectException(Exception\RuntimeException::class);
@@ -149,7 +149,7 @@ class SmtpTest extends TestCase
         $this->connection->auth();
     }
 
-    public function testHeloThrowsWhenAlreadySession()
+    public function testHeloThrowsWhenAlreadySession(): void
     {
         $this->connection->helo('hostname.test');
         $this->expectException(Exception\RuntimeException::class);
@@ -157,28 +157,28 @@ class SmtpTest extends TestCase
         $this->connection->helo('hostname.test');
     }
 
-    public function testHeloThrowsWithInvalidHostname()
+    public function testHeloThrowsWithInvalidHostname(): void
     {
         $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('The input does not match the expected structure for a DNS hostname');
         $this->connection->helo("invalid\r\nhost name");
     }
 
-    public function testMailThrowsWhenNoSession()
+    public function testMailThrowsWhenNoSession(): void
     {
         $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('A valid session has not been started');
         $this->connection->mail('test@example.com');
     }
 
-    public function testRcptThrowsWhenNoMail()
+    public function testRcptThrowsWhenNoMail(): void
     {
         $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('No sender reverse path has been supplied');
         $this->connection->rcpt('test@example.com');
     }
 
-    public function testDataThrowsWhenNoRcpt()
+    public function testDataThrowsWhenNoRcpt(): void
     {
         $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('No recipient forward path has been supplied');

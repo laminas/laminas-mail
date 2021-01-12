@@ -23,12 +23,12 @@ class Crammd5Test extends TestCase
      */
     protected $auth;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->auth = new Crammd5();
     }
 
-    public function testHmacMd5ReturnsExpectedHash()
+    public function testHmacMd5ReturnsExpectedHash(): void
     {
         $class = new ReflectionClass(Crammd5::class);
         $method = $class->getMethod('hmacMd5');
@@ -42,13 +42,13 @@ class Crammd5Test extends TestCase
         $this->assertEquals('be56fa81a5671e0c62e00134180aae2c', $result);
     }
 
-    public function testUsernameAccessors()
+    public function testUsernameAccessors(): void
     {
         $this->auth->setUsername('test');
         $this->assertEquals('test', $this->auth->getUsername());
     }
 
-    public function testPasswordAccessors()
+    public function testPasswordAccessors(): void
     {
         $this->auth->setPassword('test');
         $this->assertEquals('test', $this->auth->getPassword());

@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ToTest extends TestCase
 {
-    public function testHeaderFoldingOccursProperly()
+    public function testHeaderFoldingOccursProperly(): void
     {
         $header = new Header\To();
         $list   = $header->getAddressList();
@@ -33,7 +33,7 @@ class ToTest extends TestCase
         $this->assertEquals(10, count($emails));
     }
 
-    public function headerLines()
+    public function headerLines(): array
     {
         return [
             'newline'      => ["To: xxx yyy\n"],
@@ -47,7 +47,7 @@ class ToTest extends TestCase
      * @dataProvider headerLines
      * @group ZF2015-04
      */
-    public function testFromStringRaisesExceptionWhenCrlfInjectionIsDetected($header)
+    public function testFromStringRaisesExceptionWhenCrlfInjectionIsDetected($header): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         Header\To::fromString($header);

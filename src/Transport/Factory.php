@@ -45,7 +45,7 @@ abstract class Factory
             ));
         }
 
-        $type = isset($spec['type']) ? $spec['type'] : 'sendmail';
+        $type = $spec['type'] ?? 'sendmail';
 
         $normalizedType = strtolower($type);
 
@@ -61,7 +61,7 @@ abstract class Factory
             ));
         }
 
-        $transport = new $type;
+        $transport = new $type();
 
         if (! $transport instanceof TransportInterface) {
             throw new Exception\DomainException(sprintf(

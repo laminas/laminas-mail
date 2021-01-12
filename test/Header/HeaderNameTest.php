@@ -20,7 +20,7 @@ class HeaderNameTest extends TestCase
     /**
      * Data for filter name
      */
-    public function getFilterNames()
+    public function getFilterNames(): array
     {
         return [
             ['Subject', 'Subject'],
@@ -37,13 +37,13 @@ class HeaderNameTest extends TestCase
      * @dataProvider getFilterNames
      * @group ZF2015-04
      */
-    public function testFilterName($name, $expected)
+    public function testFilterName($name, $expected): void
     {
         HeaderName::assertValid($expected);
         $this->assertEquals($expected, HeaderName::filter($name));
     }
 
-    public function validateNames()
+    public function validateNames(): array
     {
         return [
             ['Subject', 'assertTrue'],
@@ -60,12 +60,12 @@ class HeaderNameTest extends TestCase
      * @dataProvider validateNames
      * @group ZF2015-04
      */
-    public function testValidateName($name, $assertion)
+    public function testValidateName($name, $assertion): void
     {
         $this->{$assertion}(HeaderName::isValid($name));
     }
 
-    public function assertNames()
+    public function assertNames(): array
     {
         return [
             ['Subject:'],
@@ -79,7 +79,7 @@ class HeaderNameTest extends TestCase
      * @dataProvider assertNames
      * @group ZF2015-04
      */
-    public function testAssertValidRaisesExceptionForInvalidNames($name)
+    public function testAssertValidRaisesExceptionForInvalidNames($name): void
     {
         $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('Invalid');

@@ -18,7 +18,7 @@ class ContentDisposition implements UnstructuredInterface
      *
      * @var int
      */
-    const MAX_PARAMETER_LENGTH = 76;
+    public const MAX_PARAMETER_LENGTH = 76;
 
     /**
      * @var string
@@ -79,7 +79,7 @@ class ContentDisposition implements UnstructuredInterface
 
             foreach ($continuedValues as $name => $values) {
                 $value = '';
-                for ($i = 0; $i < count($values); $i++) {
+                for ($i = 0, $iMax = count($values); $i < $iMax; $i++) {
                     if (! isset($values[$i])) {
                         throw new Exception\InvalidArgumentException(
                             'Invalid header line for Content-Disposition string - incomplete continuation'

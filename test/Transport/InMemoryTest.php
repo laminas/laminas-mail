@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  */
 class InMemoryTest extends TestCase
 {
-    public function getMessage()
+    public function getMessage(): Message
     {
         $message = new Message();
         $message->addTo('test@example.com', 'Example Test')
@@ -37,7 +37,7 @@ class InMemoryTest extends TestCase
         return $message;
     }
 
-    public function testReceivesMailArtifacts()
+    public function testReceivesMailArtifacts(): void
     {
         $message = $this->getMessage();
         $transport = new InMemory();
@@ -47,7 +47,7 @@ class InMemoryTest extends TestCase
         $this->assertSame($message, $transport->getLastMessage());
     }
 
-    public function testNullMessage()
+    public function testNullMessage(): void
     {
         $transport = new InMemory();
         $this->assertNull($transport->getLastMessage());

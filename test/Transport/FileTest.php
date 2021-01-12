@@ -19,7 +19,10 @@ use PHPUnit\Framework\TestCase;
  */
 class FileTest extends TestCase
 {
-    public function setUp()
+    /** @var string */
+    private $tempDir;
+
+    public function setUp(): void
     {
         $this->tempDir = sys_get_temp_dir() . '/mail_file_transport';
         if (! is_dir($this->tempDir)) {
@@ -34,20 +37,20 @@ class FileTest extends TestCase
         $this->transport  = new File($fileOptions);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->cleanup($this->tempDir);
         rmdir($this->tempDir);
     }
 
-    protected function cleanup($dir)
+    protected function cleanup($dir): void
     {
         foreach (glob($dir . '/*.*') as $file) {
             unlink($file);
         }
     }
 
-    public function getMessage()
+    public function getMessage(): Message
     {
         $message = new Message();
         $message->addTo('test@example.com', 'Example Test')
@@ -66,7 +69,7 @@ class FileTest extends TestCase
         return $message;
     }
 
-    public function testReceivesMailArtifacts()
+    public function testReceivesMailArtifacts(): void
     {
         $message = $this->getMessage();
         $this->transport->send($message);
@@ -78,7 +81,7 @@ class FileTest extends TestCase
         $this->assertEquals($message->toString(), $test);
     }
 
-    public function testConstructorNoOptions()
+    public function testConstructorNoOptions(): void
     {
         $transport = new File();
         $this->assertSame(FileOptions::class, \get_class($transport->getOptions()));
