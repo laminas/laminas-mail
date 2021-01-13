@@ -133,7 +133,7 @@ class Mbox extends AbstractStorage
         if ($bodyLines) {
             $message .= "\n";
             var_dump('arraystart');
-            var_dump($this->positions);
+            var_export($this->positions);
             var_dump('arrayend');
             while ($bodyLines-- && ftell($this->fh) < $this->positions[$id - 1]['end']) {
                 $message .= fgets($this->fh);
