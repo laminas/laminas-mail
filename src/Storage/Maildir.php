@@ -302,7 +302,6 @@ class Maildir extends AbstractStorage
             }
 
             ErrorHandler::start(E_NOTICE);
-            die(var_dump($entry));
             list($uniq, $info) = explode(':', $entry, 2);
             list(, $size) = explode(',', $uniq, 2);
             ErrorHandler::stop();
