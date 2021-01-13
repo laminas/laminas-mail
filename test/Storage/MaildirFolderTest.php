@@ -43,7 +43,7 @@ class MaildirFolderTest extends TestCase
             }
             $count = 0;
             $dh = opendir($this->tmpdir);
-            while ($x = readdir($dh) !== false) {
+            while (readdir($dh) !== false) {
                 ++$count;
             }
             closedir($dh);
