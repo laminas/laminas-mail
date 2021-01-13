@@ -314,7 +314,6 @@ class MaildirFolderTest extends TestCase
 
     public function testNotReadableFolder(): void
     {
-        $this->markTestIncomplete("Fail");
         $stat = stat($this->params['dirname'] . '.subfolder');
         chmod($this->params['dirname'] . '.subfolder', 0);
         clearstatcache();
@@ -336,7 +335,6 @@ class MaildirFolderTest extends TestCase
         }
 
         chmod($this->params['dirname'] . '.subfolder', $stat['mode']);
-
         $this->assertTrue($check);
     }
 
