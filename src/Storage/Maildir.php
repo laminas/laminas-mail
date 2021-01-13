@@ -300,7 +300,7 @@ class Maildir extends AbstractStorage
             if ($entry[0] == '.' || ! is_file($dirname . $entry)) {
                 continue;
             }
-
+echo $entry . "\n";
             ErrorHandler::start(E_NOTICE);
             list($uniq, $info) = explode(':', $entry, 2);
             list(, $size) = explode(',', $uniq, 2);
