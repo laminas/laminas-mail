@@ -132,7 +132,9 @@ class Mbox extends AbstractStorage
         // file pointer is after headers now
         if ($bodyLines) {
             $message .= "\n";
-            var_dump($this->positions[$id - 1]);
+            var_dump('arraystart');
+            var_dump($this->positions);
+            var_dump('arrayend');
             while ($bodyLines-- && ftell($this->fh) < $this->positions[$id - 1]['end']) {
                 $message .= fgets($this->fh);
             }
