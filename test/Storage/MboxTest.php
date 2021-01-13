@@ -294,7 +294,7 @@ class MboxTest extends TestCase
             }
             $this->fail('no exception while waking with non readable file');
         }
-        
+
         $this->assertTrue($check);
     }
 
