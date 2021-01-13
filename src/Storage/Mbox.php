@@ -218,13 +218,15 @@ class Mbox extends AbstractStorage
      */
     protected function isMboxFile($file, $fileIsString = true)
     {
-        if ($fileIsString) {
+        if ($fileIsString && file_exists($file)) {
             ErrorHandler::start(E_WARNING);
             $file = fopen($file, 'r');
             ErrorHandler::stop();
             if (! $file) {
                 return false;
             }
+        } elseif ($fileIsString) {
+            return false;
         } else {
             fseek($file, 0);
         }

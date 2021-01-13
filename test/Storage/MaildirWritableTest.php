@@ -245,6 +245,7 @@ class MaildirWritableTest extends TestCase
         $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('wont rename INBOX');
         $mail->renameFolder('INBOX', 'foo');
+
     }
 
     public function testRenameSelectedFolder(): void
