@@ -141,8 +141,7 @@ class MboxFolderTest extends TestCase
     public function testChangeFolderUnselectable(): void
     {
         $mail = new Folder\Mbox($this->params);
-        $expectedException = PHP_MAJOR_VERSION === 8 ? '\TypeError' : Exception\RuntimeException::class;
-        $this->expectException($expectedException);
+        $this->expectException(Exception\RuntimeException::class);
         $mail->selectFolder(DIRECTORY_SEPARATOR . 'subfolder');
     }
 
@@ -339,8 +338,7 @@ class MboxFolderTest extends TestCase
         $mail = new Folder\Mbox($this->params);
         $root = $mail->getFolders();
         $root->foobar = new Folder('foobar', DIRECTORY_SEPARATOR . 'foobar');
-        $exceptionToExpect = PHP_MAJOR_VERSION === 8 ? '\TypeError' : Exception\RuntimeException::class;
-        $this->expectException($exceptionToExpect);
+        $this->expectException(Exception\RuntimeException::class);
         $mail->selectFolder('foobar');
     }
 }
