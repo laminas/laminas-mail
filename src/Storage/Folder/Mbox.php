@@ -133,16 +133,12 @@ class Mbox extends Storage\Mbox implements FolderInterface
         while ($currentFolder) {
             ErrorHandler::start(E_NOTICE);
             $entry = $subname;
-            $subname = null;
-
             if (strstr($subname, DIRECTORY_SEPARATOR)) {
-               $array = explode(DIRECTORY_SEPARATOR, $subname, 2);
-               $entry = $array[0];
-               $subname = $array[1] ?: null;
-               $currentFolder = $currentFolder->$entry;
+                list($entry, $subname) = explode(DIRECTORY_SEPARATOR, $subname, 2);
             }
-            ErrorHandler::stop();
 
+            ErrorHandler::stop();
+            $currentFolder = $currentFolder->$entry;
             if (! $subname) {
                 break;
             }
