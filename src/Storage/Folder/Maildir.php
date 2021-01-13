@@ -155,7 +155,7 @@ class Maildir extends Storage\Maildir implements FolderInterface
         $subname = trim($rootFolder, $this->delim);
 
         while ($currentFolder) {
-            ErrorHandler::start(E_NOTICE);
+            ErrorHandler::start(E_WARNING);
             list($entry, $subname) = explode($this->delim, $subname, 2);
             ErrorHandler::stop();
             $currentFolder = $currentFolder->$entry;

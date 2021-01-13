@@ -296,12 +296,12 @@ class Maildir extends AbstractStorage
      */
     protected function getMaildirFiles($dh, $dirname, $defaultFlags = [])
     {
+        $x = readdir($dh);
         while (($entry = readdir($dh)) !== false) {
             if ($entry[0] == '.' || ! is_file($dirname . $entry)) {
                 continue;
             }
-echo $entry . "\n";
-            ErrorHandler::start(E_NOTICE);
+            ErrorHandler::start(E_WARNING);
             list($uniq, $info) = explode(':', $entry, 2);
             list(, $size) = explode(',', $uniq, 2);
             ErrorHandler::stop();
@@ -312,7 +312,7 @@ echo $entry . "\n";
                 $size = null;
             }
 
-            ErrorHandler::start(E_NOTICE);
+            ErrorHandler::start(E_WARNING);
             list($version, $flags) = explode(',', $info, 2);
             ErrorHandler::stop();
             if ($version != 2) {
