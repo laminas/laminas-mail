@@ -321,7 +321,12 @@ class Maildir extends AbstractStorage
             }
 
             ErrorHandler::start(E_WARNING);
-            list($version, $flags) = explode(',', $info, 2);
+            $version = null;
+            $flags = null;
+            $array = explode(',', $info, 2);
+            if (count($array) > 1) {
+                list($version, $flags) = $array;
+            }
             ErrorHandler::stop();
             if ($version != 2) {
                 $flags = '';
