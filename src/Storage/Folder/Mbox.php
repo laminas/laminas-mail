@@ -135,9 +135,9 @@ class Mbox extends Storage\Mbox implements FolderInterface
             $entry = $subname;
             $subname = null;
             if (strstr($entry, DIRECTORY_SEPARATOR)) {
-               $array = explode(DIRECTORY_SEPARATOR, $entry, 2);
-               $entry = $array[0];
-               $subname = $array[1] ?: null;
+                $array = explode(DIRECTORY_SEPARATOR, $entry, 2);
+                $entry = $array[0];
+                $subname = $array[1] ?: null;
             }
             $currentFolder = $currentFolder->$entry;
 
