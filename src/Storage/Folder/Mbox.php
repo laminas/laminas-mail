@@ -140,7 +140,11 @@ class Mbox extends Storage\Mbox implements FolderInterface
             }
 
             ErrorHandler::stop();
-            $currentFolder = $currentFolder->$entry;
+            try {
+                $currentFolder = $currentFolder->$entry;
+            } catch (Exception $e) {
+                var_dump($entry, $subname, $currentFolder); exit;
+            }
             if (! $subname) {
                 break;
             }
