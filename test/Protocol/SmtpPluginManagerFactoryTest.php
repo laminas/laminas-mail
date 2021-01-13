@@ -60,8 +60,6 @@ class SmtpPluginManagerFactoryTest extends TestCase
     public function testFactoryConfiguresPluginManagerUnderServiceManagerV2(): void
     {
         $container = $this->createMock(ServiceLocatorInterface::class);
-//        $container->willImplement(ContainerInterface::class);
-
         $smtp = $this->createMock(Smtp::class);
 
         $factory = new SmtpPluginManagerFactory();
