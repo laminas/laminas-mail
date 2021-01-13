@@ -337,9 +337,7 @@ class MaildirFolderTest extends TestCase
 
         chmod($this->params['dirname'] . '.subfolder', $stat['mode']);
 
-        if (! $check) {
-            $this->fail('no exception while loading invalid dir with subfolder not readable');
-        }
+        $this->assertTrue($check);
     }
 
     public function testNotReadableMaildir(): void
