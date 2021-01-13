@@ -606,8 +606,8 @@ class HeadersTest extends TestCase
         $this->setDeprecationErrorHandler();
         $headers = new Mail\Headers();
 
-        $this->expectException(Deprecated::class);
-        $this->expectExceptionMessage('getPluginClassLoader is deprecated');
+        $this->expectDeprecation(Deprecated::class);
+        $this->expectDeprecationMessage('getPluginClassLoader is deprecated');
         $headers->getPluginClassLoader();
     }
 
@@ -618,10 +618,10 @@ class HeadersTest extends TestCase
     {
         $this->setDeprecationErrorHandler();
         $headers = new Mail\Headers();
-        $loader  = $this->prophesize(PluginClassLocator::class)->reveal();
+        $loader  = $this->createMock(PluginClassLocator::class);
 
-        $this->expectException(Deprecated::class);
-        $this->expectExceptionMessage('deprecated');
+        $this->expectDeprecation(Deprecated::class);
+        $this->expectDeprecationMessage('deprecated');
         $headers->setPluginClassLoader($loader);
     }
 
@@ -635,7 +635,7 @@ class HeadersTest extends TestCase
     public function testCanInjectAlternateHeaderLocatorInstance(): void
     {
         $headers = new Mail\Headers();
-        $locator = $this->prophesize(Mail\Header\HeaderLocatorInterface::class)->reveal();
+        $locator = $this->createMock(Mail\Header\HeaderLocatorInterface::class);
 
         $headers->setHeaderLocator($locator);
         $this->assertSame($locator, $headers->getHeaderLocator());

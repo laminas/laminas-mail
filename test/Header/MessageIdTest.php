@@ -35,7 +35,7 @@ class MessageIdTest extends TestCase
         $messageid = new Header\MessageId();
         $messageid->setId();
 
-        $this->assertContains('@', $messageid->getFieldValue());
+        $this->assertStringContainsString('@', $messageid->getFieldValue());
     }
 
     public function testAutoGenerationWithServerVars(): void
@@ -46,7 +46,7 @@ class MessageIdTest extends TestCase
         $messageid = new Header\MessageId();
         $messageid->setId();
 
-        $this->assertContains('@server-name.test', $messageid->getFieldValue());
+        $this->assertStringContainsString('@server-name.test', $messageid->getFieldValue());
         $_SERVER = $serverBeforeTest;
     }
 

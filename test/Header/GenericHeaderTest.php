@@ -92,8 +92,8 @@ class GenericHeaderTest extends TestCase
         $header->setFieldValue($fieldValue);
 
         $serialized = $header->toString();
-        $this->assertNotContains("\n", $serialized);
-        $this->assertNotContains("\r", $serialized);
+        $this->assertStringNotContainsString("\n", $serialized);
+        $this->assertStringNotContainsString("\r", $serialized);
     }
 
     /**

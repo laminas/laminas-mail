@@ -19,15 +19,18 @@ class SmtpPluginManagerFactoryTest extends TestCase
 {
     public function testFactoryReturnsPluginManager(): void
     {
-        $container = $this->prophesize(ContainerInterface::class)->reveal();
+        $container = $this->createMock(ContainerInterface::class);
         $factory = new SmtpPluginManagerFactory();
 
         $plugins = $factory($container, SmtpPluginManager::class);
         $this->assertInstanceOf(SmtpPluginManager::class, $plugins);
 
         if (method_exists($plugins, 'configure')) {
-            // laminas-servicemanager v3
-            $this->assertAttributeSame($container, 'creationContext', $plugins);
+            $mirror = new \ReflectionClass(SmtpPluginManager::class);
+            $property = $mirror->getProperty('creationContext');
+            $property->setAccessible(true);
+            $context = $property->getValue($plugins);
+            $this->assertEquals($container, $context);
         } else {
             // laminas-servicemanager v2
             $this->assertSame($container, $plugins->getServiceLocator());
@@ -39,8 +42,8 @@ class SmtpPluginManagerFactoryTest extends TestCase
      */
     public function testFactoryConfiguresPluginManagerUnderContainerInterop(): void
     {
-        $container = $this->prophesize(ContainerInterface::class)->reveal();
-        $smtp = $this->prophesize(Smtp::class)->reveal();
+        $container = $this->createMock(ContainerInterface::class);
+        $smtp = $this->createMock(Smtp::class);
 
         $factory = new SmtpPluginManagerFactory();
         $plugins = $factory($container, SmtpPluginManager::class, [
@@ -56,10 +59,10 @@ class SmtpPluginManagerFactoryTest extends TestCase
      */
     public function testFactoryConfiguresPluginManagerUnderServiceManagerV2(): void
     {
-        $container = $this->prophesize(ServiceLocatorInterface::class);
-        $container->willImplement(ContainerInterface::class);
+        $container = $this->createMock(ServiceLocatorInterface::class);
+//        $container->willImplement(ContainerInterface::class);
 
-        $smtp = $this->prophesize(Smtp::class)->reveal();
+        $smtp = $this->createMock(Smtp::class);
 
         $factory = new SmtpPluginManagerFactory();
         $factory->setCreationOptions([
@@ -68,7 +71,7 @@ class SmtpPluginManagerFactoryTest extends TestCase
             ],
         ]);
 
-        $plugins = $factory->createService($container->reveal());
+        $plugins = $factory->createService($container);
         $this->assertSame($smtp, $plugins->get('test'));
     }
 }

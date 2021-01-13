@@ -23,11 +23,11 @@ class FactoryTest extends TestCase
 {
     /**
      * @dataProvider invalidSpecTypeProvider
-     * @expectedException \Laminas\Mail\Transport\Exception\InvalidArgumentException
      * @param $spec
      */
     public function testInvalidSpecThrowsInvalidArgumentException($spec): void
     {
+        $this->expectException(\Laminas\Mail\Transport\Exception\InvalidArgumentException::class);
         Factory::create($spec);
     }
 
@@ -128,11 +128,11 @@ class FactoryTest extends TestCase
 
     /**
      * @dataProvider invalidClassProvider
-     * @expectedException \Laminas\Mail\Transport\Exception\DomainException
      * @param $class
      */
     public function testInvalidClassThrowsDomainException($class): void
     {
+        $this->expectException(\Laminas\Mail\Transport\Exception\DomainException::class);
         Factory::create([
             'type' => $class,
         ]);
