@@ -190,11 +190,19 @@ class ContentDispositionTest extends TestCase
         // @codingStandardsIgnoreStart
         $foldingFieldValue = "attachment;\r\n filename=\"this-test-filename-is-long-enough-to-flow-to-two-lines.txt\"";
         $foldingHeaderLine = "Content-Disposition: $foldingFieldValue";
-        $continuationFieldValue = "attachment;\r\n filename*0=\"this-file-name-is-so-long-that-it-does-not-even\";\r\n filename*1=\"-fit-on-a-whole-line-by-itself-so-we-need-to-sp\";\r\n filename*2=\"lit-it-with-value-continuation.txt\"";
+        $continuationFieldValue = "attachment;\r\n filename*0=\"this-file-name-is-so-long-that-it-does-not-even-fit-on-a-whole-\";\r\n filename*1=\"line-by-itself-so-we-need-to-split-it-with-value-continuation.t\";\r\n filename*2=\"xt\"";
         $continuationHeaderLine = "Content-Disposition: $continuationFieldValue";
 
         $encodedHeaderLine = 'Content-Disposition: attachment; filename="=?UTF-8?Q?=C3=93?="';
         $encodedFieldValue = 'attachment; filename="Ó"';
+
+        $multibyteFilename = '办公.xlsx';
+        $multibyteFieldValue = "attachment;\r\n filename=\"=?UTF-8?Q?=E5=8A=9E=E5=85=AC.xlsx?=\"";
+        $multibyteHeaderLine = "Content-Disposition: $multibyteFieldValue";
+
+        $multibyteContinuationFilename = '办公用品预约Apply for office supplies online.xlsx';
+        $multibyteContinuationFieldValue = "attachment;\r\n filename*0=\"=?UTF-8?Q?=E5=8A=9E=E5=85=AC=E7=94=A8=E5=93=81=E9=A2=84?=\";\r\n filename*1=\"=?UTF-8?Q?=E7=BA=A6Apply=20for=20office=20supplies=20online.x?=\";\r\n filename*2=\"=?UTF-8?Q?lsx?=\"";
+        $multibyteContinuationHeaderLine = "Content-Disposition: $multibyteContinuationFieldValue";
 
         return [
             // Description => [$disposition, $parameters, $fieldValue, toString()]
@@ -218,8 +226,20 @@ class ContentDispositionTest extends TestCase
             'UTF-8 continuation' => [
                 'attachment',
                 ['filename' => 'this-file-name-is-so-long-that-it-does-not-even-fit-on-a-whole-line-by-itself-so-we-need-to-split-it-with-value-continuation.also-UTF-8-characters-hērē.txt'],
-                "attachment;\r\n filename*0=\"this-file-name-is-so-long-that-it-does-not-even-fit-on-a-\";\r\n filename*1=\"whole-line-by-itself-so-we-need-to-split-it-with-value-co\";\r\n filename*2=\"ntinuation.also-UTF-8-characters-hērē.txt\"",
-                "Content-Disposition: attachment;\r\n filename*0=\"=?UTF-8?Q?this-file-name-is-so-long-that-it-does-not-ev?=\";\r\n filename*1=\"=?UTF-8?Q?en-fit-on-a-whole-line-by-itself-so-we-need-t?=\";\r\n filename*2=\"=?UTF-8?Q?o-split-it-with-value-continuation.also-UTF-8?=\";\r\n filename*3=\"=?UTF-8?Q?-characters-h=C4=93r=C4=93.txt?=\"",
+                "attachment;\r\n filename*0=\"this-file-name-is-so-long-that-it-does-not-even-fit-on-a-whole-\";\r\n filename*1=\"line-by-itself-so-we-need-to-split-it-with-value-continuation.a\";\r\n filename*2=\"lso-UTF-8-characters-hērē.txt\"",
+                "Content-Disposition: attachment;\r\n filename*0=\"=?UTF-8?Q?this-file-name-is-so-long-that-it-does-not-even-fit?=\";\r\n filename*1=\"=?UTF-8?Q?-on-a-whole-line-by-itself-so-we-need-to-split-it-w?=\";\r\n filename*2=\"=?UTF-8?Q?ith-value-continuation.also-UTF-8-characters-h?=\";\r\n filename*3=\"=?UTF-8?Q?=C4=93r=C4=93.txt?=\"",
+            ],
+            'UTF-8 multibyte' => [
+                'attachment',
+                ['filename' => $multibyteFilename],
+                "attachment; filename=\"$multibyteFilename\"",
+                $multibyteHeaderLine,
+            ],
+            'UTF-8 multibyte continuation' => [
+                'attachment',
+                ['filename' => $multibyteContinuationFilename],
+                "attachment;\r\n filename=\"$multibyteContinuationFilename\"",
+                $multibyteContinuationHeaderLine,
             ],
         ];
         // @codingStandardsIgnoreEnd
