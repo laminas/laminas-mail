@@ -68,6 +68,22 @@ class ContentDisposition implements UnstructuredInterface
 
                 if (strpos($name, '*')) {
                     list($name, $count) = explode('*', $name);
+                    // allow optional count:
+                    // Content-Disposition: attachment; filename*=UTF-8''%64%61%61%6D%69%2D%6D%C3%B5%72%76%2E%6A%70%67
+                    if ($count === "") {
+                        $count = 0;
+                    }
+
+                    if (! is_numeric($count)) {
+                        $type = gettype($count);
+                        $value = var_export($count, 1);
+                        throw new Exception\InvalidArgumentException(sprintf(
+                            "Invalid header line for Content-Disposition string".
+                            " - count expected to be numeric, got %s with value %s",
+                            $type,
+                            $value
+                        ));
+                    }
                     if (! isset($continuedValues[$name])) {
                         $continuedValues[$name] = [];
                     }
@@ -82,7 +98,8 @@ class ContentDisposition implements UnstructuredInterface
                 for ($i = 0, $iMax = count($values); $i < $iMax; $i++) {
                     if (! isset($values[$i])) {
                         throw new Exception\InvalidArgumentException(
-                            'Invalid header line for Content-Disposition string - incomplete continuation'
+                            'Invalid header line for Content-Disposition string - incomplete continuation'.
+                            '; HeaderLine: '.$headerLine
                         );
                     }
                     $value .= $values[$i];

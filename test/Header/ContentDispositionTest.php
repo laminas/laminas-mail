@@ -130,6 +130,30 @@ class ContentDispositionTest extends TestCase
     }
 
     /**
+     * Should not throw if the optional count is missing
+     *
+     * @see https://tools.ietf.org/html/rfc2231
+     * @dataProvider parameterWrappingProvider
+     */
+    public function testParameterWrapping(string $input, string $disposition, array $parameters): void
+    {
+        $header = ContentDisposition::fromString($input);
+
+        $this->assertEquals($disposition, $header->getDisposition());
+        $this->assertEquals($parameters, $header->getParameters());
+    }
+
+    /**
+     * @dataProvider parameterWrappingProviderExceptions
+     */
+    public function testParameterWrappingExceptions(string $input, string $exception, string $message): void
+    {
+        $this->expectException($exception);
+        $this->expectExceptionMessage($message);
+        ContentDisposition::fromString($input);
+    }
+
+    /**
      * @dataProvider invalidParametersProvider
      */
     public function testSetParameterThrowException($paramName, $paramValue, $expectedException, $exceptionMessage): void
@@ -243,6 +267,42 @@ class ContentDispositionTest extends TestCase
                 'filename',
                 'this-file-name-is-so-long-that-it-does-not-even-fit-on-a-whole-line-by-itself-so-we-need-to-split-it-with-value-continuation.txt',
             ],
+        ];
+        // @codingStandardsIgnoreEnd
+    }
+
+    public function parameterWrappingProvider(): iterable
+    {
+        // @codingStandardsIgnoreStart
+        yield 'Without sequence number' => [
+            "Content-Disposition: attachment; filename*=UTF-8''%64%61%61%6D%69%2D%6D%C3%B5%72%76%2E%6A%70%67",
+            'attachment',
+            ['filename' => "UTF-8''%64%61%61%6D%69%2D%6D%C3%B5%72%76%2E%6A%70%67"]
+        ];
+        yield 'With two ordered items' => [
+            "Content-Disposition: attachment;" .
+            "filename*0*=UTF-8''%76%C3%A4%6C%6A%61%70%C3%A4%C3%A4%73%75%2D%65%69%2D%6F;" .
+            "filename*1*=%6C%65%2E%6A%70%67",
+            'attachment',
+            ['filename' => "UTF-8''%76%C3%A4%6C%6A%61%70%C3%A4%C3%A4%73%75%2D%65%69%2D%6F%6C%65%2E%6A%70%67"]
+        ];
+        yield 'With two ordered items' => [
+            "Content-Disposition: attachment; filename*=utf-8''Capture%20d%E2%80%99e%CC%81cran%202020%2D05%2D13%20a%CC%80%2017.13.47.png",
+            'attachment',
+            ['filename' => "utf-8''Capture%20d%E2%80%99e%CC%81cran%202020%2D05%2D13%20a%CC%80%2017.13.47.png"]
+        ];
+        // @codingStandardsIgnoreEnd
+    }
+
+    public function parameterWrappingProviderExceptions(): iterable
+    {
+        // @codingStandardsIgnoreStart
+        yield 'With non-numeric-sequence' => [
+            "Content-Disposition: attachment;" .
+            "filename*0*=UTF-8''%76%C3%A4%6C%6A%61%70%C3%A4%C3%A4%73%75%2D%65%69%2D%6F;" .
+            "filename*a*=%6C%65%2E%6A%70%67",
+            InvalidArgumentException::class,
+            "Invalid header line for Content-Disposition string - count expected to be numeric, got string with value 'a'"
         ];
         // @codingStandardsIgnoreEnd
     }
