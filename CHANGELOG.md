@@ -24,6 +24,25 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
+## 2.12.5 - 2020-12-31
+
+
+-----
+
+### Release Notes for [2.12.5](https://github.com/laminas/laminas-mail/milestone/9)
+
+2.12.x bugfix release (patch)
+
+### 2.12.5
+
+- Total issues resolved: **0**
+- Total pull requests resolved: **1**
+- Total contributors: **1**
+
+#### Bug
+
+ - [108: Fix Invalid header line for Content-Disposition string - incomplete continuation](https://github.com/laminas/laminas-mail/pull/108) thanks to @glensc
+
 ## 2.12.3 - TBD
 
 ### Added

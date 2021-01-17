@@ -124,6 +124,19 @@ class ContentTypeTest extends TestCase
     }
 
     /**
+     * Should not throw if the optional count is missing
+     *
+     * @see https://tools.ietf.org/html/rfc2231
+     * @dataProvider parameterWrappingProvider
+     */
+    public function testParameterWrapping(string $input, array $parameters): void
+    {
+        $header = ContentType::fromString($input);
+
+        $this->assertEquals($parameters, $header->getParameters());
+    }
+
+    /**
      * @dataProvider invalidParametersProvider
      */
     public function testAddParameterThrowException($paramName, $paramValue, $expectedException, $exceptionMessage): void
@@ -244,5 +257,13 @@ class ContentTypeTest extends TestCase
     {
         $header = ContentType::fromString('content-type: text/plain');
         $this->assertFalse($header->removeParameter('level'));
+    }
+
+    public function parameterWrappingProvider(): iterable
+    {
+        yield 'Example from RFC2231' => [
+            "Content-Type: application/x-stuff; title*=us-ascii'en-us'This%20is%20%2A%2A%2Afun%2A%2A%2A",
+            ['title*' => "us-ascii'en-us'This%20is%20%2A%2A%2Afun%2A%2A%2A"]
+        ];
     }
 }
