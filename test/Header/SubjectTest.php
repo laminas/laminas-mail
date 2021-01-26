@@ -135,10 +135,10 @@ class SubjectTest extends TestCase
         $subject = new Header\Subject();
         $subject->setSubject('Accents òàùèéì');
 
-        self::assertSame('UTF-8', $subject->getEncoding());
+        $this->assertSame('UTF-8', $subject->getEncoding());
 
         $subject->setEncoding('ASCII');
-        self::assertSame('UTF-8', $subject->getEncoding());
+        $this->assertSame('UTF-8', $subject->getEncoding());
     }
 
     public function testChangeEncodingBackToAscii(): void
@@ -146,39 +146,39 @@ class SubjectTest extends TestCase
         $subject = new Header\Subject();
         $subject->setSubject('test');
 
-        self::assertSame('ASCII', $subject->getEncoding());
+        $this->assertSame('ASCII', $subject->getEncoding());
 
         $subject->setEncoding('UTF-8');
-        self::assertSame('UTF-8', $subject->getEncoding());
+        $this->assertSame('UTF-8', $subject->getEncoding());
 
         $subject->setEncoding('ASCII');
-        self::assertSame('ASCII', $subject->getEncoding());
+        $this->assertSame('ASCII', $subject->getEncoding());
     }
 
     public function testSetNullEncoding(): void
     {
         $subject = Header\Subject::fromString('Subject: test');
-        self::assertSame('ASCII', $subject->getEncoding());
+        $this->assertSame('ASCII', $subject->getEncoding());
 
         $subject->setEncoding(null);
-        self::assertSame('ASCII', $subject->getEncoding());
+        $this->assertSame('ASCII', $subject->getEncoding());
     }
 
     public function testSettingSubjectCanChangeEncoding(): void
     {
         $subject = Header\Subject::fromString('Subject: test');
-        self::assertSame('ASCII', $subject->getEncoding());
+        $this->assertSame('ASCII', $subject->getEncoding());
 
         $subject->setSubject('Accents òàùèéì');
-        self::assertSame('UTF-8', $subject->getEncoding());
+        $this->assertSame('UTF-8', $subject->getEncoding());
     }
 
     public function testSettingTheSameEncoding(): void
     {
         $subject = Header\Subject::fromString('Subject: test');
-        self::assertSame('ASCII', $subject->getEncoding());
+        $this->assertSame('ASCII', $subject->getEncoding());
 
         $subject->setEncoding('ASCII');
-        self::assertSame('ASCII', $subject->getEncoding());
+        $this->assertSame('ASCII', $subject->getEncoding());
     }
 }

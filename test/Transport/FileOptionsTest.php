@@ -34,9 +34,9 @@ class FileOptionsTest extends TestCase
     public function testDefaultCallbackIsSetByDefault(): void
     {
         $callback = $this->options->getCallback();
-        $this->assertInternalType('callable', $callback);
+        $this->assertIsCallable($callback);
         $test     = $callback('');
-        $this->assertRegExp('#^LaminasMail_\d+_\d+\.eml$#', $test);
+        $this->assertMatchesRegularExpression('#^LaminasMail_\d+_\d+\.eml$#', $test);
     }
 
     public function testPathIsMutable(): void

@@ -91,12 +91,12 @@ class SendmailTest extends TestCase
         $this->assertEquals('Example Test <test@example.com>', $this->to);
         $this->assertEquals('Testing Laminas\Mail\Transport\Sendmail', $this->subject);
         $this->assertEquals('This is only a test.', trim($this->message));
-        $this->assertNotContains("To: Example Test <test@example.com>\n", $this->additional_headers);
-        $this->assertContains("Cc: matthew@example.com\n", $this->additional_headers);
-        $this->assertContains("Bcc: \"Example, List\" <list@example.com>\n", $this->additional_headers);
-        $this->assertContains("From: test@example.com,\n Matthew <matthew@example.com>\n", $this->additional_headers);
-        $this->assertContains("X-Foo-Bar: Matthew\n", $this->additional_headers);
-        $this->assertContains("Sender: Ralph Schindler <ralph@example.com>\n", $this->additional_headers);
+        $this->assertStringNotContainsString("To: Example Test <test@example.com>\n", $this->additional_headers);
+        $this->assertStringContainsString("Cc: matthew@example.com\n", $this->additional_headers);
+        $this->assertStringContainsString("Bcc: \"Example, List\" <list@example.com>\n", $this->additional_headers);
+        $this->assertStringContainsString("From: test@example.com,\n Matthew <matthew@example.com>\n", $this->additional_headers);
+        $this->assertStringContainsString("X-Foo-Bar: Matthew\n", $this->additional_headers);
+        $this->assertStringContainsString("Sender: Ralph Schindler <ralph@example.com>\n", $this->additional_headers);
         $this->assertEquals('-R hdrs -f\'ralph@example.com\'', $this->additional_parameters);
     }
 
@@ -112,15 +112,15 @@ class SendmailTest extends TestCase
         $this->assertEquals('test@example.com', $this->to);
         $this->assertEquals('Testing Laminas\Mail\Transport\Sendmail', $this->subject);
         $this->assertEquals('This is only a test.', trim($this->message));
-        $this->assertContains("To: Example Test <test@example.com>\r\n", $this->additional_headers);
-        $this->assertContains("Cc: matthew@example.com\r\n", $this->additional_headers);
-        $this->assertContains("Bcc: \"Example, List\" <list@example.com>\r\n", $this->additional_headers);
-        $this->assertContains(
+        $this->assertStringContainsString("To: Example Test <test@example.com>\r\n", $this->additional_headers);
+        $this->assertStringContainsString("Cc: matthew@example.com\r\n", $this->additional_headers);
+        $this->assertStringContainsString("Bcc: \"Example, List\" <list@example.com>\r\n", $this->additional_headers);
+        $this->assertStringContainsString(
             "From: test@example.com,\r\n Matthew <matthew@example.com>\r\n",
             $this->additional_headers
         );
-        $this->assertContains("X-Foo-Bar: Matthew\r\n", $this->additional_headers);
-        $this->assertContains("Sender: Ralph Schindler <ralph@example.com>\r\n", $this->additional_headers);
+        $this->assertStringContainsString("X-Foo-Bar: Matthew\r\n", $this->additional_headers);
+        $this->assertStringContainsString("Sender: Ralph Schindler <ralph@example.com>\r\n", $this->additional_headers);
         $this->assertNull($this->additional_parameters);
     }
 
@@ -133,7 +133,7 @@ class SendmailTest extends TestCase
         $message = $this->getMessage();
         $message->setBody("This is the first line.\n. This is the second");
         $this->transport->send($message);
-        $this->assertContains("line.\n.. This", trim($this->message));
+        $this->assertStringContainsString("line.\n.. This", trim($this->message));
     }
 
     public function testAssertSubjectEncoded(): void
@@ -165,7 +165,7 @@ class SendmailTest extends TestCase
         $message->setSubject('TestSubject');
 
         $this->transport->send($message);
-        $this->assertContains('From: Foo Bar <"foo-bar"@domain>', $this->additional_headers);
+        $this->assertStringContainsString('From: Foo Bar <"foo-bar"@domain>', $this->additional_headers);
     }
 
     /**
@@ -177,17 +177,17 @@ class SendmailTest extends TestCase
         $injectedEmail = 'user@xenial(tmp1 -be ${run{${substr{0}{1}{$spool_directory}}usr${substr{0}{1}{$spool_directory}}bin${substr{0}{1}{$spool_directory}}touch${substr{10}{1}{$tod_log}}${substr{0}{1}{$spool_directory}}tmp${substr{0}{1}{$spool_directory}}test}}  tmp2)';
         // @codingStandardsIgnoreEnd
 
-        $sender = $this->prophesize(AddressInterface::class);
-        $sender->getEmail()->willReturn($injectedEmail);
+        $sender = $this->createMock(AddressInterface::class);
+        $sender->method('getEmail')->willReturn($injectedEmail);
 
-        $message = $this->prophesize(Message::class);
-        $message->getSender()->will([$sender, 'reveal']);
-        $message->getFrom()->shouldNotBeCalled();
+        $message = $this->createMock(Message::class);
+        $message->method('getSender')->willReturn($sender);
+        $message->expects($this->never())->method('getFrom');
 
         $r = new ReflectionMethod($this->transport, 'prepareParameters');
         $r->setAccessible(true);
 
-        $parameters = $r->invoke($this->transport, $message->reveal());
+        $parameters = $r->invoke($this->transport, $message);
         $this->assertEquals(' -f' . escapeshellarg($injectedEmail), $parameters);
     }
 
@@ -200,20 +200,20 @@ class SendmailTest extends TestCase
         $injectedEmail = 'user@xenial(tmp1 -be ${run{${substr{0}{1}{$spool_directory}}usr${substr{0}{1}{$spool_directory}}bin${substr{0}{1}{$spool_directory}}touch${substr{10}{1}{$tod_log}}${substr{0}{1}{$spool_directory}}tmp${substr{0}{1}{$spool_directory}}test}}  tmp2)';
         // @codingStandardsIgnoreEnd
 
-        $address = $this->prophesize(AddressInterface::class);
-        $address->getEmail()->willReturn($injectedEmail)->shouldBeCalledTimes(2);
+        $address = $this->createMock(AddressInterface::class);
+        $address->expects($this->exactly(2))->method('getEmail')->willReturn($injectedEmail);
 
         $from = new AddressList();
-        $from->add($address->reveal());
+        $from->add($address);
 
-        $message = $this->prophesize(Message::class);
-        $message->getSender()->willReturn(null);
-        $message->getFrom()->willReturn($from);
+        $message = $this->createMock(Message::class);
+        $message->method('getSender')->willReturn(null);
+        $message->method('getFrom')->willReturn($from);
 
         $r = new ReflectionMethod($this->transport, 'prepareParameters');
         $r->setAccessible(true);
 
-        $parameters = $r->invoke($this->transport, $message->reveal());
+        $parameters = $r->invoke($this->transport, $message);
         $this->assertEquals(' -f' . escapeshellarg($injectedEmail), $parameters);
     }
 
@@ -236,7 +236,7 @@ class SendmailTest extends TestCase
                 ->setBody('This is only a test.');
 
         $this->transport->send($message);
-        $this->assertContains('Sender: Ralph Schindler <ralph@example.com>', $this->additional_headers);
+        $this->assertStringContainsString('Sender: Ralph Schindler <ralph@example.com>', $this->additional_headers);
     }
 
     public function testAllowMessageWithEmptyToHeaderButHasBccHeader(): void
@@ -248,7 +248,7 @@ class SendmailTest extends TestCase
                 ->setBody('This is only a test.');
 
         $this->transport->send($message);
-        $this->assertContains('Sender: Ralph Schindler <ralph@example.com>', $this->additional_headers);
+        $this->assertStringContainsString('Sender: Ralph Schindler <ralph@example.com>', $this->additional_headers);
     }
 
     public function testDoNotAllowMessageWithoutToAndCcAndBccHeaders(): void
@@ -279,8 +279,8 @@ class SendmailTest extends TestCase
         $this->assertEquals('matthew@example.org', $this->to);
         $this->assertEquals('Greetings and Salutations!', $this->subject);
 
-        $this->assertNotRegExp('/^To: matthew\@example\.org$/m', $this->additional_headers);
-        $this->assertNotRegExp('/^Subject: Greetings and Salutations!$/m', $this->additional_headers);
+        $this->assertDoesNotMatchRegularExpression('/^To: matthew\@example\.org$/m', $this->additional_headers);
+        $this->assertDoesNotMatchRegularExpression('/^Subject: Greetings and Salutations!$/m', $this->additional_headers);
     }
 
     public function additionalParametersContainingFromSwitch(): iterable

@@ -109,7 +109,7 @@ class SmtpTest extends TestCase
         $smtp = new TestAsset\ErroneousSmtp();
 
         $this->expectException(Exception\RuntimeException::class);
-        $this->expectExceptionMessageRegExp('/nonexistentremote/');
+        $this->expectExceptionMessageMatches('/nonexistentremote/');
 
         $smtp->connect('nonexistentremote');
     }
@@ -123,7 +123,7 @@ class SmtpTest extends TestCase
         $this->connection->helo();
         $this->connection->disconnect();
 
-        $this->assertContains('QUIT', $this->connection->getLog());
+        $this->assertStringContainsString('QUIT', $this->connection->getLog());
 
         $this->connection->setUseCompleteQuit(false);
         $this->assertFalse($this->connection->useCompleteQuit());
@@ -133,7 +133,7 @@ class SmtpTest extends TestCase
         $this->connection->helo();
         $this->connection->disconnect();
 
-        $this->assertNotContains('QUIT', $this->connection->getLog());
+        $this->assertStringNotContainsString('QUIT', $this->connection->getLog());
 
         $connection = new SmtpProtocolSpy([
             'use_complete_quit' => false,
