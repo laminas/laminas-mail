@@ -307,11 +307,9 @@ class Mbox extends AbstractStorage
      */
     public function close()
     {
-        ErrorHandler::start(E_WARNING);
         if (is_resource($this->fh)) {
             fclose($this->fh);
         }
-        ErrorHandler::stop();
         $this->positions = [];
     }
 
