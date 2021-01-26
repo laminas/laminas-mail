@@ -25,7 +25,7 @@
         }
     },
     "require": {
-        "php": "^7.1",
+        "php": "^7.3 || ~8.0.0",
         "ext-iconv": "*",
         "laminas/laminas-loader": "^2.5",
         "laminas/laminas-mime": "^2.5",
@@ -36,10 +36,10 @@
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "~1.0.0",
-        "laminas/laminas-config": "^2.6",
+        "laminas/laminas-config": "^3.4",
         "laminas/laminas-crypt": "^2.6 || ^3.0",
         "laminas/laminas-servicemanager": "^3.2.1",
-        "phpunit/phpunit": "^7.5.20"
+        "phpunit/phpunit": "^9.3"
     },
     "suggest": {
         "laminas/laminas-crypt": "Crammd5 support in SMTP Auth",
