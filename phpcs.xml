@@ -5,4 +5,12 @@
     <!-- Paths to check -->
     <file>src</file>
     <file>test</file>
+
+    <!-- https://github.com/squizlabs/PHP_CodeSniffer/wiki/Customisable-Sniff-Properties#genericfileslinelength -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="200" />
+            <property name="absoluteLineLimit" value="300" />
+        </properties>
+    </rule>
 </ruleset>
