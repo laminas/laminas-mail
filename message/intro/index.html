@@ -272,7 +272,7 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 
@@ -379,7 +379,6 @@ a <a href="../../read/">Storage adapter</a>.</p>
 <pre class="highlight"><code class="language-php">use Laminas\Mail\Message;
 
 $message = new Message();</code></pre>
-
 <p>Once you have your <code>Message</code> instance, you can start adding content or headers.
 Let's set who the mail is from, who it's addressed to, a subject, and some
 content:</p>
@@ -387,16 +386,13 @@ content:</p>
 $message-&gt;addTo('foobar@example.com');
 $message-&gt;setSubject('Sending an email from Laminas\Mail!');
 $message-&gt;setBody('This is the message body.');</code></pre>
-
 <p>You can also add recipients to carbon-copy ("Cc:") or blind carbon-copy
 ("Bcc:").</p>
 <pre class="highlight"><code class="language-php">$message-&gt;addCc('ralph@example.org');
 $message-&gt;addBcc('enrico@example.org');</code></pre>
-
 <p>If you want to specify an alternate address to which replies may be sent, that
 can be done, too.</p>
 <pre class="highlight"><code class="language-php">$message-&gt;addReplyTo('matthew@example.com', 'Matthew');</code></pre>
-
 <p>Interestingly, RFC-822 allows for multiple "From:" addresses. When you do this,
 the first one will be used as the sender, <strong>unless</strong> you specify a "Sender:"
 header. The <code>Message</code> class allows for this.</p>
@@ -408,19 +404,16 @@ header. The <code>Message</code> class allows for this.</p>
 $message-&gt;addFrom('ralph@example.org', 'Ralph Nader');
 $message-&gt;addFrom('enrico@example.org', 'Enrico Volante');
 $message-&gt;setSender('matthew@example.org', 'Matthew Sommeli');</code></pre>
-
 <p>By default, the <code>Message</code> class assumes ASCII encoding for your email. If you
 wish to use another encoding, you can do so; setting this will ensure all
 headers and body content are properly encoded using quoted-printable encoding.</p>
 <pre class="highlight"><code class="language-php">$message-&gt;setEncoding('UTF-8');</code></pre>
-
 <p>If you wish to set other headers, you can do that as well.</p>
 <pre class="highlight"><code class="language-php">/*
  * Mail headers created:
  * X-API-Key: FOO-BAR-BAZ-BAT
  */
 $message-&gt;getHeaders()-&gt;addHeaderLine('X-API-Key', 'FOO-BAR-BAZ-BAT');</code></pre>
-
 <p>Sometimes you may want to provide HTML content, or multi-part content. To do
 that, you'll first create a MIME message object, and then set it as the body of
 your mail message object. When you do so, the <code>Message</code> class will automatically
@@ -429,7 +422,6 @@ set a "MIME-Version" header, as well as an appropriate "Content-Type" header.</p
 on <a href="../attachments/">Adding Attachments</a>.</p>
 <p>If you want a string representation of your email, you can get that:</p>
 <pre class="highlight"><code class="language-php">echo $message-&gt;toString();</code></pre>
-
 <p>Finally, you can fully introspect the message, including getting all addresses
 of recipients and senders, all headers, and the message body.</p>
 <pre class="highlight"><code class="language-php">// Headers
@@ -460,33 +452,26 @@ echo "Encoding: ", $message-&gt;getEncoding(), "\n";
 // Message body:
 echo $message-&gt;getBody();     // raw body, or MIME object
 echo $message-&gt;getBodyText(); // body as it will be sent</code></pre>
-
 <p>Once your message is shaped to your liking, pass it to a
 <a href="../../transport/intro/">mail transport</a> in order to send it!</p>
 <pre class="highlight"><code class="language-php">$transport-&gt;send($message);</code></pre>
-
 <h2 id="configuration-options">Configuration Options</h2>
 <p>The <code>Message</code> class has no configuration options, and is instead a value object.</p>
 <h2 id="available-methods">Available Methods</h2>
 <h3>isValid</h3>
 <pre class="highlight"><code class="language-php">isValid() : bool</code></pre>
-
 <p>Messages without a <code>From</code> address are invalid, per RFC-2822.</p>
 <h3>setEncoding</h3>
 <pre class="highlight"><code class="language-php">setEncoding(string $encoding) : void</code></pre>
-
 <p>Set the message encoding.</p>
 <h3>getEncoding</h3>
 <pre class="highlight"><code class="language-php">getEncoding() : string</code></pre>
-
 <p>Get the message encoding.</p>
 <h3>setHeaders</h3>
 <pre class="highlight"><code class="language-php">setHeaders(Laminas\Mail\Headers $headers) : void</code></pre>
-
 <p>Compose headers.</p>
 <h3>getHeaders</h3>
 <pre class="highlight"><code class="language-php">getHeaders() : Laminas\Mail\Headers</code></pre>
-
 <p>Access headers collection, lazy-loading a <code>Headers</code> instance if none was
 previously attached.</p>
 <h3>setFrom</h3>
@@ -494,7 +479,6 @@ previously attached.</p>
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
 ) : void</code></pre>
-
 <p>Set (overwrite) <code>From</code> addresses. If an associative array is provided, it must
 be a set of key/value pairs where the key is the human readable name, and the
 value is the email address.</p>
@@ -503,20 +487,17 @@ value is the email address.</p>
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressOrList,
     string|null $name
 ) : void</code></pre>
-
 <p>Add a <code>From</code> address. If an associative array is provided, it must be a set of
 key/value pairs where the key is the human readable name, and the value is the
 email address.</p>
 <h3>getFrom</h3>
 <pre class="highlight"><code class="language-php">getFrom() : AddressList</code></pre>
-
 <p>Retrieve list of <code>From</code> senders.</p>
 <h3>setTo</h3>
 <pre class="highlight"><code class="language-php">setTo(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     null|string $name
 ) : void</code></pre>
-
 <p>Overwrite the address list in the <code>To</code> recipients. If an associative array is
 provided, it must be a set of key/value pairs where the key is the human
 readable name, and the value is the email address.</p>
@@ -525,13 +506,11 @@ readable name, and the value is the email address.</p>
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressOrList,
     null|string $name
 ) : void</code></pre>
-
 <p>Add one or more addresses to the <code>To</code> recipients; appends to the list. If an
 associative array is provided, it must be a set of key/value pairs where the key
 is the human readable name, and the value is the email address.</p>
 <h3>getTo</h3>
 <pre class="highlight"><code class="language-php">getTo() : AddressList</code></pre>
-
 <p>Access the address list of the <code>To</code> header.  Lazy-loads an <code>AddressList</code> and
 populates the <code>To</code> header if not previously done.</p>
 <h3>setCc</h3>
@@ -539,7 +518,6 @@ populates the <code>To</code> header if not previously done.</p>
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
 ) : void</code></pre>
-
 <p>Set (overwrite) <code>Cc</code> addresses. If an associative array is provided, it must be
 a set of key/value pairs where the key is the human readable name, and the value
 is the email address.</p>
@@ -548,13 +526,11 @@ is the email address.</p>
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
 ) : void</code></pre>
-
 <p>Add a <code>Cc</code> address. If an associative array is provided, it must be a set of
 key/value pairs where the key is the human readable name, and the value is the
 email address.</p>
 <h3>getCc</h3>
 <pre class="highlight"><code class="language-php">getCc() : AddressList</code></pre>
-
 <p>Retrieve list of <code>Cc</code> recipients.  Lazy-loads an <code>AddressList</code> and populates the
 <code>Cc</code> header if not previously done.</p>
 <h3>setBcc</h3>
@@ -562,7 +538,6 @@ email address.</p>
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
 ) : void</code></pre>
-
 <p>Set (overwrite) <code>Bcc</code> addresses. If an associative array is provided, it must be
 a set of key/value pairs where the key is the human readable name, and the value
 is the email address.</p>
@@ -571,13 +546,11 @@ is the email address.</p>
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
 ) : void</code></pre>
-
 <p>Add a <code>Bcc</code> address. If an associative array is provided, it must be a set of
 key/value pairs where the key is the human readable name, and the value is the
 email address.</p>
 <h3>getBcc</h3>
 <pre class="highlight"><code class="language-php">getBcc() : AddressList</code></pre>
-
 <p>Retrieve list of <code>Bcc</code> recipients.  Lazy-loads an <code>AddressList</code> and populates
 the <code>Bcc</code> header if not previously done.</p>
 <h3>setReplyTo</h3>
@@ -585,7 +558,6 @@ the <code>Bcc</code> header if not previously done.</p>
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
 ) : void</code></pre>
-
 <p>Overwrite the address list in the <code>Reply-To</code> recipients. If an associative array
 is provided, it must be a set of key/value pairs where the key is the human
 readable name, and the value is the email address.</p>
@@ -594,13 +566,11 @@ readable name, and the value is the email address.</p>
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
 ) : void</code></pre>
-
 <p>Add one or more addresses to the <code>Reply-To</code> recipients. If an associative array
 is provided, it must be a set of key/value pairs where the key is the human
 readable name, and the value is the email address.</p>
 <h3>getReplyTo</h3>
 <pre class="highlight"><code class="language-php">getReplyTo() : AddressList</code></pre>
-
 <p>Access the address list of the <code>Reply-To</code> header.  Lazy-loads an <code>AddressList</code>
 and populates the <code>Reply-To</code> header if not previously done.</p>
 <h3>setSender</h3>
@@ -608,37 +578,29 @@ and populates the <code>Reply-To</code> header if not previously done.</p>
     string|AddressInterface $emailOrAddress,
     null|string $name
 ) : void</code></pre>
-
 <p>Set the message envelope <code>Sender</code> header.</p>
 <h3>getSender</h3>
 <pre class="highlight"><code class="language-php">getSender() : null|AddressInterface</code></pre>
-
 <p>Retrieve the sender address, if any.</p>
 <h3>setSubject</h3>
 <pre class="highlight"><code class="language-php">setSubject(string $subject) :void</code></pre>
-
 <p>Set the message subject header value.</p>
 <h3>getSubject</h3>
 <pre class="highlight"><code class="language-php">getSubject() : null|string</code></pre>
-
 <p>Get the message subject header value.</p>
 <h3>setBody</h3>
 <pre class="highlight"><code class="language-php">setBody(null|string|Laminas\Mime\Message|object $body) : void</code></pre>
-
 <p>Set the message body. If a generic object is provided, it must implement
 <code>__toString()</code>.</p>
 <h3>getBody</h3>
 <pre class="highlight"><code class="language-php">getBody() : null|string|object</code></pre>
-
 <p>Return the currently set message body. Object return values include
 <code>Laminas\Mime\Message</code> instances or objects implementing <code>__toString()</code>.</p>
 <h3>getBodyText</h3>
 <pre class="highlight"><code class="language-php">getBodyText() : null|string</code></pre>
-
 <p>Get the string-serialized message body text.</p>
 <h3>toString</h3>
 <pre class="highlight"><code class="language-php">toString() : string</code></pre>
-
 <p>Serialize to string.</p>
 
 
@@ -824,6 +786,7 @@ and populates the <code>Reply-To</code> header if not previously done.</p>
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -896,7 +859,7 @@ and populates the <code>Reply-To</code> header if not previously done.</p>
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/laminas/laminas-mail/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>
