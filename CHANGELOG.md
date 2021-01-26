@@ -266,7 +266,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#84](https://github.com/laminas/laminas-mail/pull/84) fixes PHP 7.4 compatibility.
 
-- [#82](https://github.com/laminas/laminas-mail/pull/82) fixes numerous issues in `Storage\Maildir`. This storage adapter was not working before and unit tests were disabled. 
+- [#82](https://github.com/laminas/laminas-mail/pull/82) fixes numerous issues in `Storage\Maildir`. This storage adapter was not working before and unit tests were disabled.
 
 - [#75](https://github.com/laminas/laminas-mail/pull/75) fixes how `Laminas\Mail\Header\ListParser::parse()` parses the string with quotes.
 
