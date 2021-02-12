@@ -8,6 +8,7 @@
 
 namespace LaminasTest\Mail\Transport;
 
+use Composer\InstalledVersions;
 use Laminas\Mail\Transport\Factory;
 use Laminas\Mail\Transport\InMemory;
 use Laminas\Mail\Transport\Sendmail;
@@ -118,6 +119,14 @@ class FactoryTest extends TestCase
      */
     public function testCanUseTraversableAsSpec(): void
     {
+        if (class_exists(InstalledVersions::class)
+            && version_compare(InstalledVersions::getVersion('laminas/laminas-stdlib'), '3.3.0') < 0
+        ) {
+            $this->markTestSkipped(
+                'continue statement inside of switch causes errors when testing against stdlib < 3.3.0 versions'
+            );
+        }
+
         $spec = new ArrayObject([
             'type' => 'inMemory',
         ]);
