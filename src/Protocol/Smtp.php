@@ -324,7 +324,7 @@ class Smtp extends AbstractProtocol
         unset($data);
         rewind($fp);
 
-        // max SMTP line length is 998 char + \r\n = 1000
+        // max line length is 998 char + \r\n = 1000
         // read the line up to PHP_SOCK_CHUNK_SIZE
         while (($line = stream_get_line($fp, 0, "\n")) !== false) {
             $line = rtrim($line, "\r");
