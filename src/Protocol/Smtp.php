@@ -324,12 +324,18 @@ class Smtp extends AbstractProtocol
         unset($data);
         rewind($fp);
 
-        // max line length is 998 char + \r\n = 1000
-        while (($line = stream_get_line($fp, 1000, "\n")) !== false) {
+        // max SMTP line length is 998 char + \r\n = 1000
+        // read the line up to PHP_SOCK_CHUNK_SIZE
+        while (($line = stream_get_line($fp, 0, "\n")) !== false) {
             $line = rtrim($line, "\r");
             if (isset($line[0]) && $line[0] === '.') {
                 // Escape lines prefixed with a '.'
                 $line = '.' . $line;
+            }
+            if (strlen($line) > 998) {
+                // Long lines are "folded" by inserting "<CR><LF><SPACE>"
+                // https://tools.ietf.org/html/rfc5322#section-2.2.3
+                $line = substr(chunk_split($line, 998, "\r\n "), 0, -3);
             }
             $this->_send($line);
         }
