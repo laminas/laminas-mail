@@ -314,7 +314,7 @@ class MessageTest extends TestCase
     }
 
     /**
-     * @group Laminas-5209
+     * @group ZF-5209
      */
     public function testCheckingHasHeaderFunctionality(): void
     {
@@ -462,7 +462,7 @@ class MessageTest extends TestCase
     }
 
     /**
-     * @group Laminas-372
+     * @group ZF2-372
      */
     public function testStrictParseMessage(): void
     {

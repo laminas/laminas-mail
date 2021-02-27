@@ -33,7 +33,7 @@ class HeaderWrapTest extends TestCase
     }
 
     /**
-     * @group Laminas-258
+     * @group ZF2-258
      */
     public function testWrapUnstructuredHeaderMime(): void
     {
@@ -58,7 +58,7 @@ class HeaderWrapTest extends TestCase
     }
 
     /**
-     * @group Laminas-359
+     * @group ZF2-359
      */
     public function testMimeEncoding(): void
     {
