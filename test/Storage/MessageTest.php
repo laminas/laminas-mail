@@ -433,6 +433,17 @@ class MessageTest extends TestCase
         $this->assertEquals(Mime\Decode::splitHeaderField($header, 'baz'), 42);
     }
 
+    public function testLongWrappedLine(): void
+    {
+        $filePath = __DIR__ . '/../_files/long-header-unfolding.mbox';
+        $message = new Message(['raw'  => file_get_contents($filePath)]);
+        $headers = $message->getHeaders()->toArray();
+        $header1 = str_replace('A', '', $headers['X-Exact-Length']);
+        $header2 = str_replace('A', '', $headers['X-Ms-Exchange-Antispam-Messagedata']);
+        $this->assertEquals('', $header1, 'Contains only A-s');
+        $this->assertEquals('', $header2, 'Contains only A-s');
+    }
+
     /**
      * splitMessage with Headers as input fails to process AddressList with semicolons
      *
