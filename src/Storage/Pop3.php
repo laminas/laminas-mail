@@ -113,6 +113,7 @@ class Pop3 extends AbstractStorage
         return $body;
     }
 
+    // @codingStandardsIgnoreStart
     /**
      * create instance with parameters
      * Supported parameters are
@@ -126,6 +127,7 @@ class Pop3 extends AbstractStorage
      * @throws \Laminas\Mail\Storage\Exception\InvalidArgumentException
      * @throws \Laminas\Mail\Protocol\Exception\RuntimeException
      */
+    // @codingStandardsIgnoreEnd
     public function __construct($params)
     {
         if (is_array($params)) {

@@ -169,6 +169,7 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
         return $this->protocol->fetch('RFC822.TEXT', $id);
     }
 
+    // @codingStandardsIgnoreStart
     /**
      * create instance with parameters
      *
@@ -186,6 +187,7 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
      * @throws Exception\InvalidArgumentException
      * @throws Protocol\Exception\RuntimeException
      */
+    // @codingStandardsIgnoreEnd
     public function __construct($params)
     {
         if (is_array($params)) {
