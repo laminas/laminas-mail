@@ -314,7 +314,7 @@ class MessageTest extends TestCase
     }
 
     /**
-     * @group ZF-5209
+     * @see https://zendframework.com/issues/browse/ZF-5209
      */
     public function testCheckingHasHeaderFunctionality(): void
     {
@@ -462,7 +462,7 @@ class MessageTest extends TestCase
     }
 
     /**
-     * @group ZF2-372
+     * @see https://zendframework.com/issues/browse/ZF2-372
      */
     public function testStrictParseMessage(): void
     {
