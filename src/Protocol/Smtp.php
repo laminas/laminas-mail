@@ -317,25 +317,36 @@ class Smtp extends AbstractProtocol
         $this->_send('DATA');
         $this->_expect(354, 120); // Timeout set for 2 minutes as per RFC 2821 4.5.3.2
 
-        if (($fp = fopen("php://temp", "r+")) === false) {
-            throw new Exception\RuntimeException('cannot fopen');
-        }
-        if (fwrite($fp, $data) === false) {
-            throw new Exception\RuntimeException('cannot fwrite');
-        }
-        unset($data);
-        rewind($fp);
+        $chunkReader = static function (string $data, int $chunkSize = 4096) {
+            if (($fp = fopen("php://temp", "r+")) === false) {
+                throw new Exception\RuntimeException('cannot fopen');
+            }
+            if (fwrite($fp, $data) === false) {
+                throw new Exception\RuntimeException('cannot fwrite');
+            }
+            rewind($fp);
 
-        $chunkSize = 4096;
-        $line = '';
-        while (($buffer = fgets($fp, $chunkSize)) !== false) {
-            $line .= $buffer;
+            $line = null;
+            while (($buffer = fgets($fp, $chunkSize)) !== false) {
+                $line .= $buffer;
 
-            // partial read, continue loop to read again to complete the line
-            if (strlen($buffer) === $chunkSize - 1 && $buffer[$chunkSize - 2] !== "\n") {
-                continue;
+                // partial read, continue loop to read again to complete the line
+                if (strlen($buffer) === $chunkSize - 1 && $buffer[$chunkSize - 2] !== "\n") {
+                    continue;
+                }
+
+                yield $line;
+                $line = null;
             }
 
+            if ($line !== null) {
+                yield $line;
+            }
+
+            fclose($fp);
+        };
+
+        foreach ($chunkReader($data) as $line) {
             $line = rtrim($line, "\r\n");
             if (isset($line[0]) && $line[0] === '.') {
                 // Escape lines prefixed with a '.'
@@ -348,21 +359,9 @@ class Smtp extends AbstractProtocol
                 // https://tools.ietf.org/html/rfc5322#section-2.2.3
                 $line = substr(chunk_split($line, 998, Headers::FOLDING), 0, -strlen(Headers::FOLDING));
             }
-            $this->_send($line);
-            $line = '';
-        }
-        if ($line) {
-            // max line length is 998 char + \r\n = 1000
-            if (strlen($line) > 998) {
-                // Long lines are "folded" by inserting "<CR><LF><SPACE>"
-                // https://tools.ietf.org/html/rfc5322#section-2.2.3
-                $line = substr(chunk_split($line, 998, Headers::FOLDING), 0, -strlen(Headers::FOLDING));
-            }
 
             $this->_send($line);
         }
-
-        fclose($fp);
 
         $this->_send('.');
         $this->_expect(250, 600); // Timeout set for 10 minutes as per RFC 2821 4.5.3.2
