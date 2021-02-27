@@ -326,21 +326,42 @@ class Smtp extends AbstractProtocol
         unset($data);
         rewind($fp);
 
-        // max line length is 998 char + \r\n = 1000
-        // read the line up to PHP_SOCK_CHUNK_SIZE
-        while (($line = stream_get_line($fp, 0, "\n")) !== false) {
-            $line = rtrim($line, "\r");
+        $chunkSize = 4096;
+        $line = '';
+        while (($buffer = fgets($fp, $chunkSize)) !== false) {
+            $line .= $buffer;
+
+            // partial read, continue loop to read again to complete the line
+            if (strlen($buffer) === $chunkSize - 1 && $buffer[$chunkSize - 2] !== "\n") {
+                continue;
+            }
+
+            $line = rtrim($line, "\r\n");
             if (isset($line[0]) && $line[0] === '.') {
                 // Escape lines prefixed with a '.'
                 $line = '.' . $line;
             }
+
+            // max line length is 998 char + \r\n = 1000
             if (strlen($line) > 998) {
                 // Long lines are "folded" by inserting "<CR><LF><SPACE>"
                 // https://tools.ietf.org/html/rfc5322#section-2.2.3
                 $line = substr(chunk_split($line, 998, Headers::FOLDING), 0, -strlen(Headers::FOLDING));
             }
             $this->_send($line);
+            $line = '';
         }
+        if ($line) {
+            // max line length is 998 char + \r\n = 1000
+            if (strlen($line) > 998) {
+                // Long lines are "folded" by inserting "<CR><LF><SPACE>"
+                // https://tools.ietf.org/html/rfc5322#section-2.2.3
+                $line = substr(chunk_split($line, 998, Headers::FOLDING), 0, -strlen(Headers::FOLDING));
+            }
+
+            $this->_send($line);
+        }
+
         fclose($fp);
 
         $this->_send('.');
