@@ -159,7 +159,7 @@ exit;
 // Fatal error: Uncaught Laminas\Mail\Protocol\Exception\RuntimeException: Could not read from 127.0.0.1 in ./laminas-mail/src/Protocol/AbstractProtocol.php:301
 ```
 
-To avoid this error, you can set a time limit for the SMTP connection in `SmtpOptions`: 
+To avoid this error, you can set a time limit for the SMTP connection in `SmtpOptions`:
 
 ```php
 use Laminas\Mail\Transport\Smtp as SmtpTransport;
@@ -181,7 +181,7 @@ $options   = new SmtpOptions([
 $transport->setOptions($options);
 ```
 
-Setting `connection_time_limit` will automatically set `use_complete_quit` to `false`, 
+Setting `connection_time_limit` will automatically set `use_complete_quit` to `false`,
 so the connection with the SMTP server will be closed without the `QUIT` command.
 
 > ### NOTE: recreate old connection
