@@ -331,7 +331,7 @@ class Smtp extends AbstractProtocol
                 $line .= $buffer;
 
                 // partial read, continue loop to read again to complete the line
-                if (strlen($buffer) === $chunkSize - 1 && $buffer[$chunkSize - 2] !== "\n") {
+                if (isset($buffer[$chunkSize - 2]) && $buffer[$chunkSize - 2] !== "\n") {
                     continue;
                 }
 
