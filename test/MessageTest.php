@@ -686,7 +686,7 @@ class MessageTest extends TestCase
     }
 
     /**
-     * @group Laminas-507
+     * @group ZF2-507
      */
     public function testDefaultDateHeaderEncodingIsAlwaysAscii(): void
     {
@@ -728,7 +728,7 @@ class MessageTest extends TestCase
     }
 
     /**
-     * @group Laminas-5962
+     * @group ZF2-5962
      */
     public function testPassEmptyArrayIntoSetPartsOfMimeMessageShouldReturnEmptyBodyString(): void
     {
