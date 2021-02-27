@@ -33,7 +33,7 @@ class HeaderWrapTest extends TestCase
     }
 
     /**
-     * @group ZF2-258
+     * @see https://zendframework.com/issues/browse/ZF2-258
      */
     public function testWrapUnstructuredHeaderMime(): void
     {
@@ -58,7 +58,7 @@ class HeaderWrapTest extends TestCase
     }
 
     /**
-     * @group ZF2-359
+     * @see https://zendframework.com/issues/browse/ZF2-359
      */
     public function testMimeEncoding(): void
     {
