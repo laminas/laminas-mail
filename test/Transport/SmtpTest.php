@@ -199,6 +199,33 @@ class SmtpTest extends TestCase
         $this->assertStringContainsString("\r\n\r\nThis is only a test.", $data, $data);
     }
 
+    /**
+     * Fold long lines during smtp communication in Protocol\Smtp class.
+     * Test folding of long lines following RFC 5322 section-2.2.3
+     *
+     * @see https://github.com/laminas/laminas-mail/pull/140
+     */
+    public function testLongLinesFoldingRFC5322(): void
+    {
+        $message = $this->getMessage();
+        // Create buffer of 8192 bytes (PHP_SOCK_CHUNK_SIZE)
+        $buffer = str_repeat('0123456789abcdef', 512);
+        $this->assertEquals(8192, strlen($buffer));
+
+        $headerValue = substr($buffer, 0, 1000);
+        $bufferSizeHeaderValue = substr($buffer, 0, 8192 - strlen('X-Exact-Length') - 2);
+        $message->getHeaders()->addHeaders([
+            'X-Ms-Exchange-Antispam-Messagedata' => $headerValue,
+            'X-Exact-Length' => $bufferSizeHeaderValue,
+        ]);
+
+        $this->transport->send($message);
+        $data = $this->connection->getLog();
+        // The original header can't be present if it's wrapped
+        $this->assertStringNotContainsString($headerValue, $data, "May not contain headerValue");
+        $this->assertStringNotContainsString($bufferSizeHeaderValue, $data, "May not contain bufferSizeHeaderValue");
+    }
+
     public function testCanUseAuthenticationExtensionsViaPluginManager(): void
     {
         $options    = new SmtpOptions([
