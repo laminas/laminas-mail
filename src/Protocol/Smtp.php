@@ -8,6 +8,8 @@
 
 namespace Laminas\Mail\Protocol;
 
+use Laminas\Mail\Headers;
+
 /**
  * SMTP implementation of Laminas\Mail\Protocol\AbstractProtocol
  *
@@ -335,7 +337,7 @@ class Smtp extends AbstractProtocol
             if (strlen($line) > 998) {
                 // Long lines are "folded" by inserting "<CR><LF><SPACE>"
                 // https://tools.ietf.org/html/rfc5322#section-2.2.3
-                $line = substr(chunk_split($line, 998, "\r\n "), 0, -3);
+                $line = substr(chunk_split($line, 998, Headers::FOLDING), 0, -strlen(Headers::FOLDING));
             }
             $this->_send($line);
         }
