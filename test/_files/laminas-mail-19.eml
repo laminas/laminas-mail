@@ -1,0 +1,94 @@
+Date: Wed, 21 Aug 2013 00:22:27 -0700
+From: Mail Delivery Subsystem <MAILER-DAEMON@localhost.localdomain>
+Message-Id: <201308210722.r7L7Lpmx022081@localhost.localdomain>
+To: <root@localhost.localdomain>
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status;boundary="r7L7Lpmx022081.1377069747/localhost.localdomain"
+Subject: Returned mail: see transcript for details
+Auto-Submitted: auto-generated (failure)
+
+This is a MIME-encapsulated message
+
+--r7L7Lpmx022081.1377069747/localhost.localdomain
+
+The original message was received at Fri, 16 Aug 2013 00:00:48 -0700
+from localhost.localdomain [127.0.0.1]
+
+   ----- The following addresses had permanent fatal errors -----
+<sysadmin@example.com>
+
+   ----- Transcript of session follows -----
+<sysadmin@example.com>... Deferred
+Message could not be delivered for 5 days
+Message will be deleted from queue
+
+--r7L7Lpmx022081.1377069747/localhost.localdomain
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; localhost.localdomain
+Arrival-Date: Fri, 16 Aug 2013 00:00:48 -0700
+
+Final-Recipient: RFC822; sysadmin@internet.com
+Action: failed
+Status: 4.4.7
+Last-Attempt-Date: Wed, 21 Aug 2013 00:22:27 -0700
+
+--r7L7Lpmx022081.1377069747/localhost.localdomain
+Content-Type: message/rfc822
+
+Date: Fri, 16 Aug 2013 00:00:48 -0700
+From: root <root@localhost.localdomain>
+Message-Id: <201308160700.r7G70msc008297@localhost.localdomain>
+To: sysadmin@example.com
+Subject: MySQL Backup Log for example.com - 2013-08-16_00h00m
+
+======================================================================
+AutoMySQLBackup VER 2.5
+http://sourceforge.net/projects/automysqlbackup/
+
+Backup of Database Server - test.com
+======================================================================
+Backup Start Time Fri Aug 16 00:00:01 PDT 2013
+======================================================================
+Daily Backup of Database ( information_schema )
+Rotating last weeks Backup...
+removed `/backups'
+
+----------------------------------------------------------------------
+Daily Backup of Database ( confluence )
+Rotating last weeks Backup...
+removed `/backupnce.bz2'
+
+----------------------------------------------------------------------
+Daily Backup of Database ( crucible )
+Rotating last weeks Backup...
+removed `/backups/daily/.bz2'
+
+----------------------------------------------------------------------
+Daily Backup of Database ( jira )
+Rotating last weeks Backup...
+removed `/bal.bz2'
+
+----------------------------------------------------------------------
+Daily Backup of Database ( jira_4_2 )
+Rotating last weeks Backup...
+removed `/backups/dail.sql.bz2'
+
+----------------------------------------------------------------------
+Daily Backup of Database ( mysql )
+Rotating last weeks Backup...
+removed `/backups/dql.bz2'
+
+----------------------------------------------------------------------
+Backup End Fri Aug 16 00:00:48 PDT 2013
+======================================================================
+Total disk space used for backup storage..
+Size - Location
+62.21T /backups
+
+======================================================================
+If you find AutoMySQLBackup valuable please make a donation at
+http://sourceforge.net/project/project_donations.php?group_id=101066
+======================================================================
+
+--r7L7Lpmx022081.1377069747/localhost.localdomain--
