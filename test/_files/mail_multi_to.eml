@@ -1,0 +1,11 @@
+Return-Path: <sender@example.com>
+Date: Sun, 01 Jan 2000 00:00:00 +0000
+From: sender@example.com
+To: =?ISO-8859-2?Q?nicpo=F1?= <bar@example.pl>, "foo" <foo@example.pl>
+Subject: Subject text
+Content-Type: text/html; charset=iso-8859-2
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+
+<div>html content</div>
+
