@@ -22,6 +22,12 @@ class Smtp extends AbstractProtocol
     use ProtocolTrait;
 
     /**
+     * RFC 5322 section-2.2.3 specifies maximum of 998 bytes per line.
+     * @see https://tools.ietf.org/html/rfc5322#section-2.2.3
+     */
+    public const MAX_LINE_LENGTH = 998;
+
+    /**
      * The transport method for the socket
      *
      * @var string
@@ -364,11 +370,13 @@ class Smtp extends AbstractProtocol
                 $line = '.' . $line;
             }
 
-            // max line length is 998 char + \r\n = 1000
-            if (strlen($line) > 998) {
+            if (strlen($line) > self::MAX_LINE_LENGTH) {
                 // Long lines are "folded" by inserting "<CR><LF><SPACE>"
                 // https://tools.ietf.org/html/rfc5322#section-2.2.3
-                $line = substr(chunk_split($line, 997, Headers::FOLDING), 0, -strlen(Headers::FOLDING));
+                // Add "-1" to stay within limits,
+                // because Headers::FOLDING includes a byte for space character after \r\n
+                $chunks = chunk_split($line, self::MAX_LINE_LENGTH - 1, Headers::FOLDING);
+                $line = substr($chunks, 0, -strlen(Headers::FOLDING));
             }
 
             $this->_send($line);
