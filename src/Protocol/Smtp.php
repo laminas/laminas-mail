@@ -201,8 +201,25 @@ class Smtp extends AbstractProtocol
         while (($buffer = fgets($fp, $chunkSize)) !== false) {
             $line .= $buffer;
 
+            // This is optimization to avoid calling length() in a loop.
+            // We need to match a condition that is when:
+            // 1. maximum was read from fgets, which is $chunkSize-1
+            // 2. last byte of the buffer is not \n
+            //
+            // to access last byte of buffer, we can do
+            // - $buffer[strlen($buffer)-1]
+            // and when maximum is read from fgets, then:
+            // - strlen($buffer) === $chunkSize-1
+            // - strlen($buffer)-1 === $chunkSize-2
+            // which means this is also true:
+            // - $buffer[strlen($buffer)-1] === $buffer[$chunkSize-2]
+            //
+            // the null coalesce works, as string offset can never be null
+            $lastByte = $buffer[$chunkSize - 2] ?? null;
+
             // partial read, continue loop to read again to complete the line
-            if (isset($buffer[$chunkSize - 2]) && $buffer[$chunkSize - 2] !== "\n") {
+            // compare \n first as that's usually false
+            if ($lastByte !== "\n" && $lastByte !== null) {
                 continue;
             }
 
