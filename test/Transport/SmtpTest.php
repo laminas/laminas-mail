@@ -223,10 +223,10 @@ class SmtpTest extends TestCase
         $data = $this->connection->getLog();
 
         $lines = explode("\r\n", $data);
-        $maxLen = max(array_map(static function ($line) {
-            return strlen($line);
-        }, $lines));
-        $this->assertLessThan(1000, $maxLen, "No line can be longer than 1000 bytes");
+        foreach ($lines as $line) {
+            // Max line length is 998 char + \r\n = 1000
+            $this->assertLessThanOrEqual(998, strlen($line), sprintf('Line is too long: ' . $line));
+        }
 
         // The original header can't be present if it's wrapped
         $this->assertStringNotContainsString($headerValue, $data, "May not contain headerValue");
