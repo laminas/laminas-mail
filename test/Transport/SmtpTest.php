@@ -223,6 +223,8 @@ class SmtpTest extends TestCase
         $data = $this->connection->getLog();
 
         $lines = explode("\r\n", $data);
+        $this->assertCount(21, $lines);
+
         foreach ($lines as $line) {
             // Max line length is 998 char + \r\n = 1000
             $this->assertLessThanOrEqual(998, strlen($line), sprintf('Line is too long: ' . $line));
