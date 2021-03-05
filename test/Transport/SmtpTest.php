@@ -211,7 +211,7 @@ class SmtpTest extends TestCase
         // Create buffer of 8192 bytes (PHP_SOCK_CHUNK_SIZE)
         $buffer = str_repeat('0123456789abcdef', 512);
 
-        $maxLen = SmtpProtocol::MAX_LINE_LENGTH;
+        $maxLen = SmtpProtocol::SMTP_LINE_LIMIT;
         $headerWithLargeValue = $buffer;
         $headerWithExactlyMaxLineLength = substr($buffer, 0, $maxLen - strlen('X-Exact-Length: '));
         $message->getHeaders()->addHeaders([
