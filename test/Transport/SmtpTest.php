@@ -207,6 +207,9 @@ class SmtpTest extends TestCase
      */
     public function testLongLinesFoldingRFC5322(): void
     {
+        $message = 'The folding logic expects exactly 1 byte after \r\n in folding';
+        $this->assertEquals("\r\n ", Headers::FOLDING, $message);
+
         $message = $this->getMessage();
         // Create buffer of 8192 bytes (PHP_SOCK_CHUNK_SIZE)
         $buffer = str_repeat('0123456789abcdef', 512);
