@@ -8,6 +8,7 @@
 
 namespace Laminas\Mail\Protocol;
 
+use Generator;
 use Laminas\Mail\Headers;
 
 /**
@@ -173,6 +174,44 @@ class Smtp extends AbstractProtocol
     }
 
     /**
+     * Read $data as lines terminated by "\n"
+     *
+     * @param string $data
+     * @param int $chunkSize
+     * @return Generator|string[]
+     * @author Elan Ruusamäe <glen@pld-linux.org>
+     */
+    private static function chunkedReader(string $data, int $chunkSize = 4096): Generator
+    {
+        if (($fp = fopen("php://temp", "r+")) === false) {
+            throw new Exception\RuntimeException('cannot fopen');
+        }
+        if (fwrite($fp, $data) === false) {
+            throw new Exception\RuntimeException('cannot fwrite');
+        }
+        rewind($fp);
+
+        $line = null;
+        while (($buffer = fgets($fp, $chunkSize)) !== false) {
+            $line .= $buffer;
+
+            // partial read, continue loop to read again to complete the line
+            if (isset($buffer[$chunkSize - 2]) && $buffer[$chunkSize - 2] !== "\n") {
+                continue;
+            }
+
+            yield $line;
+            $line = null;
+        }
+
+        if ($line !== null) {
+            yield $line;
+        }
+
+        fclose($fp);
+    }
+
+    /**
      * Whether or not send QUIT command
      *
      * @return bool
@@ -317,36 +356,8 @@ class Smtp extends AbstractProtocol
         $this->_send('DATA');
         $this->_expect(354, 120); // Timeout set for 2 minutes as per RFC 2821 4.5.3.2
 
-        $chunkReader = static function (string $data, int $chunkSize = 4096) {
-            if (($fp = fopen("php://temp", "r+")) === false) {
-                throw new Exception\RuntimeException('cannot fopen');
-            }
-            if (fwrite($fp, $data) === false) {
-                throw new Exception\RuntimeException('cannot fwrite');
-            }
-            rewind($fp);
-
-            $line = null;
-            while (($buffer = fgets($fp, $chunkSize)) !== false) {
-                $line .= $buffer;
-
-                // partial read, continue loop to read again to complete the line
-                if (isset($buffer[$chunkSize - 2]) && $buffer[$chunkSize - 2] !== "\n") {
-                    continue;
-                }
-
-                yield $line;
-                $line = null;
-            }
-
-            if ($line !== null) {
-                yield $line;
-            }
-
-            fclose($fp);
-        };
-
-        foreach ($chunkReader($data) as $line) {
+        $reader = self::chunkedReader($data);
+        foreach ($reader as $line) {
             $line = rtrim($line, "\r\n");
             if (isset($line[0]) && $line[0] === '.') {
                 // Escape lines prefixed with a '.'
