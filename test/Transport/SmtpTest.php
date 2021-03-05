@@ -213,7 +213,7 @@ class SmtpTest extends TestCase
         $this->assertEquals(8192, strlen($buffer));
 
         $headerValue = substr($buffer, 0, 1000);
-        $bufferSizeHeaderValue = substr($buffer, 0, 8192 - strlen('X-Exact-Length') - 2);
+        $bufferSizeHeaderValue = substr($buffer, 0, 998 - strlen('X-Exact-Length') - 2);
         $message->getHeaders()->addHeaders([
             'X-Ms-Exchange-Antispam-Messagedata' => $headerValue,
             'X-Exact-Length' => $bufferSizeHeaderValue,
@@ -230,7 +230,8 @@ class SmtpTest extends TestCase
 
         // The original header can't be present if it's wrapped
         $this->assertStringNotContainsString($headerValue, $data, "May not contain headerValue");
-        $this->assertStringNotContainsString($bufferSizeHeaderValue, $data, "May not contain bufferSizeHeaderValue");
+        // Header with exact length is not wrapped
+        $this->assertStringContainsString($bufferSizeHeaderValue, $data, "Must contain bufferSizeHeaderValue");
     }
 
     public function testCanUseAuthenticationExtensionsViaPluginManager(): void
