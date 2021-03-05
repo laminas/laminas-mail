@@ -210,30 +210,35 @@ class SmtpTest extends TestCase
         $message = $this->getMessage();
         // Create buffer of 8192 bytes (PHP_SOCK_CHUNK_SIZE)
         $buffer = str_repeat('0123456789abcdef', 512);
-        $this->assertEquals(8192, strlen($buffer));
 
-        $headerValue = substr($buffer, 0, 1000);
-        $bufferSizeHeaderValue = substr($buffer, 0, 998 - strlen('X-Exact-Length') - 2);
+        $maxLen = SmtpProtocol::MAX_LINE_LENGTH;
+        $headerWithLargeValue = $buffer;
+        $headerWithExactlyMaxLineLength = substr($buffer, 0, $maxLen - strlen('X-Exact-Length: '));
         $message->getHeaders()->addHeaders([
-            'X-Ms-Exchange-Antispam-Messagedata' => $headerValue,
-            'X-Exact-Length' => $bufferSizeHeaderValue,
+            'X-Ms-Exchange-Antispam-Messagedata' => $headerWithLargeValue,
+            'X-Exact-Length' => $headerWithExactlyMaxLineLength,
         ]);
 
         $this->transport->send($message);
         $data = $this->connection->getLog();
 
         $lines = explode("\r\n", $data);
-        $this->assertCount(21, $lines);
+        $this->assertCount(28, $lines);
 
         foreach ($lines as $line) {
-            // Max line length is 998 char + \r\n = 1000
-            $this->assertLessThanOrEqual(998, strlen($line), sprintf('Line is too long: ' . $line));
+            $this->assertLessThanOrEqual($maxLen, strlen($line), sprintf('Line is too long: ' . $line));
         }
 
-        // The original header can't be present if it's wrapped
-        $this->assertStringNotContainsString($headerValue, $data, "May not contain headerValue");
-        // Header with exact length is not wrapped
-        $this->assertStringContainsString($bufferSizeHeaderValue, $data, "Must contain bufferSizeHeaderValue");
+        $this->assertStringNotContainsString(
+            $headerWithLargeValue,
+            $data,
+            "The original header can't be present if it's wrapped"
+        );
+        $this->assertStringContainsString(
+            $headerWithExactlyMaxLineLength,
+            $data,
+            "Header with exact length is not wrapped"
+        );
     }
 
     public function testCanUseAuthenticationExtensionsViaPluginManager(): void
