@@ -156,16 +156,19 @@ class MessageTest extends TestCase
         );
     }
 
-    public function testNotAllowWhitespaceInEmptyMultiLineHeader(): void
+    public function testAllowWhitespaceInEmptyMultiLineHeader(): void
     {
         $src = "From: user@example.com\nTo: userpal@example.net\n"
             . "Subject: This is your reminder\n  \n \n"
             . "  about the football game tonight\n"
             . "Date: Wed, 20 Oct 2010 20:53:35 -0400\n\n"
             . "Don't forget to meet us for the tailgate party!\n";
-
-        $this->expectException(MailException\RuntimeException::class);
         $message = new Message(['raw' => $src]);
+
+        $this->assertEquals(
+            'This is your reminder about the football game tonight',
+            $message->getHeader('subject', 'string')
+        );
     }
 
     public function testContentTypeDecode(): void
