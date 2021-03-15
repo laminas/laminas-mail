@@ -30,8 +30,8 @@ class MessageTest extends TestCase
 
     public function setUp(): void
     {
-        $this->file = __DIR__ . '/../_files/mail.txt';
-        $this->file2 = __DIR__ . '/../_files/mail_multi_to.txt';
+        $this->file = __DIR__ . '/../_files/mail.eml';
+        $this->file2 = __DIR__ . '/../_files/mail_multi_to.eml';
     }
 
     public function testInvalidFile(): void
@@ -485,8 +485,8 @@ class MessageTest extends TestCase
 
     public function filesProvider(): array
     {
-        $filePath = __DIR__ . '/../_files/mail.txt';
-        $fileBlankLineOnTop = __DIR__ . '/../_files/mail_blank_top_line.txt';
+        $filePath = __DIR__ . '/../_files/mail.eml';
+        $fileBlankLineOnTop = __DIR__ . '/../_files/mail_blank_top_line.eml';
 
         return [
             // Description => [params]

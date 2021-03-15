@@ -8,3 +8,5 @@
 /phpcs.xml export-ignore
 /phpunit.xml.dist export-ignore
 /test/ export-ignore
+*.eml text eol=crlf
+*.mbox text eol=crlf

@@ -829,7 +829,7 @@ class MessageTest extends TestCase
      */
     public function testCanParseMultipartReport(): void
     {
-        $raw = file_get_contents(__DIR__ . '/_files/laminas-mail-19.txt');
+        $raw = file_get_contents(__DIR__ . '/_files/laminas-mail-19.eml');
         $message = Message::fromString($raw);
         $this->assertInstanceOf(Message::class, $message);
         $this->assertIsString($message->getBody());
