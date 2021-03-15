@@ -686,7 +686,7 @@ class MessageTest extends TestCase
     }
 
     /**
-     * @group Laminas-507
+     * @see https://zendframework.com/issues/browse/ZF2-507
      */
     public function testDefaultDateHeaderEncodingIsAlwaysAscii(): void
     {
@@ -728,7 +728,7 @@ class MessageTest extends TestCase
     }
 
     /**
-     * @group Laminas-5962
+     * @see https://zendframework.com/issues/browse/ZF-5962
      */
     public function testPassEmptyArrayIntoSetPartsOfMimeMessageShouldReturnEmptyBodyString(): void
     {
