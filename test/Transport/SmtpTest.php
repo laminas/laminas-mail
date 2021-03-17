@@ -199,6 +199,51 @@ class SmtpTest extends TestCase
         $this->assertStringContainsString("\r\n\r\nThis is only a test.", $data, $data);
     }
 
+    /**
+     * Fold long lines during smtp communication in Protocol\Smtp class.
+     * Test folding of long lines following RFC 5322 section-2.2.3
+     *
+     * @see https://github.com/laminas/laminas-mail/pull/140
+     */
+    public function testLongLinesFoldingRFC5322(): void
+    {
+        $message = 'The folding logic expects exactly 1 byte after \r\n in folding';
+        $this->assertEquals("\r\n ", Headers::FOLDING, $message);
+
+        $message = $this->getMessage();
+        // Create buffer of 8192 bytes (PHP_SOCK_CHUNK_SIZE)
+        $buffer = str_repeat('0123456789abcdef', 512);
+
+        $maxLen = SmtpProtocol::SMTP_LINE_LIMIT;
+        $headerWithLargeValue = $buffer;
+        $headerWithExactlyMaxLineLength = substr($buffer, 0, $maxLen - strlen('X-Exact-Length: '));
+        $message->getHeaders()->addHeaders([
+            'X-Ms-Exchange-Antispam-Messagedata' => $headerWithLargeValue,
+            'X-Exact-Length' => $headerWithExactlyMaxLineLength,
+        ]);
+
+        $this->transport->send($message);
+        $data = $this->connection->getLog();
+
+        $lines = explode("\r\n", $data);
+        $this->assertCount(28, $lines);
+
+        foreach ($lines as $line) {
+            $this->assertLessThanOrEqual($maxLen, strlen($line), sprintf('Line is too long: ' . $line));
+        }
+
+        $this->assertStringNotContainsString(
+            $headerWithLargeValue,
+            $data,
+            "The original header can't be present if it's wrapped"
+        );
+        $this->assertStringContainsString(
+            $headerWithExactlyMaxLineLength,
+            $data,
+            "Header with exact length is not wrapped"
+        );
+    }
+
     public function testCanUseAuthenticationExtensionsViaPluginManager(): void
     {
         $options    = new SmtpOptions([
