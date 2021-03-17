@@ -521,7 +521,7 @@ $mail = new Pop3([
     'ssl'      =&gt; 'TLS',
 ]);</code></pre>
 <p>If you are connecting to a mail server with a self-signed certificate and want to
-skip the SSL verification, you can also pass an additional argument <code>novalidatecert</code> 
+skip the SSL verification, you can also pass an additional argument <code>novalidatecert</code>
 with the value <code>true</code>.</p>
 <p>Both constructors throw <code>Laminas\Mail\Exception</code> or <code>Laminas\Mail\Protocol\Exception</code>
 (extends <code>Laminas\Mail\Exception</code>) for connection errors, depending on the type of
@@ -807,7 +807,7 @@ $folder = $mail-&gt;getFolders()-&gt;Archive-&gt;2005;
 printf("Last folder was %s; new folder is %s\n", $mail-&gt;getSelectedFolder(), $folder);
 $mail-&gt;selectFolder($folder);</code></pre>
 <h2 id="advanced-use">Advanced Use</h2>
-<h3>Using NOOP</h3>
+<h3 id="using-noop">Using NOOP</h3>
 <p>If you're using a remote storage and have some long tasks, you might need to
 keep the connection alive via noop:</p>
 <pre class="highlight"><code class="language-php">foreach ($mail as $message) {
@@ -820,7 +820,7 @@ keep the connection alive via noop:</p>
 
     $mail-&gt;noop(); // keep alive
 }</code></pre>
-<h3>Caching instances</h3>
+<h3 id="caching-instances">Caching instances</h3>
 <p><code>Laminas\Mail\Storage\Mbox</code>, <code>Laminas\Mail\Storage\Folder\Mbox</code>,
 <code>Laminas\Mail\Storage\Maildir</code>, and <code>Laminas\Mail\Storage\Folder\Maildir</code> implement the
 magic methods <code>__sleep()</code> and <code>__wakeup()</code>, which means they are serializable.</p>
@@ -855,7 +855,7 @@ $mail        = $hasCache
 
 // Cache when done
 $cache-&gt;set($cacheId, $mail);</code></pre>
-<h3>Extending Protocol Classes</h3>
+<h3 id="extending-protocol-classes">Extending Protocol Classes</h3>
 <p>Remote storage adapters use two classes: <code>Laminas\Mail\Storage\&lt;Name&gt;</code> and
 <code>Laminas\Mail\Protocol\&lt;Name&gt;</code>. The protocol class translates the protocol commands
 and responses from and to PHP, like methods for the commands or variables with
@@ -957,7 +957,7 @@ $mail = new Example\Mail\Pop3\Knock([
 supported, selects a folder as provided to the constructor.  When defining your
 own protocol class, make sure that's done or the next method will fail if the
 server doesn't allow it in the current state.</p>
-<h3>Using Quotas</h3>
+<h3 id="using-quotas">Using Quotas</h3>
 <p><code>Laminas\Mail\Storage\Writable\Maildir</code> has support for Maildir++ quotas. It's
 disabled by default, but it's possible to use it manually, if the automatic
 checks are not desired (this means <code>appendMessage()</code>, <code>removeMessage()</code>, and

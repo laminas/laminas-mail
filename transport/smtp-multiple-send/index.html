@@ -368,7 +368,7 @@ for the lifetime of the script execution. You may send multiple e-mails through
 this SMTP connection. A <code>RSET</code> command is issued before each delivery to ensure
 the correct SMTP handshake is followed.</p>
 <h2 id="examples">Examples</h2>
-<h3>Sending Multiple Mails per SMTP Connection</h3>
+<h3 id="sending-multiple-mails-per-smtp-connection_1">Sending Multiple Mails per SMTP Connection</h3>
 <pre class="highlight"><code class="language-php">use Laminas\Mail\Message;
 use Laminas\Mail\Transport\Smtp;
 
@@ -395,7 +395,7 @@ foreach ($recipients as $address) {
 <p>If you wish to have a separate connection for each mail delivery, you will need
 to create and destroy your transport before and after each <code>send()</code> method is
 called.</p>
-<h3>Manipulating the transport between messages</h3>
+<h3 id="manipulating-the-transport-between-messages">Manipulating the transport between messages</h3>
 <p>You can manipulate the connection between each delivery by accessing the
 transport's protocol object.</p>
 <pre class="highlight"><code class="language-php">use Laminas\Mail\Message;

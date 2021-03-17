@@ -364,7 +364,7 @@ $mail-&gt;setSubject('TestSubject');
 $transport = new Mail\Transport\Sendmail();
 $transport-&gt;send($mail);</code></pre>
 <blockquote>
-<h3>Minimum definitions</h3>
+<h3 id="minimum-definitions">Minimum definitions</h3>
 <p>In order to send an email using laminas-mail you have to specify at least one
 recipient as well as a message body. Please note that each transport may
 require additional parameters to be set.</p>
@@ -377,7 +377,7 @@ documentation.</p>
 PHP <a href="http://php.net/mail">mail()</a> function. If you wish to pass additional
 parameters to the <a href="http://php.net/mail">mail()</a> function, create a new transport
 instance and pass your parameters to the constructor.</p>
-<h3>Passing additional mail() parameters</h3>
+<h3 id="passing-additional-mail-parameters">Passing additional mail() parameters</h3>
 <p>This example shows how to change the Return-Path of the
 <a href="http://php.net/mail">mail()</a> function.</p>
 <pre class="highlight"><code class="language-php">use Laminas\Mail;
@@ -391,7 +391,7 @@ $mail-&gt;setSubject('TestSubject');
 $transport = new Mail\Transport\Sendmail('-freturn_to_me@example.com');
 $transport-&gt;send($mail);</code></pre>
 <blockquote>
-<h3>Chose your transport wisely</h3>
+<h3 id="chose-your-transport-wisely">Chose your transport wisely</h3>
 <p>Although the sendmail transport is the transport that requires least
 configuration, it may not be suitable for your production environment. This is
 because emails sent using the sendmail transport will be more often delivered
@@ -400,7 +400,7 @@ to SPAM-boxes. This can partly be remedied by using the
 server that has an overall good reputation. Additionally, techniques such as
 SPF and DKIM may be employed to ensure even more email messages are delivered
 successfully.</p>
-<h3>Warning: Sendmail Transport and Windows</h3>
+<h3 id="warning-sendmail-transport-and-windows">Warning: Sendmail Transport and Windows</h3>
 <p>As the PHP manual states, the <code>mail()</code> function has different behaviour on
 Windows than it does on *nix based systems. Using the sendmail transport on
 Windows will not work in combination with <code>addBcc()</code>.  The <code>mail()</code> function

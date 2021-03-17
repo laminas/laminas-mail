@@ -458,23 +458,23 @@ echo $message-&gt;getBodyText(); // body as it will be sent</code></pre>
 <h2 id="configuration-options">Configuration Options</h2>
 <p>The <code>Message</code> class has no configuration options, and is instead a value object.</p>
 <h2 id="available-methods">Available Methods</h2>
-<h3>isValid</h3>
+<h3 id="isvalid">isValid</h3>
 <pre class="highlight"><code class="language-php">isValid() : bool</code></pre>
 <p>Messages without a <code>From</code> address are invalid, per RFC-2822.</p>
-<h3>setEncoding</h3>
+<h3 id="setencoding">setEncoding</h3>
 <pre class="highlight"><code class="language-php">setEncoding(string $encoding) : void</code></pre>
 <p>Set the message encoding.</p>
-<h3>getEncoding</h3>
+<h3 id="getencoding">getEncoding</h3>
 <pre class="highlight"><code class="language-php">getEncoding() : string</code></pre>
 <p>Get the message encoding.</p>
-<h3>setHeaders</h3>
+<h3 id="setheaders">setHeaders</h3>
 <pre class="highlight"><code class="language-php">setHeaders(Laminas\Mail\Headers $headers) : void</code></pre>
 <p>Compose headers.</p>
-<h3>getHeaders</h3>
+<h3 id="getheaders">getHeaders</h3>
 <pre class="highlight"><code class="language-php">getHeaders() : Laminas\Mail\Headers</code></pre>
 <p>Access headers collection, lazy-loading a <code>Headers</code> instance if none was
 previously attached.</p>
-<h3>setFrom</h3>
+<h3 id="setfrom">setFrom</h3>
 <pre class="highlight"><code class="language-php">setFrom(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
@@ -482,7 +482,7 @@ previously attached.</p>
 <p>Set (overwrite) <code>From</code> addresses. If an associative array is provided, it must
 be a set of key/value pairs where the key is the human readable name, and the
 value is the email address.</p>
-<h3>addFrom</h3>
+<h3 id="addfrom">addFrom</h3>
 <pre class="highlight"><code class="language-php">addFrom(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressOrList,
     string|null $name
@@ -490,10 +490,10 @@ value is the email address.</p>
 <p>Add a <code>From</code> address. If an associative array is provided, it must be a set of
 key/value pairs where the key is the human readable name, and the value is the
 email address.</p>
-<h3>getFrom</h3>
+<h3 id="getfrom">getFrom</h3>
 <pre class="highlight"><code class="language-php">getFrom() : AddressList</code></pre>
 <p>Retrieve list of <code>From</code> senders.</p>
-<h3>setTo</h3>
+<h3 id="setto">setTo</h3>
 <pre class="highlight"><code class="language-php">setTo(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     null|string $name
@@ -501,7 +501,7 @@ email address.</p>
 <p>Overwrite the address list in the <code>To</code> recipients. If an associative array is
 provided, it must be a set of key/value pairs where the key is the human
 readable name, and the value is the email address.</p>
-<h3>addTo</h3>
+<h3 id="addto">addTo</h3>
 <pre class="highlight"><code class="language-php">addTo(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressOrList,
     null|string $name
@@ -509,11 +509,11 @@ readable name, and the value is the email address.</p>
 <p>Add one or more addresses to the <code>To</code> recipients; appends to the list. If an
 associative array is provided, it must be a set of key/value pairs where the key
 is the human readable name, and the value is the email address.</p>
-<h3>getTo</h3>
+<h3 id="getto">getTo</h3>
 <pre class="highlight"><code class="language-php">getTo() : AddressList</code></pre>
 <p>Access the address list of the <code>To</code> header.  Lazy-loads an <code>AddressList</code> and
 populates the <code>To</code> header if not previously done.</p>
-<h3>setCc</h3>
+<h3 id="setcc">setCc</h3>
 <pre class="highlight"><code class="language-php">setCc(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
@@ -521,7 +521,7 @@ populates the <code>To</code> header if not previously done.</p>
 <p>Set (overwrite) <code>Cc</code> addresses. If an associative array is provided, it must be
 a set of key/value pairs where the key is the human readable name, and the value
 is the email address.</p>
-<h3>addCc</h3>
+<h3 id="addcc">addCc</h3>
 <pre class="highlight"><code class="language-php">addCc(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
@@ -529,11 +529,11 @@ is the email address.</p>
 <p>Add a <code>Cc</code> address. If an associative array is provided, it must be a set of
 key/value pairs where the key is the human readable name, and the value is the
 email address.</p>
-<h3>getCc</h3>
+<h3 id="getcc">getCc</h3>
 <pre class="highlight"><code class="language-php">getCc() : AddressList</code></pre>
 <p>Retrieve list of <code>Cc</code> recipients.  Lazy-loads an <code>AddressList</code> and populates the
 <code>Cc</code> header if not previously done.</p>
-<h3>setBcc</h3>
+<h3 id="setbcc">setBcc</h3>
 <pre class="highlight"><code class="language-php">setBcc(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
@@ -541,7 +541,7 @@ email address.</p>
 <p>Set (overwrite) <code>Bcc</code> addresses. If an associative array is provided, it must be
 a set of key/value pairs where the key is the human readable name, and the value
 is the email address.</p>
-<h3>addBcc</h3>
+<h3 id="addbcc">addBcc</h3>
 <pre class="highlight"><code class="language-php">addBcc(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
@@ -549,11 +549,11 @@ is the email address.</p>
 <p>Add a <code>Bcc</code> address. If an associative array is provided, it must be a set of
 key/value pairs where the key is the human readable name, and the value is the
 email address.</p>
-<h3>getBcc</h3>
+<h3 id="getbcc">getBcc</h3>
 <pre class="highlight"><code class="language-php">getBcc() : AddressList</code></pre>
 <p>Retrieve list of <code>Bcc</code> recipients.  Lazy-loads an <code>AddressList</code> and populates
 the <code>Bcc</code> header if not previously done.</p>
-<h3>setReplyTo</h3>
+<h3 id="setreplyto">setReplyTo</h3>
 <pre class="highlight"><code class="language-php">setReplyTo(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
@@ -561,7 +561,7 @@ the <code>Bcc</code> header if not previously done.</p>
 <p>Overwrite the address list in the <code>Reply-To</code> recipients. If an associative array
 is provided, it must be a set of key/value pairs where the key is the human
 readable name, and the value is the email address.</p>
-<h3>addReplyTo</h3>
+<h3 id="addreplyto">addReplyTo</h3>
 <pre class="highlight"><code class="language-php">addReplyTo(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
@@ -569,37 +569,37 @@ readable name, and the value is the email address.</p>
 <p>Add one or more addresses to the <code>Reply-To</code> recipients. If an associative array
 is provided, it must be a set of key/value pairs where the key is the human
 readable name, and the value is the email address.</p>
-<h3>getReplyTo</h3>
+<h3 id="getreplyto">getReplyTo</h3>
 <pre class="highlight"><code class="language-php">getReplyTo() : AddressList</code></pre>
 <p>Access the address list of the <code>Reply-To</code> header.  Lazy-loads an <code>AddressList</code>
 and populates the <code>Reply-To</code> header if not previously done.</p>
-<h3>setSender</h3>
+<h3 id="setsender">setSender</h3>
 <pre class="highlight"><code class="language-php">setSender(
     string|AddressInterface $emailOrAddress,
     null|string $name
 ) : void</code></pre>
 <p>Set the message envelope <code>Sender</code> header.</p>
-<h3>getSender</h3>
+<h3 id="getsender">getSender</h3>
 <pre class="highlight"><code class="language-php">getSender() : null|AddressInterface</code></pre>
 <p>Retrieve the sender address, if any.</p>
-<h3>setSubject</h3>
+<h3 id="setsubject">setSubject</h3>
 <pre class="highlight"><code class="language-php">setSubject(string $subject) :void</code></pre>
 <p>Set the message subject header value.</p>
-<h3>getSubject</h3>
+<h3 id="getsubject">getSubject</h3>
 <pre class="highlight"><code class="language-php">getSubject() : null|string</code></pre>
 <p>Get the message subject header value.</p>
-<h3>setBody</h3>
+<h3 id="setbody">setBody</h3>
 <pre class="highlight"><code class="language-php">setBody(null|string|Laminas\Mime\Message|object $body) : void</code></pre>
 <p>Set the message body. If a generic object is provided, it must implement
 <code>__toString()</code>.</p>
-<h3>getBody</h3>
+<h3 id="getbody">getBody</h3>
 <pre class="highlight"><code class="language-php">getBody() : null|string|object</code></pre>
 <p>Return the currently set message body. Object return values include
 <code>Laminas\Mime\Message</code> instances or objects implementing <code>__toString()</code>.</p>
-<h3>getBodyText</h3>
+<h3 id="getbodytext">getBodyText</h3>
 <pre class="highlight"><code class="language-php">getBodyText() : null|string</code></pre>
 <p>Get the string-serialized message body text.</p>
-<h3>toString</h3>
+<h3 id="tostring">toString</h3>
 <pre class="highlight"><code class="language-php">toString() : string</code></pre>
 <p>Serialize to string.</p>
 

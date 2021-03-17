@@ -377,7 +377,7 @@ serializes in order to send.</p>
 <h2 id="quick-start">Quick Start</h2>
 <p>Using a mail transport involves instantiating it, optionally configuring it, and
 then passing a message to it.</p>
-<h3>Sendmail Transport Usage</h3>
+<h3 id="sendmail-transport-usage">Sendmail Transport Usage</h3>
 <pre class="highlight"><code class="language-php">use Laminas\Mail\Message;
 use Laminas\Mail\Transport\Sendmail as SendmailTransport;
 
@@ -389,9 +389,9 @@ $message-&gt;setBody("Sorry, I'm going to be late today!");
 
 $transport = new SendmailTransport();
 $transport-&gt;send($message);</code></pre>
-<h3>SMTP Transport Usage</h3>
+<h3 id="smtp-transport-usage">SMTP Transport Usage</h3>
 <blockquote>
-<h3>Installation requirements</h3>
+<h3 id="installation-requirements">Installation requirements</h3>
 <p>The SMTP transport depends on the laminas-servicemanager component, so be sure to
 have it installed before getting started:</p>
 <pre class="highlight"><code class="language-bash">$ composer require laminas/laminas-servicemanager</code></pre>
@@ -419,7 +419,7 @@ $options   = new SmtpOptions([
 ]);
 $transport-&gt;setOptions($options);
 $transport-&gt;send($message);</code></pre>
-<h3>File Transport Usage</h3>
+<h3 id="file-transport-usage">File Transport Usage</h3>
 <pre class="highlight"><code class="language-php">use Laminas\Mail\Message;
 use Laminas\Mail\Transport\File as FileTransport;
 use Laminas\Mail\Transport\FileOptions;
@@ -445,7 +445,7 @@ $options   = new FileOptions([
 ]);
 $transport-&gt;setOptions($options);
 $transport-&gt;send($message);</code></pre>
-<h3>InMemory Transport Usage</h3>
+<h3 id="inmemory-transport-usage">InMemory Transport Usage</h3>
 <pre class="highlight"><code class="language-php">use Laminas\Mail\Message;
 use Laminas\Mail\Transport\InMemory as InMemoryTransport;
 
@@ -463,7 +463,7 @@ $transport-&gt;send($message);
 $received = $transport-&gt;getLastMessage();</code></pre>
 <p>The <code>InMemory</code> transport is primarily of interest when in development or when
 testing.</p>
-<h3>Migration from 2.0-2.3 to 2.4+</h3>
+<h3 id="migration-from-20-23-to-24">Migration from 2.0-2.3 to 2.4+</h3>
 <p>Version 2.4 adds support for PHP 7. In PHP 7, <code>null</code> is a reserved keyword,
 which required renaming the <code>Null</code> transport. If you were using the <code>Null</code>
 transport directly previously, you will now receive an <code>E_USER_DEPRECATED</code>
@@ -480,7 +480,7 @@ transport-specific options.</p>
 <li><a href="../file-options/">File Transport Options</a></li>
 </ul>
 <h2 id="available-methods">Available Methods</h2>
-<h3>send</h3>
+<h3 id="send">send</h3>
 <pre class="highlight"><code class="language-php">send(Laminas\Mail\Message $message) : void</code></pre>
 <p>Send a mail message.</p>
 

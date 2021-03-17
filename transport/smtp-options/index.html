@@ -374,7 +374,7 @@
 <p>This document details the various options available to the
 <code>Laminas\Mail\Transport\Smtp</code> mail transport.</p>
 <h2 id="quick-start">Quick Start</h2>
-<h3>Basic SMTP Transport Usage</h3>
+<h3 id="basic-smtp-transport-usage">Basic SMTP Transport Usage</h3>
 <pre class="highlight"><code class="language-php">use Laminas\Mail\Transport\Smtp as SmtpTransport;
 use Laminas\Mail\Transport\SmtpOptions;
 
@@ -420,40 +420,40 @@ for examples of configuring authentication credentials.</p>
 </tbody>
 </table></div>
 <h2 id="available-methods">Available Methods</h2>
-<h3>getName</h3>
+<h3 id="getname">getName</h3>
 <pre class="highlight"><code class="language-php">getName() : string</code></pre>
 <p>Returns the string name of the local client hostname.</p>
-<h3>setName</h3>
+<h3 id="setname">setName</h3>
 <pre class="highlight"><code class="language-php">setName(string $name) : void</code></pre>
 <p>Set the string name of the local client hostname.</p>
-<h3>getConnectionClass</h3>
+<h3 id="getconnectionclass">getConnectionClass</h3>
 <pre class="highlight"><code class="language-php">getConnectionClass() : string</code></pre>
 <p>Returns a string indicating the connection class name to use.</p>
-<h3>setConnectionClass</h3>
+<h3 id="setconnectionclass">setConnectionClass</h3>
 <pre class="highlight"><code class="language-php">setConnectionClass(string $connectionClass) : void</code></pre>
 <p>Set the connection class to use.</p>
-<h3>getConnectionConfig</h3>
+<h3 id="getconnectionconfig">getConnectionConfig</h3>
 <pre class="highlight"><code class="language-php">getConnectionConfig() : array</code></pre>
 <p>Get configuration for the connection class.</p>
-<h3>setConnectionConfig</h3>
+<h3 id="setconnectionconfig">setConnectionConfig</h3>
 <pre class="highlight"><code class="language-php">setConnectionConfig(array $config) : void</code></pre>
 <p>Set configuration for the connection class. Typically, if using anything other
 than the default connection class, this will be an associative array with the
 keys "username" and "password".</p>
-<h3>getHost</h3>
+<h3 id="gethost">getHost</h3>
 <pre class="highlight"><code class="language-php">getHost() : string</code></pre>
 <p>Returns a string indicating the IP address or host name of the SMTP server via
 which to send messages.</p>
-<h3>setHost</h3>
+<h3 id="sethost">setHost</h3>
 <pre class="highlight"><code class="language-php">setHost(string $host) : void</code></pre>
 <p>Set the SMTP host name or IP address.</p>
-<h3>getPort</h3>
+<h3 id="getport">getPort</h3>
 <pre class="highlight"><code class="language-php">getPort() : int</code></pre>
 <p>Retrieve the integer port on which the SMTP host is listening.</p>
-<h3>setPort</h3>
+<h3 id="setport">setPort</h3>
 <pre class="highlight"><code class="language-php">setPort(int $port) : void</code></pre>
 <p>Set the port on which the SMTP host is listening.</p>
-<h3>__construct</h3>
+<h3 id="__construct">__construct</h3>
 <pre class="highlight"><code class="language-php">__construct(null|array|Traversable $config) : void</code></pre>
 <p>Instantiate the class, and optionally configure it with values provided.</p>
 

@@ -406,19 +406,19 @@ $transport-&gt;setOptions($options);</code></pre>
 <p><code>Laminas\Mail\Transport\FileOptions</code> extends <code>Laminas\Stdlib\AbstractOptions</code>, and
 inherits all functionality from that class; this includes property overloading.
 Additionally, the following explicit setters and getters are provided.</p>
-<h3>setPath</h3>
+<h3 id="setpath">setPath</h3>
 <pre class="highlight"><code class="language-php">setPath(string $path) : void</code></pre>
 <p>Set the path under which mail files will be written.</p>
-<h3>getPath</h3>
+<h3 id="getpath">getPath</h3>
 <pre class="highlight"><code class="language-php">getPath() : string</code></pre>
 <p>Get the path under which mail files will be written.</p>
-<h3>setCallback</h3>
+<h3 id="setcallback">setCallback</h3>
 <pre class="highlight"><code class="language-php">setCallback(callable $callback) : void</code></pre>
 <p>Set the callback used to generate unique filenames for messages.</p>
-<h3>getCallback</h3>
+<h3 id="getcallback">getCallback</h3>
 <pre class="highlight"><code class="language-php">getCallback() : callable</code></pre>
 <p>Get the callback used to generate unique filenames for messages.</p>
-<h3>__construct</h3>
+<h3 id="__construct">__construct</h3>
 <pre class="highlight"><code class="language-php">__construct(null|array|Traversable $config) : void</code></pre>
 <p>Initialize the object. Allows passing a PHP array or <code>Traversable</code> object with
 which to populate the instance.</p>

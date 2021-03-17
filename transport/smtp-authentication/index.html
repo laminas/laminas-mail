@@ -375,7 +375,7 @@ configuration array.</p>
 <p>In order to enable authentication, ou need to specify a "connection class" and
 connection configuration when configuring your SMTP transport. The two settings
 are briefly covered in the <a href="../smtp-options/#configuration-options">SMTP transport configuration options</a>. Below are more details.</p>
-<h3>connection_class</h3>
+<h3 id="connection_class">connection_class</h3>
 <p>The connection class should be a fully qualified class name of a
 <code>Laminas\Mail\Protocol\Smtp\Auth\*</code> class or extension, or the short name (name
 without leading namespace). laminas-mail ships with the following:</p>
@@ -385,7 +385,7 @@ without leading namespace). laminas-mail ships with the following:</p>
 <li><code>Laminas\Mail\Protocol\Smtp\Auth\Crammd5</code>, or <code>crammd5</code></li>
 </ul>
 <p>Custom connection classes must be extensions of <code>Laminas\Mail\Protocol\Smtp</code>.</p>
-<h3>connection_config</h3>
+<h3 id="connection_config">connection_config</h3>
 <p>The <code>connection_config</code> should be an associative array of options to provide to
 the underlying connection class. All shipped connection classes require:</p>
 <ul>
@@ -403,7 +403,7 @@ the underlying connection class. All shipped connection classes require:</p>
   long-running scripts against <a href="#smtp-transport-usage-for-servers-with-reuse-time-limit">SMTP servers that implements a reuse time limit</a>.</li>
 </ul>
 <h2 id="examples">Examples</h2>
-<h3>SMTP Transport Usage with PLAIN AUTH</h3>
+<h3 id="smtp-transport-usage-with-plain-auth">SMTP Transport Usage with PLAIN AUTH</h3>
 <pre class="highlight"><code class="language-php">use Laminas\Mail\Transport\Smtp as SmtpTransport;
 use Laminas\Mail\Transport\SmtpOptions;
 
@@ -419,7 +419,7 @@ $options   = new SmtpOptions([
     ],
 ]);
 $transport-&gt;setOptions($options);</code></pre>
-<h3>SMTP Transport Usage with LOGIN AUTH</h3>
+<h3 id="smtp-transport-usage-with-login-auth">SMTP Transport Usage with LOGIN AUTH</h3>
 <pre class="highlight"><code class="language-php">use Laminas\Mail\Transport\Smtp as SmtpTransport;
 use Laminas\Mail\Transport\SmtpOptions;
 
@@ -435,9 +435,9 @@ $options   = new SmtpOptions([
     ],
 ]);
 $transport-&gt;setOptions($options);</code></pre>
-<h3>SMTP Transport Usage with CRAM-MD5 AUTH</h3>
+<h3 id="smtp-transport-usage-with-cram-md5-auth">SMTP Transport Usage with CRAM-MD5 AUTH</h3>
 <blockquote>
-<h3>Installation requirements</h3>
+<h3 id="installation-requirements">Installation requirements</h3>
 <p>The CRAM-MD5 authentication depends on the laminas-crypt component, so be sure to
 have it installed before getting started:</p>
 <pre class="highlight"><code class="language-bash">$ composer require laminas/laminas-crypt</code></pre>
@@ -457,7 +457,7 @@ $options   = new SmtpOptions([
     ],
 ]);
 $transport-&gt;setOptions($options);</code></pre>
-<h3>SMTP Transport Usage with PLAIN AUTH over TLS</h3>
+<h3 id="smtp-transport-usage-with-plain-auth-over-tls">SMTP Transport Usage with PLAIN AUTH over TLS</h3>
 <pre class="highlight"><code class="language-php">use Laminas\Mail\Transport\Smtp as SmtpTransport;
 use Laminas\Mail\Transport\SmtpOptions;
 
@@ -476,7 +476,7 @@ $options   = new SmtpOptions([
     ],
 ]);
 $transport-&gt;setOptions($options);</code></pre>
-<h3>SMTP Transport Usage for servers with reuse time limit</h3>
+<h3 id="smtp-transport-usage-for-servers-with-reuse-time-limit">SMTP Transport Usage for servers with reuse time limit</h3>
 <p>By default, every <code>Laminas\Mail\Protocol\Smtp\*</code> class tries to disconnect from
 the STMP server by sending a <code>QUIT</code> command and expecting a <code>221</code> (<em>Service
 closing transmission channel</em>) response code.  This is done automatically at
@@ -495,7 +495,7 @@ exit;
 // Soon to exit...
 // Notice: fwrite(): send of 6 bytes failed with errno=32 Broken pipe in ./laminas-mail/src/Protocol/AbstractProtocol.php on line 255
 // Fatal error: Uncaught Laminas\Mail\Protocol\Exception\RuntimeException: Could not read from 127.0.0.1 in ./laminas-mail/src/Protocol/AbstractProtocol.php:301</code></pre>
-<p>To avoid this error, you can set a time limit for the SMTP connection in <code>SmtpOptions</code>: </p>
+<p>To avoid this error, you can set a time limit for the SMTP connection in <code>SmtpOptions</code>:</p>
 <pre class="highlight"><code class="language-php">use Laminas\Mail\Transport\Smtp as SmtpTransport;
 use Laminas\Mail\Transport\SmtpOptions;
 
@@ -513,16 +513,16 @@ $options   = new SmtpOptions([
     ],
 ]);
 $transport-&gt;setOptions($options);</code></pre>
-<p>Setting <code>connection_time_limit</code> will automatically set <code>use_complete_quit</code> to <code>false</code>, 
+<p>Setting <code>connection_time_limit</code> will automatically set <code>use_complete_quit</code> to <code>false</code>,
 so the connection with the SMTP server will be closed without the <code>QUIT</code> command.</p>
 <blockquote>
-<h3>NOTE: recreate old connection</h3>
+<h3 id="note-recreate-old-connection">NOTE: recreate old connection</h3>
 <p>The <code>use_complete_quit</code> flag described above aims to avoid errors that you
 cannot manage from PHP.</p>
 <p>If you deal with SMTP servers that exhibit this behavior from within
 long-running scripts, you SHOULD use the flag along with the
 <code>connection_time_limit</code> flag to ensure you recreate the connection.</p>
-<h3>Since 2.10.0</h3>
+<h3 id="since-2100">Since 2.10.0</h3>
 <p>The <code>connection_time_limit</code> flag has been available since 2.10.0.</p>
 </blockquote>
 
