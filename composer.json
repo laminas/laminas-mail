@@ -40,7 +40,9 @@
         "laminas/laminas-config": "^3.4",
         "laminas/laminas-crypt": "^2.6 || ^3.0",
         "laminas/laminas-servicemanager": "^3.2.1",
-        "phpunit/phpunit": "^9.3"
+        "phpunit/phpunit": "^9.3",
+        "psalm/plugin-phpunit": "^0.15.1",
+        "vimeo/psalm": "^4.7"
     },
     "suggest": {
         "laminas/laminas-crypt": "Crammd5 support in SMTP Auth",
@@ -59,10 +61,12 @@
     "scripts": {
         "check": [
             "@cs-check",
+            "@static-analysis",
             "@test"
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
+        "static-analysis": "psalm --shepherd --stats",
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
     },
