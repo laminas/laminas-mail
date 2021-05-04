@@ -8,8 +8,14 @@
 
 namespace Laminas\Mail;
 
+use Laminas\Mail\Header\Bcc;
+use Laminas\Mail\Header\Cc;
 use Laminas\Mail\Header\ContentType;
+use Laminas\Mail\Header\From;
+use Laminas\Mail\Header\MimeVersion;
+use Laminas\Mail\Header\ReplyTo;
 use Laminas\Mail\Header\Sender;
+use Laminas\Mail\Header\To;
 use Laminas\Mime;
 use Traversable;
 
@@ -139,7 +145,7 @@ class Message
      */
     public function getFrom()
     {
-        return $this->getAddressListFromHeader('from', __NAMESPACE__ . '\Header\From');
+        return $this->getAddressListFromHeader('from', From::class);
     }
 
     /**
@@ -178,7 +184,7 @@ class Message
      */
     public function getTo()
     {
-        return $this->getAddressListFromHeader('to', __NAMESPACE__ . '\Header\To');
+        return $this->getAddressListFromHeader('to', To::class);
     }
 
     /**
@@ -215,7 +221,7 @@ class Message
      */
     public function getCc()
     {
-        return $this->getAddressListFromHeader('cc', __NAMESPACE__ . '\Header\Cc');
+        return $this->getAddressListFromHeader('cc', Cc::class);
     }
 
     /**
@@ -252,7 +258,7 @@ class Message
      */
     public function getBcc()
     {
-        return $this->getAddressListFromHeader('bcc', __NAMESPACE__ . '\Header\Bcc');
+        return $this->getAddressListFromHeader('bcc', Bcc::class);
     }
 
     /**
@@ -291,7 +297,7 @@ class Message
      */
     public function getReplyTo()
     {
-        return $this->getAddressListFromHeader('reply-to', __NAMESPACE__ . '\Header\ReplyTo');
+        return $this->getAddressListFromHeader('reply-to', ReplyTo::class);
     }
 
     /**
@@ -304,7 +310,7 @@ class Message
     public function setSender($emailOrAddress, $name = null)
     {
         /** @var Sender $header */
-        $header = $this->getHeaderByName('sender', __NAMESPACE__ . '\Header\Sender');
+        $header = $this->getHeaderByName('sender', Sender::class);
         $header->setAddress($emailOrAddress, $name);
         return $this;
     }
@@ -322,7 +328,7 @@ class Message
         }
 
         /** @var Sender $header */
-        $header = $this->getHeaderByName('sender', __NAMESPACE__ . '\Header\Sender');
+        $header = $this->getHeaderByName('sender', Sender::class);
         return $header->getAddress();
     }
 
@@ -398,14 +404,14 @@ class Message
 
         // Get headers, and set Mime-Version header
         $headers = $this->getHeaders();
-        $this->getHeaderByName('mime-version', __NAMESPACE__ . '\Header\MimeVersion');
+        $this->getHeaderByName('mime-version', MimeVersion::class);
 
         // Multipart content headers
         if ($this->body->isMultiPart()) {
             $mime   = $this->body->getMime();
 
             /** @var ContentType $header */
-            $header = $this->getHeaderByName('content-type', __NAMESPACE__ . '\Header\ContentType');
+            $header = $this->getHeaderByName('content-type', ContentType::class);
             $header->setType('multipart/mixed');
             $header->addParameter('boundary', $mime->boundary());
             return $this;
