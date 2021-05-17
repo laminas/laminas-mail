@@ -1,29 +1,12 @@
 {
     "name": "laminas/laminas-mail",
     "description": "Provides generalized functionality to compose and send both text and MIME-compliant multipart e-mail messages",
-    "license": "BSD-3-Clause",
     "keywords": [
         "laminas",
         "mail"
     ],
     "homepage": "https://laminas.dev",
-    "support": {
-        "docs": "https://docs.laminas.dev/laminas-mail/",
-        "issues": "https://github.com/laminas/laminas-mail/issues",
-        "source": "https://github.com/laminas/laminas-mail",
-        "rss": "https://github.com/laminas/laminas-mail/releases.atom",
-        "chat": "https://laminas.dev/chat",
-        "forum": "https://discourse.laminas.dev"
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "laminas": {
-            "component": "Laminas\\Mail",
-            "config-provider": "Laminas\\Mail\\ConfigProvider"
-        }
-    },
+    "license": "BSD-3-Clause",
     "require": {
         "php": "^7.3 || ~8.0.0",
         "ext-iconv": "*",
@@ -34,6 +17,9 @@
         "laminas/laminas-zendframework-bridge": "^1.0",
         "symfony/polyfill-mbstring": "^1.12.0",
         "true/punycode": "^2.1"
+    },
+    "replace": {
+        "zendframework/zend-mail": "^2.10.0"
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "~1.0.0",
@@ -47,6 +33,15 @@
     "suggest": {
         "laminas/laminas-crypt": "Crammd5 support in SMTP Auth",
         "laminas/laminas-servicemanager": "^2.7.10 || ^3.3.1 when using SMTP to deliver messages"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laminas": {
+            "component": "Laminas\\Mail",
+            "config-provider": "Laminas\\Mail\\ConfigProvider"
+        }
     },
     "autoload": {
         "psr-4": {
@@ -70,7 +65,12 @@
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
     },
-    "replace": {
-        "zendframework/zend-mail": "^2.10.0"
+    "support": {
+        "issues": "https://github.com/laminas/laminas-mail/issues",
+        "forum": "https://discourse.laminas.dev",
+        "chat": "https://laminas.dev/chat",
+        "source": "https://github.com/laminas/laminas-mail",
+        "docs": "https://docs.laminas.dev/laminas-mail/",
+        "rss": "https://github.com/laminas/laminas-mail/releases.atom"
     }
 }
