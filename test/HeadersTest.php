@@ -640,4 +640,16 @@ class HeadersTest extends TestCase
         $headers->setHeaderLocator($locator);
         $this->assertSame($locator, $headers->getHeaderLocator());
     }
+
+    public function testStrictKeyComparisonInHas(): void
+    {
+        $headers = Mail\Headers::fromString("000: foo-bar");
+        $this->assertFalse($headers->has('0'));
+    }
+
+    public function testStrictKeyComparisonInGet(): void
+    {
+        $headers = Mail\Headers::fromString("000: foo-bar");
+        $this->assertFalse($headers->get('0'));
+    }
 }
