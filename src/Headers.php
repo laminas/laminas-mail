@@ -379,7 +379,7 @@ class Headers implements Countable, Iterator
         $key = $this->normalizeFieldName($name);
         $results = [];
 
-        foreach (array_keys($this->headersKeys, $key) as $index) {
+        foreach (array_keys($this->headersKeys, $key, true) as $index) {
             if ($this->headers[$index] instanceof Header\GenericHeader) {
                 $results[] = $this->lazyLoadHeader($index);
             } else {
@@ -409,7 +409,7 @@ class Headers implements Countable, Iterator
     public function has($name)
     {
         $name = $this->normalizeFieldName($name);
-        return in_array($name, $this->headersKeys);
+        return in_array($name, $this->headersKeys, true);
     }
 
     /**
