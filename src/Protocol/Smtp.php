@@ -170,6 +170,24 @@ class Smtp extends AbstractProtocol
     }
 
     /**
+     * Class destructor to cleanup open resources
+     *
+     */
+    public function __destruct()
+    {
+        try {
+            parent::__destruct();
+        } catch (Exception\RuntimeException $e) {
+            // Destruction of object will call _disconnect in AbstractProtocol::__destruct
+            // The problem is that Smtp::_disconnect will call ::quit, which triggers event chain, where on multiple
+            // occasions due to configuration of the object a RuntimeException can be triggered in functions ::_send
+            // and ::_expect/::_receive, so the basic destruction of the object due to getting out of scope or
+            // unsetting it would trigger a RuntimeException, which would have to be handled separately by every code
+            // using Smtp. By blind catching during ::__destruct this problem is worked around.
+        }
+    }
+
+    /**
      * Set whether or not send QUIT command
      *
      * @param bool $useCompleteQuit use complete quit
