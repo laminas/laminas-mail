@@ -99,15 +99,30 @@ class SendmailTest extends TestCase
                 $this->additional_headers
             );
         } else {
-            $this->assertStringNotContainsString("To: Example Test <test@example.com>\r\n", $this->additional_headers);
-            $this->assertStringContainsString("Cc: matthew@example.com\r\n", $this->additional_headers);
-            $this->assertStringContainsString("Bcc: \"Example, List\" <list@example.com>\r\n", $this->additional_headers);
+            $this->assertStringNotContainsString(
+                "To: Example Test <test@example.com>\r\n",
+                $this->additional_headers
+            );
+            $this->assertStringContainsString(
+                "Cc: matthew@example.com\r\n",
+                $this->additional_headers
+            );
+            $this->assertStringContainsString(
+                "Bcc: \"Example, List\" <list@example.com>\r\n",
+                $this->additional_headers
+            );
             $this->assertStringContainsString(
                 "From: test@example.com,\r\n Matthew <matthew@example.com>\r\n",
                 $this->additional_headers
             );
-            $this->assertStringContainsString("X-Foo-Bar: Matthew\r\n", $this->additional_headers);
-            $this->assertStringContainsString("Sender: Ralph Schindler <ralph@example.com>\r\n", $this->additional_headers);
+            $this->assertStringContainsString(
+                "X-Foo-Bar: Matthew\r\n",
+                $this->additional_headers
+            );
+            $this->assertStringContainsString(
+                "Sender: Ralph Schindler <ralph@example.com>\r\n",
+                $this->additional_headers
+            );
         }
         $this->assertEquals('-R hdrs -f\'ralph@example.com\'', $this->additional_parameters);
     }
@@ -291,10 +306,13 @@ class SendmailTest extends TestCase
         $this->assertEquals('matthew@example.org', $this->to);
         $this->assertEquals('Greetings and Salutations!', $this->subject);
 
-        $this->assertDoesNotMatchRegularExpression('/^To: matthew\@example\.org$/m', $this->additional_headers);
+        $this->assertDoesNotMatchRegularExpression(
+            '/^To: matthew\@example\.org$/m',
+            (string) $this->additional_headers
+        );
         $this->assertDoesNotMatchRegularExpression(
             '/^Subject: Greetings and Salutations!$/m',
-            $this->additional_headers
+            (string) $this->additional_headers
         );
     }
 
