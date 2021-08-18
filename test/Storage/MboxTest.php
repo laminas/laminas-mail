@@ -282,6 +282,7 @@ class MboxTest extends TestCase
         } catch (\Exception $e) {
             $check = true;
             // test ok
+            $this->assertTrue($check);
         }
 
         chmod($this->mboxFile, $stat['mode']);
