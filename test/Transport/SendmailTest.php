@@ -100,7 +100,10 @@ class SendmailTest extends TestCase
                 $this->additional_headers
             );
             $this->assertStringContainsString("X-Foo-Bar: Matthew\n", $this->additional_headers);
-            $this->assertStringContainsString("Sender: Ralph Schindler <ralph@example.com>\r", $this->additional_headers);
+            $this->assertStringContainsString(
+                "Sender: Ralph Schindler <ralph@example.com>\n",
+                $this->additional_headers
+            );
         } else {
             $this->assertStringNotContainsString("To: Example Test <test@example.com>\r\n", $this->additional_headers);
             $this->assertStringContainsString("Cc: matthew@example.com\r\n", $this->additional_headers);
