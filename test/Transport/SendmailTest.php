@@ -85,15 +85,27 @@ class SendmailTest extends TestCase
         $this->assertEquals('Example Test <test@example.com>', $this->to);
         $this->assertEquals('Testing Laminas\Mail\Transport\Sendmail', $this->subject);
         $this->assertEquals('This is only a test.', trim($this->message));
-        $this->assertStringNotContainsString("To: Example Test <test@example.com>\n", $this->additional_headers);
-        $this->assertStringContainsString("Cc: matthew@example.com\n", $this->additional_headers);
-        $this->assertStringContainsString("Bcc: \"Example, List\" <list@example.com>\n", $this->additional_headers);
-        $this->assertStringContainsString(
-            "From: test@example.com,\n Matthew <matthew@example.com>\n",
-            $this->additional_headers
-        );
-        $this->assertStringContainsString("X-Foo-Bar: Matthew\n", $this->additional_headers);
-        $this->assertStringContainsString("Sender: Ralph Schindler <ralph@example.com>\n", $this->additional_headers);
+        if (PHP_VERSION_ID < 80000) {
+            $this->assertStringNotContainsString("To: Example Test <test@example.com>\n", $this->additional_headers);
+            $this->assertStringContainsString("Cc: matthew@example.com\n", $this->additional_headers);
+            $this->assertStringContainsString("Bcc: \"Example, List\" <list@example.com>\n", $this->additional_headers);
+            $this->assertStringContainsString(
+                "From: test@example.com,\n Matthew <matthew@example.com>\n",
+                $this->additional_headers
+            );
+            $this->assertStringContainsString("X-Foo-Bar: Matthew\n", $this->additional_headers);
+            $this->assertStringContainsString("Sender: Ralph Schindler <ralph@example.com>\r", $this->additional_headers);
+        } else {
+            $this->assertStringNotContainsString("To: Example Test <test@example.com>\r\n", $this->additional_headers);
+            $this->assertStringContainsString("Cc: matthew@example.com\r\n", $this->additional_headers);
+            $this->assertStringContainsString("Bcc: \"Example, List\" <list@example.com>\r\n", $this->additional_headers);
+            $this->assertStringContainsString(
+                "From: test@example.com,\r\n Matthew <matthew@example.com>\r\n",
+                $this->additional_headers
+            );
+            $this->assertStringContainsString("X-Foo-Bar: Matthew\r\n", $this->additional_headers);
+            $this->assertStringContainsString("Sender: Ralph Schindler <ralph@example.com>\r\n", $this->additional_headers);
+        }
         $this->assertEquals('-R hdrs -f\'ralph@example.com\'', $this->additional_parameters);
     }
 
