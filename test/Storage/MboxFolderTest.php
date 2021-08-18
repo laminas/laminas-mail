@@ -310,6 +310,7 @@ class MboxFolderTest extends TestCase
         } catch (\Exception $e) {
             $check = true;
             // test ok
+            $this->assertTrue($check);
         }
 
         chmod($this->params['dirname'] . 'subfolder', $stat['mode']);
