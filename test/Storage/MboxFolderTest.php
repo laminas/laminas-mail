@@ -292,6 +292,8 @@ class MboxFolderTest extends TestCase
 
     public function testNotReadableFolder(): void
     {
+        $this->assertDirectoryExists($this->params['dirname'] . 'subfolder');
+
         $stat = stat($this->params['dirname'] . 'subfolder');
         chmod($this->params['dirname'] . 'subfolder', 0);
         clearstatcache();
@@ -310,7 +312,6 @@ class MboxFolderTest extends TestCase
         } catch (\Exception $e) {
             $check = true;
             // test ok
-            $this->assertTrue($check);
         }
 
         chmod($this->params['dirname'] . 'subfolder', $stat['mode']);
