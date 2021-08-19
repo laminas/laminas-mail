@@ -314,6 +314,10 @@ class MboxFolderTest extends TestCase
             // test ok
         }
 
+        $this->assertIsArray($this->params);
+        $this->assertArrayHasKey('dirname', $this->params);
+        $this->assertIsString($this->params['dirname']);
+
         chmod($this->params['dirname'] . 'subfolder', $stat['mode']);
 
         if (! $check) {
