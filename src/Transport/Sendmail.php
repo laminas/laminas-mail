@@ -120,7 +120,7 @@ class Sendmail implements TransportInterface
 
         // On *nix platforms, we need to replace \r\n with \n
         // sendmail is not an SMTP server, it is a unix command - it expects LF
-        if (! $this->isWindowsOs()) {
+        if (PHP_VERSION_ID < 80000 && ! $this->isWindowsOs()) {
             $to      = str_replace("\r\n", "\n", $to);
             $subject = str_replace("\r\n", "\n", $subject);
             $body    = str_replace("\r\n", "\n", $body);
