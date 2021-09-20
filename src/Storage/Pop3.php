@@ -113,7 +113,6 @@ class Pop3 extends AbstractStorage
         return $body;
     }
 
-    // @codingStandardsIgnoreStart
     /**
      * create instance with parameters
      * Supported parameters are
@@ -123,11 +122,11 @@ class Pop3 extends AbstractStorage
      *   - port port for POP3 server [optional, default = 110]
      *   - ssl 'SSL' or 'TLS' for secure sockets
      *
-     * @param  array|object|Config|Protocol\Pop3 $params mail reader specific parameters or configured Pop3 protocol object
+     * @param  array|object|Config|Protocol\Pop3 $params mail reader specific
+     *     parameters or configured Pop3 protocol object
      * @throws \Laminas\Mail\Storage\Exception\InvalidArgumentException
      * @throws \Laminas\Mail\Protocol\Exception\RuntimeException
      */
-    // @codingStandardsIgnoreEnd
     public function __construct($params)
     {
         if (is_array($params)) {
