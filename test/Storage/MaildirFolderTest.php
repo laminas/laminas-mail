@@ -2,7 +2,7 @@
 
 namespace LaminasTest\Mail\Storage;
 
-use Laminas\Config;
+use ArrayObject;
 use Laminas\Mail\Storage\Exception;
 use Laminas\Mail\Storage\Folder;
 use PHPUnit\Framework\TestCase;
@@ -125,7 +125,7 @@ class MaildirFolderTest extends TestCase
 
     public function testLoadConfig(): void
     {
-        $mail = new Folder\Maildir(new Config\Config($this->params));
+        $mail = new Folder\Maildir(new ArrayObject($this->params));
         $this->assertSame(Folder\Maildir::class, \get_class($mail));
     }
 

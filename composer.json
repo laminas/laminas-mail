@@ -15,7 +15,8 @@
         "laminas/laminas-stdlib": "^3.6",
         "laminas/laminas-validator": "^2.15",
         "symfony/polyfill-mbstring": "^1.12.0",
-        "true/punycode": "^2.1"
+        "true/punycode": "^2.1",
+        "webmozart/assert": "^1.10"
     },
     "conflict": {
         "zendframework/zend-mail": "*"
