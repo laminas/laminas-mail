@@ -120,16 +120,21 @@ class Mbox extends AbstractStorage
             return new $this->messageClass($messageClassParams);
         }
 
-        $bodyLines = 0; // TODO: need a way to change that
+        /** @todo Uncomment once we know how to count body lines */
+        // $bodyLines = 0;
 
         $message = $this->getRawHeader($id);
-        // file pointer is after headers now
+
+        /* Once we know how to count body lines, we should uncomment the
+         * following, which would append the body content to the headers.
+         *
         if ($bodyLines) {
             $message .= "\n";
             while ($bodyLines-- && ftell($this->fh) < $this->positions[$id - 1]['end']) {
                 $message .= fgets($this->fh);
             }
         }
+         */
 
         return new $this->messageClass(['handler' => $this, 'id' => $id, 'headers' => $message]);
     }
