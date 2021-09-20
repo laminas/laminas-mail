@@ -2,12 +2,13 @@
 
 namespace Laminas\Mail\Storage;
 
-use Laminas\Config\Config;
 use Laminas\Mail;
 use Laminas\Stdlib\ErrorHandler;
 
 class Maildir extends AbstractStorage
 {
+    use ParamsNormalizerTrait;
+
     /**
      * used message class, change it in an extended class to extend the returned message class
      * @var string
@@ -210,26 +211,31 @@ class Maildir extends AbstractStorage
      * Supported parameters are:
      *   - dirname dirname of mbox file
      *
-     * @param  $params array|object|Config mail reader specific parameters
+     * @param $params array|object Array, iterable object, or stdClass object
+     *     with reader specific parameters
      * @throws Exception\InvalidArgumentException
      */
     public function __construct($params)
     {
-        if (is_array($params)) {
-            $params = (object) $params;
+        $params = $this->normalizeParams($params);
+
+        if (! isset($params['dirname'])) {
+            throw new Exception\InvalidArgumentException('no dirname provided in params');
         }
 
-        if (! isset($params->dirname) || ! is_dir($params->dirname)) {
-            throw new Exception\InvalidArgumentException('no valid dirname given in params');
+        $dirname = (string) $params['dirname'] ;
+
+        if (! is_dir($dirname)) {
+            throw new Exception\InvalidArgumentException(sprintf('Maildir "%s" is not a directory', $dirname));
         }
 
-        if (! $this->isMaildir($params->dirname)) {
+        if (! $this->isMaildir($dirname)) {
             throw new Exception\InvalidArgumentException('invalid maildir given');
         }
 
         $this->has['top'] = true;
         $this->has['flags'] = true;
-        $this->openMaildir($params->dirname);
+        $this->openMaildir($dirname);
     }
 
     /**

@@ -2,12 +2,13 @@
 
 namespace Laminas\Mail\Storage;
 
-use Laminas\Config\Config;
 use Laminas\Mail;
 use Laminas\Mail\Protocol;
 
 class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\WritableInterface
 {
+    use ParamsNormalizerTrait;
+
     // TODO: with an internal cache we could optimize this class, or create an extra class with
     // such optimizations. Especially the various fetch calls could be combined to one cache call
 
@@ -175,7 +176,7 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
      * - ssl 'SSL' or 'TLS' for secure sockets
      * - folder select this folder [optional, default = 'INBOX']
      *
-     * @param  array|object|Config|Protocol\Imap $params mail reader specific
+     * @param  array|object|Protocol\Imap $params mail reader specific
      *     parameters or configured Imap protocol object
      * @throws Exception\RuntimeException
      * @throws Exception\InvalidArgumentException
@@ -183,10 +184,6 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
      */
     public function __construct($params)
     {
-        if (is_array($params)) {
-            $params = (object) $params;
-        }
-
         $this->has['flags'] = true;
 
         if ($params instanceof Protocol\Imap) {
@@ -199,26 +196,37 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
             return;
         }
 
-        if (! isset($params->user)) {
+        $params = $this->normalizeParams($params);
+
+        if (! isset($params['user'])) {
             throw new Exception\InvalidArgumentException('need at least user in params');
         }
 
-        $host     = isset($params->host) ? $params->host : 'localhost';
-        $password = isset($params->password) ? $params->password : '';
-        $port     = isset($params->port) ? $params->port : null;
-        $ssl      = isset($params->ssl) ? $params->ssl : false;
+        $host     = $params['host'] ?? 'localhost';
+        $password = $params['password'] ?? '';
+        $port     = $params['port'] ?? null;
+        $ssl      = $params['ssl'] ?? false;
+        $folder   = $params['folder'] ?? 'INBOX';
+
+        if (null !== $port) {
+            $port = (int) $port;
+        }
+
+        if (! is_string($ssl)) {
+            $ssl = (bool) $ssl;
+        }
 
         $this->protocol = new Protocol\Imap();
 
-        if (isset($params->novalidatecert)) {
-            $this->protocol->setNoValidateCert((bool)$params->novalidatecert);
+        if (array_key_exists('novalidatecert', $params)) {
+            $this->protocol->setNoValidateCert((bool) $params['novalidatecert']);
         }
 
-        $this->protocol->connect($host, $port, $ssl);
-        if (! $this->protocol->login($params->user, $password)) {
+        $this->protocol->connect((string) $host, $port, $ssl);
+        if (! $this->protocol->login((string) $params['user'], (string) $password)) {
             throw new Exception\RuntimeException('cannot login, user or password wrong');
         }
-        $this->selectFolder(isset($params->folder) ? $params->folder : 'INBOX');
+        $this->selectFolder((string) $folder);
     }
 
     /**
