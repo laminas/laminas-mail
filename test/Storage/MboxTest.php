@@ -258,6 +258,8 @@ class MboxTest extends TestCase
         $serialzed = serialize($mail);
         $mail = null;
 
+        $this->assertFileExists($this->mboxFile);
+
         $stat = stat($this->mboxFile);
         chmod($this->mboxFile, 0);
         clearstatcache();
