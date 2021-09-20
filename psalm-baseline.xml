@@ -138,6 +138,9 @@
     <MissingConstructor occurrences="1">
       <code>$transferEncoding</code>
     </MissingConstructor>
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>static::$allowedTransferEncodings</code>
+    </MixedArgumentTypeCoercion>
     <RedundantCastGivenDocblockType occurrences="1">
       <code>(string) $transferEncoding</code>
     </RedundantCastGivenDocblockType>
@@ -218,6 +221,9 @@
     <InvalidReturnType occurrences="1">
       <code>fromString</code>
     </InvalidReturnType>
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>$values</code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment occurrences="2">
       <code>$header</code>
       <code>$values[]</code>
@@ -409,6 +415,9 @@
     <UnsafeInstantiation occurrences="1">
       <code>new static()</code>
     </UnsafeInstantiation>
+    <UnusedForeachValue occurrences="1">
+      <code>$item</code>
+    </UnusedForeachValue>
   </file>
   <file src="src/Message.php">
     <ArgumentTypeCoercion occurrences="4">
@@ -499,7 +508,7 @@
       <code>$cmd === null</code>
     </DocblockTypeContradiction>
     <InvalidArgument occurrences="2">
-      <code>$info['timed_out']</code>
+      <code>Validator\Hostname::ALLOW_ALL</code>
     </InvalidArgument>
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$this-&gt;socket</code>
@@ -519,6 +528,10 @@
       <code>$error</code>
       <code>$message</code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="2">
+      <code>$this-&gt;log</code>
+      <code>$this-&gt;validHost-&gt;getMessages()</code>
+    </MixedArgumentTypeCoercion>
     <PossiblyNullPropertyAssignmentValue occurrences="1">
       <code>$port</code>
     </PossiblyNullPropertyAssignmentValue>
@@ -574,7 +587,9 @@
       <code>$tokens[2]</code>
       <code>$tokens[2]</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
+    <MixedArgumentTypeCoercion occurrences="3">
+      <code>$from</code>
+      <code>$result</code>
       <code>$string</code>
     </MixedArgumentTypeCoercion>
     <MixedArrayAccess occurrences="18">
@@ -691,7 +706,6 @@
       <code>$tokens[2][3]</code>
     </PossiblyInvalidArrayOffset>
     <PossiblyInvalidCast occurrences="2">
-      <code>$string</code>
       <code>$string</code>
       <code>$tokens</code>
     </PossiblyInvalidCast>
@@ -814,6 +828,9 @@
       <code>$host</code>
       <code>$port</code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>$this-&gt;validHost-&gt;getMessages()</code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment occurrences="2">
       <code>$host</code>
       <code>$port</code>
@@ -912,9 +929,6 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Protocol/SmtpPluginManager.php">
-    <DocblockTypeContradiction occurrences="1">
-      <code>gettype($plugin)</code>
-    </DocblockTypeContradiction>
     <InvalidScalarArgument occurrences="1">
       <code>$e-&gt;getCode()</code>
     </InvalidScalarArgument>
@@ -925,9 +939,6 @@
       <code>$factories</code>
       <code>$instanceOf</code>
     </NonInvariantDocblockPropertyType>
-    <RedundantConditionGivenDocblockType occurrences="1">
-      <code>is_object($plugin)</code>
-    </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Protocol/SmtpPluginManagerFactory.php">
     <DeprecatedInterface occurrences="1">
@@ -1365,6 +1376,9 @@
       <code>$this-&gt;getFileData($id, 'filename')</code>
       <code>$this-&gt;getFileData($id, 'filename')</code>
     </PossiblyInvalidCast>
+    <UnusedForeachValue occurrences="1">
+      <code>$v</code>
+    </UnusedForeachValue>
   </file>
   <file src="src/Storage/Mbox.php">
     <ImplementedReturnTypeMismatch occurrences="1">
@@ -1419,12 +1433,11 @@
       <code>$messagePos['start']</code>
       <code>$params-&gt;filename</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="5">
+    <MixedArrayAccess occurrences="4">
       <code>$pos['end']</code>
       <code>$pos['end']</code>
       <code>$pos['start']</code>
       <code>$pos['start']</code>
-      <code>$this-&gt;positions[$id - 1]['end']</code>
     </MixedArrayAccess>
     <MixedAssignment occurrences="3">
       <code>$pos</code>
@@ -1458,18 +1471,13 @@
       <code>$file</code>
       <code>$file</code>
     </PossiblyInvalidArgument>
-    <PossiblyNullArgument occurrences="4">
-      <code>$this-&gt;fh</code>
-      <code>$this-&gt;fh</code>
+    <PossiblyNullArgument occurrences="2">
       <code>$this-&gt;fh</code>
       <code>$this-&gt;fh</code>
     </PossiblyNullArgument>
     <PropertyNotSetInConstructor occurrences="1">
       <code>$positions</code>
     </PropertyNotSetInConstructor>
-    <TypeDoesNotContainType occurrences="1">
-      <code>$bodyLines</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="src/Storage/Message.php">
     <MixedArgument occurrences="3">
@@ -1747,6 +1755,10 @@
     <ImplementedParamTypeMismatch occurrences="1">
       <code>$message</code>
     </ImplementedParamTypeMismatch>
+    <InvalidArrayOffset occurrences="2">
+      <code>$filedata['filename']</code>
+      <code>$filedata['flags']</code>
+    </InvalidArrayOffset>
     <InvalidCatch occurrences="3"/>
     <InvalidOperand occurrences="2">
       <code>$count</code>
@@ -1880,8 +1892,6 @@
       <code>$filedata['filename']</code>
       <code>$filedata['filename']</code>
       <code>$filedata['filename']</code>
-      <code>$filedata['filename']</code>
-      <code>$filedata['flags']</code>
       <code>$filedata['flags']</code>
       <code>$filedata['flags']</code>
       <code>$filedata[uniq]</code>
@@ -3032,6 +3042,9 @@
       <code>assertInternalType</code>
       <code>assertInternalType</code>
     </UndefinedMethod>
+    <UnusedForeachValue occurrences="1">
+      <code>$message</code>
+    </UnusedForeachValue>
   </file>
   <file src="test/Storage/MaildirFolderTest.php">
     <MissingPropertyType occurrences="3">
@@ -3360,18 +3373,16 @@
     <MissingPropertyType occurrences="1">
       <code>$mboxFile</code>
     </MissingPropertyType>
-    <MixedAssignment occurrences="4">
-      <code>$key</code>
-      <code>$key</code>
+    <MixedAssignment occurrences="2">
       <code>$message</code>
       <code>$message</code>
     </MixedAssignment>
-    <UnusedVariable occurrences="4">
-      <code>$key</code>
-      <code>$key</code>
-      <code>$key</code>
-      <code>$key</code>
-    </UnusedVariable>
+    <UnusedForeachValue occurrences="4">
+      <code>$message</code>
+      <code>$message</code>
+      <code>$message</code>
+      <code>$message</code>
+    </UnusedForeachValue>
   </file>
   <file src="test/Storage/MboxMessageOldTest.php">
     <MissingPropertyType occurrences="3">
@@ -3411,10 +3422,6 @@
       <code>$id</code>
       <code>$stat['mode']</code>
       <code>$stat['mode']</code>
-      <code>$this-&gt;mboxFile</code>
-      <code>$this-&gt;mboxFile</code>
-      <code>$this-&gt;mboxFile</code>
-      <code>$this-&gt;mboxFile</code>
       <code>$this-&gt;mboxFile</code>
       <code>$this-&gt;mboxFile</code>
       <code>$this-&gt;mboxFile</code>

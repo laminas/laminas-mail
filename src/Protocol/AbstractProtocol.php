@@ -301,7 +301,7 @@ abstract class AbstractProtocol
         // Check meta data to ensure connection is still valid
         $info = stream_get_meta_data($this->socket);
 
-        if (! empty($info['timed_out'])) {
+        if (! $info['timed_out']) {
             throw new Exception\RuntimeException($this->host . ' has timed out');
         }
 
