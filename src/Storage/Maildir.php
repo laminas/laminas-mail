@@ -308,7 +308,7 @@ class Maildir extends AbstractStorage
             if ($size && $size[0] == 'S' && $size[1] == '=') {
                 $size = substr($size, 2);
             }
-            if (! ctype_digit($size)) {
+            if (is_string($size) && ! ctype_digit($size)) {
                 $size = null;
             }
 
