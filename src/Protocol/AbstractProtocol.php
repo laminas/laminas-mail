@@ -172,15 +172,14 @@ abstract class AbstractProtocol
         $this->log = [];
     }
 
-    // @codingStandardsIgnoreStart
     /**
      * Add the transaction log
      *
      * @param  string $value new transaction
      */
+    // @codingStandardsIgnoreLine PSR2.Methods.MethodDeclaration.Underscore
     protected function _addLog($value)
     {
-        // @codingStandardsIgnoreEnd
         if ($this->maximumLog >= 0 && count($this->log) >= $this->maximumLog) {
             array_shift($this->log);
         }
@@ -188,7 +187,6 @@ abstract class AbstractProtocol
         $this->log[] = $value;
     }
 
-    // @codingStandardsIgnoreStart
     /**
      * Connect to the server using the supplied transport and target
      *
@@ -200,9 +198,9 @@ abstract class AbstractProtocol
      * @throws Exception\RuntimeException
      * @return bool
      */
+    // @codingStandardsIgnoreLine PSR2.Methods.MethodDeclaration.Underscore
     protected function _connect($remote)
     {
-		// @codingStandardsIgnoreEnd
         $errorNum = 0;
         $errorStr = '';
 
@@ -230,20 +228,18 @@ abstract class AbstractProtocol
         return $result;
     }
 
-    // @codingStandardsIgnoreStart
     /**
      * Disconnect from remote host and free resource
      *
      */
+    // @codingStandardsIgnoreLine PSR2.Methods.MethodDeclaration.Underscore
     protected function _disconnect()
     {
-        // @codingStandardsIgnoreEnd
         if (is_resource($this->socket)) {
             fclose($this->socket);
         }
     }
 
-    // @codingStandardsIgnoreStart
     /**
      * Send the given request followed by a LINEEND to the server.
      *
@@ -251,9 +247,9 @@ abstract class AbstractProtocol
      * @throws Exception\RuntimeException
      * @return int|bool Number of bytes written to remote host
      */
+    // @codingStandardsIgnoreLine PSR2.Methods.MethodDeclaration.Underscore
     protected function _send($request)
     {
-        // @codingStandardsIgnoreEnd
         if (! is_resource($this->socket)) {
             throw new Exception\RuntimeException('No connection has been established to ' . $this->host);
         }
@@ -272,7 +268,6 @@ abstract class AbstractProtocol
         return $result;
     }
 
-    // @codingStandardsIgnoreStart
     /**
      * Get a line from the stream.
      *
@@ -280,9 +275,9 @@ abstract class AbstractProtocol
      * @throws Exception\RuntimeException
      * @return string
      */
+    // @codingStandardsIgnoreLine PSR2.Methods.MethodDeclaration.Underscore
     protected function _receive($timeout = null)
     {
-        // @codingStandardsIgnoreEnd
         if (! is_resource($this->socket)) {
             throw new Exception\RuntimeException('No connection has been established to ' . $this->host);
         }
@@ -301,7 +296,7 @@ abstract class AbstractProtocol
         // Check meta data to ensure connection is still valid
         $info = stream_get_meta_data($this->socket);
 
-        if (! empty($info['timed_out'])) {
+        if (! $info['timed_out']) {
             throw new Exception\RuntimeException($this->host . ' has timed out');
         }
 
@@ -312,7 +307,6 @@ abstract class AbstractProtocol
         return $response;
     }
 
-    // @codingStandardsIgnoreStart
     /**
      * Parse server response for successful codes
      *
@@ -324,9 +318,9 @@ abstract class AbstractProtocol
      * @throws Exception\RuntimeException
      * @return string Last line of response string
      */
+    // @codingStandardsIgnoreLine PSR2.Methods.MethodDeclaration.Underscore
     protected function _expect($code, $timeout = null)
     {
-        // @codingStandardsIgnoreEnd
         $this->response = [];
         $errMsg = '';
 

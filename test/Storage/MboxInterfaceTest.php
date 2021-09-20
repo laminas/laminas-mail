@@ -67,8 +67,8 @@ class MboxInterfaceTest extends TestCase
     public function testIterationKey(): void
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
+        $pos  = 1;
 
-        $pos = 1;
         foreach ($list as $key => $message) {
             $this->assertEquals($key, $pos, "wrong key in iteration $pos");
             ++$pos;
@@ -79,7 +79,7 @@ class MboxInterfaceTest extends TestCase
     {
         $list = new Storage\Mbox(['filename' => $this->mboxFile]);
 
-        foreach ($list as $key => $message) {
+        foreach ($list as $message) {
             $this->assertInstanceOf(
                 MessageInterface::class,
                 $message,
@@ -90,10 +90,10 @@ class MboxInterfaceTest extends TestCase
 
     public function testIterationRounds(): void
     {
-        $list = new Storage\Mbox(['filename' => $this->mboxFile]);
-
+        $list  = new Storage\Mbox(['filename' => $this->mboxFile]);
         $count = 0;
-        foreach ($list as $key => $message) {
+
+        foreach ($list as $message) {
             ++$count;
         }
 
@@ -102,10 +102,10 @@ class MboxInterfaceTest extends TestCase
 
     public function testIterationWithSeek(): void
     {
-        $list = new Storage\Mbox(['filename' => $this->mboxFile]);
-
+        $list  = new Storage\Mbox(['filename' => $this->mboxFile]);
         $count = 0;
-        foreach (new \LimitIterator($list, 1, 3) as $key => $message) {
+
+        foreach (new \LimitIterator($list, 1, 3) as $message) {
             ++$count;
         }
 
@@ -114,10 +114,10 @@ class MboxInterfaceTest extends TestCase
 
     public function testIterationWithSeekCapped(): void
     {
-        $list = new Storage\Mbox(['filename' => $this->mboxFile]);
-
+        $list  = new Storage\Mbox(['filename' => $this->mboxFile]);
         $count = 0;
-        foreach (new \LimitIterator($list, 3, 7) as $key => $message) {
+
+        foreach (new \LimitIterator($list, 3, 7) as $message) {
             ++$count;
         }
 
