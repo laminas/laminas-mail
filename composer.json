@@ -25,6 +25,7 @@
         "laminas/laminas-coding-standard": "~1.0.0",
         "laminas/laminas-config": "^3.4",
         "laminas/laminas-crypt": "^2.6 || ^3.0",
+        "laminas/laminas-db": "^2.12",
         "laminas/laminas-servicemanager": "^3.2.1",
         "phpunit/phpunit": "^9.3",
         "psalm/plugin-phpunit": "^0.15.1",
