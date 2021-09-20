@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.7.0@d4377c0baf3ffbf0b1ec6998e8d1be2a40971005">
+<files psalm-version="4.10.0@916b098b008f6de4543892b1e0651c1c3b92cbfa">
   <file src="src/Address.php">
     <DocblockTypeContradiction occurrences="2">
       <code>! is_string($email)</code>
@@ -409,9 +409,6 @@
     <UnsafeInstantiation occurrences="1">
       <code>new static()</code>
     </UnsafeInstantiation>
-    <UnusedVariable occurrences="1">
-      <code>$item</code>
-    </UnusedVariable>
   </file>
   <file src="src/Message.php">
     <ArgumentTypeCoercion occurrences="4">
@@ -693,7 +690,7 @@
       <code>$tokens[2][2]</code>
       <code>$tokens[2][3]</code>
     </PossiblyInvalidArrayOffset>
-    <PossiblyInvalidCast occurrences="3">
+    <PossiblyInvalidCast occurrences="2">
       <code>$string</code>
       <code>$string</code>
       <code>$tokens</code>
@@ -1368,9 +1365,6 @@
       <code>$this-&gt;getFileData($id, 'filename')</code>
       <code>$this-&gt;getFileData($id, 'filename')</code>
     </PossiblyInvalidCast>
-    <UnusedVariable occurrences="1">
-      <code>$v</code>
-    </UnusedVariable>
   </file>
   <file src="src/Storage/Mbox.php">
     <ImplementedReturnTypeMismatch occurrences="1">
@@ -1882,7 +1876,7 @@
       <code>$filename</code>
       <code>$message</code>
     </PossiblyInvalidArgument>
-    <PossiblyInvalidArrayOffset occurrences="8">
+    <PossiblyInvalidArrayOffset occurrences="6">
       <code>$filedata['filename']</code>
       <code>$filedata['filename']</code>
       <code>$filedata['filename']</code>
@@ -3038,9 +3032,6 @@
       <code>assertInternalType</code>
       <code>assertInternalType</code>
     </UndefinedMethod>
-    <UnusedVariable occurrences="1">
-      <code>$message</code>
-    </UnusedVariable>
   </file>
   <file src="test/Storage/MaildirFolderTest.php">
     <MissingPropertyType occurrences="3">
@@ -3375,15 +3366,11 @@
       <code>$message</code>
       <code>$message</code>
     </MixedAssignment>
-    <UnusedVariable occurrences="8">
+    <UnusedVariable occurrences="4">
       <code>$key</code>
       <code>$key</code>
       <code>$key</code>
       <code>$key</code>
-      <code>$message</code>
-      <code>$message</code>
-      <code>$message</code>
-      <code>$message</code>
     </UnusedVariable>
   </file>
   <file src="test/Storage/MboxMessageOldTest.php">
@@ -3420,7 +3407,7 @@
       <code>$mboxOriginalFile</code>
       <code>$tmpdir</code>
     </MissingPropertyType>
-    <MixedArgument occurrences="14">
+    <MixedArgument occurrences="10">
       <code>$id</code>
       <code>$stat['mode']</code>
       <code>$stat['mode']</code>
@@ -3707,11 +3694,10 @@
       <code>$type</code>
       <code>$type</code>
     </MissingParamType>
-    <MixedArgument occurrences="4">
+    <MixedArgument occurrences="3">
       <code>$expectedClass</code>
       <code>$spec</code>
       <code>$type</code>
-      <code>InstalledVersions::getVersion('laminas/laminas-stdlib')</code>
     </MixedArgument>
     <MixedInferredReturnType occurrences="4">
       <code>array</code>
