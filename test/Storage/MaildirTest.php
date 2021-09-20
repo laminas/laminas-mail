@@ -120,7 +120,7 @@ class MaildirTest extends TestCase
     public function testLoadFailure(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
-        $this->expectExceptionMessage('no valid dirname given in params');
+        $this->expectExceptionMessage('not a directory');
         new Storage\Maildir(['dirname' => '/This/Dir/Does/Not/Exist']);
     }
 
