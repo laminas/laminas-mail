@@ -7,8 +7,6 @@ use Laminas\Mail\Protocol;
 
 class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\WritableInterface
 {
-    use ParamsNormalizerTrait;
-
     // TODO: with an internal cache we could optimize this class, or create an extra class with
     // such optimizations. Especially the various fetch calls could be combined to one cache call
 
@@ -196,7 +194,7 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
             return;
         }
 
-        $params = $this->normalizeParams($params);
+        $params = ParamsNormalizer::normalizeParams($params);
 
         if (! isset($params['user'])) {
             throw new Exception\InvalidArgumentException('need at least user in params');

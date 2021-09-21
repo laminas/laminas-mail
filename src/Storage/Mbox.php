@@ -6,8 +6,6 @@ use Laminas\Stdlib\ErrorHandler;
 
 class Mbox extends AbstractStorage
 {
-    use ParamsNormalizerTrait;
-
     /**
      * file handle to mbox file
      * @var null|resource
@@ -190,7 +188,7 @@ class Mbox extends AbstractStorage
      */
     public function __construct($params)
     {
-        $params = $this->normalizeParams($params);
+        $params = ParamsNormalizer::normalizeParams($params);
 
         if (! isset($params['filename'])) {
             throw new Exception\InvalidArgumentException('no valid filename given in params');
