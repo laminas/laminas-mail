@@ -2,7 +2,7 @@
 
 namespace LaminasTest\Mail\Storage;
 
-use Laminas\Config;
+use ArrayObject;
 use Laminas\Mail\Protocol;
 use Laminas\Mail\Storage;
 use Laminas\Mail\Storage\Exception;
@@ -87,7 +87,7 @@ class ImapTest extends TestCase
 
     public function testConnectConfig(): void
     {
-        new Storage\Imap(new Config\Config($this->params));
+        new Storage\Imap(new ArrayObject($this->params));
     }
 
     public function testConnectFailure(): void

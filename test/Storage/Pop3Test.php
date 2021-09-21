@@ -2,7 +2,7 @@
 
 namespace LaminasTest\Mail\Storage;
 
-use Laminas\Config;
+use ArrayObject;
 use Laminas\Mail\Protocol;
 use Laminas\Mail\Storage;
 use Laminas\Mail\Storage\Exception;
@@ -92,7 +92,7 @@ class Pop3Test extends TestCase
 
     public function testConnectConfig(): void
     {
-        new Storage\Pop3(new Config\Config($this->params));
+        new Storage\Pop3(new ArrayObject($this->params));
     }
 
     public function testConnectFailure(): void

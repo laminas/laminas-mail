@@ -2,7 +2,6 @@
 
 namespace Laminas\Mail\Storage;
 
-use Laminas\Config\Config;
 use Laminas\Stdlib\ErrorHandler;
 
 class Mbox extends AbstractStorage
@@ -189,19 +188,17 @@ class Mbox extends AbstractStorage
      */
     public function __construct($params)
     {
-        if (is_array($params)) {
-            $params = (object) $params;
-        }
+        $params = ParamsNormalizer::normalizeParams($params);
 
-        if (! isset($params->filename)) {
+        if (! isset($params['filename'])) {
             throw new Exception\InvalidArgumentException('no valid filename given in params');
         }
 
-        if (isset($params->messageEOL)) {
-            $this->messageEOL = (string) $params->messageEOL;
+        if (isset($params['messageEOL'])) {
+            $this->messageEOL = (string) $params['messageEOL'];
         }
 
-        $this->openMboxFile($params->filename);
+        $this->openMboxFile((string) $params['filename']);
         $this->has['top']      = true;
         $this->has['uniqueid'] = false;
     }
