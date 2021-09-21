@@ -2,7 +2,7 @@
 
 namespace LaminasTest\Mail\Storage;
 
-use Laminas\Config;
+use ArrayObject;
 use Laminas\Mail\Storage;
 use Laminas\Mail\Storage\Exception;
 use PHPUnit\Framework\TestCase;
@@ -63,7 +63,7 @@ class MboxTest extends TestCase
 
     public function testLoadConfig(): void
     {
-        new Storage\Mbox(new Config\Config(['filename' => $this->mboxFile]));
+        new Storage\Mbox(new ArrayObject(['filename' => $this->mboxFile]));
         $this->addToAssertionCount(1);
     }
 

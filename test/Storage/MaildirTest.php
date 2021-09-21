@@ -2,7 +2,7 @@
 
 namespace LaminasTest\Mail\Storage;
 
-use Laminas\Config;
+use ArrayObject;
 use Laminas\Mail\Storage;
 use Laminas\Mail\Storage\Exception;
 use PHPUnit\Framework\TestCase;
@@ -113,14 +113,14 @@ class MaildirTest extends TestCase
 
     public function testLoadConfig(): void
     {
-        $mail = new Storage\Maildir(new Config\Config(['dirname' => $this->maildir]));
+        $mail = new Storage\Maildir(new ArrayObject(['dirname' => $this->maildir]));
         $this->assertSame(Storage\Maildir::class, \get_class($mail));
     }
 
     public function testLoadFailure(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
-        $this->expectExceptionMessage('no valid dirname given in params');
+        $this->expectExceptionMessage('not a directory');
         new Storage\Maildir(['dirname' => '/This/Dir/Does/Not/Exist']);
     }
 
