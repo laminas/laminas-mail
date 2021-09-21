@@ -299,21 +299,35 @@ class Maildir extends AbstractStorage
                 continue;
             }
 
-            ErrorHandler::start(E_NOTICE | E_WARNING);
-            list($uniq, $info) = explode(':', $entry, 2);
-            list(, $size) = explode(',', $uniq, 2);
-            ErrorHandler::stop();
-            if ($size && $size[0] == 'S' && $size[1] == '=') {
+            if (false !== strpos($entry, ':')) {
+                list($uniq, $info) = explode(':', $entry, 2);
+            } else {
+                $uniq = $entry;
+                $info = '';
+            }
+
+            if (false !== strpos($uniq, ',')) {
+                list(, $size) = explode(',', $uniq, 2);
+            } else {
+                $size = '';
+            }
+
+            if (strlen($size) >= 2 && $size[0] === 'S' && $size[1] === '=') {
                 $size = substr($size, 2);
             }
-            if (is_string($size) && ! ctype_digit($size)) {
+
+            if (! ctype_digit($size)) {
                 $size = null;
             }
 
-            ErrorHandler::start(E_NOTICE);
-            list($version, $flags) = explode(',', $info ?? '', 2);
-            ErrorHandler::stop();
-            if ($version != 2) {
+            if (false !== strpos($info, ',')) {
+                list($version, $flags) = explode(',', $info, 2);
+            } else {
+                $version = $info;
+                $flags   = '';
+            }
+
+            if ($version !== '2') {
                 $flags = '';
             }
 
@@ -335,7 +349,8 @@ class Maildir extends AbstractStorage
             }
             $this->files[] = $data;
         }
-        \usort($this->files, function ($a, $b) {
+
+        \usort($this->files, function ($a, $b): int {
             return \strcmp($a['filename'], $b['filename']);
         });
     }
