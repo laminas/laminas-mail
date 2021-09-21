@@ -4,13 +4,11 @@ namespace Laminas\Mail\Storage\Folder;
 
 use Laminas\Mail\Storage;
 use Laminas\Mail\Storage\Exception;
-use Laminas\Mail\Storage\ParamsNormalizerTrait;
+use Laminas\Mail\Storage\ParamsNormalizer;
 use Laminas\Stdlib\ErrorHandler;
 
 class Maildir extends Storage\Maildir implements FolderInterface
 {
-    use ParamsNormalizerTrait;
-
     /**
      * root folder for folder structure
      * @var Storage\Folder
@@ -49,7 +47,7 @@ class Maildir extends Storage\Maildir implements FolderInterface
      */
     public function __construct($params)
     {
-        $params = $this->normalizeParams($params);
+        $params = ParamsNormalizer::normalizeParams($params);
 
         if (! isset($params['dirname'])) {
             throw new Exception\InvalidArgumentException('no dirname provided in params');

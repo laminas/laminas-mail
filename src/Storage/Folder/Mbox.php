@@ -4,13 +4,11 @@ namespace Laminas\Mail\Storage\Folder;
 
 use Laminas\Mail\Storage;
 use Laminas\Mail\Storage\Exception;
-use Laminas\Mail\Storage\ParamsNormalizerTrait;
+use Laminas\Mail\Storage\ParamsNormalizer;
 use Laminas\Stdlib\ErrorHandler;
 
 class Mbox extends Storage\Mbox implements FolderInterface
 {
-    use ParamsNormalizerTrait;
-
     /**
      * Storage\Folder root folder for folder structure
      * @var Storage\Folder
@@ -46,7 +44,7 @@ class Mbox extends Storage\Mbox implements FolderInterface
      */
     public function __construct($params)
     {
-        $params = $this->normalizeParams($params);
+        $params = ParamsNormalizer::normalizeParams($params);
 
         if (isset($params['filename'])) {
             throw new Exception\InvalidArgumentException(sprintf('use %s for a single file', Storage\Mbox::class));

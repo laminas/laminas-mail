@@ -8,8 +8,6 @@ use Laminas\Mime;
 
 class Pop3 extends AbstractStorage
 {
-    use ParamsNormalizerTrait;
-
     /**
      * protocol handler
      * @var null|\Laminas\Mail\Protocol\Pop3
@@ -133,7 +131,7 @@ class Pop3 extends AbstractStorage
             return;
         }
 
-        $params = $this->normalizeParams($params);
+        $params = ParamsNormalizer::normalizeParams($params);
 
         if (! isset($params['user'])) {
             throw new Exception\InvalidArgumentException('need at least user in params');

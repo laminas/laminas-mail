@@ -7,8 +7,6 @@ use Laminas\Stdlib\ErrorHandler;
 
 class Maildir extends AbstractStorage
 {
-    use ParamsNormalizerTrait;
-
     /**
      * used message class, change it in an extended class to extend the returned message class
      * @var string
@@ -217,7 +215,7 @@ class Maildir extends AbstractStorage
      */
     public function __construct($params)
     {
-        $params = $this->normalizeParams($params);
+        $params = ParamsNormalizer::normalizeParams($params);
 
         if (! isset($params['dirname'])) {
             throw new Exception\InvalidArgumentException('no dirname provided in params');
