@@ -28,7 +28,7 @@
         "laminas/laminas-servicemanager": "^3.7",
         "phpunit/phpunit": "^9.5.5",
         "psalm/plugin-phpunit": "^0.15.1",
-        "symfony/process": "^5.3",
+        "symfony/process": "^5.3.7",
         "vimeo/psalm": "^4.7"
     },
     "suggest": {
