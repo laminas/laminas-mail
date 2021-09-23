@@ -43,6 +43,7 @@
         "laminas/laminas-servicemanager": "^3.2.1",
         "phpunit/phpunit": "^9.3",
         "psalm/plugin-phpunit": "^0.15.1",
+        "symfony/process": "^5.3",
         "vimeo/psalm": "^4.7"
     },
     "suggest": {
