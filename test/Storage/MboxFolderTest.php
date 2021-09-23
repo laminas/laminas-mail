@@ -1,14 +1,8 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-mail for the canonical source repository
- * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Mail\Storage;
 
-use Laminas\Config;
+use ArrayObject;
 use Laminas\Mail\Storage\Exception;
 use Laminas\Mail\Storage\Folder;
 use PHPUnit\Framework\TestCase;
@@ -95,7 +89,7 @@ class MboxFolderTest extends TestCase
 
     public function testLoadConfig(): void
     {
-        new Folder\Mbox(new Config\Config($this->params));
+        new Folder\Mbox(new ArrayObject($this->params));
         $this->addToAssertionCount(1);
     }
 

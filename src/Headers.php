@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-mail for the canonical source repository
- * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace Laminas\Mail;
@@ -16,6 +10,7 @@ use Iterator;
 use Laminas\Loader\PluginClassLocator;
 use Laminas\Mail\Header\GenericHeader;
 use Laminas\Mail\Header\HeaderInterface;
+use ReturnTypeWillChange;
 use Traversable;
 
 /**
@@ -416,6 +411,7 @@ class Headers implements Countable, Iterator
      * Advance the pointer for this object as an iterator
      *
      */
+    #[ReturnTypeWillChange]
     public function next()
     {
         next($this->headers);
@@ -426,6 +422,7 @@ class Headers implements Countable, Iterator
      *
      * @return mixed
      */
+    #[ReturnTypeWillChange]
     public function key()
     {
         return key($this->headers);
@@ -436,6 +433,7 @@ class Headers implements Countable, Iterator
      *
      * @return bool
      */
+    #[ReturnTypeWillChange]
     public function valid()
     {
         return (current($this->headers) !== false);
@@ -445,6 +443,7 @@ class Headers implements Countable, Iterator
      * Reset the internal pointer for this object as an iterator
      *
      */
+    #[ReturnTypeWillChange]
     public function rewind()
     {
         reset($this->headers);
@@ -455,6 +454,7 @@ class Headers implements Countable, Iterator
      *
      * @return Header\HeaderInterface
      */
+    #[ReturnTypeWillChange]
     public function current()
     {
         $current = current($this->headers);
@@ -470,6 +470,7 @@ class Headers implements Countable, Iterator
      *
      * @return int count of currently known headers
      */
+    #[ReturnTypeWillChange]
     public function count()
     {
         return count($this->headers);

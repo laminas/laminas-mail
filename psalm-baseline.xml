@@ -1046,14 +1046,10 @@
       <code>buildFolderTree</code>
       <code>selectFolder</code>
     </MissingReturnType>
-    <MixedArgument occurrences="3">
-      <code>! empty($params-&gt;folder) ? $params-&gt;folder : 'INBOX'</code>
-      <code>$params-&gt;dirname</code>
-      <code>$params-&gt;dirname</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="2">
+    <MixedAssignment occurrences="3">
       <code>$currentFolder</code>
-      <code>$this-&gt;delim</code>
+      <code>$delim</code>
+      <code>$folder</code>
     </MixedAssignment>
     <MixedInferredReturnType occurrences="1">
       <code>\Laminas\Mail\Storage\Folder</code>
@@ -1061,11 +1057,8 @@
     <MixedMethodCall occurrences="1">
       <code>getGlobalName</code>
     </MixedMethodCall>
-    <MixedPropertyFetch occurrences="4">
+    <MixedPropertyFetch occurrences="1">
       <code>$currentFolder-&gt;$entry</code>
-      <code>$params-&gt;delim</code>
-      <code>$params-&gt;dirname</code>
-      <code>$params-&gt;folder</code>
     </MixedPropertyFetch>
     <MixedReturnStatement occurrences="1">
       <code>$currentFolder</code>
@@ -1105,13 +1098,9 @@
       <code>buildFolderTree</code>
       <code>selectFolder</code>
     </MissingReturnType>
-    <MixedArgument occurrences="3">
-      <code>! empty($params-&gt;folder) ? $params-&gt;folder : 'INBOX'</code>
-      <code>$params-&gt;dirname</code>
-      <code>$params-&gt;dirname</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
+    <MixedAssignment occurrences="2">
       <code>$currentFolder</code>
+      <code>$folder</code>
     </MixedAssignment>
     <MixedInferredReturnType occurrences="1">
       <code>Storage\Folder</code>
@@ -1119,11 +1108,8 @@
     <MixedMethodCall occurrences="1">
       <code>getGlobalName</code>
     </MixedMethodCall>
-    <MixedPropertyFetch occurrences="4">
+    <MixedPropertyFetch occurrences="1">
       <code>$currentFolder-&gt;$entry</code>
-      <code>$params-&gt;dirname</code>
-      <code>$params-&gt;filename</code>
-      <code>$params-&gt;folder</code>
     </MixedPropertyFetch>
     <MixedReturnStatement occurrences="1">
       <code>$currentFolder</code>
@@ -1186,16 +1172,10 @@
       <code>selectFolder</code>
       <code>setFlags</code>
     </MissingReturnType>
-    <MixedArgument occurrences="9">
+    <MixedArgument occurrences="3">
       <code>$data['delim']</code>
       <code>$data['flags']</code>
       <code>$flag</code>
-      <code>$host</code>
-      <code>$params-&gt;user</code>
-      <code>$password</code>
-      <code>$port</code>
-      <code>$ssl</code>
-      <code>isset($params-&gt;folder) ? $params-&gt;folder : 'INBOX'</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="5">
       <code>$globalName</code>
@@ -1214,11 +1194,12 @@
       <code>static::$knownFlags[$flag]</code>
       <code>static::$searchFlags[$flag]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="12">
+    <MixedAssignment occurrences="13">
       <code>$data</code>
       <code>$flag</code>
       <code>$flag</code>
       <code>$flags[]</code>
+      <code>$folder</code>
       <code>$header</code>
       <code>$host</code>
       <code>$params[]</code>
@@ -1319,14 +1300,11 @@
       <code>openMaildir</code>
       <code>removeMessage</code>
     </MissingReturnType>
-    <MixedArgument occurrences="7">
+    <MixedArgument occurrences="4">
       <code>$a['filename']</code>
       <code>$b['filename']</code>
       <code>$data['filename']</code>
       <code>$filedata['filename']</code>
-      <code>$params-&gt;dirname</code>
-      <code>$params-&gt;dirname</code>
-      <code>$params-&gt;dirname</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="7">
       <code>$a['filename']</code>
@@ -1354,9 +1332,6 @@
       <code>int|array</code>
       <code>string|array</code>
     </MixedInferredReturnType>
-    <MixedPropertyFetch occurrences="1">
-      <code>$params-&gt;dirname</code>
-    </MixedPropertyFetch>
     <MixedReturnStatement occurrences="3">
       <code>$filedata['size'] ?? filesize($filedata['filename'])</code>
       <code>$this-&gt;files[$id - 1]</code>
@@ -1426,12 +1401,11 @@
       <code>openMboxFile</code>
       <code>removeMessage</code>
     </MissingReturnType>
-    <MixedArgument occurrences="5">
+    <MixedArgument occurrences="4">
       <code>$messagePos['end'] - $messagePos['separator']</code>
       <code>$messagePos['separator']</code>
       <code>$messagePos['separator'] - $messagePos['start']</code>
       <code>$messagePos['start']</code>
-      <code>$params-&gt;filename</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="4">
       <code>$pos['end']</code>
@@ -1454,10 +1428,6 @@
       <code>$pos['end']</code>
       <code>$pos['end']</code>
     </MixedOperand>
-    <MixedPropertyFetch occurrences="2">
-      <code>$params-&gt;filename</code>
-      <code>$params-&gt;messageEOL</code>
-    </MixedPropertyFetch>
     <MixedReturnStatement occurrences="2">
       <code>$pos['end'] - $pos['start']</code>
       <code>$this-&gt;positions[$id - 1]</code>
@@ -1692,13 +1662,6 @@
       <code>noop</code>
       <code>removeMessage</code>
     </MissingReturnType>
-    <MixedArgument occurrences="5">
-      <code>$host</code>
-      <code>$params-&gt;user</code>
-      <code>$password</code>
-      <code>$port</code>
-      <code>$ssl</code>
-    </MixedArgument>
     <MixedAssignment occurrences="5">
       <code>$host</code>
       <code>$password</code>

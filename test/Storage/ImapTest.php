@@ -1,14 +1,8 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-mail for the canonical source repository
- * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Mail\Storage;
 
-use Laminas\Config;
+use ArrayObject;
 use Laminas\Mail\Protocol;
 use Laminas\Mail\Storage;
 use Laminas\Mail\Storage\Exception;
@@ -93,7 +87,7 @@ class ImapTest extends TestCase
 
     public function testConnectConfig(): void
     {
-        new Storage\Imap(new Config\Config($this->params));
+        new Storage\Imap(new ArrayObject($this->params));
     }
 
     public function testConnectFailure(): void
