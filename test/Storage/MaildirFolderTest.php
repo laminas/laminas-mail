@@ -1,14 +1,8 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-mail for the canonical source repository
- * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Mail\Storage;
 
-use Laminas\Config;
+use ArrayObject;
 use Laminas\Mail\Storage\Exception;
 use Laminas\Mail\Storage\Folder;
 use PHPUnit\Framework\TestCase;
@@ -131,21 +125,21 @@ class MaildirFolderTest extends TestCase
 
     public function testLoadConfig(): void
     {
-        $mail = new Folder\Maildir(new Config\Config($this->params));
+        $mail = new Folder\Maildir(new ArrayObject($this->params));
         $this->assertSame(Folder\Maildir::class, \get_class($mail));
     }
 
     public function testNoParams(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
-        $this->expectExceptionMessage('no valid dirname given in params');
+        $this->expectExceptionMessage('no dirname provided');
         new Folder\Maildir([]);
     }
 
     public function testLoadFailure(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
-        $this->expectExceptionMessage('no valid dirname given in params');
+        $this->expectExceptionMessage('not a directory');
         new Folder\Maildir(['dirname' => 'This/Folder/Does/Not/Exist']);
     }
 

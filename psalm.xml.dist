@@ -18,6 +18,7 @@
         <InternalMethod>
             <errorLevel type="suppress">
                 <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::method"/>
+                <referencedMethod name="Laminas\Mail\Storage\ParamsNormalizer::normalizeParams"/>
             </errorLevel>
             <errorLevel type="suppress">
                 <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::willReturn"/>
@@ -26,7 +27,14 @@
                 <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::with"/>
             </errorLevel>
         </InternalMethod>
+
+        <InternalClass>
+            <errorLevel type="suppress">
+                <referencedClass name="Laminas\Mail\Storage\ParamsNormalizer"/>
+            </errorLevel>
+        </InternalClass>
     </issueHandlers>
+
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
     </plugins>

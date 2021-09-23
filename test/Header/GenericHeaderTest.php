@@ -1,14 +1,9 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-mail for the canonical source repository
- * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header\Exception;
+use Laminas\Mail\Header\Exception\InvalidArgumentException;
 use Laminas\Mail\Header\GenericHeader;
 use PHPUnit\Framework\TestCase;
 
@@ -58,12 +53,27 @@ class GenericHeaderTest extends TestCase
     /**
      * @dataProvider fieldNames
      * @group ZF2015-04
+     * @param mixed $fieldName
      */
-    public function testRaisesExceptionOnInvalidFieldName($fieldName): void
+    public function testConstructorRaisesExceptionOnInvalidFieldName($fieldName): void
     {
-        $header = new GenericHeader();
-        $this->expectException(Exception\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('name');
+        /** @psalm-suppress MixedArgument */
+        new GenericHeader($fieldName);
+    }
+
+    /**
+     * @dataProvider fieldNames
+     * @group ZF2015-04
+     * @param mixed $fieldName
+     */
+    public function testSetFieldNameRaisesExceptionOnInvalidFieldName($fieldName): void
+    {
+        $header = new GenericHeader('Subject');
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('name');
+        /** @psalm-suppress MixedArgument */
         $header->setFieldName($fieldName);
     }
 
@@ -182,18 +192,15 @@ class GenericHeaderTest extends TestCase
         $this->assertSame('UTF-8', $header->getEncoding());
     }
 
-    public function testToStringThrowsWithoutFieldName(): void
+    public function testCannotInstantiateWithoutFieldName(): void
     {
-        $header = new GenericHeader();
-
-        $this->expectException(Exception\RuntimeException::class);
-        $this->expectExceptionMessage('Header name is not set, use setFieldName()');
-        $header->toString();
+        $this->expectException(InvalidArgumentException::class);
+        new GenericHeader();
     }
 
     public function testChangeEncodingToAsciiNotAllowedWhenHeaderValueContainsUtf8Characters(): void
     {
-        $subject = new GenericHeader();
+        $subject = new GenericHeader('Subject');
         $subject->setFieldValue('Accents òàùèéì');
 
         $this->assertSame('UTF-8', $subject->getEncoding());
