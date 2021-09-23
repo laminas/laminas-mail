@@ -48,7 +48,7 @@ final class AbstractProtocolTest extends TestCase
     }
 
     /**
-     * @requires PHP > 7.3
+     * @requires PHP >= 7.4
      */
     public function testExceptionShouldBeRaisedWhenConnectionHasTimedOut(): void
     {
