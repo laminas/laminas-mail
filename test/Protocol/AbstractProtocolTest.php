@@ -37,7 +37,7 @@ final class AbstractProtocolTest extends TestCase
             __DIR__ . '/HttpStatusService',
         ]);
         $this->process->start();
-        $this->process->waitUntil(static function ($type, $output): bool {
+        $this->process->waitUntil(static function (string $type, string $output): bool {
             return false !== strpos($output, 'started');
         });
     }
@@ -47,6 +47,9 @@ final class AbstractProtocolTest extends TestCase
         $this->process->stop();
     }
 
+    /**
+     * @requires PHP > 7.3
+     */
     public function testExceptionShouldBeRaisedWhenConnectionHasTimedOut(): void
     {
         $protocol = new class('127.0.0.1', 8080) extends AbstractProtocol {
