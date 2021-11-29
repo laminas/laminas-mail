@@ -647,4 +647,14 @@ class HeadersTest extends TestCase
         $headers = Mail\Headers::fromString("000: foo-bar");
         $this->assertFalse($headers->get('0'));
     }
+
+    /** @group issue-175 */
+    public function testUndefinedDefineMissingIntlExtensionConstants(): void
+    {
+        $headers = Mail\Headers::fromString('To: foo@example.com')->setEncoding('UTF-8');
+
+        self::assertSame(['To' => 'foo@example.com'], $headers->toArray());
+
+        self::assertSame("To: foo@example.com" . Mail\Headers::EOL, $headers->toString());
+    }
 }
