@@ -119,7 +119,7 @@ abstract class AbstractAddressList implements HeaderInterface
      * @param string $domainName the UTF-8 encoded email
      * @return string
      */
-    protected function idnToAscii($domainName)
+    protected function idnToAscii($domainName): string
     {
         $ascii = idn_to_ascii($domainName, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46, $conversionInfo);
         if (false !== $ascii) {
