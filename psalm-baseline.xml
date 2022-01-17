@@ -936,6 +936,9 @@
     <MissingReturnType occurrences="1">
       <code>validatePlugin</code>
     </MissingReturnType>
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$instance</code>
+    </MoreSpecificImplementedParamType>
     <NonInvariantDocblockPropertyType occurrences="2">
       <code>$factories</code>
       <code>$instanceOf</code>
@@ -956,6 +959,9 @@
     <MixedArgument occurrences="1">
       <code>$this-&gt;creationOptions</code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>$options ?: []</code>
+    </MixedArgumentTypeCoercion>
     <ParamNameMismatch occurrences="1">
       <code>$container</code>
     </ParamNameMismatch>
