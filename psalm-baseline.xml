@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.10.0@916b098b008f6de4543892b1e0651c1c3b92cbfa">
+<files psalm-version="4.18.1@dda05fa913f4dc6eb3386f2f7ce5a45d37a71bcb">
   <file src="src/Address.php">
     <DocblockTypeContradiction occurrences="2">
       <code>! is_string($email)</code>
@@ -39,7 +39,7 @@
   </file>
   <file src="src/AddressList.php">
     <DocblockTypeContradiction occurrences="2">
-      <code>$emailOrAddress instanceof Address\AddressInterface</code>
+      <code>gettype($emailOrAddress)</code>
       <code>is_string($key)</code>
     </DocblockTypeContradiction>
     <InvalidScalarArgument occurrences="1">
@@ -71,8 +71,9 @@
     <PossiblyNullArgument occurrences="1">
       <code>is_object($key) ? get_class($key) : var_export($key, 1)</code>
     </PossiblyNullArgument>
-    <RedundantConditionGivenDocblockType occurrences="1">
+    <RedundantConditionGivenDocblockType occurrences="2">
       <code>$key !== false</code>
+      <code>is_object($emailOrAddress)</code>
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Header/AbstractAddressList.php">
@@ -199,10 +200,6 @@
     <LessSpecificImplementedReturnType occurrences="1">
       <code>GenericHeader</code>
     </LessSpecificImplementedReturnType>
-    <PossiblyNullPropertyAssignmentValue occurrences="2">
-      <code>null</code>
-      <code>null</code>
-    </PossiblyNullPropertyAssignmentValue>
     <RedundantCastGivenDocblockType occurrences="1">
       <code>(string) $fieldValue</code>
     </RedundantCastGivenDocblockType>
@@ -245,10 +242,6 @@
     </MixedReturnStatement>
   </file>
   <file src="src/Header/HeaderWrap.php">
-    <MissingClosureParamType occurrences="2">
-      <code>$accumulator</code>
-      <code>$headerPart</code>
-    </MissingClosureParamType>
     <MissingParamType occurrences="2">
       <code>$originalValue</code>
       <code>$value</code>
@@ -319,13 +312,15 @@
     </UnsafeInstantiation>
   </file>
   <file src="src/Header/Sender.php">
-    <DocblockTypeContradiction occurrences="2">
-      <code>$emailOrAddress instanceof Mail\Address\AddressInterface</code>
-      <code>$this-&gt;address instanceof Mail\Address\AddressInterface</code>
+    <DocblockTypeContradiction occurrences="1">
+      <code>gettype($emailOrAddress)</code>
     </DocblockTypeContradiction>
     <MissingConstructor occurrences="1">
       <code>$address</code>
     </MissingConstructor>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>is_object($emailOrAddress)</code>
+    </RedundantConditionGivenDocblockType>
     <UnsafeInstantiation occurrences="1">
       <code>new static()</code>
     </UnsafeInstantiation>
@@ -346,7 +341,7 @@
   </file>
   <file src="src/Headers.php">
     <DocblockTypeContradiction occurrences="4">
-      <code>! is_array($headers) &amp;&amp; ! $headers instanceof Traversable</code>
+      <code>gettype($headers)</code>
       <code>is_array($fieldValue)</code>
       <code>is_array($headers)</code>
       <code>is_string($headerFieldNameOrLine)</code>
@@ -412,6 +407,9 @@
       <code>$this-&gt;getHeaderLocator()-&gt;get($key, Header\GenericHeader::class)</code>
       <code>$this-&gt;headerLocator</code>
     </NullableReturnStatement>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>is_object($headers)</code>
+    </RedundantConditionGivenDocblockType>
     <UnsafeInstantiation occurrences="1">
       <code>new static()</code>
     </UnsafeInstantiation>
@@ -426,8 +424,7 @@
       <code>$emailOrAddressList</code>
       <code>$header</code>
     </ArgumentTypeCoercion>
-    <DocblockTypeContradiction occurrences="4">
-      <code>$from instanceof AddressList</code>
+    <DocblockTypeContradiction occurrences="3">
       <code>gettype($emailOrAddressOrList)</code>
       <code>is_object($body)</code>
       <code>null === $this-&gt;headers</code>
@@ -493,7 +490,7 @@
   </file>
   <file src="src/MessageFactory.php">
     <DocblockTypeContradiction occurrences="1">
-      <code>! is_array($options) &amp;&amp; ! $options instanceof Traversable</code>
+      <code>gettype($options)</code>
     </DocblockTypeContradiction>
     <MixedArgument occurrences="1">
       <code>$key</code>
@@ -502,21 +499,20 @@
       <code>$key</code>
       <code>$value</code>
     </MixedAssignment>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>is_object($options)</code>
+    </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Protocol/AbstractProtocol.php">
     <DocblockTypeContradiction occurrences="1">
       <code>$cmd === null</code>
     </DocblockTypeContradiction>
-    <InvalidArgument occurrences="2">
+    <InvalidArgument occurrences="1">
       <code>Validator\Hostname::ALLOW_ALL</code>
     </InvalidArgument>
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$this-&gt;socket</code>
     </InvalidPropertyAssignmentValue>
-    <MissingClosureParamType occurrences="2">
-      <code>$error</code>
-      <code>$message</code>
-    </MissingClosureParamType>
     <MissingReturnType occurrences="5">
       <code>_addLog</code>
       <code>_disconnect</code>
@@ -524,10 +520,6 @@
       <code>resetLog</code>
       <code>setMaximumLog</code>
     </MissingReturnType>
-    <MixedArgument occurrences="2">
-      <code>$error</code>
-      <code>$message</code>
-    </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="2">
       <code>$this-&gt;log</code>
       <code>$this-&gt;validHost-&gt;getMessages()</code>
@@ -992,6 +984,9 @@
     <NullableReturnStatement occurrences="1">
       <code>isset($this-&gt;has[$var]) ? $this-&gt;has[$var] : null</code>
     </NullableReturnStatement>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>$this-&gt;getMessage($id)</code>
+    </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Storage/Folder.php">
     <ImplementedReturnTypeMismatch occurrences="2">
@@ -1013,7 +1008,8 @@
     <RedundantCastGivenDocblockType occurrences="1">
       <code>(string) $this-&gt;getGlobalName()</code>
     </RedundantCastGivenDocblockType>
-    <RedundantConditionGivenDocblockType occurrences="2">
+    <RedundantConditionGivenDocblockType occurrences="3">
+      <code>$current</code>
       <code>$current</code>
       <code>$current &amp;&amp; $current instanceof self</code>
     </RedundantConditionGivenDocblockType>
@@ -1069,10 +1065,12 @@
     <PossiblyNullArgument occurrences="1">
       <code>$parent</code>
     </PossiblyNullArgument>
-    <RedundantCondition occurrences="1">
+    <RedundantCondition occurrences="2">
+      <code>$stack</code>
       <code>$stack</code>
     </RedundantCondition>
-    <TypeDoesNotContainType occurrences="1">
+    <TypeDoesNotContainType occurrences="2">
+      <code>! $stack</code>
       <code>$stack</code>
     </TypeDoesNotContainType>
   </file>
@@ -1253,13 +1251,15 @@
       <code>store</code>
       <code>store</code>
     </PossiblyNullReference>
-    <RedundantCondition occurrences="1">
+    <RedundantCondition occurrences="2">
+      <code>$stack</code>
       <code>$stack</code>
     </RedundantCondition>
     <RedundantConditionGivenDocblockType occurrences="1">
       <code>$flags === null</code>
     </RedundantConditionGivenDocblockType>
-    <TypeDoesNotContainType occurrences="1">
+    <TypeDoesNotContainType occurrences="2">
+      <code>! $stack</code>
       <code>$stack</code>
     </TypeDoesNotContainType>
   </file>
@@ -1286,10 +1286,6 @@
       <code>\Laminas\Mail\Storage\Exception\ExceptionInterface</code>
     </InvalidThrow>
     <LessSpecificReturnStatement occurrences="2"/>
-    <MissingClosureParamType occurrences="2">
-      <code>$a</code>
-      <code>$b</code>
-    </MissingClosureParamType>
     <MissingParamType occurrences="2">
       <code>$id</code>
       <code>$params</code>
@@ -1472,9 +1468,6 @@
     </MixedArrayOffset>
   </file>
   <file src="src/Storage/Part.php">
-    <DocblockTypeContradiction occurrences="1">
-      <code>$this-&gt;headers instanceof Headers</code>
-    </DocblockTypeContradiction>
     <ImplementedReturnTypeMismatch occurrences="2">
       <code>Part</code>
       <code>string</code>
@@ -1512,8 +1505,7 @@
       <code>$part['body']</code>
       <code>$part['header']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="7">
-      <code>$h</code>
+    <MixedAssignment occurrences="6">
       <code>$h</code>
       <code>$params['strict']</code>
       <code>$part</code>
@@ -1521,29 +1513,28 @@
       <code>$this-&gt;content</code>
       <code>$this-&gt;messageNum</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="1">
+    <MixedInferredReturnType occurrences="2">
       <code>Part</code>
+      <code>string</code>
     </MixedInferredReturnType>
     <MixedMethodCall occurrences="2">
       <code>getFieldValue</code>
       <code>getFieldValue</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="1">
-      <code>$h-&gt;getFieldValue(HeaderInterface::FORMAT_RAW)</code>
-    </MixedOperand>
-    <MixedReturnStatement occurrences="2">
+    <MixedReturnStatement occurrences="3">
+      <code>$header-&gt;getFieldValue(HeaderInterface::FORMAT_RAW)</code>
       <code>$this-&gt;parts[$num]</code>
       <code>$this-&gt;parts[$num]</code>
     </MixedReturnStatement>
-    <PossiblyInvalidArgument occurrences="2">
+    <PossiblyInvalidArgument occurrences="3">
       <code>$boundary</code>
+      <code>$header</code>
       <code>$this-&gt;getHeader($name, 'array')</code>
     </PossiblyInvalidArgument>
     <PossiblyInvalidCast occurrences="1">
       <code>$boundary</code>
     </PossiblyInvalidCast>
-    <PossiblyInvalidIterator occurrences="2">
-      <code>$header</code>
+    <PossiblyInvalidIterator occurrences="1">
       <code>$header</code>
     </PossiblyInvalidIterator>
     <PossiblyNullArgument occurrences="4">
@@ -1552,7 +1543,8 @@
       <code>$this-&gt;headers</code>
       <code>$this-&gt;headers</code>
     </PossiblyNullArgument>
-    <RedundantConditionGivenDocblockType occurrences="2">
+    <RedundantConditionGivenDocblockType occurrences="3">
+      <code>$current</code>
       <code>$current</code>
       <code>$current &amp;&amp; $current instanceof self</code>
     </RedundantConditionGivenDocblockType>
@@ -2033,16 +2025,16 @@
     <RedundantCastGivenDocblockType occurrences="1">
       <code>(string) $this-&gt;parameters</code>
     </RedundantCastGivenDocblockType>
-    <RedundantConditionGivenDocblockType occurrences="3">
+    <RedundantConditionGivenDocblockType occurrences="4">
+      <code>$from</code>
       <code>$from</code>
       <code>$this-&gt;errstr !== null</code>
       <code>gettype($callable)</code>
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Transport/Smtp.php">
-    <DocblockTypeContradiction occurrences="3">
+    <DocblockTypeContradiction occurrences="2">
       <code>! ($connection instanceof Protocol\Smtp)</code>
-      <code>$this-&gt;connection instanceof Protocol\Smtp</code>
       <code>null === $this-&gt;plugins</code>
     </DocblockTypeContradiction>
     <InvalidCatch occurrences="1"/>
@@ -2384,13 +2376,11 @@
     <InvalidScalarArgument occurrences="1">
       <code>0</code>
     </InvalidScalarArgument>
-    <MissingParamType occurrences="3">
-      <code>$fieldName</code>
+    <MissingParamType occurrences="2">
       <code>$line</code>
       <code>$message</code>
     </MissingParamType>
-    <MixedArgument occurrences="3">
-      <code>$fieldName</code>
+    <MixedArgument occurrences="2">
       <code>$line</code>
       <code>$message</code>
     </MixedArgument>
@@ -2547,6 +2537,12 @@
       <code>array</code>
       <code>array</code>
     </MixedInferredReturnType>
+    <UnevaluatedCode occurrences="4">
+      <code>$receivedHeader = new Header\Received();</code>
+      <code>$receivedHeader = new Header\Received();</code>
+      <code>$this-&gt;assertEmpty('Received: xxx', $receivedHeader-&gt;toString());</code>
+      <code>$this-&gt;assertEquals('xxx', $receivedHeader-&gt;getFieldValue());</code>
+    </UnevaluatedCode>
     <UnusedVariable occurrences="1">
       <code>$received</code>
     </UnusedVariable>
@@ -2606,7 +2602,7 @@
     <InternalClass occurrences="1">
       <code>new Deprecated($errstr, $errno, $errfile, $errline)</code>
     </InternalClass>
-    <InvalidArgument occurrences="4">
+    <InvalidArgument occurrences="3">
       <code>$object</code>
       <code>'foo'</code>
       <code>["foo-bar\r\n\r\nevilContent"]</code>
@@ -2664,9 +2660,6 @@
     <MixedArgument occurrences="1">
       <code>$options</code>
     </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$value</code>
-    </MixedAssignment>
     <MixedInferredReturnType occurrences="1">
       <code>array</code>
     </MixedInferredReturnType>
@@ -2756,6 +2749,11 @@
     <UnusedClosureParam occurrences="1">
       <code>$type</code>
     </UnusedClosureParam>
+  </file>
+  <file src="test/Protocol/HttpStatusService/index.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>(int) $_GET['sleep']</code>
+    </ArgumentTypeCoercion>
   </file>
   <file src="test/Protocol/ProtocolTraitTest.php">
     <InvalidScalarArgument occurrences="1">
@@ -3021,20 +3019,13 @@
       <code>$subdirs</code>
       <code>$tmpdir</code>
     </MissingPropertyType>
-    <MixedArgument occurrences="6">
-      <code>$stat['mode']</code>
-      <code>$stat['mode']</code>
+    <MixedArgument occurrences="4">
       <code>$this-&gt;params</code>
       <code>$this-&gt;params['dirname']</code>
       <code>$this-&gt;subdirs</code>
       <code>$this-&gt;tmpdir</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="12">
-      <code>$this-&gt;params['dirname']</code>
-      <code>$this-&gt;params['dirname']</code>
-      <code>$this-&gt;params['dirname']</code>
-      <code>$this-&gt;params['dirname']</code>
-      <code>$this-&gt;params['dirname']</code>
+    <MixedArrayAccess occurrences="7">
       <code>$this-&gt;params['dirname']</code>
       <code>$this-&gt;params['dirname']</code>
       <code>$this-&gt;params['dirname']</code>
@@ -3046,48 +3037,19 @@
     <MixedArrayAssignment occurrences="1">
       <code>$this-&gt;params['folder']</code>
     </MixedArrayAssignment>
-    <MixedArrayOffset occurrences="6">
-      <code>$found_folders[$folder-&gt;__toString()]</code>
-      <code>$found_folders[$folder-&gt;__toString()]</code>
-      <code>$found_folders[$folder-&gt;__toString()]</code>
-      <code>$search_folders[$folder-&gt;getGlobalName()]</code>
-      <code>$search_folders[$folder-&gt;getGlobalName()]</code>
-      <code>$search_folders[$folder-&gt;getGlobalName()]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="13">
+    <MixedAssignment occurrences="4">
       <code>$dir</code>
       <code>$dir</code>
       <code>$folder</code>
-      <code>$folder</code>
-      <code>$folder</code>
-      <code>$folder</code>
-      <code>$found_folders[$folder-&gt;__toString()]</code>
-      <code>$found_folders[$folder-&gt;__toString()]</code>
-      <code>$found_folders[$folder-&gt;__toString()]</code>
-      <code>$localName</code>
-      <code>$localName</code>
-      <code>$localName</code>
       <code>$localName</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="7">
-      <code>__toString</code>
-      <code>__toString</code>
-      <code>__toString</code>
-      <code>getGlobalName</code>
-      <code>getGlobalName</code>
-      <code>getGlobalName</code>
+    <MixedMethodCall occurrences="1">
       <code>getLocalName</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="25">
+    <MixedOperand occurrences="19">
       <code>$dir</code>
       <code>$dir</code>
       <code>$dir</code>
-      <code>$statcheck['mode']</code>
-      <code>$this-&gt;params['dirname']</code>
-      <code>$this-&gt;params['dirname']</code>
-      <code>$this-&gt;params['dirname']</code>
-      <code>$this-&gt;params['dirname']</code>
-      <code>$this-&gt;params['dirname']</code>
       <code>$this-&gt;params['dirname']</code>
       <code>$this-&gt;params['dirname']</code>
       <code>$this-&gt;params['dirname']</code>
@@ -3110,9 +3072,55 @@
       <code>$this-&gt;tmpdir</code>
       <code>$this-&gt;tmpdir</code>
     </PossiblyFalseArgument>
-    <UnusedVariable occurrences="1">
-      <code>$mail</code>
-    </UnusedVariable>
+    <UnevaluatedCode occurrences="56">
+      <code>$check = false;</code>
+      <code>$count = $mail-&gt;countMessages();</code>
+      <code>$count = $mail-&gt;countMessages();</code>
+      <code>$found_folders = [];</code>
+      <code>$found_folders = [];</code>
+      <code>$found_folders = [];</code>
+      <code>$iterator = new RecursiveIteratorIterator($mail-&gt;getFolders(), RecursiveIteratorIterator::SELF_FIRST);</code>
+      <code>$iterator = new RecursiveIteratorIterator($mail-&gt;getFolders(), RecursiveIteratorIterator::SELF_FIRST);</code>
+      <code>$mail = new Folder\Maildir($this-&gt;params);</code>
+      <code>$mail = new Folder\Maildir($this-&gt;params);</code>
+      <code>$mail = new Folder\Maildir($this-&gt;params);</code>
+      <code>$mail = new Folder\Maildir($this-&gt;params);</code>
+      <code>$mail = new Folder\Maildir($this-&gt;params);</code>
+      <code>$mail = new Folder\Maildir($this-&gt;params);</code>
+      <code>$mail = new Folder\Maildir($this-&gt;params);</code>
+      <code>$mail = new Folder\Maildir($this-&gt;params);</code>
+      <code>$mail = new Folder\Maildir($this-&gt;params);</code>
+      <code>$mail-&gt;selectFolder('subfolder.test');</code>
+      <code>$mail-&gt;selectFolder('subfolder.test');</code>
+      <code>$mail-&gt;selectFolder('subfolder.test');</code>
+      <code>$mail-&gt;selectFolder('subfolder.test');</code>
+      <code>$search_folders = ['subfolder.test' =&gt; 'test'];</code>
+      <code>$shouldSizes = [1 =&gt; 397, 89, 694, 452, 497];</code>
+      <code>$sizes = $mail-&gt;getSize();</code>
+      <code>$sizes = $mail-&gt;getSize();</code>
+      <code>$stat = stat($this-&gt;params['dirname'] . '.subfolder');</code>
+      <code>$statcheck = stat($this-&gt;params['dirname'] . '.subfolder');</code>
+      <code>$subject = $mail-&gt;getMessage(1)-&gt;subject;</code>
+      <code>$subject = $mail-&gt;getMessage(1)-&gt;subject;</code>
+      <code>$this-&gt;assertEquals($mail-&gt;getCurrentFolder(), 'subfolder.test');</code>
+      <code>$this-&gt;assertEquals($mail-&gt;getFolders()-&gt;subfolder-&gt;__toString(), 'subfolder');</code>
+      <code>$this-&gt;assertEquals($mail-&gt;getFolders()-&gt;subfolder-&gt;key(), 'test');</code>
+      <code>$this-&gt;assertEquals($search_folders, $found_folders);</code>
+      <code>$this-&gt;assertEquals($search_folders, $found_folders);</code>
+      <code>$this-&gt;assertEquals($search_folders, $found_folders);</code>
+      <code>$this-&gt;assertEquals($shouldSizes, $sizes);</code>
+      <code>$this-&gt;assertEquals('Message in subfolder', $subject);</code>
+      <code>$this-&gt;assertEquals('Simple Message', $subject);</code>
+      <code>$this-&gt;assertEquals(1, $count);</code>
+      <code>$this-&gt;assertEquals(5, $count);</code>
+      <code>$this-&gt;assertEquals([1 =&gt; 467], $sizes);</code>
+      <code>chmod($this-&gt;params['dirname'] . '.subfolder', $stat['mode']);</code>
+      <code>chmod($this-&gt;params['dirname'] . '.subfolder', 0);</code>
+      <code>clearstatcache();</code>
+      <code>return;</code>
+      <code>return;</code>
+      <code>return;</code>
+    </UnevaluatedCode>
   </file>
   <file src="test/Storage/MaildirMessageOldTest.php">
     <MissingPropertyType occurrences="2">
@@ -3132,6 +3140,11 @@
       <code>$this-&gt;tmpdir</code>
       <code>$this-&gt;tmpdir</code>
     </PossiblyFalseArgument>
+    <UnevaluatedCode occurrences="3">
+      <code>return;</code>
+      <code>return;</code>
+      <code>return;</code>
+    </UnevaluatedCode>
   </file>
   <file src="test/Storage/MaildirTest.php">
     <MissingPropertyType occurrences="2">
@@ -3188,6 +3201,11 @@
     <PossiblyInvalidIterator occurrences="1">
       <code>$ids</code>
     </PossiblyInvalidIterator>
+    <UnevaluatedCode occurrences="3">
+      <code>return;</code>
+      <code>return;</code>
+      <code>return;</code>
+    </UnevaluatedCode>
   </file>
   <file src="test/Storage/MaildirWritableTest.php">
     <MissingPropertyType occurrences="3">
@@ -3200,31 +3218,23 @@
       <code>$this-&gt;params['dirname']</code>
       <code>$this-&gt;subdirs</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="4">
-      <code>$this-&gt;params['dirname']</code>
+    <MixedArrayAccess occurrences="3">
       <code>$this-&gt;params['dirname']</code>
       <code>$this-&gt;params['dirname']</code>
       <code>$this-&gt;params['dirname']</code>
     </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="6">
+    <MixedArrayAssignment occurrences="1">
       <code>$this-&gt;params['create']</code>
-      <code>$this-&gt;subdirs[]</code>
-      <code>$this-&gt;subdirs[]</code>
-      <code>$this-&gt;subdirs[]</code>
-      <code>$this-&gt;subdirs[]</code>
-      <code>$this-&gt;subdirs[]</code>
     </MixedArrayAssignment>
     <MixedAssignment occurrences="2">
       <code>$dir</code>
       <code>$dir</code>
     </MixedAssignment>
-    <MixedOperand occurrences="18">
+    <MixedOperand occurrences="16">
       <code>$dir</code>
       <code>$dir</code>
       <code>$dir</code>
       <code>$this-&gt;params['dirname']</code>
-      <code>$this-&gt;params['dirname']</code>
-      <code>$this-&gt;tmpdir</code>
       <code>$this-&gt;tmpdir</code>
       <code>$this-&gt;tmpdir</code>
       <code>$this-&gt;tmpdir</code>
@@ -3243,11 +3253,103 @@
       <code>$this-&gt;tmpdir</code>
       <code>$this-&gt;tmpdir</code>
     </PossiblyFalseArgument>
-    <UnusedVariable occurrences="6">
+    <UnevaluatedCode occurrences="96">
+      <code>$count = $mail-&gt;countMessages();</code>
+      <code>$fromCount = $mail-&gt;countMessages();</code>
+      <code>$mail = new Writable\Maildir($this-&gt;params);</code>
+      <code>$mail = new Writable\Maildir($this-&gt;params);</code>
+      <code>$mail = new Writable\Maildir($this-&gt;params);</code>
+      <code>$mail = new Writable\Maildir($this-&gt;params);</code>
+      <code>$mail = new Writable\Maildir($this-&gt;params);</code>
+      <code>$mail = new Writable\Maildir($this-&gt;params);</code>
+      <code>$mail = new Writable\Maildir($this-&gt;params);</code>
+      <code>$mail = new Writable\Maildir($this-&gt;params);</code>
+      <code>$mail = new Writable\Maildir($this-&gt;params);</code>
+      <code>$mail = new Writable\Maildir($this-&gt;params);</code>
+      <code>$mail = new Writable\Maildir($this-&gt;params);</code>
+      <code>$mail = new Writable\Maildir($this-&gt;params);</code>
+      <code>$mail-&gt;appendMessage("Subject: test\r\n\r\n");</code>
+      <code>$mail-&gt;appendMessage("Subject: test\r\n\r\n");</code>
+      <code>$mail-&gt;appendMessage("Subject: test\r\n\r\n");</code>
+      <code>$mail-&gt;copyMessage(1, 'justARandomFolder');</code>
+      <code>$mail-&gt;copyMessage(1, 'subfolder');</code>
+      <code>$mail-&gt;copyMessage(1, 'subfolder.test');</code>
+      <code>$mail-&gt;createFolder('foo.bar');</code>
+      <code>$mail-&gt;createFolder('subfolder.test1');</code>
+      <code>$mail-&gt;createFolder('test2', 'INBOX.subfolder');</code>
+      <code>$mail-&gt;createFolder('test3', $mail-&gt;getFolders()-&gt;subfolder);</code>
+      <code>$mail-&gt;moveMessage(1, $target);</code>
+      <code>$mail-&gt;removeFolder('subfolder.test');</code>
+      <code>$mail-&gt;removeMessage(1);</code>
+      <code>$mail-&gt;renameFolder('subfolder.test', 'foo');</code>
+      <code>$mail-&gt;selectFolder($mail-&gt;getFolders()-&gt;foo-&gt;bar);</code>
+      <code>$mail-&gt;selectFolder($mail-&gt;getFolders()-&gt;subfolder-&gt;test1);</code>
+      <code>$mail-&gt;selectFolder($mail-&gt;getFolders()-&gt;subfolder-&gt;test2);</code>
+      <code>$mail-&gt;selectFolder($mail-&gt;getFolders()-&gt;subfolder-&gt;test3);</code>
+      <code>$mail-&gt;selectFolder($target);</code>
+      <code>$mail-&gt;selectFolder($target);</code>
+      <code>$mail-&gt;selectFolder('INBOX');</code>
+      <code>$mail-&gt;selectFolder('INBOX');</code>
+      <code>$mail-&gt;selectFolder('subfolder.test');</code>
+      <code>$mail-&gt;selectFolder('subfolder.test');</code>
+      <code>$mail-&gt;selectFolder('subfolder.test');</code>
+      <code>$mail-&gt;selectFolder('subfolder.test');</code>
+      <code>$mail-&gt;setQuota(['size' =&gt; 100, 'count' =&gt; 2, 'X' =&gt; 0]);</code>
+      <code>$mail-&gt;setQuota(['size' =&gt; 100, 'count' =&gt; 2, 'X' =&gt; 0]);</code>
+      <code>$mail-&gt;setQuota(['size' =&gt; 3000, 'count' =&gt; 5, 'X' =&gt; 0]);</code>
+      <code>$mail-&gt;setQuota(['size' =&gt; 3000, 'count' =&gt; 6, 'X' =&gt; 0]);</code>
+      <code>$mail-&gt;setQuota(['size' =&gt; 3000, 'count' =&gt; 6, 'X' =&gt; 0]);</code>
+      <code>$mail-&gt;setQuota(false);</code>
+      <code>$mail-&gt;setQuota(false);</code>
+      <code>$mail-&gt;setQuota(true);</code>
+      <code>$mail-&gt;setQuota(true);</code>
+      <code>$message = $mail-&gt;getMessage(1);</code>
+      <code>$target = $mail-&gt;getFolders()-&gt;subfolder-&gt;test;</code>
+      <code>$this-&gt;assertEquals($count + 1, $mail-&gt;countMessages());</code>
+      <code>$this-&gt;assertEquals($fromCount - 1, $mail-&gt;countMessages());</code>
+      <code>$this-&gt;assertEquals($mail-&gt;checkQuota(true), $quotaResult);</code>
+      <code>$this-&gt;assertEquals($mail-&gt;checkQuota(true), $quotaResult);</code>
+      <code>$this-&gt;assertEquals($mail-&gt;checkQuota(true), $quotaResult);</code>
+      <code>$this-&gt;assertEquals($mail-&gt;getMessage($count + 1)-&gt;from, $message-&gt;from);</code>
+      <code>$this-&gt;assertEquals($mail-&gt;getMessage($count + 1)-&gt;subject, $message-&gt;subject);</code>
+      <code>$this-&gt;assertEquals($mail-&gt;getMessage($count + 1)-&gt;to, $message-&gt;to);</code>
+      <code>$this-&gt;assertEquals($mail-&gt;getQuota(), ['size' =&gt; 100, 'count' =&gt; 2, 'X' =&gt; 0]);</code>
+      <code>$this-&gt;assertEquals($mail-&gt;getQuota(true), $quotaResult['quota']);</code>
+      <code>$this-&gt;assertEquals($mail-&gt;getQuota(true), ['size' =&gt; 3000, 'L' =&gt; 1, 'count' =&gt; 10]);</code>
+      <code>$this-&gt;assertEquals($quotaResult, $mail-&gt;checkQuota(true));</code>
+      <code>$this-&gt;assertEquals($quotaResult, $mail-&gt;checkQuota(true, true));</code>
+      <code>$this-&gt;assertEquals($toCount + 1, $mail-&gt;countMessages());</code>
+      <code>$this-&gt;assertEquals(['size' =&gt; 100, 'count' =&gt; 2, 'X' =&gt; 0], $mail-&gt;getQuota(true));</code>
+      <code>$this-&gt;assertFalse($mail-&gt;checkQuota());</code>
+      <code>$this-&gt;assertFalse($mail-&gt;checkQuota(false, true));</code>
+      <code>$this-&gt;assertFalse($mail-&gt;checkQuota(false, true));</code>
+      <code>$this-&gt;assertFalse($mail-&gt;getQuota());</code>
+      <code>$this-&gt;assertNull($mail-&gt;getQuota());</code>
+      <code>$this-&gt;assertTrue($mail-&gt;checkQuota());</code>
+      <code>$this-&gt;assertTrue($mail-&gt;checkQuota());</code>
+      <code>$this-&gt;assertTrue($mail-&gt;checkQuota(false, true));</code>
+      <code>$this-&gt;assertTrue($mail-&gt;getQuota());</code>
+      <code>$this-&gt;expectException(Exception\InvalidArgumentException::class);</code>
+      <code>$this-&gt;expectException(Exception\InvalidArgumentException::class);</code>
+      <code>$this-&gt;expectException(Exception\InvalidArgumentException::class);</code>
+      <code>$this-&gt;expectException(Exception\InvalidArgumentException::class);</code>
+      <code>$this-&gt;expectException(Exception\InvalidArgumentException::class);</code>
+      <code>$this-&gt;subdirs[] = '.foo';</code>
+      <code>$this-&gt;subdirs[] = '.foo.bar';</code>
+      <code>$this-&gt;subdirs[] = '.subfolder.test1';</code>
+      <code>$this-&gt;subdirs[] = '.subfolder.test2';</code>
+      <code>$this-&gt;subdirs[] = '.subfolder.test3';</code>
+      <code>$toCount = $mail-&gt;countMessages();</code>
+      <code>return;</code>
+      <code>return;</code>
+      <code>return;</code>
+      <code>unlink($this-&gt;params['dirname'] . 'cur/1000000000.P1.example.org:2,S');</code>
+      <code>unlink($this-&gt;tmpdir . 'maildirsize');</code>
+    </UnevaluatedCode>
+    <UnusedVariable occurrences="5">
       <code>$count</code>
       <code>$e</code>
       <code>$e</code>
-      <code>$mail</code>
       <code>$mail</code>
       <code>$mail</code>
     </UnusedVariable>
@@ -3334,6 +3436,10 @@
       <code>$this-&gt;tmpdir</code>
       <code>$this-&gt;tmpdir</code>
     </PossiblyFalseArgument>
+    <UnevaluatedCode occurrences="2">
+      <code>return;</code>
+      <code>return;</code>
+    </UnevaluatedCode>
     <UnusedVariable occurrences="1">
       <code>$mail</code>
     </UnusedVariable>
@@ -3371,6 +3477,9 @@
       <code>$this-&gt;tmpdir</code>
       <code>$this-&gt;tmpdir</code>
     </PossiblyFalseArgument>
+    <UnevaluatedCode occurrences="1">
+      <code>return;</code>
+    </UnevaluatedCode>
   </file>
   <file src="test/Storage/MboxTest.php">
     <InternalMethod occurrences="3">
@@ -3428,6 +3537,10 @@
     <PossiblyInvalidIterator occurrences="1">
       <code>$ids</code>
     </PossiblyInvalidIterator>
+    <UnevaluatedCode occurrences="2">
+      <code>return;</code>
+      <code>return;</code>
+    </UnevaluatedCode>
     <UnusedVariable occurrences="5">
       <code>$content</code>
       <code>$count</code>
@@ -3659,10 +3772,6 @@
     <InvalidArgument occurrences="2">
       <code>$spec</code>
     </InvalidArgument>
-    <MissingClosureParamType occurrences="2">
-      <code>$code</code>
-      <code>$message</code>
-    </MissingClosureParamType>
     <MissingParamType occurrences="5">
       <code>$class</code>
       <code>$expectedClass</code>
