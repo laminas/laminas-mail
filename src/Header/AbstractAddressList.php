@@ -7,8 +7,6 @@ use Laminas\Mail\AddressList;
 use Laminas\Mail\Headers;
 use Laminas\Mail\Storage\Exception\RuntimeException;
 use Throwable;
-use TrueBV\Exception\OutOfBoundsException;
-use TrueBV\Punycode;
 
 /**
  * Base class for headers composing address lists (to, from, cc, bcc, reply-to)
@@ -52,11 +50,6 @@ abstract class AbstractAddressList implements HeaderInterface
      * @var string lower case field name
      */
     protected static $type;
-
-    /**
-     * @var Punycode|null
-     */
-    private static $punycode;
 
     public static function fromString($headerLine)
     {
@@ -126,13 +119,26 @@ abstract class AbstractAddressList implements HeaderInterface
      * @param string $domainName the UTF-8 encoded email
      * @return string
      */
-    protected function idnToAscii($domainName)
+    protected function idnToAscii($domainName): string
     {
-        if (function_exists('idn_to_ascii')) {
-            return $this->idnToAsciiViaIntl($domainName);
+        $ascii = idn_to_ascii($domainName, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46, $conversionInfo);
+        if (false !== $ascii) {
+            return $ascii;
         }
 
-        return $this->idnToAsciiViaPunycode($domainName);
+        $messages = [];
+        $errors   = (int) $conversionInfo['errors'];
+
+        foreach (self::IDNA_ERROR_MAP as $flag => $message) {
+            if (($flag & $errors) === $flag) {
+                $messages[] = $message;
+            }
+        }
+
+        throw new RuntimeException(sprintf(
+            'Failed encoding domain due to errors: %s',
+            implode(', ', $messages)
+        ));
     }
 
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)
@@ -266,41 +272,5 @@ abstract class AbstractAddressList implements HeaderInterface
             '',
             $value
         );
-    }
-
-    private function idnToAsciiViaIntl(string $domainName): string
-    {
-        $ascii = idn_to_ascii($domainName, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46, $conversionInfo);
-        if (false !== $ascii) {
-            return $ascii;
-        }
-
-        $messages = [];
-        $errors   = (int) $conversionInfo['errors'];
-
-        foreach (self::IDNA_ERROR_MAP as $flag => $message) {
-            if (($flag & $errors) === $flag) {
-                $messages[] = $message;
-            }
-        }
-
-        throw new RuntimeException(sprintf(
-            'Failed encoding domain due to errors: %s',
-            implode(', ', $messages)
-        ));
-    }
-
-    private function idnToAsciiViaPunycode(string $domainName): string
-    {
-        if (null === self::$punycode) {
-            self::$punycode = new Punycode();
-        }
-        try {
-            return self::$punycode->encode($domainName);
-        } catch (OutOfBoundsException $e) {
-            return $domainName;
-        } catch (Throwable $e) {
-            throw new RuntimeException(sprintf('Unable to convert IDN to ASCII: %s', $e->getMessage()));
-        }
     }
 }

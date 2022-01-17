@@ -15,8 +15,8 @@
         "laminas/laminas-stdlib": "^3.6",
         "laminas/laminas-validator": "^2.15",
         "symfony/polyfill-mbstring": "^1.12.0",
-        "true/punycode": "^2.1",
-        "webmozart/assert": "^1.10"
+        "webmozart/assert": "^1.10",
+        "symfony/polyfill-intl-idn": "^1.24.0"
     },
     "conflict": {
         "zendframework/zend-mail": "*"
@@ -36,7 +36,10 @@
         "laminas/laminas-servicemanager": "^2.7.10 || ^3.3.1 when using SMTP to deliver messages"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true
+        }
     },
     "extra": {
         "laminas": {
