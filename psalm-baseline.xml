@@ -93,6 +93,15 @@
     <MixedArgument occurrences="1">
       <code>$value</code>
     </MixedArgument>
+    <MixedArrayAccess occurrences="1">
+      <code>$conversionInfo['errors']</code>
+    </MixedArrayAccess>
+    <MixedInferredReturnType occurrences="1">
+      <code>string</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="1">
+      <code>$ascii</code>
+    </MixedReturnStatement>
     <RedundantConditionGivenDocblockType occurrences="1">
       <code>$format !== HeaderInterface::FORMAT_RAW</code>
     </RedundantConditionGivenDocblockType>
