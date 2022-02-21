@@ -39,6 +39,9 @@
         "sort-packages": true,
         "allow-plugins": {
             "composer/package-versions-deprecated": true
+        },
+        "platform": {
+            "php": "7.3.99"
         }
     },
     "extra": {
