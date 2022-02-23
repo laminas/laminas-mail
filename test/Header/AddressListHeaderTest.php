@@ -161,6 +161,25 @@ class AddressListHeaderTest extends TestCase
             ['From: (Comment\\\\)user@example.com(Another)'],
         ];
     }
+    /**
+     * @dataProvider getHeadersWithSurroundingSingleQuotes
+     */
+    public function testTrimSurroundingSingleQuotes($value): void
+    {
+        $header = To::fromString($value);
+        $list = $header->getAddressList();
+        $this->assertEquals(1, count($list));
+        $this->assertTrue($list->has('foo@example.com'));
+    }
+
+    public function getHeadersWithSurroundingSingleQuotes(): array
+    {
+        return [
+            ['To: <\'foo@example.com\'>'],
+            ['To: Foo Bar <\'foo@example.com\'>'],
+            ['To: \'foo@example.com\''],
+        ];
+    }
 
     /**
      * @group 3789
