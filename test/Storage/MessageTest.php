@@ -4,7 +4,7 @@ namespace LaminasTest\Mail\Storage;
 
 use Exception as GeneralException;
 use Laminas\Mail\Exception as MailException;
-use Laminas\Mail\Header\To;
+use Laminas\Mail\Header\HeaderInterface;
 use Laminas\Mail\Headers;
 use Laminas\Mail\Storage;
 use Laminas\Mail\Storage\Exception;
@@ -52,13 +52,16 @@ class MessageTest extends TestCase
         $message = new Message($params);
         $this->assertEquals($message->subject, 'multipart');
     }
+
     /**
      * @dataProvider filesProvider
      */
-    public function testGetToHeader($params): void
+    public function testGetToHeader(array $params): void
     {
         $message = new Message($params);
-        $this->assertEquals('foo@example.com', $message->getHeader('To')->getFieldValue());
+        /** @var HeaderInterface $toHeader */
+        $toHeader = $message->getHeader('To');
+        $this->assertEquals('foo@example.com', $toHeader->getFieldValue());
     }
 
     /**
