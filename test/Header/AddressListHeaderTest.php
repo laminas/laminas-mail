@@ -163,6 +163,29 @@ class AddressListHeaderTest extends TestCase
     }
 
     /**
+     * @dataProvider getHeadersWithSurroundingSingleQuotes
+     */
+    public function testTrimSurroundingSingleQuotes(string $value): void
+    {
+        $header = To::fromString($value);
+        $list = $header->getAddressList();
+        $this->assertEquals(1, count($list));
+        $this->assertTrue($list->has('foo@example.com'));
+    }
+
+    /**
+     * @return string[][]
+     */
+    public function getHeadersWithSurroundingSingleQuotes(): array
+    {
+        return [
+            ['To: <\'foo@example.com\'>'],
+            ['To: Foo Bar <\'foo@example.com\'>'],
+            ['To: \'foo@example.com\''],
+        ];
+    }
+
+    /**
      * @group 3789
      * @dataProvider getStringHeadersWithNoWhitespaceSeparator
      */
