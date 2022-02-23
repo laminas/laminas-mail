@@ -490,6 +490,7 @@ class MessageTest extends TestCase
     {
         $filePath = __DIR__ . '/../_files/mail.eml';
         $fileBlankLineOnTop = __DIR__ . '/../_files/mail_blank_top_line.eml';
+        $fileSurroundingSingleQuotes = __DIR__ . '/../_files/mail_surrounding_single_quotes.eml';
 
         return [
             // Description => [params]
@@ -497,7 +498,7 @@ class MessageTest extends TestCase
             'file path'                   => [['file' => $filePath]],
             'raw'                         => [['raw'  => file_get_contents($filePath)]],
             'file with blank line on top' => [['file' => $fileBlankLineOnTop]],
-            'file with surrounding single quotes' => [['file' => $fileBlankLineOnTop]],
+            'file with surrounding single quotes' => [['file' => $fileSurroundingSingleQuotes]],
         ];
     }
 }
