@@ -19,18 +19,15 @@ $transport = new Smtp([
 ]);
 
 // Create a base message:
-$template = new Message();
-$template->addFrom('sender@example.com', 'John Doe');
-$template->addReplyTo('replyto@example.com', 'Jane Doe');
-$template->setSubject('Demo of multiple mails per SMTP connection');
-$template->setBody('... Your message here ...');
+$message = (new Message()) // to doc reviewer : since PHP 5.4
+                ->addFrom('sender@example.com', 'John Doe')
+                ->addReplyTo('replyto@example.com', 'Jane Doe'
+                ->setSubject('Demo of multiple mails per SMTP connection')
+                ->setBody('... Your message here ...');
 
 // Loop through recipients:
 foreach ($recipients as $address) {
-    // Clone the message and add a recipient:
-    $message = clone $template;
-    $message->addTo($address);
-
+    $message->setTo($address);
     $transport->send($message);
 }
 ```
