@@ -27,7 +27,7 @@
         "laminas/laminas-db": "^2.13.3",
         "laminas/laminas-servicemanager": "^3.7",
         "phpunit/phpunit": "^9.5.5",
-        "psalm/plugin-phpunit": "^0.15.1",
+        "psalm/plugin-phpunit": "^0.17.0",
         "symfony/process": "^5.3.7",
         "vimeo/psalm": "^4.7"
     },
