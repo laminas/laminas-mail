@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.18.1@dda05fa913f4dc6eb3386f2f7ce5a45d37a71bcb">
+<files psalm-version="4.24.0@06dd975cb55d36af80f242561738f16c5f58264f">
   <file src="src/Address.php">
     <DocblockTypeContradiction occurrences="2">
       <code>! is_string($email)</code>
@@ -13,9 +13,8 @@
       <code>$email</code>
       <code>$name</code>
     </MissingPropertyType>
-    <MixedArgument occurrences="2">
+    <MixedArgument occurrences="1">
       <code>$email</code>
-      <code>array_shift($invalidMessages)</code>
     </MixedArgument>
     <MixedInferredReturnType occurrences="3">
       <code>null|string</code>
@@ -529,9 +528,8 @@
       <code>resetLog</code>
       <code>setMaximumLog</code>
     </MissingReturnType>
-    <MixedArgumentTypeCoercion occurrences="2">
+    <MixedArgumentTypeCoercion occurrences="1">
       <code>$this-&gt;log</code>
-      <code>$this-&gt;validHost-&gt;getMessages()</code>
     </MixedArgumentTypeCoercion>
     <PossiblyNullPropertyAssignmentValue occurrences="1">
       <code>$port</code>
@@ -829,9 +827,6 @@
       <code>$host</code>
       <code>$port</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$this-&gt;validHost-&gt;getMessages()</code>
-    </MixedArgumentTypeCoercion>
     <MixedAssignment occurrences="2">
       <code>$host</code>
       <code>$port</code>
@@ -930,9 +925,6 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Protocol/SmtpPluginManager.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$e-&gt;getCode()</code>
-    </InvalidScalarArgument>
     <MissingReturnType occurrences="1">
       <code>validatePlugin</code>
     </MissingReturnType>
@@ -1482,9 +1474,6 @@
       <code>string</code>
     </ImplementedReturnTypeMismatch>
     <InvalidCatch occurrences="1"/>
-    <InvalidDocblock occurrences="1">
-      <code>public function __isset($name)</code>
-    </InvalidDocblock>
     <InvalidReturnStatement occurrences="3">
       <code>$return</code>
       <code>$this-&gt;getHeader($name, 'string')</code>
@@ -1499,11 +1488,7 @@
     <InvalidThrow occurrences="1">
       <code>Exception\ExceptionInterface</code>
     </InvalidThrow>
-    <MissingParamType occurrences="1">
-      <code>$name</code>
-    </MissingParamType>
-    <MixedArgument occurrences="6">
-      <code>$name</code>
+    <MixedArgument occurrences="5">
       <code>$params['headers']</code>
       <code>$params['headers']</code>
       <code>$params['raw']</code>
@@ -3374,9 +3359,7 @@
       <code>$subdirs</code>
       <code>$tmpdir</code>
     </MissingPropertyType>
-    <MixedArgument occurrences="4">
-      <code>$stat['mode']</code>
-      <code>$stat['mode']</code>
+    <MixedArgument occurrences="2">
       <code>$this-&gt;params</code>
       <code>$this-&gt;subdirs</code>
     </MixedArgument>
@@ -3424,10 +3407,9 @@
       <code>getMessage</code>
       <code>selectFolder</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="14">
+    <MixedOperand occurrences="13">
       <code>$dir</code>
       <code>$dir</code>
-      <code>$statcheck['mode']</code>
       <code>$this-&gt;params['dirname']</code>
       <code>$this-&gt;params['dirname']</code>
       <code>$this-&gt;params['dirname']</code>
@@ -3505,10 +3487,8 @@
       <code>$mboxOriginalFile</code>
       <code>$tmpdir</code>
     </MissingPropertyType>
-    <MixedArgument occurrences="10">
+    <MixedArgument occurrences="8">
       <code>$id</code>
-      <code>$stat['mode']</code>
-      <code>$stat['mode']</code>
       <code>$this-&gt;mboxFile</code>
       <code>$this-&gt;mboxFile</code>
       <code>$this-&gt;mboxFile</code>
@@ -3527,8 +3507,7 @@
       <code>getContent</code>
       <code>getMessage</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="3">
-      <code>$statcheck['mode']</code>
+    <MixedOperand occurrences="2">
       <code>$this-&gt;tmpdir</code>
       <code>$this-&gt;tmpdir</code>
     </MixedOperand>
