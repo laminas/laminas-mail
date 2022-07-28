@@ -7,7 +7,7 @@ use Laminas\Mail\Storage\ParamsNormalizer;
 
 class Microsoft extends \Laminas\Mail\Protocol\Pop3
 {
-    public function authenticate($targetMailbox, $accessToken)
+    public function authenticate(string $targetMailbox, string $accessToken):void
     {
         $this->sendRequest('AUTH XOAUTH2');
         $response = $this->readRemoteResponse();
@@ -19,10 +19,11 @@ class Microsoft extends \Laminas\Mail\Protocol\Pop3
         $this->request($this->buildXOauth2String($targetMailbox, $accessToken));
     }
 
-    private function buildXOauth2String(string $user, string $accessToken):string{
+    private function buildXOauth2String(string $targetMailbox, string $accessToken):string
+    {
         return base64_encode(sprintf(
             "user=%s%sauth=Bearer %s%s%s",
-            $user,
+            $targetMailbox,
             chr(0x01),
             $accessToken,
             chr(0x01),
@@ -45,11 +46,11 @@ class Microsoft extends \Laminas\Mail\Protocol\Pop3
     public static function fromParams($params):self
     {
         $params = ParamsNormalizer::normalizeParams($params);
-        $host     = $params['host'] ?? 'localhost';
+        $host = $params['host'] ?? 'localhost';
         $targetMailbox = $params['targetMailbox'] ?? '';
         $accessToken = $params['accessToken'] ?? '';
-        $port     = $params['port'] ?? 995;
-        $ssl      = $params['ssl'] ?? 'SSL';
+        $port = $params['port'] ?? 995;
+        $ssl = $params['ssl'] ?? 'SSL';
 
         if (null !== $port) {
             $port = (int) $port;
