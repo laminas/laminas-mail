@@ -14,7 +14,7 @@ class Microsoft extends \Laminas\Mail\Protocol\Pop3
         $response = $this->readRemoteResponse();
 
         if ($response->status() != '+') {
-            throw new RuntimeException('last request failed');
+            throw new RuntimeException($response->message());
         }
 
         $this->request($this->buildXOauth2String(
