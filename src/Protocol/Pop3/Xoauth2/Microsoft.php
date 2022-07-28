@@ -45,34 +45,28 @@ class Microsoft extends \Laminas\Mail\Protocol\Pop3
      *   - accessToken from client credentials OAUTH2 flow
      *   - port port for POP3 server [optional, default = 995]
      *   - ssl 'SSL' or 'TLS' for secure sockets
-     *
-     * @param  array $params
-     * @psalm-param array{host: non-empty-string, targetMailbox: non-empty-string, accessToken: non-empty-string, port: integer, ssl: string}
+     * @param array{host: non-empty-string, targetMailbox: non-empty-string, accessToken: non-empty-string, port: int, ssl: string} $params
      * @throws \Laminas\Mail\Protocol\Exception\RuntimeException
      */
     public static function fromParams(array $params): self
     {
         $params = ParamsNormalizer::normalizeParams($params);
 
-        $host = $params['host'] ?? 'localhost';
-        $targetMailbox = $params['targetMailbox'] ?? '';
-        $accessToken = $params['accessToken'] ?? '';
-        $port = $params['port'] ?? 995;
-        $ssl = $params['ssl'] ?? 'SSL';
-
-        if (null !== $port) {
-            $port = (int) $port;
-        }
+        $host = isset($params['host']) && is_string($params['host']) ? $params['host'] : 'localhost';
+        $targetMailbox = isset($params['targetMailbox']) && is_string($params['targetMailbox']) ? $params['targetMailbox'] : '';
+        $accessToken = isset($params['accessToken']) && is_string($params['accessToken']) ? $params['accessToken'] : '';
+        $port = isset($params['port']) && is_int($params['port']) ? $params['port'] : 995;
+        $ssl = isset($params['ssl']) && is_string($params['ssl']) ? $params['ssl'] : 'SSL';
 
         $protocol  = new self();
 
         $protocol->connect(
-            (string) $host,
+            $host,
             $port,
-            (string) $ssl
+            $ssl
         );
 
-        $protocol->authenticate((string) $targetMailbox, (string) $accessToken);
+        $protocol->authenticate($targetMailbox, $accessToken);
 
         return $protocol;
     }
