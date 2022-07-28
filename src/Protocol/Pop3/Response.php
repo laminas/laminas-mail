@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace Laminas\Mail\Protocol\Pop3;
 
-class Response
+/**
+ * @internal
+ * POP3 response value object
+ */
+final class Response
 {
     /** @var string $status */
     private $status;

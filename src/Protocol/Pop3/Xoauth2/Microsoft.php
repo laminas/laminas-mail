@@ -46,10 +46,11 @@ class Microsoft extends \Laminas\Mail\Protocol\Pop3
      *   - port port for POP3 server [optional, default = 995]
      *   - ssl 'SSL' or 'TLS' for secure sockets
      *
-     * @param  array|object $params mail reader specific parameters
+     * @param  array $params
+     * @psalm-param array{host: non-empty-string, targetMailbox: non-empty-string, accessToken: non-empty-string, port: integer, ssl: string}
      * @throws \Laminas\Mail\Protocol\Exception\RuntimeException
      */
-    public static function fromParams($params): self
+    public static function fromParams(array $params): self
     {
         $params = ParamsNormalizer::normalizeParams($params);
 
@@ -63,16 +64,12 @@ class Microsoft extends \Laminas\Mail\Protocol\Pop3
             $port = (int) $port;
         }
 
-        if (! is_string($ssl)) {
-            $ssl = (bool) $ssl;
-        }
-
         $protocol  = new self();
 
         $protocol->connect(
             (string) $host,
             $port,
-            $ssl
+            (string) $ssl
         );
 
         $protocol->authenticate((string) $targetMailbox, (string) $accessToken);
