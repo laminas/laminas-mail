@@ -7,28 +7,34 @@ use Laminas\Mail\Storage\ParamsNormalizer;
 
 class Microsoft extends \Laminas\Mail\Protocol\Pop3
 {
-    public function authenticate(string $targetMailbox, string $accessToken):void
+    public function authenticate(string $targetMailbox, string $accessToken): void
     {
         $this->sendRequest('AUTH XOAUTH2');
+
         $response = $this->readRemoteResponse();
 
         if ($response->status() != '+') {
             throw new RuntimeException('last request failed');
         }
 
-        $this->request($this->buildXOauth2String($targetMailbox, $accessToken));
+        $this->request($this->buildXOauth2String(
+            $targetMailbox,
+            $accessToken
+        ));
     }
 
-    private function buildXOauth2String(string $targetMailbox, string $accessToken):string
+    private function buildXOauth2String(string $targetMailbox, string $accessToken): string
     {
-        return base64_encode(sprintf(
-            "user=%s%sauth=Bearer %s%s%s",
-            $targetMailbox,
-            chr(0x01),
-            $accessToken,
-            chr(0x01),
-            chr(0x01)
-        ));
+        return base64_encode(
+            sprintf(
+                "user=%s%sauth=Bearer %s%s%s",
+                $targetMailbox,
+                chr(0x01),
+                $accessToken,
+                chr(0x01),
+                chr(0x01)
+            )
+        );
     }
 
     /**
@@ -43,9 +49,10 @@ class Microsoft extends \Laminas\Mail\Protocol\Pop3
      * @param  array|object $params mail reader specific parameters
      * @throws \Laminas\Mail\Protocol\Exception\RuntimeException
      */
-    public static function fromParams($params):self
+    public static function fromParams($params): self
     {
         $params = ParamsNormalizer::normalizeParams($params);
+
         $host = $params['host'] ?? 'localhost';
         $targetMailbox = $params['targetMailbox'] ?? '';
         $accessToken = $params['accessToken'] ?? '';
