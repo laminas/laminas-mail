@@ -6,11 +6,10 @@ namespace Laminas\Mail\Protocol\Pop3;
 
 /**
  * @internal
- * @psalm-internal LaminasTest\Mail\Protocol\Pop3\ResponseTest
+ * @psalm-internal
  * @psalm-internal Laminas\Mail\Protocol\Pop3\Response
  * @psalm-internal Laminas\Mail\Protocol\Pop3
  * @psalm-internal Laminas\Mail\Protocol
- * @psalm-internal LaminasTest\Mail\Protocol\Pop3\Xoauth\MicrosoftTest
  * POP3 response value object
  */
 final class Response

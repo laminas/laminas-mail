@@ -5,6 +5,7 @@ namespace LaminasTest\Mail\Protocol\Pop3\Xoauth2;
 
 use Laminas\Mail\Protocol\Pop3\Response;
 use Laminas\Mail\Protocol\Pop3\Xoauth2\Microsoft;
+use Laminas\Mail\Protocol\Xoauth2\Xoauth2;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -29,6 +30,7 @@ class MicrosoftTest extends TestCase
                 if ($this->step === self::AUTH_INITIALIZE_REQUEST) {
                     return new Response(self::AUTH_RESPONSE_INITIALIZED_OK, 'Auth initialized');
                 }
+
                 return new Response('+OK', 'Authenticated');
             }
 
@@ -45,7 +47,7 @@ class MicrosoftTest extends TestCase
 
         $protocol->connect('localhost', 0, false);
 
-        $protocol->authenticate('test@example.com', '123');
+        $protocol->authenticate(Xoauth2::encodeXoauth2Sasl('test@example.com', '123'));
 
         $this->assertInstanceOf(Microsoft::class, $protocol);
     }
