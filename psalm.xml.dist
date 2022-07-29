@@ -31,8 +31,6 @@
         <InternalClass>
             <errorLevel type="suppress">
                 <referencedClass name="Laminas\Mail\Storage\ParamsNormalizer"/>
-                <referencedClass name="LaminasTest\Mail\Protocol\Pop3\Xoauth2\MicrosoftTest"/>
-                <referencedClass name="LaminasTest\Mail\Protocol\Pop3\ResponseTest"/>
             </errorLevel>
         </InternalClass>
     </issueHandlers>

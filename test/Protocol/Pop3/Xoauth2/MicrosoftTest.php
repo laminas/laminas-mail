@@ -25,12 +25,15 @@ class MicrosoftTest extends TestCase
                 parent::__construct();
             }
 
+            /** @psalm-suppress InternalClass */
             public function readRemoteResponse():Response
             {
                 if ($this->step === self::AUTH_INITIALIZE_REQUEST) {
+                    /** @psalm-suppress InternalMethod */
                     return new Response(self::AUTH_RESPONSE_INITIALIZED_OK, 'Auth initialized');
                 }
 
+                /** @psalm-suppress InternalMethod */
                 return new Response('+OK', 'Authenticated');
             }
 

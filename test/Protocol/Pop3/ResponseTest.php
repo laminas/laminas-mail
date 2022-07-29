@@ -11,10 +11,16 @@ use PHPUnit\Framework\TestCase;
  */
 class ResponseTest extends TestCase
 {
+     /** @psalm-suppress InternalClass */
     public function testIntegration():void
     {
+        /** @psalm-suppress InternalMethod */
         $response = new Response('+OK', 'Auth');
+
+        /** @psalm-suppress InternalMethod */
         $this->assertEquals('+OK', $response->status());
+
+        /** @psalm-suppress InternalMethod */
         $this->assertEquals('Auth', $response->message());
     }
 }

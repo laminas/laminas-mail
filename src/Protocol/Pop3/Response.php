@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Laminas\Mail\Protocol\Pop3;
 
 /**
- * @internal
- * @psalm-internal Laminas\Mail\Protocol\Pop3\Response
- * @psalm-internal Laminas\Mail\Protocol\Pop3
- * @psalm-internal Laminas\Mail\Protocol
  * POP3 response value object
+ * @internal
+ * @psalm-internal Laminas\Mail\Protocol
+ * @psalm-internal Laminas\Mail\Protocol\Pop3
+ * @psalm-internal Laminas\Mail\Protocol\Pop3\Response
  */
 final class Response
 {
