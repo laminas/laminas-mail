@@ -6,7 +6,6 @@ namespace Laminas\Mail\Protocol\Pop3;
 
 /**
  * @internal
- * @psalm-internal
  * @psalm-internal Laminas\Mail\Protocol\Pop3\Response
  * @psalm-internal Laminas\Mail\Protocol\Pop3
  * @psalm-internal Laminas\Mail\Protocol
