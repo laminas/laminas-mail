@@ -19,8 +19,6 @@
             <errorLevel type="suppress">
                 <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::method"/>
                 <referencedMethod name="Laminas\Mail\Storage\ParamsNormalizer::normalizeParams"/>
-                <referencedClass name="LaminasTest\Mail\Protocol\Pop3\Xoauth2\MicrosoftTest"/>
-                <referencedClass name="LaminasTest\Mail\Protocol\Pop3\ResponseTest"/>
             </errorLevel>
             <errorLevel type="suppress">
                 <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::willReturn"/>
