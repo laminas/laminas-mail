@@ -23,7 +23,7 @@ class MicrosoftFactory
         string $accessToken,
         int $port = 995,
         string $ssl = 'SSL'
-    ) {
+    ):Microsoft {
         $protocol  = new Microsoft();
 
         $protocol->connect(

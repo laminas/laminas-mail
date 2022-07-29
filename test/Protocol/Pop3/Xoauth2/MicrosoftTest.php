@@ -12,11 +12,12 @@ use PHPUnit\Framework\TestCase;
  */
 class MicrosoftTest extends TestCase
 {
-    public function testIntegration(){
+    public function testIntegration():void
+    {
         $protocol = new class() extends Microsoft {
 
             /** @var string $step */
-            private $step;
+            private $step = '';
 
             public function __construct()
             {

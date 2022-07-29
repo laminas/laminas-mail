@@ -9,9 +9,10 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers Laminas\Mail\Protocol\Pop3\Response
  */
-class ResponseTest  extends TestCase
+class ResponseTest extends TestCase
 {
-    public function testIntegration(){
+    public function testIntegration():void
+    {
         $response = new Response('+OK', 'Auth');
         $this->assertEquals('+OK', $response->status());
         $this->assertEquals('Auth', $response->message());
