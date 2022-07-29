@@ -24,19 +24,20 @@ class MicrosoftTest extends TestCase
                 parent::__construct();
             }
 
-            public function readRemoteResponse():Response{
-                if($this->step === self::AUTH_INITIALIZE_REQUEST){
+            public function readRemoteResponse():Response
+            {
+                if ($this->step === self::AUTH_INITIALIZE_REQUEST) {
                     return new Response(self::AUTH_RESPONSE_INITIALIZED_OK, 'Auth initialized');
                 }
                 return new Response('+OK', 'Authenticated');
             }
 
-            public function sendRequest($request)
+            public function sendRequest($request):void
             {
                 $this->step = $request;
             }
 
-            public function connect($host, $port = null, $ssl = false)
+            public function connect($host, $port = null, $ssl = false):void
             {
                 $this->socket = fopen("php://memory", 'rw+');
             }
@@ -49,5 +50,3 @@ class MicrosoftTest extends TestCase
         $this->assertInstanceOf(Microsoft::class, $protocol);
     }
 }
-
-
