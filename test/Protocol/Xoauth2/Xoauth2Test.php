@@ -11,13 +11,13 @@ use PHPUnit\Framework\TestCase;
  */
 class Xoauth2Test extends TestCase
 {
-    public function testEncodeXouath2Sasl(){
+    public function testEncodeXouath2Sasl():void
+    {
         $this->assertEquals(
-            'dXNlcj10ZXN0QGNvbnRvc28ub25taWNyb3NvZnQuY29tAWF1dGg9QmVhcmVy'.
-            'IEV3QkFBbDNCQUFVRkZwVUFvN0ozVmUwYmpMQldaV0NjbFJDM0VvQUEBAQ==',
+            'dXNlcj10ZXN0QGNvbnRvc28ub25taWNyb3NvZnQuY29tAWF1dGg9QmVhcmVyIEV3QkFBbDNCQUFVRkZwVUFvN0ozVmUwYmpMQldaV0NjbFJDM0VvQUEBAQ==',
             Xoauth2::encodeXoauth2Sasl(
-    'test@contoso.onmicrosoft.com',
-                'EwBAAl3BAAUFFpUAo7J3Ve0bjLBWZWCclRC3EoAA'
+            'test@contoso.onmicrosoft.com',
+            'EwBAAl3BAAUFFpUAo7J3Ve0bjLBWZWCclRC3EoAA'
             )
         );
     }
