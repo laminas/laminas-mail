@@ -304,6 +304,9 @@
     <LessSpecificImplementedReturnType occurrences="1">
       <code>self</code>
     </LessSpecificImplementedReturnType>
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(string) $subject</code>
+    </RedundantCastGivenDocblockType>
     <UnsafeInstantiation occurrences="1">
       <code>new static()</code>
     </UnsafeInstantiation>
@@ -347,7 +350,7 @@
     </MixedAssignment>
     <MixedInferredReturnType occurrences="2">
       <code>HeaderInterface</code>
-      <code>bool|ArrayIterator|HeaderInterface</code>
+      <code>false|ArrayIterator|HeaderInterface</code>
     </MixedInferredReturnType>
     <MixedMethodCall occurrences="2">
       <code>setEncoding</code>
@@ -392,15 +395,15 @@
       <code>is_object($body)</code>
       <code>null === $this-&gt;headers</code>
     </DocblockTypeContradiction>
-    <InvalidReturnStatement occurrences="1">
+    <FalsableReturnStatement occurrences="1">
       <code>$header</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>Header\HeaderInterface|ArrayIterator</code>
-    </InvalidReturnType>
+    </FalsableReturnStatement>
     <InvalidStringClass occurrences="1">
       <code>new $headerClass()</code>
     </InvalidStringClass>
+    <LessSpecificReturnStatement occurrences="1">
+      <code>$header</code>
+    </LessSpecificReturnStatement>
     <MissingConstructor occurrences="2">
       <code>$body</code>
       <code>$headers</code>
@@ -423,17 +426,20 @@
     <MixedReturnStatement occurrences="1">
       <code>$header-&gt;getFieldValue()</code>
     </MixedReturnStatement>
+    <MoreSpecificReturnType occurrences="1">
+      <code>Header\HeaderInterface|ArrayIterator</code>
+    </MoreSpecificReturnType>
     <NullArgument occurrences="1">
       <code>$content</code>
     </NullArgument>
-    <PossiblyInvalidCast occurrences="1">
-      <code>$this-&gt;body</code>
-    </PossiblyInvalidCast>
-    <PossiblyInvalidMethodCall occurrences="3">
+    <PossiblyFalseReference occurrences="3">
       <code>getFieldValue</code>
       <code>setEncoding</code>
       <code>setSubject</code>
-    </PossiblyInvalidMethodCall>
+    </PossiblyFalseReference>
+    <PossiblyInvalidCast occurrences="1">
+      <code>$this-&gt;body</code>
+    </PossiblyInvalidCast>
     <PossiblyNullPropertyAssignmentValue occurrences="1">
       <code>$body</code>
     </PossiblyNullPropertyAssignmentValue>
@@ -932,15 +938,6 @@
     </MissingReturnType>
   </file>
   <file src="src/Storage/Folder/Maildir.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>Storage\Folder</code>
-    </ImplementedReturnTypeMismatch>
-    <InvalidReturnStatement occurrences="1">
-      <code>$this-&gt;currentFolder</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>Storage\Folder</code>
-    </InvalidReturnType>
     <MissingReturnType occurrences="2">
       <code>buildFolderTree</code>
       <code>selectFolder</code>
@@ -962,9 +959,6 @@
     <MixedReturnStatement occurrences="1">
       <code>$currentFolder</code>
     </MixedReturnStatement>
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$globalName</code>
-    </MoreSpecificImplementedParamType>
     <PossiblyNullArgument occurrences="1">
       <code>$parent</code>
     </PossiblyNullArgument>
@@ -978,15 +972,6 @@
     </TypeDoesNotContainType>
   </file>
   <file src="src/Storage/Folder/Mbox.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>Storage\Folder</code>
-    </ImplementedReturnTypeMismatch>
-    <InvalidReturnStatement occurrences="1">
-      <code>$this-&gt;currentFolder</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>Storage\Folder</code>
-    </InvalidReturnType>
     <MissingReturnType occurrences="2">
       <code>buildFolderTree</code>
       <code>selectFolder</code>
@@ -1007,9 +992,6 @@
     <MixedReturnStatement occurrences="1">
       <code>$currentFolder</code>
     </MixedReturnStatement>
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$globalName</code>
-    </MoreSpecificImplementedParamType>
     <PropertyNotSetInConstructor occurrences="4">
       <code>$rootFolder</code>
       <code>Mbox</code>
@@ -1018,24 +1000,17 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Storage/Imap.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>Folder</code>
-    </ImplementedReturnTypeMismatch>
-    <ImplicitToStringCast occurrences="4">
+    <ImplicitToStringCast occurrences="2">
       <code>$folder</code>
       <code>$folder</code>
-      <code>$globalName</code>
-      <code>$this-&gt;currentFolder</code>
     </ImplicitToStringCast>
-    <InvalidReturnStatement occurrences="5">
-      <code>$this-&gt;currentFolder</code>
+    <InvalidReturnStatement occurrences="4">
       <code>$this-&gt;protocol-&gt;fetch('RFC822.HEADER', $id)</code>
       <code>$this-&gt;protocol-&gt;fetch('RFC822.SIZE', $id)</code>
       <code>$this-&gt;protocol-&gt;fetch('RFC822.SIZE', 1, INF)</code>
       <code>$this-&gt;protocol-&gt;fetch('RFC822.TEXT', $id)</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="4">
-      <code>Folder</code>
+    <InvalidReturnType occurrences="3">
       <code>int|array</code>
       <code>string</code>
       <code>string</code>
@@ -1104,8 +1079,7 @@
       <code>$k</code>
       <code>int</code>
     </MixedReturnTypeCoercion>
-    <MoreSpecificImplementedParamType occurrences="2">
-      <code>$globalName</code>
+    <MoreSpecificImplementedParamType occurrences="1">
       <code>$message</code>
     </MoreSpecificImplementedParamType>
     <MoreSpecificReturnType occurrences="1">
@@ -1327,10 +1301,9 @@
     </MixedArrayOffset>
   </file>
   <file src="src/Storage/Part.php">
-    <ImplementedReturnTypeMismatch occurrences="3">
+    <ImplementedReturnTypeMismatch occurrences="2">
       <code>Part</code>
       <code>string</code>
-      <code>string|true|array|HeaderInterface|ArrayIterator</code>
     </ImplementedReturnTypeMismatch>
     <InvalidReturnStatement occurrences="2">
       <code>$this-&gt;getHeader($name, 'string')</code>
@@ -1373,17 +1346,13 @@
       <code>$this-&gt;parts[$num]</code>
       <code>$this-&gt;parts[$num]</code>
     </MixedReturnStatement>
-    <PossiblyInvalidArgument occurrences="3">
+    <PossiblyInvalidArgument occurrences="2">
       <code>$boundary</code>
-      <code>$header</code>
       <code>$this-&gt;getHeader($name, 'array')</code>
     </PossiblyInvalidArgument>
     <PossiblyInvalidCast occurrences="1">
       <code>$boundary</code>
     </PossiblyInvalidCast>
-    <PossiblyInvalidIterator occurrences="1">
-      <code>$header</code>
-    </PossiblyInvalidIterator>
     <PossiblyNullArgument occurrences="4">
       <code>$this-&gt;content</code>
       <code>$this-&gt;content</code>
@@ -1769,9 +1738,9 @@
     <MixedReturnStatement occurrences="1">
       <code>$header-&gt;getFieldValue(HeaderInterface::FORMAT_ENCODED)</code>
     </MixedReturnStatement>
-    <PossiblyInvalidMethodCall occurrences="1">
+    <PossiblyFalseReference occurrences="1">
       <code>getFieldValue</code>
-    </PossiblyInvalidMethodCall>
+    </PossiblyFalseReference>
     <PossiblyNullPropertyAssignmentValue occurrences="1">
       <code>$parameters</code>
     </PossiblyNullPropertyAssignmentValue>
@@ -2048,9 +2017,9 @@
     </MixedInferredReturnType>
   </file>
   <file src="test/Header/HeaderWrapTest.php">
-    <PossiblyInvalidMethodCall occurrences="1">
+    <PossiblyFalseReference occurrences="1">
       <code>getFieldValue</code>
-    </PossiblyInvalidMethodCall>
+    </PossiblyFalseReference>
     <PossiblyUndefinedMethod occurrences="1">
       <code>getFieldValue</code>
     </PossiblyUndefinedMethod>
@@ -2176,24 +2145,26 @@
     <NullArgument occurrences="1">
       <code>null</code>
     </NullArgument>
-    <PossiblyInvalidArgument occurrences="1">
+    <PossiblyFalseArgument occurrences="1">
       <code>$return</code>
-    </PossiblyInvalidArgument>
-    <PossiblyInvalidMethodCall occurrences="15">
+    </PossiblyFalseArgument>
+    <PossiblyFalseReference occurrences="13">
       <code>current</code>
+      <code>getFieldValue</code>
+      <code>getFieldValue</code>
+      <code>getFieldValue</code>
+      <code>getFieldValue</code>
+      <code>getFieldValue</code>
+      <code>getFieldValue</code>
+      <code>getFieldValue</code>
+      <code>getFieldValue</code>
+      <code>getFieldValue</code>
+      <code>getFieldValue</code>
+      <code>getFieldValue</code>
+      <code>getFieldValue</code>
+    </PossiblyFalseReference>
+    <PossiblyInvalidMethodCall occurrences="2">
       <code>getEmail</code>
-      <code>getFieldValue</code>
-      <code>getFieldValue</code>
-      <code>getFieldValue</code>
-      <code>getFieldValue</code>
-      <code>getFieldValue</code>
-      <code>getFieldValue</code>
-      <code>getFieldValue</code>
-      <code>getFieldValue</code>
-      <code>getFieldValue</code>
-      <code>getFieldValue</code>
-      <code>getFieldValue</code>
-      <code>getFieldValue</code>
       <code>getName</code>
     </PossiblyInvalidMethodCall>
     <PossiblyUndefinedMethod occurrences="13">
@@ -2252,7 +2223,7 @@
       <code>array</code>
       <code>array</code>
     </MixedInferredReturnType>
-    <PossiblyInvalidMethodCall occurrences="17">
+    <PossiblyFalseReference occurrences="17">
       <code>getAddressList</code>
       <code>getAddressList</code>
       <code>getAddressList</code>
@@ -2270,7 +2241,7 @@
       <code>getType</code>
       <code>toString</code>
       <code>toString</code>
-    </PossiblyInvalidMethodCall>
+    </PossiblyFalseReference>
     <PossiblyUndefinedMethod occurrences="11">
       <code>getEncoding</code>
       <code>getEncoding</code>
