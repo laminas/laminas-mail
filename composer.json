@@ -22,7 +22,7 @@
         "zendframework/zend-mail": "*"
     },
     "require-dev": {
-        "laminas/laminas-coding-standard": "~1.0.0",
+        "laminas/laminas-coding-standard": "~2.3.0",
         "laminas/laminas-crypt": "^2.6 || ^3.4",
         "laminas/laminas-db": "^2.13.3",
         "laminas/laminas-servicemanager": "^3.7",
@@ -38,7 +38,8 @@
     "config": {
         "sort-packages": true,
         "allow-plugins": {
-            "composer/package-versions-deprecated": true
+            "composer/package-versions-deprecated": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         },
         "platform": {
             "php": "7.3.99"
