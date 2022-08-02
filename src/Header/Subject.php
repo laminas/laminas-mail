@@ -54,8 +54,7 @@ class Subject implements UnstructuredInterface
     }
 
     /**
-     * @param bool $format
-     * @return string
+     * @inheritDoc
      */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)
     {

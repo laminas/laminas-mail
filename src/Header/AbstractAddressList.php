@@ -171,8 +171,7 @@ abstract class AbstractAddressList implements HeaderInterface
     }
 
     /**
-     * @param bool $format
-     * @return string
+     * @inheritDoc
      */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)
     {

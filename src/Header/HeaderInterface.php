@@ -39,7 +39,7 @@ interface HeaderInterface
     /**
      * Retrieve header value
      *
-     * @param  bool $format Return the value in Mime::Encoded or in Raw format
+     * @param  HeaderInterface::FORMAT_* $format Return the value in Mime::Encoded or in Raw format
      * @return string
      */
     public function getFieldValue($format = self::FORMAT_RAW);

@@ -52,8 +52,7 @@ class Received implements HeaderInterface, MultipleHeadersInterface
     }
 
     /**
-     * @param bool $format
-     * @return string
+     * @inheritDoc
      */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)
     {
