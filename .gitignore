@@ -7,3 +7,4 @@
 /phpunit.xml
 /vendor/
 /test/_files/test.maildir/
+.phpcs-cache

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace LaminasTest\Mail\Storage;
 
 use Laminas\Mail\Storage;
