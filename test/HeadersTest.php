@@ -413,9 +413,9 @@ class HeadersTest extends TestCase
      */
     public function testToArrayFormatRaw(): void
     {
-        $raw_subject = '=?ISO-8859-2?Q?PD=3A_My=3A_Go=B3?= =?ISO-8859-2?Q?blahblah?=';
-        $headers     = new Mail\Headers();
-        $subject     = Header\Subject::fromString("Subject: $raw_subject");
+        $rawSubject = '=?ISO-8859-2?Q?PD=3A_My=3A_Go=B3?= =?ISO-8859-2?Q?blahblah?=';
+        $headers    = new Mail\Headers();
+        $subject    = Header\Subject::fromString("Subject: $rawSubject");
         $headers->addHeader($subject);
         // default
         $array    = $headers->toArray(Header\HeaderInterface::FORMAT_RAW);
@@ -432,9 +432,9 @@ class HeadersTest extends TestCase
      */
     public function testToArrayFormatEncoded(): void
     {
-        $raw_subject = '=?ISO-8859-2?Q?PD=3A_My=3A_Go=B3?= =?ISO-8859-2?Q?blahblah?=';
-        $headers     = new Mail\Headers();
-        $subject     = Header\Subject::fromString("Subject: $raw_subject");
+        $rawSubject = '=?ISO-8859-2?Q?PD=3A_My=3A_Go=B3?= =?ISO-8859-2?Q?blahblah?=';
+        $headers    = new Mail\Headers();
+        $subject    = Header\Subject::fromString("Subject: $rawSubject");
         $headers->addHeader($subject);
 
         // encoded

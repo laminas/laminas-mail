@@ -115,6 +115,7 @@ class MessageFactoryTest extends TestCase
 
     /**
      * @dataProvider invalidMessageOptions
+     * @param mixed $options
      */
     public function testExceptionForOptionsNotArrayOrTraversable($options): void
     {

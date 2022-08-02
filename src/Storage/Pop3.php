@@ -73,7 +73,7 @@ class Pop3 extends AbstractStorage
         ]);
     }
 
-    /*
+    /**
      * Get raw header of message or part
      *
      * @param  int               $id       number of message
@@ -81,7 +81,7 @@ class Pop3 extends AbstractStorage
      * @param  int               $topLines include this many lines with header (after an empty line)
      * @return string raw header
      * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
-     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function getRawHeader($id, $part = null, $topLines = 0)
     {
@@ -93,14 +93,14 @@ class Pop3 extends AbstractStorage
         return $this->protocol->top($id, 0, true);
     }
 
-    /*
+    /**
      * Get raw content of message or part
      *
      * @param  int               $id   number of message
      * @param  null|array|string $part path to part or null for message content
      * @return string raw content
      * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
-     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function getRawContent($id, $part = null)
     {

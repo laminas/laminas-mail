@@ -60,7 +60,7 @@ class MessageIdTest extends TestCase
      * @dataProvider headerLines
      * @group ZF2015-04
      */
-    public function testFromStringPreventsCrlfInjectionOnDetection($header): void
+    public function testFromStringPreventsCrlfInjectionOnDetection(string $header): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $messageid = Header\MessageId::fromString($header);
@@ -81,7 +81,7 @@ class MessageIdTest extends TestCase
      * @dataProvider invalidIdentifiers
      * @group ZF2015-04
      */
-    public function testInvalidIdentifierRaisesException($id): void
+    public function testInvalidIdentifierRaisesException(string $id): void
     {
         $header = new Header\MessageId();
         $this->expectException(Exception\InvalidArgumentException::class);

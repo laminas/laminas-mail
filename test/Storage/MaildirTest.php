@@ -36,7 +36,9 @@ use const PHP_OS;
  */
 class MaildirTest extends TestCase
 {
+    /** @var string */
     protected $maildir;
+    /** @var string */
     protected $tmpdir;
 
     public function setUp(): void
@@ -48,7 +50,7 @@ class MaildirTest extends TestCase
 
         $originalMaildir = __DIR__ . '/../_files/test.maildir/';
 
-        if ($this->tmpdir == null) {
+        if (! isset($this->tmpdir)) {
             if (getenv('TESTS_LAMINAS_MAIL_TEMPDIR') != null) {
                 $this->tmpdir = getenv('TESTS_LAMINAS_MAIL_TEMPDIR');
             } else {
@@ -222,15 +224,6 @@ class MaildirTest extends TestCase
         $this->assertEquals('Simple Message', $subject);
     }
 
-/*
-    public function testFetchTopBody()
-    {
-        $mail = new Storage\Maildir(array('dirname' => $this->maildir));
-
-        $content = $mail->getHeader(3, 1)->getContent();
-        $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
-    }
-*/
     public function testFetchMessageHeader(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
@@ -301,8 +294,8 @@ class MaildirTest extends TestCase
         $this->assertTrue($mail->hasUniqueId);
         $this->assertEquals(1, $mail->getNumberByUniqueId($mail->getUniqueId(1)));
 
-        $ids        = $mail->getUniqueId();
-        $should_ids = [
+        $ids       = $mail->getUniqueId();
+        $shouldIds = [
             1 => '1000000000.P1.example.org',
             '1000000001.P1.example.org',
             '1000000002.P1.example.org',
@@ -310,7 +303,7 @@ class MaildirTest extends TestCase
             '1000000004.P1.example.org',
         ];
         foreach ($ids as $num => $id) {
-            $this->assertEquals($id, $should_ids[$num]);
+            $this->assertEquals($id, $shouldIds[$num]);
 
             if ($mail->getNumberByUniqueId($id) != $num) {
                 $this->fail('reverse lookup failed');

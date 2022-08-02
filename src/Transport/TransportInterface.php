@@ -12,7 +12,7 @@ interface TransportInterface
     /**
      * Send a mail message
      *
-     * @return
+     * @return void
      */
     public function send(Mail\Message $message);
 }

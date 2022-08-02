@@ -9,9 +9,11 @@ use Laminas\Mail\Protocol\Smtp;
  */
 class SmtpProtocolSpy extends Smtp
 {
+    /** @var bool */
     public $calledQuit = false;
+    /** @var bool */
     protected $connect = false;
-    protected $mail;
+    /** @var string[] */
     protected $rcptTest = [];
 
     public function connect(): bool
@@ -39,6 +41,9 @@ class SmtpProtocolSpy extends Smtp
         $this->rcptTest = [];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function rcpt($to): void
     {
         parent::rcpt($to);

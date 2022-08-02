@@ -33,6 +33,10 @@ class ContentTransferEncoding implements HeaderInterface
     /** @var array */
     protected $parameters = [];
 
+    /**
+     * @param string $headerLine
+     * @return ContentTransferEncoding|static
+     */
     public static function fromString($headerLine)
     {
         [$name, $value] = GenericHeader::splitHeaderLine($headerLine);
@@ -49,27 +53,44 @@ class ContentTransferEncoding implements HeaderInterface
         return $header;
     }
 
+    /**
+     * @return string
+     */
     public function getFieldName()
     {
         return 'Content-Transfer-Encoding';
     }
 
+    /**
+     * @param string $format
+     * @return string
+     */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)
     {
         return $this->transferEncoding;
     }
 
+    /**
+     * @param string $encoding
+     * @return self
+     */
     public function setEncoding($encoding)
     {
         // Header must be always in US-ASCII
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getEncoding()
     {
         return 'ASCII';
     }
 
+    /**
+     * @return string
+     */
     public function toString()
     {
         return 'Content-Transfer-Encoding: ' . $this->getFieldValue();

@@ -12,6 +12,10 @@ class Date implements HeaderInterface
     /** @var string */
     protected $value;
 
+    /**
+     * @param string $headerLine
+     * @return Date|static
+     */
     public static function fromString($headerLine)
     {
         [$name, $value] = GenericHeader::splitHeaderLine($headerLine);
@@ -25,6 +29,9 @@ class Date implements HeaderInterface
         return new static($value);
     }
 
+    /**
+     * @param string $value
+     */
     public function __construct($value)
     {
         if (! HeaderValue::isValid($value)) {
@@ -33,27 +40,44 @@ class Date implements HeaderInterface
         $this->value = $value;
     }
 
+    /**
+     * @return string
+     */
     public function getFieldName()
     {
         return 'Date';
     }
 
+    /**
+     * @param string $format
+     * @return string
+     */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)
     {
         return $this->value;
     }
 
+    /**
+     * @param string $encoding
+     * @return self
+     */
     public function setEncoding($encoding)
     {
         // This header must be always in US-ASCII
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getEncoding()
     {
         return 'ASCII';
     }
 
+    /**
+     * @return string
+     */
     public function toString()
     {
         return 'Date: ' . $this->getFieldValue();

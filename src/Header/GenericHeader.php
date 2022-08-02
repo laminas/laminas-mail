@@ -44,7 +44,7 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
      *
      * @param string $headerLine
      * @return string[] `name` in the first index and `value` in the second.
-     * @throws InvalidArgumentException If header does not match with the format ``name:value``
+     * @throws InvalidArgumentException If header does not match with the format ``name:value``.
      */
     public static function splitHeaderLine($headerLine)
     {
@@ -111,6 +111,9 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getFieldName()
     {
         return $this->fieldName;
@@ -139,6 +142,10 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
         return $this;
     }
 
+    /**
+     * @param string $format
+     * @return string
+     */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)
     {
         if (HeaderInterface::FORMAT_ENCODED === $format) {
@@ -148,6 +155,10 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
         return $this->fieldValue;
     }
 
+    /**
+     * @param string $encoding
+     * @return self
+     */
     public function setEncoding($encoding)
     {
         if ($encoding === $this->encoding) {
@@ -175,6 +186,9 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getEncoding()
     {
         if (! $this->encoding) {
@@ -184,6 +198,9 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
         return $this->encoding;
     }
 
+    /**
+     * @return string
+     */
     public function toString()
     {
         $name = $this->getFieldName();

@@ -35,8 +35,11 @@ use const PHP_OS;
  */
 class MaildirWritableTest extends TestCase
 {
+    /** @var array */
     protected $params;
+    /** @var string */
     protected $tmpdir;
+    /** @var string[] */
     protected $subdirs = ['.', '.subfolder', '.subfolder.test'];
 
     public function setUp(): void
@@ -48,7 +51,7 @@ class MaildirWritableTest extends TestCase
 
         $originalMaildir = __DIR__ . '/../_files/test.maildir/';
 
-        if ($this->tmpdir == null) {
+        if (! isset($this->tmpdir)) {
             if (getenv('TESTS_LAMINAS_MAIL_TEMPDIR') != null) {
                 $this->tmpdir = getenv('TESTS_LAMINAS_MAIL_TEMPDIR');
             } else {

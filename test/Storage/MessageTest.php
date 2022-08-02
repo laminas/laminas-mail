@@ -28,7 +28,9 @@ use function var_export;
  */
 class MessageTest extends TestCase
 {
+    /** @var string */
     protected $file;
+    /** @var string */
     protected $file2;
 
     public function setUp(): void
@@ -46,7 +48,7 @@ class MessageTest extends TestCase
     /**
      * @dataProvider filesProvider
      */
-    public function testIsMultipart($params): void
+    public function testIsMultipart(array $params): void
     {
         $message = new Message($params);
         $this->assertTrue($message->isMultipart());
@@ -55,7 +57,7 @@ class MessageTest extends TestCase
     /**
      * @dataProvider filesProvider
      */
-    public function testGetHeader($params): void
+    public function testGetHeader(array $params): void
     {
         $message = new Message($params);
         $this->assertEquals($message->subject, 'multipart');
@@ -75,7 +77,7 @@ class MessageTest extends TestCase
     /**
      * @dataProvider filesProvider
      */
-    public function testGetDecodedHeader($params): void
+    public function testGetDecodedHeader(array $params): void
     {
         $message = new Message($params);
         $this->assertEquals('Peter Müller <peter-mueller@example.com>', $message->from);
@@ -84,7 +86,7 @@ class MessageTest extends TestCase
     /**
      * @dataProvider filesProvider
      */
-    public function testGetHeaderAsArray($params): void
+    public function testGetHeaderAsArray(array $params): void
     {
         $message = new Message($params);
         $this->assertEquals(['multipart'], $message->getHeader('subject', 'array'), 'getHeader() value not match');
@@ -260,15 +262,15 @@ class MessageTest extends TestCase
         $body     = 'body';
         $newlines = ["\r\n", "\n\r", "\n", "\r"];
 
-        $decoded_body    = null; // "Declare" variable before first "read" usage to avoid IDEs warning
-        $decoded_headers = null; // "Declare" variable before first "read" usage to avoid IDEs warning
+        $decodedBody    = null; // "Declare" variable before first "read" usage to avoid IDEs warning
+        $decodedHeaders = null; // "Declare" variable before first "read" usage to avoid IDEs warning
 
-        foreach ($newlines as $contentEOL) {
-            foreach ($newlines as $decodeEOL) {
-                $content = $header . $contentEOL . $contentEOL . $body;
-                Mime\Decode::splitMessage($content, $decoded_headers, $decoded_body, $decodeEOL);
-                $this->assertEquals(['Test' => 'test'], $decoded_headers->toArray());
-                $this->assertEquals($body, $decoded_body);
+        foreach ($newlines as $contentEol) {
+            foreach ($newlines as $decodeEol) {
+                $content = $header . $contentEol . $contentEol . $body;
+                Mime\Decode::splitMessage($content, $decodedHeaders, $decodedBody, $decodeEol);
+                $this->assertEquals(['Test' => 'test'], $decodedHeaders->toArray());
+                $this->assertEquals($body, $decodedBody);
             }
         }
     }
@@ -292,7 +294,6 @@ class MessageTest extends TestCase
         $this->assertEquals([], $message->getHeaders()->toArray());
 
         $message = new Message([]);
-        $subject = null;
 
         $this->expectException(MailException\InvalidArgumentException::class);
         $message->subject;

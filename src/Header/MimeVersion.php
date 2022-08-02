@@ -10,6 +10,10 @@ class MimeVersion implements HeaderInterface
     /** @var string Version string */
     protected $version = '1.0';
 
+    /**
+     * @param string $headerLine
+     * @return MimeVersion|static
+     */
     public static function fromString($headerLine)
     {
         [$name, $value] = GenericHeader::splitHeaderLine($headerLine);
@@ -29,27 +33,44 @@ class MimeVersion implements HeaderInterface
         return $header;
     }
 
+    /**
+     * @return string
+     */
     public function getFieldName()
     {
         return 'MIME-Version';
     }
 
+    /**
+     * @param string $format
+     * @return string
+     */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)
     {
         return $this->version;
     }
 
+    /**
+     * @param string $encoding
+     * @return self
+     */
     public function setEncoding($encoding)
     {
         // This header must be always in US-ASCII
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getEncoding()
     {
         return 'ASCII';
     }
 
+    /**
+     * @return string
+     */
     public function toString()
     {
         return 'MIME-Version: ' . $this->getFieldValue();

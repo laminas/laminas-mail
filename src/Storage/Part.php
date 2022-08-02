@@ -233,10 +233,10 @@ class Part implements RecursiveIterator, Part\PartInterface
             throw new Exception\RuntimeException('part not found');
         }
 
-        if ($this->mail && $this->mail->hasFetchPart) {
+        // if ($this->mail && $this->mail->hasFetchPart) {
             // TODO: fetch part
             // return
-        }
+        // }
 
         $this->cacheContent();
 
@@ -263,10 +263,10 @@ class Part implements RecursiveIterator, Part\PartInterface
             return $this->countParts;
         }
 
-        if ($this->mail && $this->mail->hasFetchPart) {
+        // if ($this->mail && $this->mail->hasFetchPart) {
             // TODO: fetch part
             // return
-        }
+        // }
 
         $this->cacheContent();
 

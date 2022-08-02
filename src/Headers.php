@@ -80,18 +80,18 @@ class Headers implements Countable, Iterator
      * will be lazy loaded)
      *
      * @param  string $string
-     * @param  string $EOL EOL string; defaults to {@link EOL}
-     * @throws Exception\RuntimeException
+     * @param  string $eol EOL string; defaults to {@link EOL}
      * @return Headers
+     * @throws Exception\RuntimeException
      */
-    public static function fromString($string, $EOL = self::EOL)
+    public static function fromString($string, $eol = self::EOL)
     {
         $headers     = new static();
         $currentLine = '';
         $emptyLine   = 0;
 
         // iterate the header lines, some might be continuations
-        $lines = explode($EOL, $string);
+        $lines = explode($eol, $string);
         $total = count($lines);
         for ($i = 0; $i < $total; $i += 1) {
             $line = $lines[$i];
@@ -333,7 +333,7 @@ class Headers implements Countable, Iterator
     /**
      * Remove a Header from the container
      *
-     * @param  string|HeaderInterface field name or specific header instance to remove
+     * @param  string|HeaderInterface $instanceOrFieldName field name or specific header instance to remove
      * @return bool
      */
     public function removeHeader($instanceOrFieldName)
@@ -567,7 +567,7 @@ class Headers implements Countable, Iterator
     }
 
     /**
-     * @param $index
+     * @param array-key $index
      * @return mixed
      */
     protected function lazyLoadHeader($index)

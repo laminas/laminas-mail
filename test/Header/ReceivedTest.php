@@ -46,7 +46,6 @@ class ReceivedTest extends TestCase
     }
 
     /** Implementation specific tests here */
-
     public function headerLines(): array
     {
         return [
@@ -62,7 +61,7 @@ class ReceivedTest extends TestCase
      * @dataProvider headerLines
      * @group ZF2015-04
      */
-    public function testRaisesExceptionViaFromStringOnDetectionOfCrlfInjection($header): void
+    public function testRaisesExceptionViaFromStringOnDetectionOfCrlfInjection(string $header): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $received = Header\Received::fromString($header);
@@ -82,7 +81,7 @@ class ReceivedTest extends TestCase
      * @dataProvider invalidValues
      * @group ZF2015-04
      */
-    public function testConstructorRaisesExceptionOnValueWithCRLFInjectionAttempt($value): void
+    public function testConstructorRaisesExceptionOnValueWithCRLFInjectionAttempt(string $value): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         new Header\Received($value);

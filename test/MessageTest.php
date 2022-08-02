@@ -539,6 +539,7 @@ class MessageTest extends TestCase
 
     /**
      * @dataProvider invalidBodyValues
+     * @param mixed $body
      */
     public function testSettingNonScalarNonMimeNonStringSerializableValueForBodyRaisesException($body): void
     {
@@ -759,8 +760,9 @@ class MessageTest extends TestCase
      * @group ZF2015-04
      * @dataProvider messageRecipients
      */
-    public function testExceptionWhenAttemptingToSerializeMessageWithCRLFInjectionViaHeader($recipientMethod): void
-    {
+    public function testExceptionWhenAttemptingToSerializeMessageWithCRLFInjectionViaHeader(
+        string $recipientMethod
+    ): void {
         $subject = [
             'test1',
             'Content-Type: text/html; charset = "iso-8859-1"',

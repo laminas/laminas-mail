@@ -121,7 +121,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
      * Additional parameters are (see parent for more):
      *   - create if true a new maildir is create if none exists
      *
-     * @param  $params array mail reader specific parameters
+     * @param  array $params mail reader specific parameters
      * @throws ExceptionInterface
      */
     public function __construct($params)
@@ -728,7 +728,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
     /**
      * stub for not supported message deletion
      *
-     * @param $id
+     * @param int $id
      * @throws RuntimeException
      */
     public function removeMessage($id)
@@ -991,11 +991,16 @@ class Maildir extends Folder\Maildir implements WritableInterface
         ];
     }
 
+    /**
+     * @param int $size
+     * @param int $count
+     * @return void
+     */
     protected function addQuotaEntry($size, $count = 1)
     {
-        if (! file_exists($this->rootdir . 'maildirsize')) {
+        // if (! file_exists($this->rootdir . 'maildirsize')) {
             // TODO: should get file handler from calculateQuota
-        }
+        // }
         $size  = (int) $size;
         $count = (int) $count;
         file_put_contents($this->rootdir . 'maildirsize', "$size $count\n", FILE_APPEND);

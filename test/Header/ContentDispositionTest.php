@@ -52,7 +52,7 @@ class ContentDispositionTest extends TestCase
     /**
      * @dataProvider getLiteralData
      */
-    public function testHandlesLiterals($expected, $header): void
+    public function testHandlesLiterals(array $expected, string $header): void
     {
         $header = ContentDisposition::fromString('Content-Disposition: ' . $header);
         $this->assertEquals($expected, $header->getParameters());
@@ -61,8 +61,12 @@ class ContentDispositionTest extends TestCase
     /**
      * @dataProvider setDispositionProvider
      */
-    public function testFromString($disposition, $parameters, $fieldValue, $expectedToString): void
-    {
+    public function testFromString(
+        string $disposition,
+        array $parameters,
+        string $fieldValue,
+        string $expectedToString
+    ): void {
         $header = ContentDisposition::fromString($expectedToString);
 
         $this->assertInstanceOf(ContentDisposition::class, $header);
@@ -76,8 +80,12 @@ class ContentDispositionTest extends TestCase
     /**
      * @dataProvider setDispositionProvider
      */
-    public function testSetDisposition($disposition, $parameters, $fieldValue, $expectedToString): void
-    {
+    public function testSetDisposition(
+        string $disposition,
+        array $parameters,
+        string $fieldValue,
+        string $expectedToString
+    ): void {
         $header = new ContentDisposition();
 
         $header->setDisposition($disposition);
@@ -107,10 +115,14 @@ class ContentDispositionTest extends TestCase
     }
 
     /**
+     * @param class-string $expectedException
      * @dataProvider invalidHeaderLinesProvider
      */
-    public function testFromStringThrowException($headerLine, $expectedException, $exceptionMessage): void
-    {
+    public function testFromStringThrowException(
+        string $headerLine,
+        string $expectedException,
+        string $exceptionMessage
+    ): void {
         $this->expectException($expectedException);
         $this->expectExceptionMessage($exceptionMessage);
         ContentDisposition::fromString($headerLine);
@@ -149,10 +161,15 @@ class ContentDispositionTest extends TestCase
     }
 
     /**
+     * @param class-string $expectedException
      * @dataProvider invalidParametersProvider
      */
-    public function testSetParameterThrowException($paramName, $paramValue, $expectedException, $exceptionMessage): void
-    {
+    public function testSetParameterThrowException(
+        string $paramName,
+        string $paramValue,
+        string $expectedException,
+        string $exceptionMessage
+    ): void {
         $header = new ContentDisposition();
         $header->setDisposition('attachment');
 
@@ -164,7 +181,7 @@ class ContentDispositionTest extends TestCase
     /**
      * @dataProvider getParameterProvider
      */
-    public function testGetParameter($fromString, $paramName, $paramValue): void
+    public function testGetParameter(string $fromString, string $paramName, ?string $paramValue): void
     {
         $header = ContentDisposition::fromString($fromString);
         $this->assertEquals($paramValue, $header->getParameter($paramName));

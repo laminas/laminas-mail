@@ -58,8 +58,7 @@ class File implements TransportInterface
     /**
      * Saves e-mail message to a file
      *
-     * @throws Exception\RuntimeException on not writable target directory or
-     * on file_put_contents() failure
+     * @throws Exception\RuntimeException On not writable target directory or on file_put_contents() failure.
      */
     public function send(Message $message)
     {

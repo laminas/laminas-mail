@@ -27,7 +27,7 @@ class FactoryTest extends TestCase
 {
     /**
      * @dataProvider invalidSpecTypeProvider
-     * @param $spec
+     * @param mixed $spec
      */
     public function testInvalidSpecThrowsInvalidArgumentException($spec): void
     {
@@ -52,9 +52,9 @@ class FactoryTest extends TestCase
 
     /**
      * @dataProvider typeProvider
-     * @param $type
+     * @param class-string $type
      */
-    public function testCanCreateClassUsingTypeKey($type): void
+    public function testCanCreateClassUsingTypeKey(string $type): void
     {
         set_error_handler(function ($code, $message): void {
             // skip deprecation notices
@@ -79,10 +79,9 @@ class FactoryTest extends TestCase
 
     /**
      * @dataProvider typeAliasProvider
-     * @param $type
-     * @param $expectedClass
+     * @param class-string $expectedClass
      */
-    public function testCanCreateClassFromTypeAlias($type, $expectedClass): void
+    public function testCanCreateClassFromTypeAlias(string $type, string $expectedClass): void
     {
         $transport = Factory::create([
             'type' => $type,
@@ -133,9 +132,8 @@ class FactoryTest extends TestCase
 
     /**
      * @dataProvider invalidClassProvider
-     * @param $class
      */
-    public function testInvalidClassThrowsDomainException($class): void
+    public function testInvalidClassThrowsDomainException(string $class): void
     {
         $this->expectException(Exception\DomainException::class);
         Factory::create([

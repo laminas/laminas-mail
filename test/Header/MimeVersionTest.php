@@ -41,7 +41,7 @@ class MimeVersionTest extends TestCase
      * @dataProvider headerLines
      * @group ZF2015-04
      */
-    public function testFromStringRaisesExceptionOnDetectionOfCrlfInjection($header): void
+    public function testFromStringRaisesExceptionOnDetectionOfCrlfInjection(string $header): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $mime = Header\MimeVersion::fromString($header);
@@ -61,7 +61,7 @@ class MimeVersionTest extends TestCase
      * @dataProvider invalidVersions
      * @group ZF2015-04
      */
-    public function testRaisesExceptionOnInvalidVersionFromSetVersion($value): void
+    public function testRaisesExceptionOnInvalidVersionFromSetVersion(string $value): void
     {
         $header = new Header\MimeVersion();
         $this->expectException(Exception\InvalidArgumentException::class);

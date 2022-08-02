@@ -33,6 +33,7 @@ use const INF;
  */
 class ImapTest extends TestCase
 {
+    /** @var array */
     protected $params;
 
     public function setUp(): void
@@ -66,7 +67,7 @@ class ImapTest extends TestCase
         }
     }
 
-    protected function cleanDir($dir): void
+    protected function cleanDir(string $dir): void
     {
         $dh = opendir($dir);
         while (($entry = readdir($dh)) !== false) {
@@ -84,7 +85,7 @@ class ImapTest extends TestCase
         closedir($dh);
     }
 
-    protected function copyDir($dir, $dest): void
+    protected function copyDir(string $dir, string $dest): void
     {
         $dh = opendir($dir);
         while (($entry = readdir($dh)) !== false) {
@@ -215,16 +216,6 @@ class ImapTest extends TestCase
         $mail->close();
     }
 
-/*
-    currently imap has no top
-
-    public function testHasTop()
-    {
-        $mail = new Storage\Imap($this->params);
-
-        $this->assertTrue($mail->hasTop);
-    }
-*/
     public function testHasCreate(): void
     {
         $mail = new Storage\Imap($this->params);
@@ -271,17 +262,6 @@ class ImapTest extends TestCase
         $this->assertEquals('Simple Message', $subject);
     }
 
-/*
-    currently imap has no top
-
-    public function testFetchTopBody()
-    {
-        $mail = new Storage\Imap($this->params);
-
-        $content = $mail->getHeader(3, 1)->getContent();
-        $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
-    }
-*/
     public function testFetchMessageHeader(): void
     {
         $mail = new Storage\Imap($this->params);
@@ -357,23 +337,23 @@ class ImapTest extends TestCase
         $mail     = new Storage\Imap($this->params);
         $iterator = new RecursiveIteratorIterator($mail->getFolders(), RecursiveIteratorIterator::SELF_FIRST);
         // we search for this folder because we can't assume an order while iterating
-        $search_folders = [
+        $searchFolders = [
             'subfolder'      => 'subfolder',
             'subfolder/test' => 'test',
             'INBOX'          => 'INBOX',
         ];
-        $found_folders  = [];
+        $foundFolders  = [];
 
         foreach ($iterator as $localName => $folder) {
-            if (! isset($search_folders[$folder->getGlobalName()])) {
+            if (! isset($searchFolders[$folder->getGlobalName()])) {
                 continue;
             }
 
             // explicit call of __toString() needed for PHP < 5.2
-            $found_folders[$folder->__toString()] = $localName;
+            $foundFolders[$folder->__toString()] = $localName;
         }
 
-        $this->assertEquals($search_folders, $found_folders);
+        $this->assertEquals($searchFolders, $foundFolders);
     }
 
     public function testSelectable(): void
@@ -445,11 +425,11 @@ class ImapTest extends TestCase
 
         $ids = $mail->getUniqueId();
         foreach ($ids as $num => $id) {
-            foreach ($ids as $inner_num => $inner_id) {
-                if ($num == $inner_num) {
+            foreach ($ids as $innerNum => $innerId) {
+                if ($num == $innerNum) {
                     continue;
                 }
-                if ($id == $inner_id) {
+                if ($id == $innerId) {
                     $this->fail('not all ids are unique');
                 }
             }

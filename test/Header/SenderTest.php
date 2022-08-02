@@ -35,13 +35,8 @@ class SenderTest extends TestCase
     /**
      * @dataProvider validSenderHeaderDataProvider
      * @group ZF2015-04
-     * @param string $email
-     * @param null|string $name
-     * @param string $expectedFieldValue,
-     * @param string $encodedValue
-     * @param string $encoding
      */
-    public function testParseValidSenderHeader($expectedFieldValue, $encodedValue, $encoding): void
+    public function testParseValidSenderHeader(string $expectedFieldValue, string $encodedValue, string $encoding): void
     {
         $header = Header\Sender::fromString('Sender:' . $encodedValue);
 

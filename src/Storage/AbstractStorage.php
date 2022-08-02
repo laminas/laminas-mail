@@ -104,7 +104,7 @@ abstract class AbstractStorage implements
     /**
      * Get a message with headers and body
      *
-     * @param  $id int number of message
+     * @param  int $id number of message
      * @return Message
      */
     abstract public function getMessage($id);
@@ -158,7 +158,7 @@ abstract class AbstractStorage implements
     /**
      * delete a message from current box/folder
      *
-     * @param $id
+     * @param int $id message number
      */
     abstract public function removeMessage($id);
 

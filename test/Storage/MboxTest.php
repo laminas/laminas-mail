@@ -36,14 +36,18 @@ use const INF;
  */
 class MboxTest extends TestCase
 {
+    /** @var string */
     protected $mboxOriginalFile;
+    /** @var string */
     protected $mboxFile;
+    /** @var string */
     protected $mboxFileUnix;
+    /** @var string */
     protected $tmpdir;
 
     public function setUp(): void
     {
-        if ($this->tmpdir == null) {
+        if (! isset($this->tmpdir)) {
             if (getenv('TESTS_LAMINAS_MAIL_TEMPDIR') != null) {
                 $this->tmpdir = getenv('TESTS_LAMINAS_MAIL_TEMPDIR');
             } else {

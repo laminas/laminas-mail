@@ -128,7 +128,7 @@ abstract class HeaderWrap
         return $decodedValue;
     }
 
-    private static function isNotDecoded($originalValue, $value)
+    private static function isNotDecoded(string $originalValue, string $value): bool
     {
         return 0 === strpos($value, '=?')
             && strlen($value) - 2 === strpos($value, '?=')

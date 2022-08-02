@@ -56,7 +56,7 @@ class Mbox extends Storage\Mbox implements FolderInterface
      * - dirname rootdir of mbox structure
      * - folder initial selected folder, default is 'INBOX'
      *
-     * @param $params array|object Array, iterable object, or stdClass object
+     * @param array|object $params Array, iterable object, or stdClass object
      *     with reader specific parameters
      * @throws Exception\InvalidArgumentException
      */

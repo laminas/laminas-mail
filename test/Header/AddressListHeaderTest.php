@@ -34,7 +34,7 @@ class AddressListHeaderTest extends TestCase
     /**
      * @dataProvider getHeaderInstances
      */
-    public function testConcreteHeadersExtendAbstractAddressListHeader($header): void
+    public function testConcreteHeadersExtendAbstractAddressListHeader(AbstractAddressList $header): void
     {
         $this->assertInstanceOf(AbstractAddressList::class, $header);
     }
@@ -42,7 +42,7 @@ class AddressListHeaderTest extends TestCase
     /**
      * @dataProvider getHeaderInstances
      */
-    public function testConcreteHeaderFieldNamesAreDiscrete($header, $type): void
+    public function testConcreteHeaderFieldNamesAreDiscrete(AbstractAddressList $header, string $type): void
     {
         $this->assertEquals($type, $header->getFieldName());
     }
@@ -50,7 +50,7 @@ class AddressListHeaderTest extends TestCase
     /**
      * @dataProvider getHeaderInstances
      */
-    public function testConcreteHeadersComposeAddressLists($header): void
+    public function testConcreteHeadersComposeAddressLists(AbstractAddressList $header): void
     {
         $list = $header->getAddressList();
         $this->assertInstanceOf(AddressList::class, $list);
@@ -90,7 +90,7 @@ class AddressListHeaderTest extends TestCase
     /**
      * @dataProvider getHeaderInstances
      */
-    public function testStringRepresentationIncludesHeaderAndFieldValue($header, $type): void
+    public function testStringRepresentationIncludesHeaderAndFieldValue(AbstractAddressList $header, string $type): void
     {
         $this->populateAddressList($header->getAddressList());
         $expected = sprintf('%s: %s', $type, $this->getExpectedFieldValue());
@@ -110,9 +110,10 @@ class AddressListHeaderTest extends TestCase
     }
 
     /**
+     * @param class-string $class
      * @dataProvider getStringHeaders
      */
-    public function testDeserializationFromString($headerLine, $class): void
+    public function testDeserializationFromString(string $headerLine, string $class): void
     {
         $callback = sprintf('%s::fromString', $class);
         $header   = $callback($headerLine);
@@ -148,7 +149,7 @@ class AddressListHeaderTest extends TestCase
     /**
      * @dataProvider getHeadersWithComments
      */
-    public function testDeserializationFromStringWithComments($value): void
+    public function testDeserializationFromStringWithComments(string $value): void
     {
         $header = From::fromString($value);
         $list   = $header->getAddressList();
@@ -189,10 +190,11 @@ class AddressListHeaderTest extends TestCase
     }
 
     /**
+     * @param class-string $class
      * @group 3789
      * @dataProvider getStringHeadersWithNoWhitespaceSeparator
      */
-    public function testAllowsNoWhitespaceBetweenHeaderAndValue($headerLine, $class): void
+    public function testAllowsNoWhitespaceBetweenHeaderAndValue(string $headerLine, string $class): void
     {
         $callback = sprintf('%s::fromString', $class);
         $header   = $callback($headerLine);
@@ -214,9 +216,10 @@ class AddressListHeaderTest extends TestCase
     }
 
     /**
+     * @param null|string $sample
      * @dataProvider getAddressListsWithGroup
      */
-    public function testAddressListWithGroup($input, $count, $sample): void
+    public function testAddressListWithGroup(string $input, int $count, $sample): void
     {
         $header = To::fromString($input);
         $list   = $header->getAddressList();
@@ -253,8 +256,11 @@ class AddressListHeaderTest extends TestCase
     /**
      * @dataProvider specialCharHeaderProvider
      */
-    public function testDeserializationFromSpecialCharString($headerLine, $expected, $encoding): void
-    {
+    public function testDeserializationFromSpecialCharString(
+        string $headerLine,
+        array $expected,
+        string $encoding
+    ): void {
         $header = To::fromString($headerLine);
 
         $expectedTo  = new To();

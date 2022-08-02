@@ -73,6 +73,10 @@ abstract class AbstractAddressList implements HeaderInterface
     /** @var string lower case field name */
     protected static $type;
 
+    /**
+     * @param string $headerLine
+     * @return AbstractAddressList|static
+     */
     public static function fromString($headerLine)
     {
         [$fieldName, $fieldValue] = GenericHeader::splitHeaderLine($headerLine);
@@ -131,6 +135,9 @@ abstract class AbstractAddressList implements HeaderInterface
         return $header;
     }
 
+    /**
+     * @return string
+     */
     public function getFieldName()
     {
         return $this->fieldName;
@@ -163,6 +170,10 @@ abstract class AbstractAddressList implements HeaderInterface
         ));
     }
 
+    /**
+     * @param string $format
+     * @return string
+     */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)
     {
         $emails   = [];
@@ -210,12 +221,19 @@ abstract class AbstractAddressList implements HeaderInterface
         return implode(',' . Headers::FOLDING, $emails);
     }
 
+    /**
+     * @param string $encoding
+     * @return self
+     */
     public function setEncoding($encoding)
     {
         $this->encoding = $encoding;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getEncoding()
     {
         return $this->encoding;
@@ -242,6 +260,9 @@ abstract class AbstractAddressList implements HeaderInterface
         return $this->addressList;
     }
 
+    /**
+     * @return string
+     */
     public function toString()
     {
         $name  = $this->getFieldName();

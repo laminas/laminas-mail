@@ -25,6 +25,10 @@ class Subject implements UnstructuredInterface
      */
     protected $encoding;
 
+    /**
+     * @param string $headerLine
+     * @return Subject|static
+     */
     public static function fromString($headerLine)
     {
         [$name, $value] = GenericHeader::splitHeaderLine($headerLine);
@@ -41,11 +45,18 @@ class Subject implements UnstructuredInterface
         return $header;
     }
 
+    /**
+     * @return string
+     */
     public function getFieldName()
     {
         return 'Subject';
     }
 
+    /**
+     * @param string $format
+     * @return string
+     */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)
     {
         if (HeaderInterface::FORMAT_ENCODED === $format) {
@@ -55,6 +66,10 @@ class Subject implements UnstructuredInterface
         return $this->subject;
     }
 
+    /**
+     * @param string $encoding
+     * @return self
+     */
     public function setEncoding($encoding)
     {
         if ($encoding === $this->encoding) {
@@ -82,6 +97,9 @@ class Subject implements UnstructuredInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getEncoding()
     {
         if (! $this->encoding) {
@@ -91,6 +109,10 @@ class Subject implements UnstructuredInterface
         return $this->encoding;
     }
 
+    /**
+     * @param string $subject
+     * @return self
+     */
     public function setSubject($subject)
     {
         $subject = (string) $subject;
@@ -107,6 +129,9 @@ class Subject implements UnstructuredInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function toString()
     {
         return 'Subject: ' . $this->getFieldValue(HeaderInterface::FORMAT_ENCODED);

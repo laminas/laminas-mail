@@ -24,36 +24,49 @@ use const PHP_VERSION_ID;
  */
 class SendmailTest extends TestCase
 {
+    /** @var Sendmail */
     public $transport;
+    /** @var string */
     public $to;
+    /** @var string */
     public $subject;
+    /** @var string */
     public $message;
-    public $additional_headers;
-    public $additional_parameters;
-    public $operating_system;
+    /** @var string */
+    public $additionalHeaders;
+    /** @var null|string */
+    public $additionalParameters;
+    /** @var string */
+    public $operatingSystem;
 
     public function setUp(): void
     {
         $this->transport = new Sendmail();
         $this->transport->setCallable(
-            function ($to, $subject, $message, $additional_headers, $additional_parameters = null): void {
-                $this->to                    = $to;
-                $this->subject               = $subject;
-                $this->message               = $message;
-                $this->additional_headers    = $additional_headers;
-                $this->additional_parameters = $additional_parameters;
+            function (
+                string $to,
+                string $subject,
+                string $message,
+                string $additionalHeaders,
+                ?string $additionalParameters = null
+            ): void {
+                $this->to                   = $to;
+                $this->subject              = $subject;
+                $this->message              = $message;
+                $this->additionalHeaders    = $additionalHeaders;
+                $this->additionalParameters = $additionalParameters;
             }
         );
-        $this->operating_system = strtoupper(substr(PHP_OS, 0, 3));
+        $this->operatingSystem = strtoupper(substr(PHP_OS, 0, 3));
     }
 
     public function tearDown(): void
     {
-        $this->to                    = null;
-        $this->subject               = null;
-        $this->message               = null;
-        $this->additional_headers    = null;
-        $this->additional_parameters = null;
+        $this->to                   = null;
+        $this->subject              = null;
+        $this->message              = null;
+        $this->additionalHeaders    = null;
+        $this->additionalParameters = null;
     }
 
     public function getMessage(): Message
@@ -77,7 +90,7 @@ class SendmailTest extends TestCase
 
     private function isWindows(): bool
     {
-        return $this->operating_system === 'WIN';
+        return $this->operatingSystem === 'WIN';
     }
 
     public function testReceivesMailArtifactsOnUnixSystems(): void
@@ -94,45 +107,45 @@ class SendmailTest extends TestCase
         $this->assertEquals('Testing Laminas\Mail\Transport\Sendmail', $this->subject);
         $this->assertEquals('This is only a test.', trim($this->message));
         if (PHP_VERSION_ID < 80000) {
-            $this->assertStringNotContainsString("To: Example Test <test@example.com>\n", $this->additional_headers);
-            $this->assertStringContainsString("Cc: matthew@example.com\n", $this->additional_headers);
-            $this->assertStringContainsString("Bcc: \"Example, List\" <list@example.com>\n", $this->additional_headers);
+            $this->assertStringNotContainsString("To: Example Test <test@example.com>\n", $this->additionalHeaders);
+            $this->assertStringContainsString("Cc: matthew@example.com\n", $this->additionalHeaders);
+            $this->assertStringContainsString("Bcc: \"Example, List\" <list@example.com>\n", $this->additionalHeaders);
             $this->assertStringContainsString(
                 "From: test@example.com,\n Matthew <matthew@example.com>\n",
-                $this->additional_headers
+                $this->additionalHeaders
             );
-            $this->assertStringContainsString("X-Foo-Bar: Matthew\n", $this->additional_headers);
+            $this->assertStringContainsString("X-Foo-Bar: Matthew\n", $this->additionalHeaders);
             $this->assertStringContainsString(
                 "Sender: Ralph Schindler <ralph@example.com>\n",
-                $this->additional_headers
+                $this->additionalHeaders
             );
         } else {
             $this->assertStringNotContainsString(
                 "To: Example Test <test@example.com>\r\n",
-                $this->additional_headers
+                $this->additionalHeaders
             );
             $this->assertStringContainsString(
                 "Cc: matthew@example.com\r\n",
-                $this->additional_headers
+                $this->additionalHeaders
             );
             $this->assertStringContainsString(
                 "Bcc: \"Example, List\" <list@example.com>\r\n",
-                $this->additional_headers
+                $this->additionalHeaders
             );
             $this->assertStringContainsString(
                 "From: test@example.com,\r\n Matthew <matthew@example.com>\r\n",
-                $this->additional_headers
+                $this->additionalHeaders
             );
             $this->assertStringContainsString(
                 "X-Foo-Bar: Matthew\r\n",
-                $this->additional_headers
+                $this->additionalHeaders
             );
             $this->assertStringContainsString(
                 "Sender: Ralph Schindler <ralph@example.com>\r\n",
-                $this->additional_headers
+                $this->additionalHeaders
             );
         }
-        $this->assertEquals('-R hdrs -f\'ralph@example.com\'', $this->additional_parameters);
+        $this->assertEquals('-R hdrs -f\'ralph@example.com\'', $this->additionalParameters);
     }
 
     public function testReceivesMailArtifactsOnWindowsSystems(): void
@@ -147,16 +160,16 @@ class SendmailTest extends TestCase
         $this->assertEquals('test@example.com', $this->to);
         $this->assertEquals('Testing Laminas\Mail\Transport\Sendmail', $this->subject);
         $this->assertEquals('This is only a test.', trim($this->message));
-        $this->assertStringContainsString("To: Example Test <test@example.com>\r\n", $this->additional_headers);
-        $this->assertStringContainsString("Cc: matthew@example.com\r\n", $this->additional_headers);
-        $this->assertStringContainsString("Bcc: \"Example, List\" <list@example.com>\r\n", $this->additional_headers);
+        $this->assertStringContainsString("To: Example Test <test@example.com>\r\n", $this->additionalHeaders);
+        $this->assertStringContainsString("Cc: matthew@example.com\r\n", $this->additionalHeaders);
+        $this->assertStringContainsString("Bcc: \"Example, List\" <list@example.com>\r\n", $this->additionalHeaders);
         $this->assertStringContainsString(
             "From: test@example.com,\r\n Matthew <matthew@example.com>\r\n",
-            $this->additional_headers
+            $this->additionalHeaders
         );
-        $this->assertStringContainsString("X-Foo-Bar: Matthew\r\n", $this->additional_headers);
-        $this->assertStringContainsString("Sender: Ralph Schindler <ralph@example.com>\r\n", $this->additional_headers);
-        $this->assertNull($this->additional_parameters);
+        $this->assertStringContainsString("X-Foo-Bar: Matthew\r\n", $this->additionalHeaders);
+        $this->assertStringContainsString("Sender: Ralph Schindler <ralph@example.com>\r\n", $this->additionalHeaders);
+        $this->assertNull($this->additionalParameters);
     }
 
     public function testLinesStartingWithFullStopsArePreparedProperlyForWindows(): void
@@ -200,7 +213,7 @@ class SendmailTest extends TestCase
         $message->setSubject('TestSubject');
 
         $this->transport->send($message);
-        $this->assertStringContainsString('From: Foo Bar <"foo-bar"@domain>', $this->additional_headers);
+        $this->assertStringContainsString('From: Foo Bar <"foo-bar"@domain>', $this->additionalHeaders);
     }
 
     /**
@@ -271,7 +284,7 @@ class SendmailTest extends TestCase
                 ->setBody('This is only a test.');
 
         $this->transport->send($message);
-        $this->assertStringContainsString('Sender: Ralph Schindler <ralph@example.com>', $this->additional_headers);
+        $this->assertStringContainsString('Sender: Ralph Schindler <ralph@example.com>', $this->additionalHeaders);
     }
 
     public function testAllowMessageWithEmptyToHeaderButHasBccHeader(): void
@@ -283,7 +296,7 @@ class SendmailTest extends TestCase
                 ->setBody('This is only a test.');
 
         $this->transport->send($message);
-        $this->assertStringContainsString('Sender: Ralph Schindler <ralph@example.com>', $this->additional_headers);
+        $this->assertStringContainsString('Sender: Ralph Schindler <ralph@example.com>', $this->additionalHeaders);
     }
 
     public function testDoNotAllowMessageWithoutToAndCcAndBccHeaders(): void
@@ -316,11 +329,11 @@ class SendmailTest extends TestCase
 
         $this->assertDoesNotMatchRegularExpression(
             '/^To: matthew\@example\.org$/m',
-            (string) $this->additional_headers
+            (string) $this->additionalHeaders
         );
         $this->assertDoesNotMatchRegularExpression(
             '/^Subject: Greetings and Salutations!$/m',
-            (string) $this->additional_headers
+            (string) $this->additionalHeaders
         );
     }
 
@@ -335,7 +348,7 @@ class SendmailTest extends TestCase
      */
     public function testDoesNotInjectFromParameterFromSenderWhenFromOptionPresentInParameters(string $parameters): void
     {
-        if ($this->operating_system == 'WIN') {
+        if ($this->operatingSystem == 'WIN') {
             $this->markTestSkipped('This test is *nix-specific');
         }
 
@@ -343,6 +356,6 @@ class SendmailTest extends TestCase
         $this->transport->setParameters($parameters);
 
         $this->transport->send($message);
-        $this->assertEquals($parameters, $this->additional_parameters);
+        $this->assertEquals($parameters, $this->additionalParameters);
     }
 }

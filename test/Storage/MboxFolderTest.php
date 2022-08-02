@@ -35,16 +35,20 @@ use const DIRECTORY_SEPARATOR;
  */
 class MboxFolderTest extends TestCase
 {
+    /** @var array */
     protected $params;
+    /** @var string */
     protected $originalDir;
+    /** @var string */
     protected $tmpdir;
+    /** @var string[] */
     protected $subdirs = ['.', 'subfolder'];
 
     public function setUp(): void
     {
         $this->originalDir = __DIR__ . '/../_files/test.mbox/';
 
-        if ($this->tmpdir == null) {
+        if (! isset($this->tmpdir)) {
             if (getenv('TESTS_LAMINAS_MAIL_TEMPDIR') != null) {
                 $this->tmpdir = getenv('TESTS_LAMINAS_MAIL_TEMPDIR');
             } else {
@@ -188,23 +192,23 @@ class MboxFolderTest extends TestCase
         $iterator = new RecursiveIteratorIterator($mail->getFolders(), RecursiveIteratorIterator::SELF_FIRST);
 
         // we search for this folder because we cannot assume an order while iterating
-        $search_folders = [
+        $searchFolders = [
             DIRECTORY_SEPARATOR . 'subfolder'                                => 'subfolder',
             DIRECTORY_SEPARATOR . 'subfolder' . DIRECTORY_SEPARATOR . 'test' => 'test',
             DIRECTORY_SEPARATOR . 'INBOX'                                    => 'INBOX',
         ];
-        $found_folders  = [];
+        $foundFolders  = [];
 
         foreach ($iterator as $localName => $folder) {
-            if (! isset($search_folders[$folder->getGlobalName()])) {
+            if (! isset($searchFolders[$folder->getGlobalName()])) {
                 continue;
             }
 
             // explicit call of __toString() needed for PHP < 5.2
-            $found_folders[$folder->__toString()] = $localName;
+            $foundFolders[$folder->__toString()] = $localName;
         }
 
-        $this->assertEquals($search_folders, $found_folders);
+        $this->assertEquals($searchFolders, $foundFolders);
     }
 
     public function testKeyLocalName(): void
@@ -212,23 +216,23 @@ class MboxFolderTest extends TestCase
         $mail     = new Folder\Mbox($this->params);
         $iterator = new RecursiveIteratorIterator($mail->getFolders(), RecursiveIteratorIterator::SELF_FIRST);
         // we search for this folder because we cannot assume an order while iterating
-        $search_folders = [
+        $searchFolders = [
             DIRECTORY_SEPARATOR . 'subfolder'                                => 'subfolder',
             DIRECTORY_SEPARATOR . 'subfolder' . DIRECTORY_SEPARATOR . 'test' => 'test',
             DIRECTORY_SEPARATOR . 'INBOX'                                    => 'INBOX',
         ];
-        $found_folders  = [];
+        $foundFolders  = [];
 
         foreach ($iterator as $localName => $folder) {
-            if (! isset($search_folders[$folder->getGlobalName()])) {
+            if (! isset($searchFolders[$folder->getGlobalName()])) {
                 continue;
             }
 
             // explicit call of __toString() needed for PHP < 5.2
-            $found_folders[$folder->__toString()] = $localName;
+            $foundFolders[$folder->__toString()] = $localName;
         }
 
-        $this->assertEquals($search_folders, $found_folders);
+        $this->assertEquals($searchFolders, $foundFolders);
     }
 
     public function testSelectable(): void

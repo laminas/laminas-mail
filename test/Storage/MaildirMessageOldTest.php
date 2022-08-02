@@ -28,7 +28,9 @@ use const PHP_OS;
 
 class MaildirMessageOldTest extends TestCase
 {
+    /** @var string */
     protected $maildir;
+    /** @var string */
     protected $tmpdir;
 
     public function setUp(): void
@@ -40,7 +42,7 @@ class MaildirMessageOldTest extends TestCase
 
         $originalMaildir = __DIR__ . '/../_files/test.maildir/';
 
-        if ($this->tmpdir == null) {
+        if (! isset($this->tmpdir)) {
             if (getenv('TESTS_LAMINAS_MAIL_TEMPDIR') != null) {
                 $this->tmpdir = getenv('TESTS_LAMINAS_MAIL_TEMPDIR');
             } else {
@@ -119,15 +121,6 @@ class MaildirMessageOldTest extends TestCase
         $this->assertEquals('Simple Message', $subject);
     }
 
-/*
-    public function testFetchTopBody()
-    {
-        $mail = new TestAsset\MaildirOldMessage(array('dirname' => $this->maildir));
-
-        $content = $mail->getHeader(3, 1)->getContent();
-        $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
-    }
-*/
     public function testFetchMessageHeader(): void
     {
         $mail = new TestAsset\MaildirOldMessage(['dirname' => $this->maildir]);
