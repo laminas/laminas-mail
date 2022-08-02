@@ -622,6 +622,7 @@ class Imap
             // if we want only one message we can ignore everything else and just return
             if ($to === null && ! is_array($from) && ($uid ? $tokens[2][$uidKey] == $from : $tokens[0] == $from)) {
                 // we still need to read all lines
+                // phpcs:disable Generic.CodeAnalysis.EmptyStatement.DetectedWhile
                 while (! $this->readLine($tokens, $tag)) {
                 }
                 return $data;
