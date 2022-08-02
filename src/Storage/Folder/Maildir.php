@@ -237,7 +237,7 @@ class Maildir extends Storage\Maildir implements FolderInterface
     /**
      * get Storage\Folder instance for current folder
      *
-     * @return Storage\Folder instance of current folder
+     * @return string instance of current folder
      */
     public function getCurrentFolder()
     {

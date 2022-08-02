@@ -20,7 +20,7 @@ interface FolderInterface
      *
      * folder must be selectable!
      *
-     * @param FolderInterface|string $globalName global name of folder or instance for subfolder
+     * @param Folder|string $globalName global name of folder or instance for subfolder
      * @throws ExceptionInterface
      */
     public function selectFolder($globalName);
@@ -28,7 +28,7 @@ interface FolderInterface
     /**
      * get Laminas\Mail\Storage\Folder instance for current folder
      *
-     * @return FolderInterface instance of current folder
+     * @return string instance of current folder
      * @throws ExceptionInterface
      */
     public function getCurrentFolder();

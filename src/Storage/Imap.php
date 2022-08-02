@@ -398,7 +398,7 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
      */
     public function selectFolder($globalName)
     {
-        $this->currentFolder = $globalName;
+        $this->currentFolder = (string) $globalName;
         if (! $this->protocol->select($this->currentFolder)) {
             $this->currentFolder = '';
             throw new Exception\RuntimeException('cannot change folder, maybe it does not exist');
@@ -408,7 +408,7 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
     /**
      * get Folder instance for current folder
      *
-     * @return Folder instance of current folder
+     * @return string instance of current folder
      */
     public function getCurrentFolder()
     {
