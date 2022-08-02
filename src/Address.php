@@ -1,9 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail;
 
 use Laminas\Validator\EmailAddress as EmailAddressValidator;
 use Laminas\Validator\Hostname;
+
+use function array_shift;
+use function is_string;
+use function preg_match;
+use function sprintf;
+use function trim;
 
 class Address implements Address\AddressInterface
 {
@@ -149,7 +157,7 @@ class Address implements Address\AddressInterface
      */
     private function constructName()
     {
-        $name = $this->getName();
+        $name    = $this->getName();
         $comment = $this->getComment();
 
         if ($comment === null || $comment === '') {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Transport;
 
 use Laminas\Mail\Headers;
@@ -13,6 +15,14 @@ use Laminas\Mail\Transport\Smtp;
 use Laminas\Mail\Transport\SmtpOptions;
 use LaminasTest\Mail\TestAsset\SmtpProtocolSpy;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+
+use function explode;
+use function sprintf;
+use function str_repeat;
+use function strlen;
+use function substr;
+use function time;
 
 /**
  * @group      Laminas_Mail
@@ -81,7 +91,7 @@ class SmtpTest extends TestCase
 
     public function testSendMailWithEnvelopeFrom(): void
     {
-        $message = $this->getMessage();
+        $message  = $this->getMessage();
         $envelope = new Envelope([
             'from' => 'mailer@example.com',
         ]);
@@ -97,7 +107,7 @@ class SmtpTest extends TestCase
 
     public function testSendMailWithEnvelopeTo(): void
     {
-        $message = $this->getMessage();
+        $message  = $this->getMessage();
         $envelope = new Envelope([
             'to' => 'users@example.com',
         ]);
@@ -112,11 +122,11 @@ class SmtpTest extends TestCase
 
     public function testSendMailWithEnvelope(): void
     {
-        $message = $this->getMessage();
-        $to = ['users@example.com', 'dev@example.com'];
+        $message  = $this->getMessage();
+        $to       = ['users@example.com', 'dev@example.com'];
         $envelope = new Envelope([
             'from' => 'mailer@example.com',
-            'to' => $to,
+            'to'   => $to,
         ]);
         $this->transport->setEnvelope($envelope);
         $this->transport->send($message);
@@ -208,12 +218,12 @@ class SmtpTest extends TestCase
         // Create buffer of 8192 bytes (PHP_SOCK_CHUNK_SIZE)
         $buffer = str_repeat('0123456789abcdef', 512);
 
-        $maxLen = SmtpProtocol::SMTP_LINE_LIMIT;
-        $headerWithLargeValue = $buffer;
+        $maxLen                         = SmtpProtocol::SMTP_LINE_LIMIT;
+        $headerWithLargeValue           = $buffer;
         $headerWithExactlyMaxLineLength = substr($buffer, 0, $maxLen - strlen('X-Exact-Length: '));
         $message->getHeaders()->addHeaders([
             'X-Ms-Exchange-Antispam-Messagedata' => $headerWithLargeValue,
-            'X-Exact-Length' => $headerWithExactlyMaxLineLength,
+            'X-Exact-Length'                     => $headerWithExactlyMaxLineLength,
         ]);
 
         $this->transport->send($message);
@@ -364,7 +374,7 @@ class SmtpTest extends TestCase
         $this->transport->send($this->getMessage());
 
         // Check that the connectedTime was set properly
-        $reflClass             = new \ReflectionClass($this->transport);
+        $reflClass             = new ReflectionClass($this->transport);
         $connectedTimeProperty = $reflClass->getProperty('connectedTime');
 
         $this->assertNotNull($connectedTimeProperty);

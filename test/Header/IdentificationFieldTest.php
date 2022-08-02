@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header\Exception;
@@ -7,6 +9,8 @@ use Laminas\Mail\Header\IdentificationField;
 use Laminas\Mail\Header\InReplyTo;
 use Laminas\Mail\Header\References;
 use PHPUnit\Framework\TestCase;
+
+use function array_merge;
 
 class IdentificationFieldTest extends TestCase
 {

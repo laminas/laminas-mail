@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail;
 
 use Laminas\Mail\Address;
@@ -47,7 +49,7 @@ class AddressTest extends TestCase
     {
         return [
             // Description => [sender address, sender name],
-            'Empty' => ['', null],
+            'Empty'     => ['', null],
             'any ASCII' => ['azAZ09-_', null],
             'any UTF-8' => ['ázÁZ09-_', null],
 

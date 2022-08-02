@@ -1,12 +1,42 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail\Header;
 
 use Laminas\Mail\Address;
 use Laminas\Mail\AddressList;
 use Laminas\Mail\Headers;
 use Laminas\Mail\Storage\Exception\RuntimeException;
-use Throwable;
+
+use function array_filter;
+use function array_map;
+use function idn_to_ascii;
+use function implode;
+use function preg_match;
+use function preg_match_all;
+use function preg_replace;
+use function sprintf;
+use function str_replace;
+use function strpos;
+use function strtolower;
+use function trim;
+
+use const IDNA_DEFAULT;
+use const IDNA_ERROR_BIDI;
+use const IDNA_ERROR_CONTEXTJ;
+use const IDNA_ERROR_DISALLOWED;
+use const IDNA_ERROR_DOMAIN_NAME_TOO_LONG;
+use const IDNA_ERROR_EMPTY_LABEL;
+use const IDNA_ERROR_HYPHEN_3_4;
+use const IDNA_ERROR_INVALID_ACE_LABEL;
+use const IDNA_ERROR_LABEL_HAS_DOT;
+use const IDNA_ERROR_LABEL_TOO_LONG;
+use const IDNA_ERROR_LEADING_COMBINING_MARK;
+use const IDNA_ERROR_LEADING_HYPHEN;
+use const IDNA_ERROR_PUNYCODE;
+use const IDNA_ERROR_TRAILING_HYPHEN;
+use const INTL_IDNA_VARIANT_UTS46;
 
 /**
  * Base class for headers composing address lists (to, from, cc, bcc, reply-to)
@@ -14,29 +44,25 @@ use Throwable;
 abstract class AbstractAddressList implements HeaderInterface
 {
     private const IDNA_ERROR_MAP = [
-        IDNA_ERROR_EMPTY_LABEL => 'empty label',
-        IDNA_ERROR_LABEL_TOO_LONG => 'label too long',
-        IDNA_ERROR_DOMAIN_NAME_TOO_LONG => 'domain name too long',
-        IDNA_ERROR_LEADING_HYPHEN => 'leading hyphen',
-        IDNA_ERROR_TRAILING_HYPHEN => 'trailing hyphen',
-        IDNA_ERROR_HYPHEN_3_4 => 'consecutive hyphens',
+        IDNA_ERROR_EMPTY_LABEL            => 'empty label',
+        IDNA_ERROR_LABEL_TOO_LONG         => 'label too long',
+        IDNA_ERROR_DOMAIN_NAME_TOO_LONG   => 'domain name too long',
+        IDNA_ERROR_LEADING_HYPHEN         => 'leading hyphen',
+        IDNA_ERROR_TRAILING_HYPHEN        => 'trailing hyphen',
+        IDNA_ERROR_HYPHEN_3_4             => 'consecutive hyphens',
         IDNA_ERROR_LEADING_COMBINING_MARK => 'leading combining mark',
-        IDNA_ERROR_DISALLOWED => 'disallowed',
-        IDNA_ERROR_PUNYCODE => 'invalid punycode encoding',
-        IDNA_ERROR_LABEL_HAS_DOT => 'has dot',
-        IDNA_ERROR_INVALID_ACE_LABEL => 'label not in ASCII encoding',
-        IDNA_ERROR_BIDI => 'fails bidirectional criteria',
-        IDNA_ERROR_CONTEXTJ => 'one or more characters fail CONTEXTJ rule',
+        IDNA_ERROR_DISALLOWED             => 'disallowed',
+        IDNA_ERROR_PUNYCODE               => 'invalid punycode encoding',
+        IDNA_ERROR_LABEL_HAS_DOT          => 'has dot',
+        IDNA_ERROR_INVALID_ACE_LABEL      => 'label not in ASCII encoding',
+        IDNA_ERROR_BIDI                   => 'fails bidirectional criteria',
+        IDNA_ERROR_CONTEXTJ               => 'one or more characters fail CONTEXTJ rule',
     ];
 
-    /**
-     * @var AddressList
-     */
+    /** @var AddressList */
     protected $addressList;
 
-    /**
-     * @var string Normalized field name
-     */
+    /** @var string Normalized field name */
     protected $fieldName;
 
     /**
@@ -46,40 +72,38 @@ abstract class AbstractAddressList implements HeaderInterface
      */
     protected $encoding = 'ASCII';
 
-    /**
-     * @var string lower case field name
-     */
+    /** @var string lower case field name */
     protected static $type;
 
     public static function fromString($headerLine)
     {
-        list($fieldName, $fieldValue) = GenericHeader::splitHeaderLine($headerLine);
+        [$fieldName, $fieldValue] = GenericHeader::splitHeaderLine($headerLine);
         if (strtolower($fieldName) !== static::$type) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'Invalid header line for "%s" string',
-                __CLASS__
+                self::class
             ));
         }
 
         // split value on ","
         $fieldValue = str_replace(Headers::FOLDING, ' ', $fieldValue);
         $fieldValue = preg_replace('/[^:]+:([^;]*);/', '$1,', $fieldValue);
-        $values = ListParser::parse($fieldValue);
+        $values     = ListParser::parse($fieldValue);
 
         $wasEncoded = false;
-        $addresses = array_map(
+        $addresses  = array_map(
             function ($value) use (&$wasEncoded) {
                 $decodedValue = HeaderWrap::mimeDecodeValue($value);
-                $wasEncoded = $wasEncoded || ($decodedValue !== $value);
+                $wasEncoded   = $wasEncoded || ($decodedValue !== $value);
 
                 $value = trim($decodedValue);
 
                 $comments = self::getComments($value);
-                $value = self::stripComments($value);
+                $value    = self::stripComments($value);
 
                 $value = preg_replace(
                     [
-                        '#(?<!\\\)"(.*)(?<!\\\)"#',            // quoted-text
+                        '#(?<!\\\)"(.*)(?<!\\\)"#', // quoted-text
                         '#\\\([\x01-\x09\x0b\x0c\x0e-\x7f])#', // quoted-pair
                     ],
                     [
@@ -93,7 +117,7 @@ abstract class AbstractAddressList implements HeaderInterface
             },
             $values
         );
-        $addresses = array_filter($addresses);
+        $addresses  = array_filter($addresses);
 
         $header = new static();
         if ($wasEncoded) {
@@ -116,8 +140,8 @@ abstract class AbstractAddressList implements HeaderInterface
 
     /**
      * Safely convert UTF-8 encoded domain name to ASCII
+     *
      * @param string $domainName the UTF-8 encoded email
-     * @return string
      */
     protected function idnToAscii($domainName): string
     {
@@ -156,7 +180,8 @@ abstract class AbstractAddressList implements HeaderInterface
                 $name = sprintf('"%s"', $name);
             }
 
-            if ($format === HeaderInterface::FORMAT_ENCODED
+            if (
+                $format === HeaderInterface::FORMAT_ENCODED
                 && 'ASCII' !== $encoding
             ) {
                 if (! empty($name)) {
@@ -166,7 +191,7 @@ abstract class AbstractAddressList implements HeaderInterface
                 if (preg_match('/^(.+)@([^@]+)$/', $email, $matches)) {
                     $localPart = $matches[1];
                     $hostname  = $this->idnToAscii($matches[2]);
-                    $email = sprintf('%s@%s', $localPart, $hostname);
+                    $email     = sprintf('%s@%s', $localPart, $hostname);
                 }
             }
 
@@ -200,8 +225,6 @@ abstract class AbstractAddressList implements HeaderInterface
 
     /**
      * Set address list for this header
-     *
-     * @param  AddressList $addressList
      */
     public function setAddressList(AddressList $addressList)
     {
@@ -225,7 +248,7 @@ abstract class AbstractAddressList implements HeaderInterface
     {
         $name  = $this->getFieldName();
         $value = $this->getFieldValue(HeaderInterface::FORMAT_ENCODED);
-        return (empty($value)) ? '' : sprintf('%s: %s', $name, $value);
+        return empty($value) ? '' : sprintf('%s: %s', $name, $value);
     }
 
     /**

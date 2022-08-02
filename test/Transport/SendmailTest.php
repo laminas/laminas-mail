@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Transport;
 
 use Laminas\Mail\Address\AddressInterface;
@@ -10,6 +12,14 @@ use Laminas\Mail\Transport\Sendmail;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use ReflectionProperty;
+
+use function escapeshellarg;
+use function strtoupper;
+use function substr;
+use function trim;
+
+use const PHP_OS;
+use const PHP_VERSION_ID;
 
 /**
  * @covers Laminas\Mail\Transport\Sendmail<extended>
@@ -36,7 +46,7 @@ class SendmailTest extends TestCase
                 $this->additional_parameters = $additional_parameters;
             }
         );
-        $this->operating_system      = strtoupper(substr(PHP_OS, 0, 3));
+        $this->operating_system = strtoupper(substr(PHP_OS, 0, 3));
     }
 
     public function tearDown(): void

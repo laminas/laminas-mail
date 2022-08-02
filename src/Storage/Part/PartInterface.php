@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail\Storage\Part;
 
 use ArrayIterator;
@@ -102,6 +104,7 @@ interface PartInterface extends RecursiveIterator
      * This getter is short for PartInterface::getHeader($name, 'string')
      *
      * @see PartInterface::getHeader()
+     *
      * @param  string $name header name
      * @return string value of header
      * @throws Exception\ExceptionInterface

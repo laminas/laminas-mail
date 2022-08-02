@@ -1,40 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail\Storage;
 
+use Laminas\Mail\Storage\Exception\ExceptionInterface;
+use Laminas\Mail\Storage\Message\File;
 use Laminas\Stdlib\ErrorHandler;
+
+use function array_combine;
+use function count;
+use function fclose;
+use function fgets;
+use function filemtime;
+use function fopen;
+use function fseek;
+use function ftell;
+use function is_dir;
+use function is_resource;
+use function is_subclass_of;
+use function range;
+use function stream_get_contents;
+use function strlen;
+use function strpos;
+use function strtolower;
+use function trim;
+
+use const E_WARNING;
 
 class Mbox extends AbstractStorage
 {
     /**
      * file handle to mbox file
+     *
      * @var null|resource
      */
     protected $fh;
 
     /**
      * filename of mbox file for __wakeup
+     *
      * @var string
      */
     protected $filename;
 
     /**
      * modification date of mbox file for __wakeup
+     *
      * @var int
      */
     protected $filemtime;
 
     /**
      * start and end position of messages as array('start' => start, 'separator' => headersep, 'end' => end)
+     *
      * @var array
      */
     protected $positions;
 
     /**
      * used message class, change it in an extended class to extend the returned message class
+     *
      * @var string
      */
-    protected $messageClass = Message\File::class;
+    protected $messageClass = File::class;
 
     /**
      * end of Line for messages
@@ -47,7 +76,7 @@ class Mbox extends AbstractStorage
      * Count messages all messages in current box
      *
      * @return int number of messages
-     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function countMessages()
     {
@@ -95,21 +124,23 @@ class Mbox extends AbstractStorage
      * Fetch a message
      *
      * @param  int $id number of message
-     * @return \Laminas\Mail\Storage\Message\File
-     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
+     * @return File
+     * @throws ExceptionInterface
      */
     public function getMessage($id)
     {
         // TODO that's ugly, would be better to let the message class decide
-        if (is_subclass_of($this->messageClass, Message\File::class)
-            || strtolower($this->messageClass) === strtolower(Message\File::class)) {
+        if (
+            is_subclass_of($this->messageClass, File::class)
+            || strtolower($this->messageClass) === strtolower(File::class)
+        ) {
             // TODO top/body lines
             $messagePos = $this->getPos($id);
 
             $messageClassParams = [
-                'file' => $this->fh,
+                'file'     => $this->fh,
                 'startPos' => $messagePos['start'],
-                'endPos' => $messagePos['end'],
+                'endPos'   => $messagePos['end'],
             ];
 
             if (isset($this->messageEOL)) {
@@ -260,11 +291,11 @@ class Mbox extends AbstractStorage
 
         ErrorHandler::start();
         $this->fh = fopen($filename, 'r');
-        $error = ErrorHandler::stop();
+        $error    = ErrorHandler::stop();
         if (! $this->fh) {
             throw new Exception\RuntimeException('cannot open mbox file', 0, $error);
         }
-        $this->filename = $filename;
+        $this->filename  = $filename;
         $this->filemtime = filemtime($this->filename);
 
         if (! $this->isMboxFile($this->fh, false)) {
@@ -282,7 +313,7 @@ class Mbox extends AbstractStorage
                     $messagePos['separator'] = $messagePos['end'];
                 }
                 $this->positions[] = $messagePos;
-                $messagePos = ['start' => ftell($this->fh), 'separator' => 0, 'end' => 0];
+                $messagePos        = ['start' => ftell($this->fh), 'separator' => 0, 'end' => 0];
             }
             if (! $messagePos['separator'] && ! trim($line)) {
                 $messagePos['separator'] = ftell($this->fh);
@@ -299,7 +330,6 @@ class Mbox extends AbstractStorage
     /**
      * Close resource for mail lib. If you need to control, when the resource
      * is closed. Otherwise the destructor would call this.
-     *
      */
     public function close()
     {
@@ -339,7 +369,7 @@ class Mbox extends AbstractStorage
      *
      * @param int|null $id message number
      * @return array|string message number for given message or all messages as array
-     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function getUniqueId($id = null)
     {
@@ -361,7 +391,7 @@ class Mbox extends AbstractStorage
      *
      * @param string $id unique id
      * @return int message number
-     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function getNumberByUniqueId($id)
     {

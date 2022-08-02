@@ -1,10 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail;
 
 use Countable;
 use Iterator;
 use ReturnTypeWillChange;
+
+use function count;
+use function current;
+use function get_class;
+use function gettype;
+use function is_int;
+use function is_numeric;
+use function is_object;
+use function is_string;
+use function key;
+use function next;
+use function reset;
+use function sprintf;
+use function strtolower;
+use function var_export;
 
 class AddressList implements Countable, Iterator
 {
@@ -34,7 +51,7 @@ class AddressList implements Countable, Iterator
                 '%s expects an email address or %s\Address object as its first argument; received "%s"',
                 __METHOD__,
                 __NAMESPACE__,
-                (is_object($emailOrAddress) ? get_class($emailOrAddress) : gettype($emailOrAddress))
+                is_object($emailOrAddress) ? get_class($emailOrAddress) : gettype($emailOrAddress)
             ));
         }
 
@@ -69,7 +86,7 @@ class AddressList implements Countable, Iterator
             if (! is_string($key)) {
                 throw new Exception\RuntimeException(sprintf(
                     'Invalid key type in provided addresses array ("%s")',
-                    (is_object($key) ? get_class($key) : var_export($key, 1))
+                    is_object($key) ? get_class($key) : var_export($key, 1)
                 ));
             }
 
@@ -167,9 +184,10 @@ class AddressList implements Countable, Iterator
     /**
      * Rewind iterator
      *
+     * @see addresses
+     *
      * @return mixed the value of the first addresses element, or false if the addresses is
      * empty.
-     * @see addresses
      */
     #[ReturnTypeWillChange]
     public function rewind()
@@ -202,9 +220,10 @@ class AddressList implements Countable, Iterator
     /**
      * Move to next item
      *
+     * @see addresses
+     *
      * @return mixed the addresses value in the next place that's pointed to by the
      * internal array pointer, or false if there are no more elements.
-     * @see addresses
      */
     #[ReturnTypeWillChange]
     public function next()
@@ -221,7 +240,7 @@ class AddressList implements Countable, Iterator
     public function valid()
     {
         $key = key($this->addresses);
-        return ($key !== null && $key !== false);
+        return $key !== null && $key !== false;
     }
 
     /**

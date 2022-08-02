@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header;
 use Laminas\Mail\Header\Exception;
 use PHPUnit\Framework\TestCase;
+
+use function sprintf;
 
 /**
  * @group      Laminas_Mail
@@ -14,7 +18,7 @@ class MessageIdTest extends TestCase
 {
     public function testSettingManually(): void
     {
-        $id = "CALTvGe4_oYgf9WsYgauv7qXh2-6=KbPLExmJNG7fCs9B=1nOYg@mail.example.com";
+        $id        = "CALTvGe4_oYgf9WsYgauv7qXh2-6=KbPLExmJNG7fCs9B=1nOYg@mail.example.com";
         $messageid = new Header\MessageId();
         $messageid->setId($id);
 
@@ -34,10 +38,10 @@ class MessageIdTest extends TestCase
 
     public function testAutoGenerationWithServerVars(): void
     {
-        $serverBeforeTest = $_SERVER;
+        $serverBeforeTest       = $_SERVER;
         $_SERVER['REMOTE_ADDR'] = '172.16.0.1';
         $_SERVER['SERVER_NAME'] = 'server-name.test';
-        $messageid = new Header\MessageId();
+        $messageid              = new Header\MessageId();
         $messageid->setId();
 
         $this->assertStringContainsString('@server-name.test', $messageid->getFieldValue());
@@ -47,10 +51,10 @@ class MessageIdTest extends TestCase
     public function headerLines(): array
     {
         return [
-            'newline'      => ["Message-ID: foo\nbar"],
-            'cr-lf'        => ["Message-ID: bar\r\nfoo"],
-            'cr-lf-wsp'    => ["Message-ID: bar\r\n\r\n baz"],
-            'multiline'    => ["Message-ID: baz\r\nbar\r\nbau"],
+            'newline'   => ["Message-ID: foo\nbar"],
+            'cr-lf'     => ["Message-ID: bar\r\nfoo"],
+            'cr-lf-wsp' => ["Message-ID: bar\r\n\r\n baz"],
+            'multiline' => ["Message-ID: baz\r\nbar\r\nbau"],
         ];
     }
 
@@ -67,11 +71,11 @@ class MessageIdTest extends TestCase
     public function invalidIdentifiers(): array
     {
         return [
-            'newline'      => ["foo\nbar"],
-            'cr-lf'        => ["bar\r\nfoo"],
-            'cr-lf-wsp'    => ["bar\r\n\r\n baz"],
-            'multiline'    => ["baz\r\nbar\r\nbau"],
-            'folding'      => ["bar\r\n baz"],
+            'newline'   => ["foo\nbar"],
+            'cr-lf'     => ["bar\r\nfoo"],
+            'cr-lf-wsp' => ["bar\r\n\r\n baz"],
+            'multiline' => ["baz\r\nbar\r\nbau"],
+            'folding'   => ["bar\r\n baz"],
         ];
     }
 

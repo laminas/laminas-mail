@@ -1,8 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail\Header;
 
 use Laminas\Mime\Mime;
+
+use function strtolower;
+use function strtoupper;
 
 /**
  * Subject header class methods.
@@ -12,9 +17,7 @@ use Laminas\Mime\Mime;
  */
 class Subject implements UnstructuredInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $subject = '';
 
     /**
@@ -26,8 +29,8 @@ class Subject implements UnstructuredInterface
 
     public static function fromString($headerLine)
     {
-        list($name, $value) = GenericHeader::splitHeaderLine($headerLine);
-        $value = HeaderWrap::mimeDecodeValue($value);
+        [$name, $value] = GenericHeader::splitHeaderLine($headerLine);
+        $value          = HeaderWrap::mimeDecodeValue($value);
 
         // check to ensure proper header type for this factory
         if (strtolower($name) !== 'subject') {

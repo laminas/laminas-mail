@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Storage;
 
 use ArrayObject;
@@ -7,6 +9,26 @@ use Laminas\Mail\Protocol;
 use Laminas\Mail\Storage;
 use Laminas\Mail\Storage\Exception;
 use PHPUnit\Framework\TestCase;
+use RecursiveIteratorIterator;
+
+use function array_combine;
+use function closedir;
+use function copy;
+use function explode;
+use function file_exists;
+use function getenv;
+use function is_dir;
+use function mkdir;
+use function opendir;
+use function range;
+use function readdir;
+use function rmdir;
+use function strlen;
+use function trim;
+use function unlink;
+
+use const DIRECTORY_SEPARATOR;
+use const INF;
 
 /**
  * @covers Laminas\Mail\Storage\Imap<extended>
@@ -20,11 +42,14 @@ class ImapTest extends TestCase
         if (! getenv('TESTS_LAMINAS_MAIL_IMAP_ENABLED')) {
             $this->markTestSkipped('Laminas_Mail IMAP tests are not enabled');
         }
-        $this->params = ['host'     => getenv('TESTS_LAMINAS_MAIL_IMAP_HOST'),
-                               'user'     => getenv('TESTS_LAMINAS_MAIL_IMAP_USER'),
-                               'password' => getenv('TESTS_LAMINAS_MAIL_IMAP_PASSWORD'), ];
+        $this->params = [
+            'host'     => getenv('TESTS_LAMINAS_MAIL_IMAP_HOST'),
+            'user'     => getenv('TESTS_LAMINAS_MAIL_IMAP_USER'),
+            'password' => getenv('TESTS_LAMINAS_MAIL_IMAP_PASSWORD'),
+        ];
         if (getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR') && getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR')) {
-            if (! file_exists(getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'inbox')
+            if (
+                ! file_exists(getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'inbox')
                 && ! file_exists(getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'INBOX')
             ) {
                 $this->markTestSkipped(
@@ -68,7 +93,7 @@ class ImapTest extends TestCase
             if ($entry == '.' || $entry == '..' || $entry == '.svn') {
                 continue;
             }
-            $fullname = $dir  . DIRECTORY_SEPARATOR . $entry;
+            $fullname = $dir . DIRECTORY_SEPARATOR . $entry;
             $destname = $dest . DIRECTORY_SEPARATOR . $entry;
             if (is_dir($fullname)) {
                 mkdir($destname);
@@ -129,7 +154,7 @@ class ImapTest extends TestCase
             return;
         }
 
-        $this->params['ssl'] = 'SSL';
+        $this->params['ssl']            = 'SSL';
         $this->params['novalidatecert'] = true;
         new Storage\Imap($this->params);
     }
@@ -191,6 +216,7 @@ class ImapTest extends TestCase
         $mail = new Storage\Imap($this->params);
         $mail->close();
     }
+
 /*
     currently imap has no top
 
@@ -224,7 +250,7 @@ class ImapTest extends TestCase
 
     public function testSize(): void
     {
-        $mail = new Storage\Imap($this->params);
+        $mail        = new Storage\Imap($this->params);
         $shouldSizes = [1 => 397, 89, 694, 452, 497, 101, 139];
 
         $sizes = $mail->getSize();
@@ -270,8 +296,8 @@ class ImapTest extends TestCase
     {
         $mail = new Storage\Imap($this->params);
 
-        $content = $mail->getMessage(3)->getContent();
-        list($content) = explode("\n", $content, 2);
+        $content   = $mail->getMessage(3)->getContent();
+        [$content] = explode("\n", $content, 2);
         $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
     }
 
@@ -330,13 +356,15 @@ class ImapTest extends TestCase
 
     public function testKeyLocalName(): void
     {
-        $mail = new Storage\Imap($this->params);
-        $iterator = new \RecursiveIteratorIterator($mail->getFolders(), \RecursiveIteratorIterator::SELF_FIRST);
+        $mail     = new Storage\Imap($this->params);
+        $iterator = new RecursiveIteratorIterator($mail->getFolders(), RecursiveIteratorIterator::SELF_FIRST);
         // we search for this folder because we can't assume an order while iterating
-        $search_folders = ['subfolder'      => 'subfolder',
-                                'subfolder/test' => 'test',
-                                'INBOX'          => 'INBOX', ];
-        $found_folders = [];
+        $search_folders = [
+            'subfolder'      => 'subfolder',
+            'subfolder/test' => 'test',
+            'INBOX'          => 'INBOX',
+        ];
+        $found_folders  = [];
 
         foreach ($iterator as $localName => $folder) {
             if (! isset($search_folders[$folder->getGlobalName()])) {
@@ -352,8 +380,8 @@ class ImapTest extends TestCase
 
     public function testSelectable(): void
     {
-        $mail = new Storage\Imap($this->params);
-        $iterator = new \RecursiveIteratorIterator($mail->getFolders(), \RecursiveIteratorIterator::SELF_FIRST);
+        $mail     = new Storage\Imap($this->params);
+        $iterator = new RecursiveIteratorIterator($mail->getFolders(), RecursiveIteratorIterator::SELF_FIRST);
 
         foreach ($iterator as $localName => $folder) {
             $this->assertEquals($localName, $folder->getLocalName());
@@ -500,10 +528,10 @@ class ImapTest extends TestCase
 
     public function testAppend(): void
     {
-        $mail = new Storage\Imap($this->params);
+        $mail  = new Storage\Imap($this->params);
         $count = $mail->countMessages();
 
-        $message = '';
+        $message  = '';
         $message .= "From: me@example.org\r\n";
         $message .= "To: you@example.org\r\n";
         $message .= "Subject: append test\r\n";
@@ -656,8 +684,8 @@ class ImapTest extends TestCase
         $protocol->login($this->params['user'], $this->params['password']);
         $protocol->select('INBOX');
 
-        $result = $protocol->fetch(['UID', 'FLAGS'], 1);
-        $uid = $result['UID'];
+        $result  = $protocol->fetch(['UID', 'FLAGS'], 1);
+        $uid     = $result['UID'];
         $message = $protocol->fetch(['UID', 'FLAGS'], $uid, null, true);
         $this->assertEquals($uid, $message['UID']);
     }
@@ -715,7 +743,7 @@ class ImapTest extends TestCase
 
     public function testDelimiter(): void
     {
-        $mail = new Storage\Imap($this->params);
+        $mail      = new Storage\Imap($this->params);
         $delimiter = $mail->delimiter();
         $this->assertEquals(strlen($delimiter), 1);
     }

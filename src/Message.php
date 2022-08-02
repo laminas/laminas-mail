@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail;
 
+use ArrayIterator;
 use Laminas\Mail\Header\Bcc;
 use Laminas\Mail\Header\Cc;
 use Laminas\Mail\Header\ContentType;
@@ -13,6 +16,17 @@ use Laminas\Mail\Header\To;
 use Laminas\Mime;
 use Traversable;
 
+use function array_shift;
+use function count;
+use function date;
+use function get_class;
+use function gettype;
+use function is_array;
+use function is_object;
+use function is_string;
+use function method_exists;
+use function sprintf;
+
 class Message
 {
     /**
@@ -22,9 +36,7 @@ class Message
      */
     protected $body;
 
-    /**
-     * @var Headers
-     */
+    /** @var Headers */
     protected $headers;
 
     /**
@@ -78,7 +90,6 @@ class Message
     /**
      * Compose headers
      *
-     * @param  Headers $headers
      * @return Message
      */
     public function setHeaders(Headers $headers)
@@ -402,7 +413,7 @@ class Message
 
         // Multipart content headers
         if ($this->body->isMultiPart()) {
-            $mime   = $this->body->getMime();
+            $mime = $this->body->getMime();
 
             /** @var ContentType $header */
             $header = $this->getHeaderByName('content-type', ContentType::class);
@@ -451,7 +462,7 @@ class Message
      *
      * @param  string $headerName
      * @param  string $headerClass
-     * @return Header\HeaderInterface|\ArrayIterator header instance or collection of headers
+     * @return Header\HeaderInterface|ArrayIterator header instance or collection of headers
      */
     protected function getHeaderByName($headerName, $headerClass)
     {
@@ -503,7 +514,6 @@ class Message
      *
      * Proxied to this from addFrom, addTo, addCc, addBcc, and addReplyTo.
      *
-     * @param  AddressList $addressList
      * @param  string|Address\AddressInterface|array|AddressList|Traversable $emailOrAddressOrList
      * @param  null|string $name
      * @param  string $callingMethod
@@ -526,7 +536,7 @@ class Message
                 '%s expects a string, AddressInterface, array, AddressList, or Traversable as its first argument;'
                 . ' received "%s"',
                 $callingMethod,
-                (is_object($emailOrAddressOrList) ? get_class($emailOrAddressOrList) : gettype($emailOrAddressOrList))
+                is_object($emailOrAddressOrList) ? get_class($emailOrAddressOrList) : gettype($emailOrAddressOrList)
             ));
         }
 

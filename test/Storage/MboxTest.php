@@ -1,11 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Storage;
 
 use ArrayObject;
 use Laminas\Mail\Storage;
 use Laminas\Mail\Storage\Exception;
 use PHPUnit\Framework\TestCase;
+
+use function chmod;
+use function clearstatcache;
+use function closedir;
+use function copy;
+use function explode;
+use function fclose;
+use function file_exists;
+use function fopen;
+use function function_exists;
+use function fwrite;
+use function getenv;
+use function mkdir;
+use function opendir;
+use function posix_getuid;
+use function readdir;
+use function serialize;
+use function sleep;
+use function stat;
+use function trim;
+use function unlink;
+use function unserialize;
+
+use const INF;
 
 /**
  * @group      Laminas_Mail
@@ -29,7 +55,7 @@ class MboxTest extends TestCase
                 mkdir($this->tmpdir);
             }
             $count = 0;
-            $dh = opendir($this->tmpdir);
+            $dh    = opendir($this->tmpdir);
             while (readdir($dh) !== false) {
                 ++$count;
             }
@@ -41,7 +67,7 @@ class MboxTest extends TestCase
         }
 
         $this->mboxOriginalFile = __DIR__ . '/../_files/test.mbox/INBOX';
-        $this->mboxFile = $this->tmpdir . 'INBOX';
+        $this->mboxFile         = $this->tmpdir . 'INBOX';
 
         copy($this->mboxOriginalFile, $this->mboxFile);
     }
@@ -124,7 +150,7 @@ class MboxTest extends TestCase
 
     public function testSize(): void
     {
-        $mail = new Storage\Mbox(['filename' => $this->mboxFile]);
+        $mail        = new Storage\Mbox(['filename' => $this->mboxFile]);
         $shouldSizes = [1 => 397, 89, 694, 452, 497, 101, 139];
 
         $sizes = $mail->getSize();
@@ -180,8 +206,8 @@ class MboxTest extends TestCase
     {
         $mail = new Storage\Mbox(['filename' => $this->mboxFile]);
 
-        $content = $mail->getMessage(3)->getContent();
-        list($content) = explode("\n", $content, 2);
+        $content   = $mail->getMessage(3)->getContent();
+        [$content] = explode("\n", $content, 2);
         $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
     }
 
@@ -192,8 +218,8 @@ class MboxTest extends TestCase
     {
         $mail = new Storage\Mbox(['filename' => $this->getUnixMboxFile(), 'messageEOL' => "\n"]);
 
-        $content = $mail->getMessage(3)->getContent();
-        list($content) = explode("\n", $content, 2);
+        $content   = $mail->getMessage(3)->getContent();
+        [$content] = explode("\n", $content, 2);
         $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
     }
 
@@ -233,11 +259,11 @@ class MboxTest extends TestCase
     {
         $mail = new Storage\Mbox(['filename' => $this->mboxFile]);
 
-        $count = $mail->countMessages();
+        $count   = $mail->countMessages();
         $content = $mail->getMessage(1)->getContent();
 
         $serialzed = serialize($mail);
-        $mail = null;
+        $mail      = null;
         unlink($this->mboxFile);
         // otherwise this test is to fast for a mtime change
         sleep(2);
@@ -252,11 +278,11 @@ class MboxTest extends TestCase
     {
         $mail = new Storage\Mbox(['filename' => $this->mboxFile]);
 
-        $count = $mail->countMessages();
+        $count   = $mail->countMessages();
         $content = $mail->getMessage(1)->getContent();
 
         $serialzed = serialize($mail);
-        $mail = null;
+        $mail      = null;
 
         $this->assertFileExists($this->mboxFile);
 
@@ -322,9 +348,6 @@ class MboxTest extends TestCase
         $this->assertEquals($mail->getMessage(2)->getContent(), '');
     }
 
-    /**
-     * @return string
-     */
     private function getUnixMboxFile(): string
     {
         $this->mboxFileUnix = $this->tmpdir . 'INBOX.unix';

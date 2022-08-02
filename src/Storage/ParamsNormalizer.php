@@ -1,9 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail\Storage;
 
 use Traversable;
 use Webmozart\Assert\Assert;
+
+use function get_object_vars;
+use function gettype;
+use function is_array;
+use function is_object;
+use function iterator_to_array;
+use function sprintf;
 
 /**
  * @internal

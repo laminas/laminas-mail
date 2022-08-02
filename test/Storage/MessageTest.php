@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Storage;
 
 use Exception as GeneralException;
 use Laminas\Mail\Exception as MailException;
 use Laminas\Mail\Header\HeaderInterface;
+use Laminas\Mail\Header\To;
 use Laminas\Mail\Headers;
 use Laminas\Mail\Storage;
 use Laminas\Mail\Storage\Exception;
@@ -12,6 +15,13 @@ use Laminas\Mail\Storage\Message;
 use Laminas\Mime;
 use Laminas\Mime\Exception as MimeException;
 use PHPUnit\Framework\TestCase;
+use RecursiveIteratorIterator;
+
+use function file_get_contents;
+use function fopen;
+use function implode;
+use function substr;
+use function var_export;
 
 /**
  * @group      Laminas_Mail
@@ -25,7 +35,7 @@ class MessageTest extends TestCase
 
     public function setUp(): void
     {
-        $this->file = __DIR__ . '/../_files/mail.eml';
+        $this->file  = __DIR__ . '/../_files/mail.eml';
         $this->file2 = __DIR__ . '/../_files/mail_multi_to.eml';
     }
 
@@ -110,8 +120,8 @@ class MessageTest extends TestCase
 
         $this->assertEquals(substr($message->getContent(), 0, 5), '<?php');
 
-        $raw = file_get_contents(__FILE__);
-        $raw = "\t" . $raw;
+        $raw     = file_get_contents(__FILE__);
+        $raw     = "\t" . $raw;
         $message = new Message(['raw' => $raw]);
 
         $this->assertEquals(substr($message->getContent(), 0, 6), "\t<?php");
@@ -125,15 +135,15 @@ class MessageTest extends TestCase
      */
     public function testMessageIdHeader(): void
     {
-        $message = new Message(['file' => $this->file]);
+        $message   = new Message(['file' => $this->file]);
         $messageId = $message->messageId;
         $this->assertEquals('<CALTvGe4_oYgf9WsYgauv7qXh2-6=KbPLExmJNG7fCs9B=1nOYg@mail.example.com>', $messageId);
     }
 
     public function testMultipleHeader(): void
     {
-        $raw = file_get_contents($this->file);
-        $raw = "sUBject: test\r\nSubJect: test2\r\n" . $raw;
+        $raw     = file_get_contents($this->file);
+        $raw     = "sUBject: test\r\nSubJect: test2\r\n" . $raw;
         $message = new Message(['raw' => $raw]);
 
         $this->assertEquals(
@@ -149,7 +159,7 @@ class MessageTest extends TestCase
 
     public function testAllowWhitespaceInEmptySingleLineHeader(): void
     {
-        $src = "From: user@example.com\n"
+        $src     = "From: user@example.com\n"
             . "To: userpal@example.net\n"
             . "Subject: This is your reminder\n  \n  about the football game tonight\n"
             . "Date: Wed, 20 Oct 2010 20:53:35 -0400\n\n"
@@ -164,7 +174,7 @@ class MessageTest extends TestCase
 
     public function testAllowWhitespaceInEmptyMultiLineHeader(): void
     {
-        $src = "From: user@example.com\nTo: userpal@example.net\n"
+        $src     = "From: user@example.com\nTo: userpal@example.net\n"
             . "Subject: This is your reminder\n  \n \n"
             . "  about the football game tonight\n"
             . "Date: Wed, 20 Oct 2010 20:53:35 -0400\n\n"
@@ -214,7 +224,7 @@ class MessageTest extends TestCase
     public function testIterator(): void
     {
         $message = new Message(['file' => $this->file]);
-        foreach (new \RecursiveIteratorIterator($message) as $num => $part) {
+        foreach (new RecursiveIteratorIterator($message) as $num => $part) {
             if ($num == 1) {
                 // explicit call of __toString() needed for PHP < 5.2
                 $this->assertEquals(substr($part->__toString(), 0, 14), 'The first part');
@@ -248,8 +258,8 @@ class MessageTest extends TestCase
 
     public function testSplitMessage(): void
     {
-        $header = 'Test: test';
-        $body   = 'body';
+        $header   = 'Test: test';
+        $body     = 'body';
         $newlines = ["\r\n", "\n\r", "\n", "\r"];
 
         $decoded_body    = null; // "Declare" variable before first "read" usage to avoid IDEs warning
@@ -305,7 +315,7 @@ class MessageTest extends TestCase
     public function testEmptyBody(): void
     {
         $message = new Message([]);
-        $part = null;
+        $part    = null;
         try {
             $part = $message->getPart(1);
         } catch (Exception\RuntimeException $e) {
@@ -383,7 +393,7 @@ class MessageTest extends TestCase
             'foo' => 'bar',
             'baz' => 'bat',
         ];
-        $message = new Message(['flags' => $origFlags]);
+        $message   = new Message(['flags' => $origFlags]);
 
         $messageFlags = $message->getFlags();
         $this->assertTrue($message->hasFlag('bar'), var_export($messageFlags, 1));
@@ -462,7 +472,7 @@ class MessageTest extends TestCase
         $this->assertInstanceOf(Headers::class, $headers2);
 
         // test that same problem does not happen with Storage\Message internally
-        $message = new Message(['headers' => $headers2, 'content' => (string)$body]);
+        $message = new Message(['headers' => $headers2, 'content' => (string) $body]);
         $this->assertEquals('"Famous bearings |;" <skf@example.com>', $message->from);
         $this->assertEquals('Famous bearings |: <skf@example.com>', $message->replyTo);
     }
@@ -474,16 +484,16 @@ class MessageTest extends TestCase
     {
         $this->expectException(MailException\RuntimeException::class);
 
-        $raw = file_get_contents($this->file);
-        $raw = "From foo@example.com  Sun Jan 01 00:00:00 2000\n" . $raw;
+        $raw     = file_get_contents($this->file);
+        $raw     = "From foo@example.com  Sun Jan 01 00:00:00 2000\n" . $raw;
         $message = new Message(['raw' => $raw, 'strict' => true]);
     }
 
     public function testMultivaluedToHeader(): void
     {
         $message = new Message(['file' => $this->file2]);
-        /** @var \Laminas\Mail\Header\To $header */
-        $header = $message->getHeader('to');
+        /** @var To $header */
+        $header      = $message->getHeader('to');
         $addressList = $header->getAddressList();
         $this->assertEquals(2, $addressList->count());
         $this->assertEquals('nicpoń', $addressList->get('bar@example.pl')->getName());
@@ -491,16 +501,16 @@ class MessageTest extends TestCase
 
     public function filesProvider(): array
     {
-        $filePath = __DIR__ . '/../_files/mail.eml';
-        $fileBlankLineOnTop = __DIR__ . '/../_files/mail_blank_top_line.eml';
+        $filePath                    = __DIR__ . '/../_files/mail.eml';
+        $fileBlankLineOnTop          = __DIR__ . '/../_files/mail_blank_top_line.eml';
         $fileSurroundingSingleQuotes = __DIR__ . '/../_files/mail_surrounding_single_quotes.eml';
 
         return [
             // Description => [params]
-            'resource'                    => [['file' => fopen($filePath, 'r')]],
-            'file path'                   => [['file' => $filePath]],
-            'raw'                         => [['raw'  => file_get_contents($filePath)]],
-            'file with blank line on top' => [['file' => $fileBlankLineOnTop]],
+            'resource'                            => [['file' => fopen($filePath, 'r')]],
+            'file path'                           => [['file' => $filePath]],
+            'raw'                                 => [['raw' => file_get_contents($filePath)]],
+            'file with blank line on top'         => [['file' => $fileBlankLineOnTop]],
             'file with surrounding single quotes' => [['file' => $fileSurroundingSingleQuotes]],
         ];
     }

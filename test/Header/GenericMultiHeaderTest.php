@@ -1,10 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header\Exception;
 use Laminas\Mail\Header\GenericMultiHeader;
 use PHPUnit\Framework\TestCase;
+
+use function count;
+use function get_class;
 
 /**
  * @covers Laminas\Mail\Header\GenericMultiHeader<extended>
@@ -14,15 +19,15 @@ class GenericMultiHeaderTest extends TestCase
     public function testFromStringSingle(): void
     {
         $multiHeader = GenericMultiHeader::fromString('x-custom: test');
-        $this->assertSame(GenericMultiHeader::class, \get_class($multiHeader));
+        $this->assertSame(GenericMultiHeader::class, get_class($multiHeader));
     }
 
     public function testFromStringMultiple(): void
     {
         $headers = GenericMultiHeader::fromString('x-custom: foo,bar');
-        $this->assertSame(2, \count($headers));
+        $this->assertSame(2, count($headers));
         foreach ($headers as $header) {
-            $this->assertSame(GenericMultiHeader::class, \get_class($header));
+            $this->assertSame(GenericMultiHeader::class, get_class($header));
         }
     }
 
@@ -35,7 +40,7 @@ class GenericMultiHeaderTest extends TestCase
 
     public function testToStringMultiple(): void
     {
-        $multiHeader = new GenericMultiHeader('x-custom', 'test');
+        $multiHeader   = new GenericMultiHeader('x-custom', 'test');
         $anotherHeader = new GenericMultiHeader('x-custom', 'two');
 
         $this->assertSame('X-Custom: test,two', $multiHeader->toStringMultipleHeaders([$anotherHeader]));

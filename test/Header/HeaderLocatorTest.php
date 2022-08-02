@@ -1,15 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Header;
 
-use PHPUnit\Framework\TestCase;
 use Laminas\Mail\Header;
+use PHPUnit\Framework\TestCase;
 
 class HeaderLocatorTest extends TestCase
 {
-    /**
-     * @var Header\HeaderLocator
-     */
+    /** @var Header\HeaderLocator */
     private $headerLocator;
 
     public function setUp(): void

@@ -1,11 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Transport;
 
 use Laminas\Mail\Message;
 use Laminas\Mail\Transport\File;
 use Laminas\Mail\Transport\FileOptions;
 use PHPUnit\Framework\TestCase;
+
+use function file_get_contents;
+use function get_class;
+use function glob;
+use function is_dir;
+use function mkdir;
+use function rmdir;
+use function sys_get_temp_dir;
+use function unlink;
 
 /**
  * @group      Laminas_Mail
@@ -25,10 +36,10 @@ class FileTest extends TestCase
             $this->cleanup($this->tempDir);
         }
 
-        $fileOptions = new FileOptions([
+        $fileOptions     = new FileOptions([
             'path' => $this->tempDir,
         ]);
-        $this->transport  = new File($fileOptions);
+        $this->transport = new File($fileOptions);
     }
 
     public function tearDown(): void
@@ -78,6 +89,6 @@ class FileTest extends TestCase
     public function testConstructorNoOptions(): void
     {
         $transport = new File();
-        $this->assertSame(FileOptions::class, \get_class($transport->getOptions()));
+        $this->assertSame(FileOptions::class, get_class($transport->getOptions()));
     }
 }

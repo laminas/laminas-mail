@@ -1,7 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail;
 
+use ArrayIterator;
+use Countable;
+use Iterator;
 use Laminas\Loader\PluginClassLocator;
 use Laminas\Mail;
 use Laminas\Mail\Header;
@@ -10,6 +15,14 @@ use Laminas\Mail\Header\GenericHeader;
 use Laminas\Mail\Header\GenericMultiHeader;
 use PHPUnit\Framework\Error\Deprecated;
 use PHPUnit\Framework\TestCase;
+use stdClass;
+
+use function get_class;
+use function implode;
+use function restore_error_handler;
+use function set_error_handler;
+
+use const E_USER_DEPRECATED;
 
 /**
  * @covers \Laminas\Mail\Headers<extended>
@@ -57,8 +70,8 @@ class HeadersTest extends TestCase
     public function testHeadersImplementsProperClasses(): void
     {
         $headers = new Mail\Headers();
-        $this->assertInstanceOf(\Iterator::class, $headers);
-        $this->assertInstanceOf(\Countable::class, $headers);
+        $this->assertInstanceOf(Iterator::class, $headers);
+        $this->assertInstanceOf(Countable::class, $headers);
     }
 
     public function testHeadersFromStringFactoryCreatesSingleObject(): void
@@ -164,7 +177,7 @@ class HeadersTest extends TestCase
     public function testHeadersAggregatesHeaderObjects(): void
     {
         $fakeHeader = new Header\GenericHeader('Fake', 'bar');
-        $headers = new Mail\Headers();
+        $headers    = new Mail\Headers();
         $headers->addHeader($fakeHeader);
         $this->assertEquals(1, $headers->count());
         $this->assertEquals('bar', $headers->get('Fake')->getFieldValue());
@@ -206,7 +219,7 @@ class HeadersTest extends TestCase
     public function testHeadersAddHeaderLineThrowsExceptionOnInvalidFieldObject(): void
     {
         $headers = new Mail\Headers();
-        $object = new \stdClass();
+        $object  = new stdClass();
 
         $this->expectException(Mail\Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('expects its first argument to be a string');
@@ -355,7 +368,7 @@ class HeadersTest extends TestCase
 
         $headers->addHeader($received1);
         $headers->addHeader($received2);
-        $array   = $headers->toArray();
+        $array    = $headers->toArray();
         $expected = [
             'Received' => [
                 $received1->getFieldValue(),
@@ -376,7 +389,7 @@ class HeadersTest extends TestCase
 
         $headers->addHeader($received1);
         $headers->addHeader($received2);
-        $string  = $headers->toString();
+        $string   = $headers->toString();
         $expected = [
             'Received: ' . $received1->getFieldValue(),
             'Received: ' . $received2->getFieldValue(),
@@ -387,26 +400,27 @@ class HeadersTest extends TestCase
 
     public function testGetReturnsArrayIterator(): void
     {
-        $headers = new Mail\Headers();
+        $headers  = new Mail\Headers();
         $received = Header\Received::fromString('Received: from framework (localhost [127.0.0.1])');
         $headers->addHeader($received);
 
         $return = $headers->get('Received');
-        $this->assertSame(\ArrayIterator::class, \get_class($return));
+        $this->assertSame(ArrayIterator::class, get_class($return));
     }
 
     /**
      * Test that toArray can take format parameter
+     *
      * @see https://github.com/zendframework/zend-mail/pull/61
      */
     public function testToArrayFormatRaw(): void
     {
         $raw_subject = '=?ISO-8859-2?Q?PD=3A_My=3A_Go=B3?= =?ISO-8859-2?Q?blahblah?=';
-        $headers = new Mail\Headers();
-        $subject = Header\Subject::fromString("Subject: $raw_subject");
+        $headers     = new Mail\Headers();
+        $subject     = Header\Subject::fromString("Subject: $raw_subject");
         $headers->addHeader($subject);
         // default
-        $array = $headers->toArray(Header\HeaderInterface::FORMAT_RAW);
+        $array    = $headers->toArray(Header\HeaderInterface::FORMAT_RAW);
         $expected = [
             'Subject' => 'PD: My: Gołblahblah',
         ];
@@ -415,17 +429,18 @@ class HeadersTest extends TestCase
 
     /**
      * Test that toArray can take format parameter
+     *
      * @see https://github.com/zendframework/zend-mail/pull/61
      */
     public function testToArrayFormatEncoded(): void
     {
         $raw_subject = '=?ISO-8859-2?Q?PD=3A_My=3A_Go=B3?= =?ISO-8859-2?Q?blahblah?=';
-        $headers = new Mail\Headers();
-        $subject = Header\Subject::fromString("Subject: $raw_subject");
+        $headers     = new Mail\Headers();
+        $subject     = Header\Subject::fromString("Subject: $raw_subject");
         $headers->addHeader($subject);
 
         // encoded
-        $array = $headers->toArray(Header\HeaderInterface::FORMAT_ENCODED);
+        $array    = $headers->toArray(Header\HeaderInterface::FORMAT_ENCODED);
         $expected = [
             'Subject' => '=?UTF-8?Q?PD:=20My:=20Go=C5=82blahblah?=',
         ];
@@ -436,7 +451,7 @@ class HeadersTest extends TestCase
     {
         $headers = new Mail\Headers();
         $headers->addHeader(new Header\Bcc());
-        $headers2 = clone($headers);
+        $headers2 = clone $headers;
         $this->assertEquals($headers, $headers2);
         $headers2->removeHeader('Bcc');
         $this->assertTrue($headers->has('Bcc'));
