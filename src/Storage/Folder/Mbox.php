@@ -206,7 +206,7 @@ class Mbox extends Storage\Mbox implements FolderInterface
     /**
      * get Storage\Folder instance for current folder
      *
-     * @return Storage\Folder instance of current folder
+     * @return string instance of current folder
      * @throws Exception\ExceptionInterface
      */
     public function getCurrentFolder()
