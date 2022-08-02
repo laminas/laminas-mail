@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Laminas\Mail\Protocol;
 
-use Exception;
 use Generator;
 use Laminas\Mail\Headers;
 
@@ -321,7 +320,7 @@ class Smtp extends AbstractProtocol
      * Send EHLO or HELO depending on capabilities of smtp host
      *
      * @param  string $host The client hostname or IP address (default: 127.0.0.1)
-     * @throws Exception|Exception\ExceptionInterface
+     * @throws Exception\ExceptionInterface
      */
     protected function ehlo($host)
     {

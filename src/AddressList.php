@@ -86,7 +86,7 @@ class AddressList implements Countable, Iterator
             if (! is_string($key)) {
                 throw new Exception\RuntimeException(sprintf(
                     'Invalid key type in provided addresses array ("%s")',
-                    is_object($key) ? get_class($key) : var_export($key, 1)
+                    is_object($key) ? get_class($key) : var_export($key, true)
                 ));
             }
 
