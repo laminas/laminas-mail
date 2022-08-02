@@ -3,6 +3,7 @@
 namespace Laminas\Mail\Protocol;
 
 use Laminas\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\ConfigInterface;
 use Laminas\ServiceManager\Exception\InvalidServiceException;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 use Zend\Mail\Protocol\Smtp\Auth\Crammd5;
@@ -19,6 +20,13 @@ use function sprintf;
  *
  * Enforces that SMTP extensions retrieved are instances of Smtp. Additionally,
  * it registers a number of default extensions available.
+ *
+ * @link ConfigInterface
+ *
+ * @psalm-import-type FactoriesConfigurationType from ConfigInterface
+ *
+ * @template InstanceType of Smtp
+ * @extends AbstractPluginManager<InstanceType>
  */
 class SmtpPluginManager extends AbstractPluginManager
 {
@@ -57,7 +65,7 @@ class SmtpPluginManager extends AbstractPluginManager
     /**
      * Service factories
      *
-     * @var array
+     * @var FactoriesConfigurationType
      */
     protected $factories = [
         Smtp\Auth\Crammd5::class => InvokableFactory::class,
@@ -82,8 +90,7 @@ class SmtpPluginManager extends AbstractPluginManager
     /**
      * Validate a retrieved plugin instance (v3).
      *
-     * @param object|array $instance
-     * @throws InvalidServiceException
+     * {@inheritDoc}
      */
     public function validate($instance)
     {
