@@ -4,6 +4,8 @@ namespace Laminas\Mail\Header;
 
 class References extends IdentificationField
 {
-    protected $fieldName   = 'References';
+    /** @var string  */
+    protected $fieldName = 'References';
+    /** @var string  */
     protected static $type = 'references';
 }

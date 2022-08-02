@@ -386,7 +386,7 @@ class Pop3
     /**
      * Make a DELE count to remove a message
      *
-     * @param $msgno
+     * @param int $msgno
      */
     public function delete($msgno)
     {

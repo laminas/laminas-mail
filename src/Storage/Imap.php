@@ -140,13 +140,12 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
         return new $this->messageClass(['handler' => $this, 'id' => $id, 'headers' => $header, 'flags' => $flags]);
     }
 
-    /*
+    /**
      * Get raw header of message or part
      *
      * @param  int               $id       number of message
      * @param  null|array|string $part     path to part or null for message header
      * @param  int               $topLines include this many lines with header (after an empty line)
-     * @param  int $topLines include this many lines with header (after an empty line)
      * @return string raw header
      * @throws Exception\RuntimeException
      * @throws Protocol\Exception\RuntimeException
@@ -162,7 +161,7 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
         return $this->protocol->fetch('RFC822.HEADER', $id);
     }
 
-    /*
+    /**
      * Get raw content of message or part
      *
      * @param  int               $id   number of message

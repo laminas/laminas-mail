@@ -20,13 +20,16 @@ use function unlink;
 
 class MboxMessageOldTest extends TestCase
 {
+    /** @var string */
     protected $mboxOriginalFile;
+    /** @var string */
     protected $mboxFile;
+    /** @var string */
     protected $tmpdir;
 
     public function setUp(): void
     {
-        if ($this->tmpdir == null) {
+        if (! isset($this->tmpdir)) {
             if (getenv('TESTS_LAMINAS_MAIL_TEMPDIR') != null) {
                 $this->tmpdir = getenv('TESTS_LAMINAS_MAIL_TEMPDIR');
             } else {
@@ -65,16 +68,6 @@ class MboxMessageOldTest extends TestCase
         $subject = $mail->getMessage(1)->subject;
         $this->assertEquals('Simple Message', $subject);
     }
-
-/*
-    public function testFetchTopBody()
-    {
-        $mail = new TestAsset\MboxOldMessage(array('filename' => $this->mboxFile));
-
-        $content = $mail->getHeader(3, 1)->getContent();
-        $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
-    }
-*/
 
     public function testFetchMessageHeader(): void
     {

@@ -65,7 +65,7 @@ class Maildir extends Storage\Maildir implements FolderInterface
      * - delim   delim char for folder structure, default is '.'
      * - folder initial selected folder, default is 'INBOX'
      *
-     * @param  $params array mail reader specific parameters
+     * @param  array $params mail reader specific parameters
      * @throws Exception\InvalidArgumentException
      */
     public function __construct($params)

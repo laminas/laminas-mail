@@ -29,6 +29,10 @@ class ContentType implements UnstructuredInterface
     /** @var array */
     protected $parameters = [];
 
+    /**
+     * @param string $headerLine
+     * @return ContentType|static
+     */
     public static function fromString($headerLine)
     {
         [$name, $value] = GenericHeader::splitHeaderLine($headerLine);
@@ -59,11 +63,18 @@ class ContentType implements UnstructuredInterface
         return $header;
     }
 
+    /**
+     * @return string
+     */
     public function getFieldName()
     {
         return 'Content-Type';
     }
 
+    /**
+     * @param string $format
+     * @return string
+     */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)
     {
         $prepared = $this->type;
@@ -85,17 +96,27 @@ class ContentType implements UnstructuredInterface
         return implode(';' . Headers::FOLDING, $values);
     }
 
+    /**
+     * @param string $encoding
+     * @return self
+     */
     public function setEncoding($encoding)
     {
         $this->encoding = $encoding;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getEncoding()
     {
         return $this->encoding;
     }
 
+    /**
+     * @return string
+     */
     public function toString()
     {
         return 'Content-Type: ' . $this->getFieldValue(HeaderInterface::FORMAT_ENCODED);
@@ -137,8 +158,8 @@ class ContentType implements UnstructuredInterface
      * @param  string $name
      * @param  string $value
      * @return ContentType
-     * @throws Exception\InvalidArgumentException for parameter names that do not follow RFC 2822
-     * @throws Exception\InvalidArgumentException for parameter values that do not follow RFC 2822
+     * @throws Exception\InvalidArgumentException For parameter names that do not follow RFC 2822.
+     * @throws Exception\InvalidArgumentException For parameter values that do not follow RFC 2822.
      */
     public function addParameter($name, $value)
     {

@@ -290,7 +290,7 @@ class Sendmail implements TransportInterface
      * @param  string $subject
      * @param  string $message
      * @param  string $headers
-     * @param  $parameters
+     * @param  null|string $parameters
      * @throws RuntimeException
      */
     public function mailHandler($to, $subject, $message, $headers, $parameters)

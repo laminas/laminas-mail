@@ -57,7 +57,7 @@ class ContentTypeTest extends TestCase
     /**
      * @dataProvider getLiteralData
      */
-    public function testHandlesLiterals(array $expected, $header): void
+    public function testHandlesLiterals(array $expected, string $header): void
     {
         $header = ContentType::fromString('Content-Type: ' . $header);
         $this->assertEquals($expected, $header->getParameters());
@@ -66,7 +66,7 @@ class ContentTypeTest extends TestCase
     /**
      * @dataProvider setTypeProvider
      */
-    public function testFromString($type, $parameters, $fieldValue, $expectedToString): void
+    public function testFromString(string $type, array $parameters, string $fieldValue, string $expectedToString): void
     {
         $header = ContentType::fromString($expectedToString);
 
@@ -81,7 +81,7 @@ class ContentTypeTest extends TestCase
     /**
      * @dataProvider setTypeProvider
      */
-    public function testSetType($type, $parameters, $fieldValue, $expectedToString): void
+    public function testSetType(string $type, array $parameters, string $fieldValue, string $expectedToString): void
     {
         $header = new ContentType();
 
@@ -98,10 +98,14 @@ class ContentTypeTest extends TestCase
     }
 
     /**
+     * @param class-string $expectedException
      * @dataProvider invalidHeaderLinesProvider
      */
-    public function testFromStringThrowException($headerLine, $expectedException, $exceptionMessage): void
-    {
+    public function testFromStringThrowException(
+        string $headerLine,
+        string $expectedException,
+        string $exceptionMessage
+    ): void {
         $this->expectException($expectedException);
         $this->expectExceptionMessage($exceptionMessage);
         ContentType::fromString($headerLine);
@@ -132,10 +136,15 @@ class ContentTypeTest extends TestCase
     }
 
     /**
+     * @param class-string $expectedException
      * @dataProvider invalidParametersProvider
      */
-    public function testAddParameterThrowException($paramName, $paramValue, $expectedException, $exceptionMessage): void
-    {
+    public function testAddParameterThrowException(
+        string $paramName,
+        string $paramValue,
+        string $expectedException,
+        string $exceptionMessage
+    ): void {
         $header = new ContentType();
         $header->setType('text/html');
 

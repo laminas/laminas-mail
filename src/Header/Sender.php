@@ -33,6 +33,10 @@ class Sender implements HeaderInterface
      */
     protected $encoding;
 
+    /**
+     * @param string $headerLine
+     * @return Sender|static
+     */
     public static function fromString($headerLine)
     {
         [$name, $value] = GenericHeader::splitHeaderLine($headerLine);
@@ -72,11 +76,18 @@ class Sender implements HeaderInterface
         return $header;
     }
 
+    /**
+     * @return string
+     */
     public function getFieldName()
     {
         return 'Sender';
     }
 
+    /**
+     * @param string $format
+     * @return string
+     */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)
     {
         if (! $this->address instanceof Mail\Address\AddressInterface) {
@@ -99,12 +110,19 @@ class Sender implements HeaderInterface
         return $email;
     }
 
+    /**
+     * @param string $encoding
+     * @return self
+     */
     public function setEncoding($encoding)
     {
         $this->encoding = $encoding;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getEncoding()
     {
         if (! $this->encoding) {
@@ -116,6 +134,9 @@ class Sender implements HeaderInterface
         return $this->encoding;
     }
 
+    /**
+     * @return string
+     */
     public function toString()
     {
         return 'Sender: ' . $this->getFieldValue(HeaderInterface::FORMAT_ENCODED);

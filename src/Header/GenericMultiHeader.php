@@ -11,6 +11,10 @@ use function strpos;
  */
 class GenericMultiHeader extends GenericHeader implements MultipleHeadersInterface
 {
+    /**
+     * @param string $headerLine
+     * @return array|GenericHeader|GenericMultiHeader|static
+     */
     public static function fromString($headerLine)
     {
         [$fieldName, $fieldValue] = GenericHeader::splitHeaderLine($headerLine);

@@ -46,7 +46,7 @@ class FileTest extends TestCase
         rmdir($this->tempDir);
     }
 
-    protected function cleanup($dir): void
+    protected function cleanup(string $dir): void
     {
         foreach (glob($dir . '/*.*') as $file) {
             unlink($file);

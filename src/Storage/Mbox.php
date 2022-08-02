@@ -167,7 +167,7 @@ class Mbox extends AbstractStorage
         return new $this->messageClass(['handler' => $this, 'id' => $id, 'headers' => $message]);
     }
 
-    /*
+    /**
      * Get raw header of message or part
      *
      * @param  int               $id       number of message
@@ -175,7 +175,7 @@ class Mbox extends AbstractStorage
      * @param  int               $topLines include this many lines with header (after an empty line)
      * @return string raw header
      * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
-     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function getRawHeader($id, $part = null, $topLines = 0)
     {
@@ -188,14 +188,14 @@ class Mbox extends AbstractStorage
         return stream_get_contents($this->fh, $messagePos['separator'] - $messagePos['start'], $messagePos['start']);
     }
 
-    /*
+    /**
      * Get raw content of message or part
      *
      * @param  int               $id   number of message
      * @param  null|array|string $part path to part or null for message content
      * @return string raw content
      * @throws \Laminas\Mail\Protocol\Exception\ExceptionInterface
-     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function getRawContent($id, $part = null)
     {
@@ -212,7 +212,7 @@ class Mbox extends AbstractStorage
      * Supported parameters are:
      *   - filename filename of mbox file
      *
-     * @param  $params array|object|Config mail reader specific parameters
+     * @param  array|object|Config $params mail reader specific parameters
      * @throws Exception\InvalidArgumentException
      */
     public function __construct($params)
@@ -350,7 +350,7 @@ class Mbox extends AbstractStorage
     /**
      * stub for not supported message deletion
      *
-     * @param $id
+     * @param int $id message number
      * @throws Exception\RuntimeException
      */
     public function removeMessage($id)

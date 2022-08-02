@@ -25,7 +25,7 @@ class DateTest extends TestCase
      * @dataProvider headerLines
      * @group ZF2015-04
      */
-    public function testFromStringRaisesExceptionOnCrlfInjectionAttempt($header): void
+    public function testFromStringRaisesExceptionOnCrlfInjectionAttempt(string $header): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         Header\Date::fromString($header);

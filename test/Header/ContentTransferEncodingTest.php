@@ -39,8 +39,9 @@ class ContentTransferEncodingTest extends TestCase
     /**
      * @dataProvider dataValidEncodings
      */
-    public function testContentTransferEncodingFromStringCreatesValidContentTransferEncodingHeader($encoding): void
-    {
+    public function testContentTransferEncodingFromStringCreatesValidContentTransferEncodingHeader(
+        string $encoding
+    ): void {
         $contentTransferEncodingHeader = ContentTransferEncoding::fromString('Content-Transfer-Encoding: ' . $encoding);
         $this->assertInstanceOf(HeaderInterface::class, $contentTransferEncodingHeader);
         $this->assertInstanceOf(ContentTransferEncoding::class, $contentTransferEncodingHeader);
@@ -49,7 +50,7 @@ class ContentTransferEncodingTest extends TestCase
     /**
      * @dataProvider dataInvalidEncodings
      */
-    public function testContentTransferEncodingFromStringRaisesException($encoding): void
+    public function testContentTransferEncodingFromStringRaisesException(string $encoding): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $contentTransferEncodingHeader = ContentTransferEncoding::fromString('Content-Transfer-Encoding: ' . $encoding);
@@ -64,7 +65,7 @@ class ContentTransferEncodingTest extends TestCase
     /**
      * @dataProvider dataValidEncodings
      */
-    public function testContentTransferEncodingGetFieldValueReturnsProperValue($encoding): void
+    public function testContentTransferEncodingGetFieldValueReturnsProperValue(string $encoding): void
     {
         $contentTransferEncodingHeader = new ContentTransferEncoding();
         $contentTransferEncodingHeader->setTransferEncoding($encoding);
@@ -75,7 +76,7 @@ class ContentTransferEncodingTest extends TestCase
     /**
      * @dataProvider dataValidEncodings
      */
-    public function testContentTransferEncodingHandlesCaseInsensitivity($encoding): void
+    public function testContentTransferEncodingHandlesCaseInsensitivity(string $encoding): void
     {
         $header = new ContentTransferEncoding();
         $header->setTransferEncoding(strtoupper(substr($encoding, 0, 4)) . substr($encoding, 4));
@@ -85,7 +86,7 @@ class ContentTransferEncodingTest extends TestCase
     /**
      * @dataProvider dataValidEncodings
      */
-    public function testContentTransferEncodingToStringReturnsHeaderFormattedString($encoding): void
+    public function testContentTransferEncodingToStringReturnsHeaderFormattedString(string $encoding): void
     {
         $contentTransferEncodingHeader = new ContentTransferEncoding();
         $contentTransferEncodingHeader->setTransferEncoding($encoding);
@@ -123,7 +124,7 @@ class ContentTransferEncodingTest extends TestCase
      * @dataProvider headerLines
      * @group ZF2015-04
      */
-    public function testFromStringRaisesExceptionForInvalidMultilineValues($headerLine): void
+    public function testFromStringRaisesExceptionForInvalidMultilineValues(string $headerLine): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         ContentTransferEncoding::fromString($headerLine);

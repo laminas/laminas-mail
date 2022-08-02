@@ -36,7 +36,7 @@ class GenericHeaderTest extends TestCase
      * @dataProvider invalidHeaderLines
      * @group ZF2015-04
      */
-    public function testSplitHeaderLineRaisesExceptionOnInvalidHeader($line, $message): void
+    public function testSplitHeaderLineRaisesExceptionOnInvalidHeader(string $line, string $message): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage($message);

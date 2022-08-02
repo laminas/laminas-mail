@@ -20,8 +20,11 @@ use const SEEK_END;
 
 class File extends Part
 {
+    /** @var array */
     protected $contentPos = [];
-    protected $partPos    = [];
+    /** @var array */
+    protected $partPos = [];
+    /** @var false|resource */
     protected $fh;
 
     /**

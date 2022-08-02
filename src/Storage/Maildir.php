@@ -177,7 +177,7 @@ class Maildir extends AbstractStorage
         ]);
     }
 
-    /*
+    /**
      * Get raw header of message or part
      *
      * @param  int               $id       number of message
@@ -208,7 +208,7 @@ class Maildir extends AbstractStorage
         return $content;
     }
 
-    /*
+    /**
      * Get raw content of message or part
      *
      * @param  int               $id   number of message
@@ -242,7 +242,7 @@ class Maildir extends AbstractStorage
      * Supported parameters are:
      *   - dirname dirname of mbox file
      *
-     * @param $params array|object Array, iterable object, or stdClass object
+     * @param array|object $params Array, iterable object, or stdClass object
      *     with reader specific parameters
      * @throws Exception\InvalidArgumentException
      */
@@ -410,7 +410,7 @@ class Maildir extends AbstractStorage
     /**
      * stub for not supported message deletion
      *
-     * @param $id
+     * @param int $id
      * @throws Exception\RuntimeException
      */
     public function removeMessage($id)

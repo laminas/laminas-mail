@@ -739,7 +739,7 @@ class Imap
      * copy message set from current folder to other folder
      *
      * @param string   $folder destination folder
-     * @param $from
+     * @param int $from
      * @param int|null $to     if null only one message ($from) is fetched, else it's the
      *                         last message, INF means last message available
      * @return bool success

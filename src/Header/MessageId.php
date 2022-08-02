@@ -17,6 +17,10 @@ class MessageId implements HeaderInterface
     /** @var string */
     protected $messageId;
 
+    /**
+     * @param string $headerLine
+     * @return MessageId|static
+     */
     public static function fromString($headerLine)
     {
         [$name, $value] = GenericHeader::splitHeaderLine($headerLine);
@@ -33,27 +37,44 @@ class MessageId implements HeaderInterface
         return $header;
     }
 
+    /**
+     * @return string
+     */
     public function getFieldName()
     {
         return 'Message-ID';
     }
 
+    /**
+     * @param string $format
+     * @return string
+     */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)
     {
         return $this->messageId;
     }
 
+    /**
+     * @param string $encoding
+     * @return self
+     */
     public function setEncoding($encoding)
     {
         // This header must be always in US-ASCII
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getEncoding()
     {
         return 'ASCII';
     }
 
+    /**
+     * @return string
+     */
     public function toString()
     {
         return 'Message-ID: ' . $this->getFieldValue();

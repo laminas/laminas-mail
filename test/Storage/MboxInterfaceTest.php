@@ -16,6 +16,7 @@ use function count;
  */
 class MboxInterfaceTest extends TestCase
 {
+    /** @var string  */
     protected $mboxFile;
 
     public function setUp(): void

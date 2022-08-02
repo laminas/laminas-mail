@@ -574,9 +574,9 @@ class Message
         $headers = null;
         $content = null;
         Mime\Decode::splitMessage($rawMessage, $headers, $content, Headers::EOL);
-        if ($headers->has('mime-version')) {
+        // if ($headers->has('mime-version')) {
             // todo - restore body to mime\message
-        }
+        // }
         $message->setHeaders($headers);
         $message->setBody($content);
         return $message;

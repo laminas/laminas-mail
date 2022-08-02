@@ -44,7 +44,7 @@ class ToTest extends TestCase
      * @dataProvider headerLines
      * @group ZF2015-04
      */
-    public function testFromStringRaisesExceptionWhenCrlfInjectionIsDetected($header): void
+    public function testFromStringRaisesExceptionWhenCrlfInjectionIsDetected(string $header): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         Header\To::fromString($header);
