@@ -143,7 +143,7 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
     }
 
     /**
-     * @param string $format
+     * @param bool $format
      * @return string
      */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)

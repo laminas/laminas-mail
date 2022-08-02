@@ -262,7 +262,7 @@ class Pop3 extends AbstractStorage
      * @see AbstractStorage::__get()
      *
      * @param  string $var
-     * @return string
+     * @return null|string
      */
     public function __get($var)
     {

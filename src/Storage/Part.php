@@ -310,7 +310,7 @@ class Part implements RecursiveIterator, Part\PartInterface
      * @param  string $name   name of header, matches case-insensitive, but camel-case is replaced with dashes
      * @param  string $format change type of return value to 'string' or 'array'
      * @throws Exception\InvalidArgumentException
-     * @return string|array|HeaderInterface|ArrayIterator value of header in wanted or internal format
+     * @return string|true|array|HeaderInterface|ArrayIterator value of header in wanted or internal format
      */
     public function getHeader($name, $format = null)
     {

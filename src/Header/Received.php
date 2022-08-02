@@ -17,7 +17,7 @@ class Received implements HeaderInterface, MultipleHeadersInterface
 
     /**
      * @param string $headerLine
-     * @return Received|static
+     * @return static
      */
     public static function fromString($headerLine)
     {
@@ -52,7 +52,7 @@ class Received implements HeaderInterface, MultipleHeadersInterface
     }
 
     /**
-     * @param string $format
+     * @param bool $format
      * @return string
      */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)

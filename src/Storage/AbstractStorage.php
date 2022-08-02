@@ -48,7 +48,7 @@ abstract class AbstractStorage implements
     /**
      * used message class, change it in an extended class to extend the returned message class
      *
-     * @var string
+     * @var class-string<Message\MessageInterface>
      */
     protected $messageClass = Message::class;
 
@@ -63,7 +63,7 @@ abstract class AbstractStorage implements
      *
      * @param  string $var  property name
      * @throws Exception\InvalidArgumentException
-     * @return bool         supported or not
+     * @return null|bool         supported or not
      */
     public function __get($var)
     {
@@ -105,7 +105,7 @@ abstract class AbstractStorage implements
      * Get a message with headers and body
      *
      * @param  int $id number of message
-     * @return Message
+     * @return Message\MessageInterface
      */
     abstract public function getMessage($id);
 

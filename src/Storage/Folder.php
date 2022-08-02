@@ -15,7 +15,7 @@ class Folder implements RecursiveIterator
     /**
      * subfolders of folder array(localName => \Laminas\Mail\Storage\Folder folder)
      *
-     * @var array
+     * @var array<string, self>
      */
     protected $folders;
 
@@ -47,12 +47,12 @@ class Folder implements RecursiveIterator
      * @param string $globalName absolute name of folder
      * @param bool $selectable if true folder holds messages, if false it's
      *     just a parent for subfolders (Default: true)
-     * @param array $folders init with given instances of Folder as subfolders
+     * @param array<string, Folder> $folders init with given instances of Folder as subfolders
      */
     public function __construct($localName, $globalName = '', $selectable = true, array $folders = [])
     {
         $this->localName  = $localName;
-        $this->globalName = $globalName ? $globalName : $localName;
+        $this->globalName = $globalName ?: $localName;
         $this->selectable = $selectable;
         $this->folders    = $folders;
     }

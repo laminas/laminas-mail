@@ -27,7 +27,7 @@ class Smtp implements TransportInterface
     /** @var Envelope|null */
     protected $envelope;
 
-    /** @var Protocol\Smtp */
+    /** @var null|Protocol\Smtp */
     protected $connection;
 
     /** @var bool */
@@ -157,18 +157,19 @@ class Smtp implements TransportInterface
      */
     public function __destruct()
     {
-        if (! $this->getConnection() instanceof Protocol\Smtp) {
+        $connection = $this->getConnection();
+        if (! $connection instanceof Protocol\Smtp) {
             return;
         }
 
         try {
-            $this->getConnection()->quit();
+            $connection->quit();
         } catch (ProtocolException\ExceptionInterface $e) {
             // ignore
         }
 
         if ($this->autoDisconnect) {
-            $this->getConnection()->disconnect();
+            $connection->disconnect();
         }
     }
 
@@ -189,7 +190,7 @@ class Smtp implements TransportInterface
     /**
      * Gets the connection protocol instance
      *
-     * @return Protocol\Smtp
+     * @return null|Protocol\Smtp
      */
     public function getConnection()
     {
@@ -211,8 +212,9 @@ class Smtp implements TransportInterface
      */
     public function disconnect()
     {
-        if ($this->getConnection() instanceof Protocol\Smtp) {
-            $this->getConnection()->disconnect();
+        $connection = $this->getConnection();
+        if ($connection instanceof Protocol\Smtp) {
+            $connection->disconnect();
             $this->connectedTime = null;
         }
     }

@@ -4,6 +4,7 @@ namespace Laminas\Mail\Storage;
 
 use Laminas\Mail\Storage\Exception\ExceptionInterface;
 use Laminas\Mail\Storage\Message\File;
+use Laminas\Mail\Storage\Message\MessageInterface;
 use Laminas\Stdlib\ErrorHandler;
 
 use function array_combine;
@@ -59,7 +60,7 @@ class Mbox extends AbstractStorage
     /**
      * used message class, change it in an extended class to extend the returned message class
      *
-     * @var string
+     * @var class-string<MessageInterface>
      */
     protected $messageClass = File::class;
 

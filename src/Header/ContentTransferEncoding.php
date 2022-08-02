@@ -35,7 +35,7 @@ class ContentTransferEncoding implements HeaderInterface
 
     /**
      * @param string $headerLine
-     * @return ContentTransferEncoding|static
+     * @return static
      */
     public static function fromString($headerLine)
     {
@@ -62,7 +62,7 @@ class ContentTransferEncoding implements HeaderInterface
     }
 
     /**
-     * @param string $format
+     * @param bool $format
      * @return string
      */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)

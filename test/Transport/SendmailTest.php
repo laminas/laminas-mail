@@ -60,15 +60,6 @@ class SendmailTest extends TestCase
         $this->operatingSystem = strtoupper(substr(PHP_OS, 0, 3));
     }
 
-    public function tearDown(): void
-    {
-        $this->to                   = null;
-        $this->subject              = null;
-        $this->message              = null;
-        $this->additionalHeaders    = null;
-        $this->additionalParameters = null;
-    }
-
     public function getMessage(): Message
     {
         $message = new Message();
@@ -329,11 +320,11 @@ class SendmailTest extends TestCase
 
         $this->assertDoesNotMatchRegularExpression(
             '/^To: matthew\@example\.org$/m',
-            (string) $this->additionalHeaders
+            $this->additionalHeaders
         );
         $this->assertDoesNotMatchRegularExpression(
             '/^Subject: Greetings and Salutations!$/m',
-            (string) $this->additionalHeaders
+            $this->additionalHeaders
         );
     }
 

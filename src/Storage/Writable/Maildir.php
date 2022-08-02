@@ -121,7 +121,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
      * Additional parameters are (see parent for more):
      *   - create if true a new maildir is create if none exists
      *
-     * @param  array $params mail reader specific parameters
+     * @param  array|object $params mail reader specific parameters
      * @throws ExceptionInterface
      */
     public function __construct($params)
@@ -1001,8 +1001,6 @@ class Maildir extends Folder\Maildir implements WritableInterface
         // if (! file_exists($this->rootdir . 'maildirsize')) {
             // TODO: should get file handler from calculateQuota
         // }
-        $size  = (int) $size;
-        $count = (int) $count;
         file_put_contents($this->rootdir . 'maildirsize', "$size $count\n", FILE_APPEND);
     }
 

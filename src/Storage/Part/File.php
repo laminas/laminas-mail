@@ -24,7 +24,7 @@ class File extends Part
     protected $contentPos = [];
     /** @var array */
     protected $partPos = [];
-    /** @var false|resource */
+    /** @var resource */
     protected $fh;
 
     /**
@@ -47,13 +47,14 @@ class File extends Part
         }
 
         if (! is_resource($params['file'])) {
-            $this->fh = fopen($params['file'], 'r');
+            $fh = fopen($params['file'], 'r');
         } else {
-            $this->fh = $params['file'];
+            $fh = $params['file'];
         }
-        if (! $this->fh) {
+        if (! $fh) {
             throw new Exception\RuntimeException('could not open file');
         }
+        $this->fh = $fh;
         if (isset($params['startPos'])) {
             fseek($this->fh, $params['startPos']);
         }
