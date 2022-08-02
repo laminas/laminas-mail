@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail\Storage\Folder;
+
+use Laminas\Mail\Storage\Exception\ExceptionInterface;
 
 interface FolderInterface
 {
@@ -18,7 +22,7 @@ interface FolderInterface
      * folder must be selectable!
      *
      * @param FolderInterface|string $globalName global name of folder or instance for subfolder
-     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function selectFolder($globalName);
 
@@ -26,7 +30,7 @@ interface FolderInterface
      * get Laminas\Mail\Storage\Folder instance for current folder
      *
      * @return FolderInterface instance of current folder
-     * @throws \Laminas\Mail\Storage\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function getCurrentFolder();
 }

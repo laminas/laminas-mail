@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Storage;
 
 use ArrayObject;
@@ -7,6 +9,28 @@ use Laminas\Mail\Storage\Exception;
 use Laminas\Mail\Storage\Folder;
 use PHPUnit\Framework\TestCase;
 use RecursiveIteratorIterator;
+
+use function array_reverse;
+use function chmod;
+use function clearstatcache;
+use function closedir;
+use function copy;
+use function file_exists;
+use function function_exists;
+use function getenv;
+use function is_file;
+use function mkdir;
+use function opendir;
+use function posix_getuid;
+use function readdir;
+use function rmdir;
+use function serialize;
+use function stat;
+use function touch;
+use function unlink;
+use function unserialize;
+
+use const DIRECTORY_SEPARATOR;
 
 /**
  * @group      Laminas_Mail
@@ -32,7 +56,7 @@ class MboxFolderTest extends TestCase
                 mkdir($this->tmpdir);
             }
             $count = 0;
-            $dh = opendir($this->tmpdir);
+            $dh    = opendir($this->tmpdir);
             while (readdir($dh) !== false) {
                 ++$count;
             }
@@ -43,7 +67,7 @@ class MboxFolderTest extends TestCase
             }
         }
 
-        $this->params = [];
+        $this->params            = [];
         $this->params['dirname'] = $this->tmpdir;
         $this->params['folder']  = 'INBOX';
 
@@ -162,7 +186,7 @@ class MboxFolderTest extends TestCase
 
     public function testIterator(): void
     {
-        $mail = new Folder\Mbox($this->params);
+        $mail     = new Folder\Mbox($this->params);
         $iterator = new RecursiveIteratorIterator($mail->getFolders(), RecursiveIteratorIterator::SELF_FIRST);
 
         // we search for this folder because we cannot assume an order while iterating
@@ -171,7 +195,7 @@ class MboxFolderTest extends TestCase
             DIRECTORY_SEPARATOR . 'subfolder' . DIRECTORY_SEPARATOR . 'test' => 'test',
             DIRECTORY_SEPARATOR . 'INBOX'                                    => 'INBOX',
         ];
-        $found_folders = [];
+        $found_folders  = [];
 
         foreach ($iterator as $localName => $folder) {
             if (! isset($search_folders[$folder->getGlobalName()])) {
@@ -187,7 +211,7 @@ class MboxFolderTest extends TestCase
 
     public function testKeyLocalName(): void
     {
-        $mail = new Folder\Mbox($this->params);
+        $mail     = new Folder\Mbox($this->params);
         $iterator = new RecursiveIteratorIterator($mail->getFolders(), RecursiveIteratorIterator::SELF_FIRST);
         // we search for this folder because we cannot assume an order while iterating
         $search_folders = [
@@ -195,7 +219,7 @@ class MboxFolderTest extends TestCase
             DIRECTORY_SEPARATOR . 'subfolder' . DIRECTORY_SEPARATOR . 'test' => 'test',
             DIRECTORY_SEPARATOR . 'INBOX'                                    => 'INBOX',
         ];
-        $found_folders = [];
+        $found_folders  = [];
 
         foreach ($iterator as $localName => $folder) {
             if (! isset($search_folders[$folder->getGlobalName()])) {
@@ -211,7 +235,7 @@ class MboxFolderTest extends TestCase
 
     public function testSelectable(): void
     {
-        $mail = new Folder\Mbox($this->params);
+        $mail     = new Folder\Mbox($this->params);
         $iterator = new RecursiveIteratorIterator($mail->getFolders(), RecursiveIteratorIterator::SELF_FIRST);
 
         foreach ($iterator as $localName => $folder) {
@@ -233,7 +257,7 @@ class MboxFolderTest extends TestCase
 
     public function testSize(): void
     {
-        $mail = new Folder\Mbox($this->params);
+        $mail        = new Folder\Mbox($this->params);
         $shouldSizes = [1 => 397, 89, 694, 452, 497, 101, 139];
 
         $sizes = $mail->getSize();
@@ -261,11 +285,11 @@ class MboxFolderTest extends TestCase
         $mail = new Folder\Mbox($this->params);
 
         $mail->selectFolder(DIRECTORY_SEPARATOR . 'subfolder' . DIRECTORY_SEPARATOR . 'test');
-        $count = $mail->countMessages();
+        $count   = $mail->countMessages();
         $content = $mail->getMessage(1)->getContent();
 
         $serialzed = serialize($mail);
-        $mail = unserialize($serialzed);
+        $mail      = unserialize($serialzed);
 
         $this->assertEquals($mail->countMessages(), $count);
         $this->assertEquals($mail->getMessage(1)->getContent(), $content);
@@ -326,8 +350,8 @@ class MboxFolderTest extends TestCase
 
     public function testGetInvalidFolder(): void
     {
-        $mail = new Folder\Mbox($this->params);
-        $root = $mail->getFolders();
+        $mail         = new Folder\Mbox($this->params);
+        $root         = $mail->getFolders();
         $root->foobar = new Folder('x', 'x');
         $this->expectException(Exception\InvalidArgumentException::class);
         $mail->getFolders('foobar');
@@ -335,8 +359,8 @@ class MboxFolderTest extends TestCase
 
     public function testGetVanishedFolder(): void
     {
-        $mail = new Folder\Mbox($this->params);
-        $root = $mail->getFolders();
+        $mail         = new Folder\Mbox($this->params);
+        $root         = $mail->getFolders();
         $root->foobar = new Folder('foobar', DIRECTORY_SEPARATOR . 'foobar');
 
         $this->expectException(Exception\RuntimeException::class);

@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Header;
 
-use PHPUnit\Framework\TestCase;
 use Laminas\Mail\Header\ContentDisposition;
 use Laminas\Mail\Header\Exception\InvalidArgumentException;
 use Laminas\Mail\Header\HeaderInterface;
 use Laminas\Mail\Header\UnstructuredInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Laminas_Mail
@@ -27,7 +29,7 @@ class ContentDispositionTest extends TestCase
         $contentTypeHeader = ContentDisposition::fromString(
             'Content-Disposition: attachment; filename="test-case.txt";'
         );
-        $params = $contentTypeHeader->getParameters();
+        $params            = $contentTypeHeader->getParameters();
         $this->assertEquals(['filename' => 'test-case.txt'], $params);
     }
 
@@ -127,6 +129,7 @@ class ContentDispositionTest extends TestCase
      * Should not throw if the optional count is missing
      *
      * @see https://tools.ietf.org/html/rfc2231
+     *
      * @dataProvider parameterWrappingProvider
      */
     public function testParameterWrapping(string $input, string $disposition, array $parameters): void

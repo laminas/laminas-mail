@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\TestAsset;
 
 use Laminas\Mail\Protocol\Smtp;
@@ -42,7 +44,7 @@ class SmtpProtocolSpy extends Smtp
     public function rcpt($to): void
     {
         parent::rcpt($to);
-        $this->rcpt = true;
+        $this->rcpt       = true;
         $this->rcptTest[] = $to;
     }
 
@@ -63,8 +65,6 @@ class SmtpProtocolSpy extends Smtp
 
     /**
      * Are we connected?
-     *
-     * @return bool
      */
     public function isConnected(): bool
     {
@@ -83,8 +83,6 @@ class SmtpProtocolSpy extends Smtp
 
     /**
      * Get Auth Status
-     *
-     * @return bool
      */
     public function getAuth(): bool
     {
@@ -95,7 +93,6 @@ class SmtpProtocolSpy extends Smtp
      * Set Auth Status
      *
      * @param  bool $status
-     * @return self
      */
     public function setAuth($status): self
     {
@@ -108,7 +105,6 @@ class SmtpProtocolSpy extends Smtp
      * Set Session Status
      *
      * @param  bool $status
-     * @return self
      */
     public function setSessionStatus($status): self
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail;
 
 use Laminas\Mail\Address;
@@ -15,6 +17,12 @@ use Laminas\Mime\Mime;
 use Laminas\Mime\Part as MimePart;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+
+use function count;
+use function date;
+use function file_get_contents;
+use function implode;
+use function substr;
 
 /**
  * @group      Laminas_Mail
@@ -40,11 +48,11 @@ class MessageTest extends TestCase
         $headers = $this->message->getHeaders();
         $this->assertInstanceOf(Headers::class, $headers);
         $this->assertTrue($headers->has('date'));
-        $header  = $headers->get('date');
-        $date    = date('r');
-        $date    = substr($date, 0, 16);
-        $test    = $header->getFieldValue();
-        $test    = substr($test, 0, 16);
+        $header = $headers->get('date');
+        $date   = date('r');
+        $date   = substr($date, 0, 16);
+        $test   = $header->getFieldValue();
+        $test   = substr($test, 0, 16);
         $this->assertEquals($date, $test);
     }
 
@@ -74,7 +82,7 @@ class MessageTest extends TestCase
         $headers = $this->message->getHeaders();
         $this->assertInstanceOf(Headers::class, $headers);
         $this->assertTrue($headers->has('to'));
-        $header  = $headers->get('to');
+        $header = $headers->get('to');
         $this->assertSame($header->getAddressList(), $to);
     }
 
@@ -92,7 +100,7 @@ class MessageTest extends TestCase
         $headers = $this->message->getHeaders();
         $this->assertInstanceOf(Headers::class, $headers);
         $this->assertTrue($headers->has('from'));
-        $header  = $headers->get('from');
+        $header = $headers->get('from');
         $this->assertSame($header->getAddressList(), $from);
     }
 
@@ -110,7 +118,7 @@ class MessageTest extends TestCase
         $headers = $this->message->getHeaders();
         $this->assertInstanceOf(Headers::class, $headers);
         $this->assertTrue($headers->has('cc'));
-        $header  = $headers->get('cc');
+        $header = $headers->get('cc');
         $this->assertSame($header->getAddressList(), $cc);
     }
 
@@ -128,7 +136,7 @@ class MessageTest extends TestCase
         $headers = $this->message->getHeaders();
         $this->assertInstanceOf(Headers::class, $headers);
         $this->assertTrue($headers->has('bcc'));
-        $header  = $headers->get('bcc');
+        $header = $headers->get('bcc');
         $this->assertSame($header->getAddressList(), $bcc);
     }
 
@@ -146,7 +154,7 @@ class MessageTest extends TestCase
         $headers = $this->message->getHeaders();
         $this->assertInstanceOf(Headers::class, $headers);
         $this->assertTrue($headers->has('reply-to'));
-        $header  = $headers->get('reply-to');
+        $header = $headers->get('reply-to');
         $this->assertSame($header->getAddressList(), $replyTo);
     }
 
@@ -157,7 +165,7 @@ class MessageTest extends TestCase
 
     public function testNullSenderDoesNotCreateHeader(): void
     {
-        $sender = $this->message->getSender();
+        $sender  = $this->message->getSender();
         $headers = $this->message->getHeaders();
         $this->assertFalse($headers->has('sender'));
     }
@@ -542,10 +550,10 @@ class MessageTest extends TestCase
 
     public function testSettingBodyFromSinglePartMimeMessageSetsAppropriateHeaders(): void
     {
-        $mime = new Mime('foo-bar');
-        $part = new MimePart('<b>foo</b>');
+        $mime       = new Mime('foo-bar');
+        $part       = new MimePart('<b>foo</b>');
         $part->type = 'text/html';
-        $body = new MimeMessage();
+        $body       = new MimeMessage();
         $body->setMime($mime);
         $body->addPart($part);
 
@@ -564,12 +572,12 @@ class MessageTest extends TestCase
 
     public function testSettingUtf8MailBodyFromSinglePartMimeUtf8MessageSetsAppropriateHeaders(): void
     {
-        $mime = new Mime('foo-bar');
-        $part = new MimePart('UTF-8 TestString: AaÜüÄäÖöß');
-        $part->type = Mime::TYPE_TEXT;
+        $mime           = new Mime('foo-bar');
+        $part           = new MimePart('UTF-8 TestString: AaÜüÄäÖöß');
+        $part->type     = Mime::TYPE_TEXT;
         $part->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
-        $part->charset = 'utf-8';
-        $body = new MimeMessage();
+        $part->charset  = 'utf-8';
+        $body           = new MimeMessage();
         $body->setMime($mime);
         $body->addPart($part);
 
@@ -585,12 +593,12 @@ class MessageTest extends TestCase
 
     public function testSettingBodyFromMultiPartMimeMessageSetsAppropriateHeaders(): void
     {
-        $mime = new Mime('foo-bar');
-        $text = new MimePart('foo');
+        $mime       = new Mime('foo-bar');
+        $text       = new MimePart('foo');
         $text->type = 'text/plain';
-        $html = new MimePart('<b>foo</b>');
+        $html       = new MimePart('<b>foo</b>');
         $html->type = 'text/html';
-        $body = new MimeMessage();
+        $body       = new MimeMessage();
         $body->setMime($mime);
         $body->addPart($text);
         $body->addPart($html);
@@ -610,12 +618,12 @@ class MessageTest extends TestCase
 
     public function testRetrievingBodyTextFromMessageWithMultiPartMimeBodyReturnsMimeSerialization(): void
     {
-        $mime = new Mime('foo-bar');
-        $text = new MimePart('foo');
+        $mime       = new Mime('foo-bar');
+        $text       = new MimePart('foo');
         $text->type = 'text/plain';
-        $html = new MimePart('<b>foo</b>');
+        $html       = new MimePart('<b>foo</b>');
         $html->type = 'text/html';
-        $body = new MimeMessage();
+        $body       = new MimeMessage();
         $body->setMime($mime);
         $body->addPart($text);
         $body->addPart($html);
@@ -736,16 +744,16 @@ class MessageTest extends TestCase
     public function messageRecipients(): array
     {
         return [
-            'setFrom' => ['setFrom'],
-            'addFrom' => ['addFrom'],
-            'setTo' => ['setTo'],
-            'addTo' => ['addTo'],
-            'setCc' => ['setCc'],
-            'addCc' => ['addCc'],
-            'setBcc' => ['setBcc'],
-            'addBcc' => ['addBcc'],
+            'setFrom'    => ['setFrom'],
+            'addFrom'    => ['addFrom'],
+            'setTo'      => ['setTo'],
+            'addTo'      => ['addTo'],
+            'setCc'      => ['setCc'],
+            'addCc'      => ['addCc'],
+            'setBcc'     => ['setBcc'],
+            'addBcc'     => ['addBcc'],
             'setReplyTo' => ['setReplyTo'],
-            'setSender' => ['setSender'],
+            'setSender'  => ['setSender'],
         ];
     }
 
@@ -785,25 +793,25 @@ class MessageTest extends TestCase
 
     public function testHeaderUnfoldingWorksAsExpectedForMultipartMessages(): void
     {
-        $text = new MimePart('Test content');
-        $text->type = Mime::TYPE_TEXT;
-        $text->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
+        $text              = new MimePart('Test content');
+        $text->type        = Mime::TYPE_TEXT;
+        $text->encoding    = Mime::ENCODING_QUOTEDPRINTABLE;
         $text->disposition = Mime::DISPOSITION_INLINE;
-        $text->charset = 'UTF-8';
+        $text->charset     = 'UTF-8';
 
-        $html = new MimePart('<b>Test content</b>');
-        $html->type = Mime::TYPE_HTML;
-        $html->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
+        $html              = new MimePart('<b>Test content</b>');
+        $html->type        = Mime::TYPE_HTML;
+        $html->encoding    = Mime::ENCODING_QUOTEDPRINTABLE;
         $html->disposition = Mime::DISPOSITION_INLINE;
-        $html->charset = 'UTF-8';
+        $html->charset     = 'UTF-8';
 
         $multipartContent = new MimeMessage();
         $multipartContent->addPart($text);
         $multipartContent->addPart($html);
 
-        $multipartPart = new MimePart($multipartContent->generateMessage());
-        $multipartPart->charset = 'UTF-8';
-        $multipartPart->type = 'multipart/alternative';
+        $multipartPart           = new MimePart($multipartContent->generateMessage());
+        $multipartPart->charset  = 'UTF-8';
+        $multipartPart->type     = 'multipart/alternative';
         $multipartPart->boundary = $multipartContent->getMime()->boundary();
 
         $message = new MimeMessage();
@@ -823,7 +831,7 @@ class MessageTest extends TestCase
      */
     public function testCanParseMultipartReport(): void
     {
-        $raw = file_get_contents(__DIR__ . '/_files/laminas-mail-19.eml');
+        $raw     = file_get_contents(__DIR__ . '/_files/laminas-mail-19.eml');
         $message = Message::fromString($raw);
         $this->assertInstanceOf(Message::class, $message);
         $this->assertIsString($message->getBody());
@@ -847,12 +855,12 @@ class MessageTest extends TestCase
     {
         $message =
             "From: someone@example.com\r\n"
-            ."To: someone@example.com\r\n"
-            ."Subject: plain text email example\r\n"
-            ."X-Spam-Score: 0\r\n"
-            ."X-Some-Value: 1\r\n"
-            ."\r\n"
-            ."I am a test message\r\n";
+            . "To: someone@example.com\r\n"
+            . "Subject: plain text email example\r\n"
+            . "X-Spam-Score: 0\r\n"
+            . "X-Some-Value: 1\r\n"
+            . "\r\n"
+            . "I am a test message\r\n";
 
         $msg = Message::fromString($message);
         $this->assertStringContainsString('X-Spam-Score: 0', $msg->toString());
@@ -874,7 +882,7 @@ class MessageTest extends TestCase
     {
         $rawMessage = 'Subject: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
             . ' =?UTF-8?Q?vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=';
-        $mail = Message::fromString($rawMessage);
+        $mail       = Message::fromString($rawMessage);
 
         $this->assertStringContainsString(
             'Subject: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
@@ -897,7 +905,7 @@ class MessageTest extends TestCase
 
     public function testCorrectHeaderEncodingAddHeader(): void
     {
-        $mail = new Message();
+        $mail   = new Message();
         $header = new GenericHeader('X-Test', 'Non “ascii” characters like accented vowels òàùèéì');
         $mail->getHeaders()->addHeader($header);
 
@@ -910,8 +918,8 @@ class MessageTest extends TestCase
 
     public function testCorrectHeaderEncodingSetHeaders(): void
     {
-        $mail = new Message();
-        $header = new GenericHeader('X-Test', 'Non “ascii” characters like accented vowels òàùèéì');
+        $mail    = new Message();
+        $header  = new GenericHeader('X-Test', 'Non “ascii” characters like accented vowels òàùèéì');
         $headers = new Headers();
         $headers->addHeader($header);
         $mail->setHeaders($headers);
@@ -925,8 +933,8 @@ class MessageTest extends TestCase
 
     public function testCorrectHeaderEncodingFromString(): void
     {
-        $mail = new Message();
-        $str = 'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
+        $mail   = new Message();
+        $str    = 'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
             . ' =?UTF-8?Q?vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=';
         $header = GenericHeader::fromString($str);
         $mail->getHeaders()->addHeader($header);
@@ -941,10 +949,10 @@ class MessageTest extends TestCase
     public function testCorrectHeaderEncodingFromStringAndSetHeaders(): void
     {
         $mail = new Message();
-        $str = 'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
+        $str  = 'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
             . ' =?UTF-8?Q?vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=';
 
-        $header = GenericHeader::fromString($str);
+        $header  = GenericHeader::fromString($str);
         $headers = new Headers();
         $headers->addHeader($header);
         $mail->setHeaders($headers);

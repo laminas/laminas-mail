@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header;
@@ -15,7 +17,7 @@ class MimeVersionTest extends TestCase
     public function testSettingManually(): void
     {
         $version = "2.0";
-        $mime = new Header\MimeVersion();
+        $mime    = new Header\MimeVersion();
         $mime->setVersion($version);
         $this->assertEquals($version, $mime->getFieldValue());
     }
@@ -30,10 +32,10 @@ class MimeVersionTest extends TestCase
     public function headerLines(): array
     {
         return [
-            'newline'      => ["MIME-Version: 5.0\nbar"],
-            'cr-lf'        => ["MIME-Version: 2.0\r\n"],
-            'cr-lf-wsp'    => ["MIME-Version: 3\r\n\r\n.1"],
-            'multiline'    => ["MIME-Version: baz\r\nbar\r\nbau"],
+            'newline'   => ["MIME-Version: 5.0\nbar"],
+            'cr-lf'     => ["MIME-Version: 2.0\r\n"],
+            'cr-lf-wsp' => ["MIME-Version: 3\r\n\r\n.1"],
+            'multiline' => ["MIME-Version: baz\r\nbar\r\nbau"],
         ];
     }
 

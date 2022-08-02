@@ -1,32 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail\Header;
 
 use Laminas\Mail\Headers;
+
+use function implode;
+use function strtolower;
 
 /**
  * @todo       Allow setting date from DateTime, Laminas\Date, or string
  */
 class Received implements HeaderInterface, MultipleHeadersInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $value;
 
     public static function fromString($headerLine)
     {
-        list($name, $value) = GenericHeader::splitHeaderLine($headerLine);
-        $value = HeaderWrap::mimeDecodeValue($value);
+        [$name, $value] = GenericHeader::splitHeaderLine($headerLine);
+        $value          = HeaderWrap::mimeDecodeValue($value);
 
         // check to ensure proper header type for this factory
         if (strtolower($name) !== 'received') {
             throw new Exception\InvalidArgumentException('Invalid header line for Received string');
         }
 
-        $header = new static($value);
-
-        return $header;
+        return new static($value);
     }
 
     public function __construct($value = '')

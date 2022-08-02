@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Address;
@@ -11,6 +13,9 @@ use Laminas\Mail\Header\From;
 use Laminas\Mail\Header\ReplyTo;
 use Laminas\Mail\Header\To;
 use PHPUnit\Framework\TestCase;
+
+use function count;
+use function sprintf;
 
 /**
  * @group      Laminas_Mail
@@ -148,7 +153,7 @@ class AddressListHeaderTest extends TestCase
     public function testDeserializationFromStringWithComments($value): void
     {
         $header = From::fromString($value);
-        $list = $header->getAddressList();
+        $list   = $header->getAddressList();
         $this->assertEquals(1, count($list));
         $this->assertTrue($list->has('user@example.com'));
     }
@@ -168,7 +173,7 @@ class AddressListHeaderTest extends TestCase
     public function testTrimSurroundingSingleQuotes(string $value): void
     {
         $header = To::fromString($value);
-        $list = $header->getAddressList();
+        $list   = $header->getAddressList();
         $this->assertEquals(1, count($list));
         $this->assertTrue($list->has('foo@example.com'));
     }
@@ -216,7 +221,7 @@ class AddressListHeaderTest extends TestCase
     public function testAddressListWithGroup($input, $count, $sample): void
     {
         $header = To::fromString($input);
-        $list = $header->getAddressList();
+        $list   = $header->getAddressList();
         $this->assertEquals($count, count($list));
         if ($count > 0) {
             $this->assertTrue($list->has($sample));
@@ -254,7 +259,7 @@ class AddressListHeaderTest extends TestCase
     {
         $header = To::fromString($headerLine);
 
-        $expectedTo = new To();
+        $expectedTo  = new To();
         $addressList = $expectedTo->getAddressList();
         $addressList->addMany($expected);
         $expectedTo->setEncoding($encoding);

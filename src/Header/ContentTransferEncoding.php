@@ -1,12 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail\Header;
+
+use function implode;
+use function in_array;
+use function sprintf;
+use function strtolower;
 
 class ContentTransferEncoding implements HeaderInterface
 {
     /**
      * Allowed Content-Transfer-Encoding parameters specified by RFC 1521
      * (reduced set)
+     *
      * @var array
      */
     protected static $allowedTransferEncodings = [
@@ -21,20 +29,16 @@ class ContentTransferEncoding implements HeaderInterface
          */
     ];
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $transferEncoding;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $parameters = [];
 
     public static function fromString($headerLine)
     {
-        list($name, $value) = GenericHeader::splitHeaderLine($headerLine);
-        $value = HeaderWrap::mimeDecodeValue($value);
+        [$name, $value] = GenericHeader::splitHeaderLine($headerLine);
+        $value          = HeaderWrap::mimeDecodeValue($value);
 
         // check to ensure proper header type for this factory
         if (strtolower($name) !== 'content-transfer-encoding') {
@@ -87,7 +91,7 @@ class ContentTransferEncoding implements HeaderInterface
 
         if (! in_array($transferEncoding, static::$allowedTransferEncodings)) {
             throw new Exception\InvalidArgumentException(sprintf(
-                '%s expects one of "'. implode(', ', static::$allowedTransferEncodings) . '"; received "%s"',
+                '%s expects one of "' . implode(', ', static::$allowedTransferEncodings) . '"; received "%s"',
                 __METHOD__,
                 (string) $transferEncoding
             ));

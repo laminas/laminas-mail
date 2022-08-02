@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Protocol\Smtp\Auth;
 
 use Laminas\Mail\Protocol\Smtp\Auth\Crammd5;
@@ -12,9 +14,7 @@ use ReflectionClass;
  */
 class Crammd5Test extends TestCase
 {
-    /**
-     * @var Crammd5
-     */
+    /** @var Crammd5 */
     protected $auth;
 
     public function setUp(): void
@@ -24,7 +24,7 @@ class Crammd5Test extends TestCase
 
     public function testHmacMd5ReturnsExpectedHash(): void
     {
-        $class = new ReflectionClass(Crammd5::class);
+        $class  = new ReflectionClass(Crammd5::class);
         $method = $class->getMethod('hmacMd5');
         $method->setAccessible(true);
 

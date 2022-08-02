@@ -1,13 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail;
 
+use Countable;
 use Laminas\Mail\Address;
 use Laminas\Mail\AddressList;
 use Laminas\Mail\Exception\InvalidArgumentException;
 use Laminas\Mail\Header;
 use PHPUnit\Framework\TestCase;
-use Throwable;
+use Traversable;
+
+use function count;
 
 /**
  * @group      Laminas_Mail
@@ -25,7 +30,7 @@ class AddressListTest extends TestCase
 
     public function testImplementsCountable(): void
     {
-        $this->assertInstanceOf(\Countable::class, $this->list);
+        $this->assertInstanceOf(Countable::class, $this->list);
     }
 
     public function testIsEmptyByDefault(): void
@@ -47,7 +52,7 @@ class AddressListTest extends TestCase
 
     public function testImplementsTraversable(): void
     {
-        $this->assertInstanceOf(\Traversable::class, $this->list);
+        $this->assertInstanceOf(Traversable::class, $this->list);
     }
 
     public function testHasReturnsFalseWhenAddressNotInList(): void
@@ -124,9 +129,9 @@ class AddressListTest extends TestCase
     {
         $header = '"Supports (E-mail)" <support@example.org>';
 
-        $to = Header\To::fromString('To:' . $header);
+        $to          = Header\To::fromString('To:' . $header);
         $addressList = $to->getAddressList();
-        $address = $addressList->get('support@example.org');
+        $address     = $addressList->get('support@example.org');
         $this->assertEquals('Supports', $address->getName());
         $this->assertEquals('E-mail', $address->getComment());
         $this->assertEquals('support@example.org', $address->getEmail());

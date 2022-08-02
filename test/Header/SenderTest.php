@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Address;
@@ -8,6 +10,10 @@ use Laminas\Mail\Header;
 use Laminas\Mail\Header\HeaderInterface;
 use Laminas\Mail\Header\Sender;
 use PHPUnit\Framework\TestCase;
+
+use function array_map;
+use function array_merge;
+use function array_slice;
 
 /**
  * @group      Laminas_Mail
@@ -124,14 +130,14 @@ class SenderTest extends TestCase
                 '<foo@bar>',
                 'ASCII',
             ],
-            'ASCII name' => [
+            'ASCII name'    => [
                 'foo@bar',
                 'foo',
                 'foo <foo@bar>',
                 'foo <foo@bar>',
                 'ASCII',
             ],
-            'UTF-8 name' => [
+            'UTF-8 name'    => [
                 'foo@bar',
                 'ázÁZ09',
                 'ázÁZ09 <foo@bar>',
@@ -161,9 +167,9 @@ class SenderTest extends TestCase
 
         return [
             // Description => [sender address, sender name, exception class, exception message],
-            'Empty' => ['', null, $mailInvalidArgumentException, null],
-            'any ASCII' => ['azAZ09-_', null, $mailInvalidArgumentException, null],
-            'any UTF-8' => ['ázÁZ09-_', null, $mailInvalidArgumentException, null],
+            'Empty'      => ['', null, $mailInvalidArgumentException, null],
+            'any ASCII'  => ['azAZ09-_', null, $mailInvalidArgumentException, null],
+            'any UTF-8'  => ['ázÁZ09-_', null, $mailInvalidArgumentException, null],
             'non-string' => [null, null, $mailInvalidArgumentException, null],
 
             // CRLF @group ZF2015-04 cases
@@ -180,12 +186,12 @@ class SenderTest extends TestCase
 
     public function invalidSenderEncodedDataProvider(): array
     {
-        $mailInvalidArgumentException = Exception\InvalidArgumentException::class;
+        $mailInvalidArgumentException   = Exception\InvalidArgumentException::class;
         $headerInvalidArgumentException = Header\Exception\InvalidArgumentException::class;
 
         return [
             // Description => [decoded format, exception class, exception message],
-            'Empty' => ['', $mailInvalidArgumentException],
+            'Empty'     => ['', $mailInvalidArgumentException],
             'any ASCII' => ['azAZ09-_', $mailInvalidArgumentException],
             'any UTF-8' => ['ázÁZ09-_', $mailInvalidArgumentException],
             ["xxx yyy\n", $mailInvalidArgumentException],
@@ -193,10 +199,9 @@ class SenderTest extends TestCase
             ["xxx yyy\r\n\r\n", $mailInvalidArgumentException],
             ["xxx\r\ny\r\nyy", $mailInvalidArgumentException],
             ["foo\r\n@\r\nbar", $mailInvalidArgumentException],
-
             ["ázÁZ09 <foo@bar>", $headerInvalidArgumentException],
-            'newline' => ["<foo@bar>\n", $headerInvalidArgumentException],
-            'cr-lf' => ["<foo@bar>\r\n", $headerInvalidArgumentException],
+            'newline'   => ["<foo@bar>\n", $headerInvalidArgumentException],
+            'cr-lf'     => ["<foo@bar>\r\n", $headerInvalidArgumentException],
             'cr-lf-wsp' => ["<foo@bar>\r\n\r\n", $headerInvalidArgumentException],
             'multiline' => ["<foo\r\n@\r\nbar>", $headerInvalidArgumentException],
         ];
@@ -206,7 +211,6 @@ class SenderTest extends TestCase
      * @param string $headerString
      * @param string $expectedName
      * @param string $expectedEmail
-     *
      * @dataProvider validHeaderLinesProvider
      */
     public function testFromStringWithValidInput($headerString, $expectedName, $expectedEmail): void
@@ -237,7 +241,6 @@ class SenderTest extends TestCase
      * @param string $headerString
      * @param string $expectedException
      * @param string $expectedMessagePart
-     *
      * @dataProvider invalidHeaderLinesProvider
      */
     public function testFromStringWithInvalidInput($headerString, $expectedException, $expectedMessagePart = ''): void
@@ -252,7 +255,7 @@ class SenderTest extends TestCase
 
     public function invalidHeaderLinesProvider(): array
     {
-        $mailInvalidArgumentException = Exception\InvalidArgumentException::class;
+        $mailInvalidArgumentException   = Exception\InvalidArgumentException::class;
         $headerInvalidArgumentException = Header\Exception\InvalidArgumentException::class;
 
         return [

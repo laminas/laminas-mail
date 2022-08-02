@@ -1,16 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Transport;
 
 use Composer\InstalledVersions;
+use Laminas\Mail\Transport\Exception;
 use Laminas\Mail\Transport\Factory;
+use Laminas\Mail\Transport\File;
 use Laminas\Mail\Transport\InMemory;
 use Laminas\Mail\Transport\Sendmail;
+use Laminas\Mail\Transport\Smtp;
 use Laminas\Stdlib\ArrayObject;
 use PHPUnit\Framework\TestCase;
-use Laminas\Mail\Transport\Exception;
-use Laminas\Mail\Transport\File;
-use Laminas\Mail\Transport\Smtp;
+use stdClass;
+
+use function class_exists;
+use function restore_error_handler;
+use function set_error_handler;
+use function version_compare;
+
+use const E_USER_DEPRECATED;
 
 /**
  * @covers Laminas\Mail\Transport\Factory<extended>
@@ -31,13 +41,10 @@ class FactoryTest extends TestCase
     {
         return [
             ['spec'],
-            [new \stdClass()],
+            [new stdClass()],
         ];
     }
 
-    /**
-     *
-     */
     public function testDefaultTypeIsSendmail(): void
     {
         $transport = Factory::create();
@@ -64,14 +71,12 @@ class FactoryTest extends TestCase
 
     public function typeProvider(): array
     {
-        $types = [
+        return [
             [File::class],
             [InMemory::class],
             [Sendmail::class],
             [Smtp::class],
         ];
-
-        return $types;
     }
 
     /**
@@ -108,12 +113,10 @@ class FactoryTest extends TestCase
         ];
     }
 
-    /**
-     *
-     */
     public function testCanUseTraversableAsSpec(): void
     {
-        if (class_exists(InstalledVersions::class)
+        if (
+            class_exists(InstalledVersions::class)
             && version_compare((string) InstalledVersions::getVersion('laminas/laminas-stdlib'), '3.3.0') < 0
         ) {
             $this->markTestSkipped(
@@ -150,13 +153,10 @@ class FactoryTest extends TestCase
         ];
     }
 
-    /**
-     *
-     */
     public function testCanCreateSmtpTransportWithOptions(): void
     {
         $transport = Factory::create([
-            'type' => 'smtp',
+            'type'    => 'smtp',
             'options' => [
                 'host' => 'somehost',
             ],
@@ -165,13 +165,10 @@ class FactoryTest extends TestCase
         $this->assertEquals($transport->getOptions()->getHost(), 'somehost');
     }
 
-    /**
-     *
-     */
     public function testCanCreateFileTransportWithOptions(): void
     {
         $transport = Factory::create([
-            'type' => 'file',
+            'type'    => 'file',
             'options' => [
                 'path' => __DIR__,
             ],

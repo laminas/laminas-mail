@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Storage;
 
 use Laminas\Mail\Storage;
 use Laminas\Mail\Storage\Exception;
-use PHPUnit\Framework\TestCase;
 use Laminas\Mail\Storage\Message\MessageInterface;
+use LimitIterator;
+use PHPUnit\Framework\TestCase;
+
+use function count;
 
 /**
  * @group      Laminas_Mail
@@ -99,7 +104,7 @@ class MboxInterfaceTest extends TestCase
         $list  = new Storage\Mbox(['filename' => $this->mboxFile]);
         $count = 0;
 
-        foreach (new \LimitIterator($list, 1, 3) as $message) {
+        foreach (new LimitIterator($list, 1, 3) as $message) {
             ++$count;
         }
 
@@ -111,7 +116,7 @@ class MboxInterfaceTest extends TestCase
         $list  = new Storage\Mbox(['filename' => $this->mboxFile]);
         $count = 0;
 
-        foreach (new \LimitIterator($list, 3, 7) as $message) {
+        foreach (new LimitIterator($list, 3, 7) as $message) {
             ++$count;
         }
 
@@ -136,7 +141,7 @@ class MboxInterfaceTest extends TestCase
 
     public function testGetHeaders(): void
     {
-        $list = new Storage\Mbox(['filename' => $this->mboxFile]);
+        $list    = new Storage\Mbox(['filename' => $this->mboxFile]);
         $headers = $list[1]->getHeaders();
         $this->assertNotEmpty($headers);
     }

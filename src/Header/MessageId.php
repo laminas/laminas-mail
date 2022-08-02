@@ -1,18 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail\Header;
+
+use function getmypid;
+use function mt_rand;
+use function php_uname;
+use function preg_match;
+use function sha1;
+use function sprintf;
+use function strtolower;
+use function time;
+use function trim;
 
 class MessageId implements HeaderInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $messageId;
 
     public static function fromString($headerLine)
     {
-        list($name, $value) = GenericHeader::splitHeaderLine($headerLine);
-        $value = HeaderWrap::mimeDecodeValue($value);
+        [$name, $value] = GenericHeader::splitHeaderLine($headerLine);
+        $value          = HeaderWrap::mimeDecodeValue($value);
 
         // check to ensure proper header type for this factory
         if (strtolower($name) !== 'message-id') {
@@ -65,7 +75,8 @@ class MessageId implements HeaderInterface
             $id = trim($id, '<>');
         }
 
-        if (! HeaderValue::isValid($id)
+        if (
+            ! HeaderValue::isValid($id)
             || preg_match("/[\r\n]/", $id)
         ) {
             throw new Exception\InvalidArgumentException('Invalid ID detected');

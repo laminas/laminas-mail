@@ -1,12 +1,38 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Storage;
 
 use ArrayObject;
 use Laminas\Mail\Storage\Exception;
 use Laminas\Mail\Storage\Folder;
+use PharData;
 use PHPUnit\Framework\TestCase;
 use RecursiveIteratorIterator;
+
+use function array_reverse;
+use function chmod;
+use function class_exists;
+use function clearstatcache;
+use function closedir;
+use function copy;
+use function file_exists;
+use function get_class;
+use function getenv;
+use function is_dir;
+use function is_file;
+use function mkdir;
+use function opendir;
+use function readdir;
+use function rmdir;
+use function stat;
+use function strtoupper;
+use function substr;
+use function unlink;
+
+use const DIRECTORY_SEPARATOR;
+use const PHP_OS;
 
 /**
  * @group      Laminas_Mail
@@ -19,7 +45,7 @@ class MaildirFolderTest extends TestCase
 
     public function setUp(): void
     {
-        if (\strtoupper(\substr(PHP_OS, 0, 3)) == 'WIN') {
+        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
             $this->markTestSkipped('This test does not work on Windows');
             return;
         }
@@ -36,7 +62,7 @@ class MaildirFolderTest extends TestCase
                 mkdir($this->tmpdir);
             }
             $count = 0;
-            $dh = opendir($this->tmpdir);
+            $dh    = opendir($this->tmpdir);
             while (readdir($dh) !== false) {
                 ++$count;
             }
@@ -47,24 +73,24 @@ class MaildirFolderTest extends TestCase
             }
         }
 
-        if (! \file_exists($originalMaildir . 'maildirsize') && \class_exists('PharData')) {
+        if (! file_exists($originalMaildir . 'maildirsize') && class_exists('PharData')) {
             try {
-                $phar = new \PharData($originalMaildir . 'maildir.tar');
+                $phar = new PharData($originalMaildir . 'maildir.tar');
                 $phar->extractTo($originalMaildir);
                 // This empty directory is in the tar, but not unpacked by PharData
-                \mkdir($originalMaildir . '.subfolder/cur');
+                mkdir($originalMaildir . '.subfolder/cur');
             } catch (\Exception $e) {
                 // intentionally empty catch block
             }
         }
 
-        if (! \file_exists($originalMaildir . 'maildirsize')) {
+        if (! file_exists($originalMaildir . 'maildirsize')) {
             $this->markTestSkipped('You have to unpack maildir.tar in '
             . 'Laminas/Mail/_files/test.maildir/ directory to run the maildir tests');
             return;
         }
 
-        $this->params = [];
+        $this->params            = [];
         $this->params['dirname'] = $this->tmpdir;
 
         foreach ($this->subdirs as $dir) {
@@ -91,7 +117,7 @@ class MaildirFolderTest extends TestCase
 
     public function tearDown(): void
     {
-        \chmod($this->tmpdir, 0700);
+        chmod($this->tmpdir, 0700);
         foreach (array_reverse($this->subdirs) as $dir) {
             foreach (['cur', 'new'] as $subdir) {
                 if (! file_exists($this->tmpdir . $dir . '/' . $subdir)) {
@@ -120,13 +146,13 @@ class MaildirFolderTest extends TestCase
     public function testLoadOk(): void
     {
         $mail = new Folder\Maildir($this->params);
-        $this->assertSame(Folder\Maildir::class, \get_class($mail));
+        $this->assertSame(Folder\Maildir::class, get_class($mail));
     }
 
     public function testLoadConfig(): void
     {
         $mail = new Folder\Maildir(new ArrayObject($this->params));
-        $this->assertSame(Folder\Maildir::class, \get_class($mail));
+        $this->assertSame(Folder\Maildir::class, get_class($mail));
     }
 
     public function testNoParams(): void
@@ -189,13 +215,15 @@ class MaildirFolderTest extends TestCase
     public function testIterator(): void
     {
         $this->markTestIncomplete("Fail");
-        $mail = new Folder\Maildir($this->params);
+        $mail     = new Folder\Maildir($this->params);
         $iterator = new RecursiveIteratorIterator($mail->getFolders(), RecursiveIteratorIterator::SELF_FIRST);
         // we search for this folder because we can't assume an order while iterating
-        $search_folders = ['subfolder'      => 'subfolder',
-                                'subfolder.test' => 'test',
-                                'INBOX'          => 'INBOX', ];
-        $found_folders = [];
+        $search_folders = [
+            'subfolder'      => 'subfolder',
+            'subfolder.test' => 'test',
+            'INBOX'          => 'INBOX',
+        ];
+        $found_folders  = [];
 
         foreach ($iterator as $localName => $folder) {
             if (! isset($search_folders[$folder->getGlobalName()])) {
@@ -212,13 +240,15 @@ class MaildirFolderTest extends TestCase
     public function testKeyLocalName(): void
     {
         $this->markTestIncomplete("Fail");
-        $mail = new Folder\Maildir($this->params);
+        $mail     = new Folder\Maildir($this->params);
         $iterator = new RecursiveIteratorIterator($mail->getFolders(), RecursiveIteratorIterator::SELF_FIRST);
         // we search for this folder because we can't assume an order while iterating
-        $search_folders = ['subfolder'      => 'subfolder',
-                                'subfolder.test' => 'test',
-                                'INBOX'          => 'INBOX', ];
-        $found_folders = [];
+        $search_folders = [
+            'subfolder'      => 'subfolder',
+            'subfolder.test' => 'test',
+            'INBOX'          => 'INBOX',
+        ];
+        $found_folders  = [];
 
         foreach ($iterator as $localName => $folder) {
             if (! isset($search_folders[$folder->getGlobalName()])) {
@@ -235,14 +265,14 @@ class MaildirFolderTest extends TestCase
     public function testInboxEquals(): void
     {
         $this->markTestIncomplete("Fail");
-        $mail = new Folder\Maildir($this->params);
+        $mail     = new Folder\Maildir($this->params);
         $iterator = new RecursiveIteratorIterator(
             $mail->getFolders('INBOX.subfolder'),
             RecursiveIteratorIterator::SELF_FIRST
         );
         // we search for this folder because we can't assume an order while iterating
         $search_folders = ['subfolder.test' => 'test'];
-        $found_folders = [];
+        $found_folders  = [];
 
         foreach ($iterator as $localName => $folder) {
             if (! isset($search_folders[$folder->getGlobalName()])) {
@@ -258,7 +288,7 @@ class MaildirFolderTest extends TestCase
 
     public function testSelectable(): void
     {
-        $mail = new Folder\Maildir($this->params);
+        $mail     = new Folder\Maildir($this->params);
         $iterator = new RecursiveIteratorIterator($mail->getFolders(), RecursiveIteratorIterator::SELF_FIRST);
 
         foreach ($iterator as $localName => $folder) {
@@ -282,7 +312,7 @@ class MaildirFolderTest extends TestCase
     public function testSize(): void
     {
         $this->markTestIncomplete("Fail");
-        $mail = new Folder\Maildir($this->params);
+        $mail        = new Folder\Maildir($this->params);
         $shouldSizes = [1 => 397, 89, 694, 452, 497];
 
         $sizes = $mail->getSize();
@@ -347,8 +377,8 @@ class MaildirFolderTest extends TestCase
 
     public function testGetInvalidFolder(): void
     {
-        $mail = new Folder\Maildir($this->params);
-        $root = $mail->getFolders();
+        $mail         = new Folder\Maildir($this->params);
+        $root         = $mail->getFolders();
         $root->foobar = new Folder('foobar', DIRECTORY_SEPARATOR . 'foobar');
 
         $this->expectException(Exception\InvalidArgumentException::class);
@@ -358,8 +388,8 @@ class MaildirFolderTest extends TestCase
 
     public function testGetVanishedFolder(): void
     {
-        $mail = new Folder\Maildir($this->params);
-        $root = $mail->getFolders();
+        $mail         = new Folder\Maildir($this->params);
+        $root         = $mail->getFolders();
         $root->foobar = new Folder('foobar', 'foobar');
 
         $this->expectException(Exception\RuntimeException::class);
@@ -369,8 +399,8 @@ class MaildirFolderTest extends TestCase
 
     public function testGetNotSelectableFolder(): void
     {
-        $mail = new Folder\Maildir($this->params);
-        $root = $mail->getFolders();
+        $mail         = new Folder\Maildir($this->params);
+        $root         = $mail->getFolders();
         $root->foobar = new Folder('foobar', 'foobar', false);
 
         $this->expectException(Exception\RuntimeException::class);

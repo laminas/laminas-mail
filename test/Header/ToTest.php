@@ -1,10 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header;
 use Laminas\Mail\Header\Exception;
 use PHPUnit\Framework\TestCase;
+
+use function count;
+use function explode;
 
 /**
  * This test is primarily to test that AbstractAddressList headers perform
@@ -30,10 +35,10 @@ class ToTest extends TestCase
     public function headerLines(): array
     {
         return [
-            'newline'      => ["To: xxx yyy\n"],
-            'cr-lf'        => ["To: xxx yyy\r\n"],
-            'cr-lf-wsp'    => ["To: xxx yyy\r\n\r\n"],
-            'multiline'    => ["To: xxx\r\ny\r\nyy"],
+            'newline'   => ["To: xxx yyy\n"],
+            'cr-lf'     => ["To: xxx yyy\r\n"],
+            'cr-lf-wsp' => ["To: xxx yyy\r\n\r\n"],
+            'multiline' => ["To: xxx\r\ny\r\nyy"],
         ];
     }
 

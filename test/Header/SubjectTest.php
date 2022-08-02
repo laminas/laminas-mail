@@ -1,10 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header;
 use Laminas\Mail\Header\Exception;
 use PHPUnit\Framework\TestCase;
+
+use function str_repeat;
+use function wordwrap;
 
 /**
  * @group      Laminas_Mail
@@ -103,8 +108,8 @@ class SubjectTest extends TestCase
             'UTF-8 charset' => ['ázÁZ09-_', '=?UTF-8?Q?=C3=A1z=C3=81Z09-=5F?=', 'UTF-8'],
 
             // CRLF @group ZF2015-04 cases
-            'newline' => ["xxx yyy\n", '=?UTF-8?Q?xxx=20yyy=0A?=', 'UTF-8'],
-            'cr-lf' => ["xxx yyy\r\n", '=?UTF-8?Q?xxx=20yyy=0D=0A?=', 'UTF-8'],
+            'newline'   => ["xxx yyy\n", '=?UTF-8?Q?xxx=20yyy=0A?=', 'UTF-8'],
+            'cr-lf'     => ["xxx yyy\r\n", '=?UTF-8?Q?xxx=20yyy=0D=0A?=', 'UTF-8'],
             'cr-lf-wsp' => ["xxx yyy\r\n\r\n", '=?UTF-8?Q?xxx=20yyy=0D=0A=0D=0A?=', 'UTF-8'],
             'multiline' => ["xxx\r\ny\r\nyy", '=?UTF-8?Q?xxx=0D=0Ay=0D=0Ayy?=', 'UTF-8'],
         ];
@@ -112,13 +117,13 @@ class SubjectTest extends TestCase
 
     public function invalidSubjectValuesProvider(): array
     {
-        $invalidArgumentException = Exception\InvalidArgumentException::class;
+        $invalidArgumentException   = Exception\InvalidArgumentException::class;
         $invalidHeaderValueDetected = 'Invalid header value detected';
 
         return [
             // Description => [decoded format, exception class, exception message],
-            'newline' => ["xxx yyy\n", $invalidArgumentException, $invalidHeaderValueDetected],
-            'cr-lf' => ["xxx yyy\r\n", $invalidArgumentException, $invalidHeaderValueDetected],
+            'newline'   => ["xxx yyy\n", $invalidArgumentException, $invalidHeaderValueDetected],
+            'cr-lf'     => ["xxx yyy\r\n", $invalidArgumentException, $invalidHeaderValueDetected],
             'cr-lf-wsp' => ["xxx yyy\r\n\r\n", $invalidArgumentException, $invalidHeaderValueDetected],
             'multiline' => ["xxx\r\ny\r\nyy", $invalidArgumentException, $invalidHeaderValueDetected],
         ];

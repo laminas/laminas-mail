@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Storage;
 
 use ArrayIterator;
@@ -33,14 +35,14 @@ class ParamsNormalizerTest extends TestCase
     public function testReturnsArrayMapVerbatim(): void
     {
         $params = [
-            'foo' => 'bar',
-            'baz' => [
+            'foo'   => 'bar',
+            'baz'   => [
                 'this' => 'that',
             ],
-            'some' => 1,
+            'some'  => 1,
             'thing' => 1.1,
-            'else' => null,
-            'here' => (object) ['foo' => 'bar'],
+            'else'  => null,
+            'here'  => (object) ['foo' => 'bar'],
         ];
 
         self::assertSame($params, ParamsNormalizer::normalizeParams($params));
@@ -49,16 +51,16 @@ class ParamsNormalizerTest extends TestCase
     public function testConvertsIterableMapToArrayMap(): void
     {
         $paramsArray = [
-            'foo' => 'bar',
-            'baz' => [
+            'foo'   => 'bar',
+            'baz'   => [
                 'this' => 'that',
             ],
-            'some' => 1,
+            'some'  => 1,
             'thing' => 1.1,
-            'else' => null,
-            'here' => (object) ['foo' => 'bar'],
+            'else'  => null,
+            'here'  => (object) ['foo' => 'bar'],
         ];
-        $params = new ArrayIterator($paramsArray);
+        $params      = new ArrayIterator($paramsArray);
 
         self::assertSame($paramsArray, ParamsNormalizer::normalizeParams($params));
     }
@@ -66,16 +68,16 @@ class ParamsNormalizerTest extends TestCase
     public function testConvertsObjectToArrayMap(): void
     {
         $paramsArray = [
-            'foo' => 'bar',
-            'baz' => [
+            'foo'   => 'bar',
+            'baz'   => [
                 'this' => 'that',
             ],
-            'some' => 1,
+            'some'  => 1,
             'thing' => 1.1,
-            'else' => null,
-            'here' => (object) ['foo' => 'bar'],
+            'else'  => null,
+            'here'  => (object) ['foo' => 'bar'],
         ];
-        $params = (object) $paramsArray;
+        $params      = (object) $paramsArray;
 
         self::assertSame($paramsArray, ParamsNormalizer::normalizeParams($params));
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Storage\TestAsset;
 
 use Laminas\Mail\Storage\Maildir;
@@ -12,6 +14,7 @@ class MaildirOldMessage extends Maildir
 {
     /**
      * used message class
+     *
      * @var string
      */
     protected $messageClass = Message::class;

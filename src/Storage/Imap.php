@@ -1,9 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail\Storage;
 
 use Laminas\Mail;
 use Laminas\Mail\Protocol;
+
+use function array_key_exists;
+use function array_pop;
+use function array_push;
+use function count;
+use function in_array;
+use function is_string;
+use function ksort;
+use function strpos;
+use function strrpos;
+use function substr;
+
+use const INF;
+use const SORT_STRING;
 
 class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\WritableInterface
 {
@@ -12,24 +28,28 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
 
     /**
      * protocol handler
+     *
      * @var null|Protocol\Imap
      */
     protected $protocol;
 
     /**
      * name of current folder
+     *
      * @var string
      */
     protected $currentFolder = '';
 
     /**
      * IMAP folder delimiter character
+     *
      * @var null|string
      */
     protected $delimiter;
 
     /**
      * IMAP flags to constants translation
+     *
      * @var array
      */
     protected static $knownFlags = [
@@ -44,6 +64,7 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
 
     /**
      * IMAP flags to search criteria
+     *
      * @var array
      */
     protected static $searchFlags = [
@@ -110,7 +131,7 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
      */
     public function getMessage($id)
     {
-        $data = $this->protocol->fetch(['FLAGS', 'RFC822.HEADER'], $id);
+        $data   = $this->protocol->fetch(['FLAGS', 'RFC822.HEADER'], $id);
         $header = $data['RFC822.HEADER'];
 
         $flags = [];
@@ -331,11 +352,11 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
         }
 
         ksort($folders, SORT_STRING);
-        $root = new Folder('/', '/', false);
-        $stack = [null];
-        $folderStack = [null];
+        $root         = new Folder('/', '/', false);
+        $stack        = [null];
+        $folderStack  = [null];
         $parentFolder = $root;
-        $parent = '';
+        $parent       = '';
 
         foreach ($folders as $globalName => $data) {
             do {
@@ -349,15 +370,15 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
                     $selectable = ! $data['flags'] || ! in_array('\\Noselect', $data['flags']);
 
                     array_push($stack, $parent);
-                    $parent = $globalName . $data['delim'];
-                    $folder = new Folder($localName, $globalName, $selectable);
+                    $parent                   = $globalName . $data['delim'];
+                    $folder                   = new Folder($localName, $globalName, $selectable);
                     $parentFolder->$localName = $folder;
                     array_push($folderStack, $parentFolder);
-                    $parentFolder = $folder;
+                    $parentFolder    = $folder;
                     $this->delimiter = $data['delim'];
                     break;
                 } elseif ($stack) {
-                    $parent = array_pop($stack);
+                    $parent       = array_pop($stack);
                     $parentFolder = array_pop($folderStack);
                 }
             } while ($stack);

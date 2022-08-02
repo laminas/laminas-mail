@@ -1,15 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail\Header;
 
 use Laminas\Mail\Headers;
 use Laminas\Mime\Mime;
 
+use function count;
+use function explode;
+use function implode;
+use function preg_match;
+use function sprintf;
+use function str_replace;
+use function strtolower;
+use function trim;
+
 class ContentType implements UnstructuredInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $type;
 
     /**
@@ -19,22 +28,20 @@ class ContentType implements UnstructuredInterface
      */
     protected $encoding = 'ASCII';
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $parameters = [];
 
     public static function fromString($headerLine)
     {
-        list($name, $value) = GenericHeader::splitHeaderLine($headerLine);
-        $value = HeaderWrap::mimeDecodeValue($value);
+        [$name, $value] = GenericHeader::splitHeaderLine($headerLine);
+        $value          = HeaderWrap::mimeDecodeValue($value);
 
         // check to ensure proper header type for this factory
         if (strtolower($name) !== 'content-type') {
             throw new Exception\InvalidArgumentException('Invalid header line for Content-Type string');
         }
 
-        $value  = str_replace(Headers::FOLDING, ' ', $value);
+        $value = str_replace(Headers::FOLDING, ' ', $value);
         $parts = explode(';', $value, 2);
 
         $header = new static();
@@ -70,7 +77,7 @@ class ContentType implements UnstructuredInterface
         foreach ($this->parameters as $attribute => $value) {
             if (HeaderInterface::FORMAT_ENCODED === $format && ! Mime::isPrintable($value)) {
                 $this->encoding = 'UTF-8';
-                $value = HeaderWrap::wrap($value, $this);
+                $value          = HeaderWrap::wrap($value, $this);
                 $this->encoding = 'ASCII';
             }
 

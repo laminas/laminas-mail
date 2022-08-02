@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail\Transport;
 
 use Laminas\Mail;
@@ -12,7 +14,6 @@ interface TransportInterface
     /**
      * Send a mail message
      *
-     * @param \Laminas\Mail\Message $message
      * @return
      */
     public function send(Mail\Message $message);

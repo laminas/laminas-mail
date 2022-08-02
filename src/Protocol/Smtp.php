@@ -1,9 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail\Protocol;
 
+use Exception;
 use Generator;
 use Laminas\Mail\Headers;
+
+use function array_key_exists;
+use function array_replace_recursive;
+use function chunk_split;
+use function fclose;
+use function fgets;
+use function fopen;
+use function fwrite;
+use function implode;
+use function ini_get;
+use function is_array;
+use function rewind;
+use function rtrim;
+use function stream_socket_enable_crypto;
+use function strlen;
+use function strtolower;
+use function substr;
 
 /**
  * SMTP implementation of Laminas\Mail\Protocol\AbstractProtocol
@@ -18,6 +38,7 @@ class Smtp extends AbstractProtocol
     /**
      * RFC 5322 section-2.2.3 specifies maximum of 998 bytes per line.
      * This may not be exceeded.
+     *
      * @see https://tools.ietf.org/html/rfc5322#section-2.2.3
      */
     public const SMTP_LINE_LIMIT = 998;
@@ -69,7 +90,7 @@ class Smtp extends AbstractProtocol
      *
      * @var bool
      */
-    protected $data = null;
+    protected $data;
 
     /**
      * Whether or not send QUIT command
@@ -79,8 +100,6 @@ class Smtp extends AbstractProtocol
     protected $useCompleteQuit = true;
 
     /**
-     * Constructor.
-     *
      * The first argument may be an array of all options. If so, it must include
      * the 'host' and 'port' keys in order to ensure that all required values
      * are present.
@@ -90,7 +109,7 @@ class Smtp extends AbstractProtocol
      * @param  null|array   $config
      * @throws Exception\InvalidArgumentException
      */
-    public function __construct($host = '127.0.0.1', $port = null, array $config = null)
+    public function __construct($host = '127.0.0.1', $port = null, ?array $config = null)
     {
         // Did we receive a configuration array?
         if (is_array($host)) {
@@ -129,7 +148,7 @@ class Smtp extends AbstractProtocol
 
                 case 'ssl':
                     $this->transport = 'ssl';
-                    $this->secure = 'ssl';
+                    $this->secure    = 'ssl';
                     if ($port === null) {
                         $port = 465;
                     }
@@ -177,10 +196,7 @@ class Smtp extends AbstractProtocol
     /**
      * Read $data as lines terminated by "\n"
      *
-     * @param string $data
-     * @param int $chunkSize
      * @return Generator|string[]
-     * @author Elan Ruusamäe <glen@pld-linux.org>
      */
     private static function chunkedReader(string $data, int $chunkSize = 4096): Generator
     {
@@ -305,7 +321,7 @@ class Smtp extends AbstractProtocol
      * Send EHLO or HELO depending on capabilities of smtp host
      *
      * @param  string $host The client hostname or IP address (default: 127.0.0.1)
-     * @throws \Exception|Exception\ExceptionInterface
+     * @throws Exception|Exception\ExceptionInterface
      */
     protected function ehlo($host)
     {
@@ -388,7 +404,7 @@ class Smtp extends AbstractProtocol
                 // Add "-1" to stay within limits,
                 // because Headers::FOLDING includes a byte for space character after \r\n
                 $chunks = chunk_split($line, self::SMTP_LINE_LIMIT - 1, Headers::FOLDING);
-                $line = substr($chunks, 0, -strlen(Headers::FOLDING));
+                $line   = substr($chunks, 0, -strlen(Headers::FOLDING));
             }
 
             $this->_send($line);
@@ -420,7 +436,6 @@ class Smtp extends AbstractProtocol
      * Issues the NOOP command end validates answer
      *
      * Not used by Laminas\Mail, could be used to keep a connection alive or check if it is still open.
-     *
      */
     public function noop()
     {
@@ -443,7 +458,6 @@ class Smtp extends AbstractProtocol
 
     /**
      * Issues the QUIT command and clears the current session
-     *
      */
     public function quit()
     {
@@ -475,7 +489,6 @@ class Smtp extends AbstractProtocol
 
     /**
      * Closes connection
-     *
      */
     public function disconnect()
     {
@@ -488,7 +501,6 @@ class Smtp extends AbstractProtocol
     // @codingStandardsIgnoreLine PSR2.Methods.MethodDeclaration.Underscore
     protected function _disconnect()
     {
-
         // Make sure the session gets closed
         $this->quit();
         parent::_disconnect();
@@ -496,7 +508,6 @@ class Smtp extends AbstractProtocol
 
     /**
      * Start mail session
-     *
      */
     protected function startSession()
     {
@@ -505,7 +516,6 @@ class Smtp extends AbstractProtocol
 
     /**
      * Stop mail session
-     *
      */
     protected function stopSession()
     {

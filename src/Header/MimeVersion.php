@@ -1,18 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail\Header;
+
+use function preg_match;
+use function strtolower;
 
 class MimeVersion implements HeaderInterface
 {
-    /**
-     * @var string Version string
-     */
+    /** @var string Version string */
     protected $version = '1.0';
 
     public static function fromString($headerLine)
     {
-        list($name, $value) = GenericHeader::splitHeaderLine($headerLine);
-        $value = HeaderWrap::mimeDecodeValue($value);
+        [$name, $value] = GenericHeader::splitHeaderLine($headerLine);
+        $value          = HeaderWrap::mimeDecodeValue($value);
 
         // check to ensure proper header type for this factory
         if (strtolower($name) !== 'mime-version') {

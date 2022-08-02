@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header;
@@ -14,10 +16,10 @@ class DateTest extends TestCase
     public function headerLines(): array
     {
         return [
-            'newline'      => ["Date: xxx yyy\n"],
-            'cr-lf'        => ["Date: xxx yyy\r\n"],
-            'cr-lf-wsp'    => ["Date: xxx yyy\r\n\r\n"],
-            'multiline'    => ["Date: xxx\r\ny\r\nyy"],
+            'newline'   => ["Date: xxx yyy\n"],
+            'cr-lf'     => ["Date: xxx yyy\r\n"],
+            'cr-lf-wsp' => ["Date: xxx yyy\r\n\r\n"],
+            'multiline' => ["Date: xxx\r\ny\r\nyy"],
         ];
     }
 

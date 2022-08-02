@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header\ContentType;
@@ -30,7 +32,7 @@ class ContentTypeTest extends TestCase
         $contentTypeHeader = ContentType::fromString(
             'Content-Type: multipart/alternative; boundary="Apple-Mail=_1B852F10-F9C6-463D-AADD-CD503A5428DD";'
         );
-        $params = $contentTypeHeader->getParameters();
+        $params            = $contentTypeHeader->getParameters();
         $this->assertEquals(['boundary' => 'Apple-Mail=_1B852F10-F9C6-463D-AADD-CD503A5428DD'], $params);
     }
 
@@ -59,7 +61,7 @@ class ContentTypeTest extends TestCase
      */
     public function testHandlesLiterals(array $expected, $header): void
     {
-        $header = ContentType::fromString('Content-Type: '.$header);
+        $header = ContentType::fromString('Content-Type: ' . $header);
         $this->assertEquals($expected, $header->getParameters());
     }
 
@@ -121,6 +123,7 @@ class ContentTypeTest extends TestCase
      * Should not throw if the optional count is missing
      *
      * @see https://tools.ietf.org/html/rfc2231
+     *
      * @dataProvider parameterWrappingProvider
      */
     public function testParameterWrapping(string $input, array $parameters): void
@@ -257,7 +260,7 @@ class ContentTypeTest extends TestCase
     {
         yield 'Example from RFC2231' => [
             "Content-Type: application/x-stuff; title*=us-ascii'en-us'This%20is%20%2A%2A%2Afun%2A%2A%2A",
-            ['title*' => "us-ascii'en-us'This%20is%20%2A%2A%2Afun%2A%2A%2A"]
+            ['title*' => "us-ascii'en-us'This%20is%20%2A%2A%2Afun%2A%2A%2A"],
         ];
     }
 }

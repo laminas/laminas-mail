@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail\Header;
 
 use Laminas\Loader\PluginClassLoader;
@@ -9,9 +11,7 @@ use Laminas\Loader\PluginClassLoader;
  */
 class HeaderLoader extends PluginClassLoader
 {
-    /**
-     * @var array Pre-aliased Header plugins
-     */
+    /** @var array Pre-aliased Header plugins */
     protected $plugins = [
         'bcc'                       => Bcc::class,
         'cc'                        => Cc::class,

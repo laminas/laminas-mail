@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail;
 
 use Laminas\Mail\Address;
@@ -8,6 +10,8 @@ use Laminas\Mail\Exception;
 use Laminas\Mail\Message;
 use Laminas\Mail\MessageFactory;
 use PHPUnit\Framework\TestCase;
+
+use function count;
 
 /**
  * @group      Laminas_Mail
@@ -18,15 +22,15 @@ class MessageFactoryTest extends TestCase
     public function testConstructMessageWithOptions(): void
     {
         $options = [
-            'encoding'  => 'UTF-8',
-            'from'      => 'matthew@example.com',
-            'to'        => 'test@example.com',
-            'cc'        => 'list@example.com',
-            'bcc'       => 'test@example.com',
-            'reply-to'  => 'matthew@example.com',
-            'sender'    => 'matthew@example.com',
-            'subject'   => 'subject',
-            'body'      => 'body',
+            'encoding' => 'UTF-8',
+            'from'     => 'matthew@example.com',
+            'to'       => 'test@example.com',
+            'cc'       => 'list@example.com',
+            'bcc'      => 'test@example.com',
+            'reply-to' => 'matthew@example.com',
+            'sender'   => 'matthew@example.com',
+            'subject'  => 'subject',
+            'body'     => 'body',
         ];
 
         $message = MessageFactory::getInstance($options);
@@ -39,11 +43,11 @@ class MessageFactoryTest extends TestCase
         $this->assertEquals($options['sender'], $message->getSender()->getEmail());
 
         $getMethods = [
-            'from'      => 'getFrom',
-            'to'        => 'getTo',
-            'cc'        => 'getCc',
-            'bcc'       => 'getBcc',
-            'reply-to'  => 'getReplyTo',
+            'from'     => 'getFrom',
+            'to'       => 'getTo',
+            'cc'       => 'getCc',
+            'bcc'      => 'getBcc',
+            'reply-to' => 'getReplyTo',
         ];
 
         foreach ($getMethods as $key => $method) {
@@ -84,7 +88,7 @@ class MessageFactoryTest extends TestCase
         $options = [
             'foo' => 'bar',
         ];
-        $mail = MessageFactory::getInstance($options);
+        $mail    = MessageFactory::getInstance($options);
         $this->assertInstanceOf(Message::class, $mail);
     }
 
@@ -97,15 +101,17 @@ class MessageFactoryTest extends TestCase
     public function invalidMessageOptions(): array
     {
         return [
-            'null' => [null],
-            'bool' => [true],
-            'int' => [1],
-            'float' => [1.1],
-            'string' => ['not-an-array'],
-            'plain-object' => [(object) [
-                'from' => 'matthew@example.com',
-                'to'   => 'foo@example.com',
-            ]],
+            'null'         => [null],
+            'bool'         => [true],
+            'int'          => [1],
+            'float'        => [1.1],
+            'string'       => ['not-an-array'],
+            'plain-object' => [
+                (object) [
+                    'from' => 'matthew@example.com',
+                    'to'   => 'foo@example.com',
+                ],
+            ],
         ];
     }
 

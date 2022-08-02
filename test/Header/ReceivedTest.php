@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header;
@@ -50,11 +52,11 @@ class ReceivedTest extends TestCase
     public function headerLines(): array
     {
         return [
-            'newline'      => ["Received: xx\nx"],
-            'cr-lf'        => ["Received: xxx\r\n"],
-            'cr-lf-fold'   => ["Received: xxx\r\n\r\n zzz"],
-            'cr-lf-x2'     => ["Received: xx\r\n\r\nx"],
-            'multiline'    => ["Received: x\r\nx\r\nx"],
+            'newline'    => ["Received: xx\nx"],
+            'cr-lf'      => ["Received: xxx\r\n"],
+            'cr-lf-fold' => ["Received: xxx\r\n\r\n zzz"],
+            'cr-lf-x2'   => ["Received: xx\r\n\r\nx"],
+            'multiline'  => ["Received: x\r\nx\r\nx"],
         ];
     }
 
@@ -71,10 +73,10 @@ class ReceivedTest extends TestCase
     public function invalidValues(): array
     {
         return [
-            'newline'      => ["xx\nx"],
-            'cr-lf'        => ["xxx\r\n"],
-            'cr-lf-wsp'    => ["xx\r\n\r\nx"],
-            'multiline'    => ["x\r\nx\r\nx"],
+            'newline'   => ["xx\nx"],
+            'cr-lf'     => ["xxx\r\n"],
+            'cr-lf-wsp' => ["xx\r\n\r\nx"],
+            'multiline' => ["x\r\nx\r\nx"],
         ];
     }
 

@@ -1,11 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail\Storage;
 
 use ArrayAccess;
 use Countable;
+use Laminas\Mail\Storage\Message;
 use ReturnTypeWillChange;
 use SeekableIterator;
+
+use function strpos;
+use function strtolower;
+use function substr;
 
 abstract class AbstractStorage implements
     ArrayAccess,
@@ -14,6 +21,7 @@ abstract class AbstractStorage implements
 {
     /**
      * class capabilities with default values
+     *
      * @var array
      */
     protected $has = [
@@ -27,18 +35,21 @@ abstract class AbstractStorage implements
 
     /**
      * current iteration position
+     *
      * @var int
      */
     protected $iterationPos = 0;
 
     /**
      * maximum iteration position (= message count)
+     *
      * @var null|int
      */
-    protected $iterationMax = null;
+    protected $iterationMax;
 
     /**
      * used message class, change it in an extended class to extend the returned message class
+     *
      * @var string
      */
     protected $messageClass = Message::class;
@@ -60,7 +71,7 @@ abstract class AbstractStorage implements
     {
         if (strpos($var, 'has') === 0) {
             $var = strtolower(substr($var, 3));
-            return isset($this->has[$var]) ? $this->has[$var] : null;
+            return $this->has[$var] ?? null;
         }
 
         throw new Exception\InvalidArgumentException($var . ' not found');
@@ -212,7 +223,7 @@ abstract class AbstractStorage implements
      * ArrayAccess::offsetGet()
      *
      * @param    int $id
-     * @return   \Laminas\Mail\Storage\Message message object
+     * @return Message message object
      */
     #[ReturnTypeWillChange]
     public function offsetGet($id)

@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header\Exception;
 use Laminas\Mail\Header\HeaderName;
 use PHPUnit\Framework\TestCase;
+
+use function chr;
 
 /**
  * @covers Laminas\Mail\Header\HeaderName<extended>

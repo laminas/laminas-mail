@@ -1,32 +1,43 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mail\Storage;
 
 use RecursiveIterator;
 use ReturnTypeWillChange;
 
+use function current;
+use function key;
+use function next;
+use function reset;
+
 class Folder implements RecursiveIterator
 {
     /**
      * subfolders of folder array(localName => \Laminas\Mail\Storage\Folder folder)
+     *
      * @var array
      */
     protected $folders;
 
     /**
      * local name (name of folder in parent folder)
+     *
      * @var string
      */
     protected $localName;
 
     /**
      * global name (absolute name of folder)
+     *
      * @var string
      */
     protected $globalName;
 
     /**
      * folder is selectable if folder is able to hold messages, otherwise it is a parent folder
+     *
      * @var bool
      */
     protected $selectable = true;
@@ -63,7 +74,7 @@ class Folder implements RecursiveIterator
     /**
      * implements RecursiveIterator::getChildren()
      *
-     * @return \Laminas\Mail\Storage\Folder same as self::current()
+     * @return Folder same as self::current()
      */
     #[ReturnTypeWillChange]
     public function getChildren()
@@ -105,7 +116,7 @@ class Folder implements RecursiveIterator
     /**
      * implements Iterator::current()
      *
-     * @return \Laminas\Mail\Storage\Folder current folder
+     * @return Folder current folder
      */
     #[ReturnTypeWillChange]
     public function current()
@@ -127,7 +138,7 @@ class Folder implements RecursiveIterator
      *
      * @param  string $name wanted subfolder
      * @throws Exception\InvalidArgumentException
-     * @return \Laminas\Mail\Storage\Folder folder named $folder
+     * @return Folder folder named $folder
      */
     public function __get($name)
     {
@@ -142,7 +153,7 @@ class Folder implements RecursiveIterator
      * add or replace subfolder named $name
      *
      * @param string $name local name of subfolder
-     * @param \Laminas\Mail\Storage\Folder $folder instance for new subfolder
+     * @param Folder $folder instance for new subfolder
      */
     public function __set($name, self $folder)
     {
