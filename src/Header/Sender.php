@@ -35,7 +35,7 @@ class Sender implements HeaderInterface
 
     /**
      * @param string $headerLine
-     * @return Sender|static
+     * @return static
      */
     public static function fromString($headerLine)
     {
@@ -85,7 +85,7 @@ class Sender implements HeaderInterface
     }
 
     /**
-     * @param string $format
+     * @param bool $format
      * @return string
      */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)

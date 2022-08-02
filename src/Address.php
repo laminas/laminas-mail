@@ -13,11 +13,11 @@ use function trim;
 
 class Address implements Address\AddressInterface
 {
-    /** @var string  */
+    /** @var null|string  */
     protected $comment;
     /** @var string  */
     protected $email;
-    /** @var string  */
+    /** @var null|string  */
     protected $name;
 
     /**

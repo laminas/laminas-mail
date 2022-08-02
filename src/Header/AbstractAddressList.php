@@ -75,7 +75,7 @@ abstract class AbstractAddressList implements HeaderInterface
 
     /**
      * @param string $headerLine
-     * @return AbstractAddressList|static
+     * @return static
      */
     public static function fromString($headerLine)
     {
@@ -171,7 +171,7 @@ abstract class AbstractAddressList implements HeaderInterface
     }
 
     /**
-     * @param string $format
+     * @param bool $format
      * @return string
      */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)

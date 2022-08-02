@@ -19,7 +19,7 @@ class MessageId implements HeaderInterface
 
     /**
      * @param string $headerLine
-     * @return MessageId|static
+     * @return static
      */
     public static function fromString($headerLine)
     {
@@ -46,7 +46,7 @@ class MessageId implements HeaderInterface
     }
 
     /**
-     * @param string $format
+     * @param bool $format
      * @return string
      */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)

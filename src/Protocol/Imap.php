@@ -747,7 +747,7 @@ class Imap
      */
     public function copy($folder, $from, $to = null)
     {
-        $set = (int) $from;
+        $set = (string) $from;
         if ($to !== null) {
             $set .= ':' . ($to == INF ? '*' : (int) $to);
         }

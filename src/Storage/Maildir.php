@@ -40,7 +40,7 @@ class Maildir extends AbstractStorage
     /**
      * used message class, change it in an extended class to extend the returned message class
      *
-     * @var string
+     * @var class-string<Mail\Storage\Message\MessageInterface>
      */
     protected $messageClass = File::class;
 

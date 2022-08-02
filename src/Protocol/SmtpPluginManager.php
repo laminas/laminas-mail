@@ -25,7 +25,7 @@ class SmtpPluginManager extends AbstractPluginManager
     /**
      * Service aliases
      *
-     * @var array
+     * @var array<array-key, class-string>
      */
     protected $aliases = [
         'crammd5' => Smtp\Auth\Crammd5::class,

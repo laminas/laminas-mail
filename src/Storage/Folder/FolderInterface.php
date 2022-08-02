@@ -3,6 +3,7 @@
 namespace Laminas\Mail\Storage\Folder;
 
 use Laminas\Mail\Storage\Exception\ExceptionInterface;
+use Laminas\Mail\Storage\Folder;
 
 interface FolderInterface
 {
@@ -10,7 +11,7 @@ interface FolderInterface
      * get root folder or given folder
      *
      * @param string $rootFolder get folder structure for given folder, else root
-     * @return FolderInterface root or wanted folder
+     * @return Folder root or wanted folder
      */
     public function getFolders($rootFolder = null);
 

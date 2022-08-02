@@ -523,7 +523,6 @@ class Headers implements Countable, Iterator
     public function toArray($format = HeaderInterface::FORMAT_RAW)
     {
         $headers = [];
-        /** @var HeaderInterface $header */
         foreach ($this->headers as $header) {
             if ($header instanceof Header\MultipleHeadersInterface) {
                 $name = $header->getFieldName();
@@ -613,7 +612,7 @@ class Headers implements Countable, Iterator
 
     /**
      * @param string $key
-     * @return string
+     * @return null|string
      */
     private function resolveHeaderClass($key)
     {
