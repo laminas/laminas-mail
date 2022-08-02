@@ -82,7 +82,7 @@ class ContentDisposition implements UnstructuredInterface
 
                     if (! is_numeric($count)) {
                         $type  = gettype($count);
-                        $value = var_export($count, 1);
+                        $value = var_export($count, true);
                         throw new Exception\InvalidArgumentException(sprintf(
                             "Invalid header line for Content-Disposition string"
                             . " - count expected to be numeric, got %s with value %s",

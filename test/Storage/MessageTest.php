@@ -396,8 +396,8 @@ class MessageTest extends TestCase
         $message   = new Message(['flags' => $origFlags]);
 
         $messageFlags = $message->getFlags();
-        $this->assertTrue($message->hasFlag('bar'), var_export($messageFlags, 1));
-        $this->assertTrue($message->hasFlag('bat'), var_export($messageFlags, 1));
+        $this->assertTrue($message->hasFlag('bar'), var_export($messageFlags, true));
+        $this->assertTrue($message->hasFlag('bat'), var_export($messageFlags, true));
         $this->assertEquals(['bar' => 'bar', 'bat' => 'bat'], $messageFlags);
     }
 
