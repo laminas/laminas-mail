@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace LaminasTest\Mail\TestAsset;
 
 use Laminas\Mail\Protocol\Smtp;

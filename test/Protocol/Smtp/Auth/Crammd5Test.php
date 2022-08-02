@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace LaminasTest\Mail\Protocol\Smtp\Auth;
 
 use Laminas\Mail\Protocol\Smtp\Auth\Crammd5;

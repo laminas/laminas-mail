@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Mail\Storage\Folder;
 
 use Laminas\Mail\Storage\Exception\ExceptionInterface;

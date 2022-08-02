@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @see       https://github.com/laminas/laminas-mail for the canonical source repository
  */
