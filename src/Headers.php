@@ -545,6 +545,7 @@ class Headers implements Countable, Iterator
      */
     public function forceLoading()
     {
+        // phpcs:disable Generic.CodeAnalysis.EmptyStatement.DetectedForeach
         foreach ($this as $item) {
             // $item should now be loaded
         }

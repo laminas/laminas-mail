@@ -21,6 +21,7 @@ use const ICONV_MIME_DECODE_CONTINUE_ON_ERROR;
  * Utility class used for creating wrapped or MIME-encoded versions of header
  * values.
  */
+// phpcs:disable WebimpressCodingStandard.NamingConventions.AbstractClass.Prefix
 abstract class HeaderWrap
 {
     /**

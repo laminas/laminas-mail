@@ -13,6 +13,7 @@ use function is_object;
 use function sprintf;
 use function strtolower;
 
+// phpcs:disable WebimpressCodingStandard.NamingConventions.AbstractClass.Prefix
 abstract class Factory
 {
     /** @var array Known transport types */
