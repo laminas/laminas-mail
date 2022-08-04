@@ -862,6 +862,13 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Protocol/SmtpPluginManager.php">
+    <DocblockTypeContradiction occurrences="1">
+      <code>gettype($instance)</code>
+    </DocblockTypeContradiction>
+    <InvalidPropertyAssignmentValue occurrences="1"/>
+    <InvalidTypeImport occurrences="1">
+      <code>FactoriesConfigurationType from ConfigInterface</code>
+    </InvalidTypeImport>
     <MissingReturnType occurrences="1">
       <code>validatePlugin</code>
     </MissingReturnType>
@@ -870,6 +877,12 @@
       <code>$factories</code>
       <code>$instanceOf</code>
     </NonInvariantDocblockPropertyType>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>is_object($instance)</code>
+    </RedundantConditionGivenDocblockType>
+    <TooManyTemplateParams occurrences="1">
+      <code>SmtpPluginManager</code>
+    </TooManyTemplateParams>
   </file>
   <file src="src/Protocol/SmtpPluginManagerFactory.php">
     <DeprecatedInterface occurrences="1">
