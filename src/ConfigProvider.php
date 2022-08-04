@@ -2,8 +2,6 @@
 
 namespace Laminas\Mail;
 
-use Zend\Mail\Protocol\SmtpPluginManager;
-
 class ConfigProvider
 {
     /**
@@ -26,10 +24,6 @@ class ConfigProvider
     public function getDependencyConfig()
     {
         return [
-            // Legacy Zend Framework aliases
-            'aliases'   => [
-                SmtpPluginManager::class => Protocol\SmtpPluginManager::class,
-            ],
             'factories' => [
                 Protocol\SmtpPluginManager::class => Protocol\SmtpPluginManagerFactory::class,
             ],

@@ -6,9 +6,6 @@ use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\ConfigInterface;
 use Laminas\ServiceManager\Exception\InvalidServiceException;
 use Laminas\ServiceManager\Factory\InvokableFactory;
-use Zend\Mail\Protocol\Smtp\Auth\Crammd5;
-use Zend\Mail\Protocol\Smtp\Auth\Login;
-use Zend\Mail\Protocol\Smtp\Auth\Plain;
 
 use function gettype;
 use function is_object;
@@ -47,18 +44,6 @@ class SmtpPluginManager extends AbstractPluginManager
         'smtp'    => Smtp::class,
         'Smtp'    => Smtp::class,
         'SMTP'    => Smtp::class,
-
-        // Legacy Zend Framework aliases
-        Crammd5::class                  => Smtp\Auth\Crammd5::class,
-        Login::class                    => Smtp\Auth\Login::class,
-        Plain::class                    => Smtp\Auth\Plain::class,
-        \Zend\Mail\Protocol\Smtp::class => Smtp::class,
-
-        // v2 normalized FQCNs
-        'zendmailprotocolsmtpauthcrammd5' => Smtp\Auth\Crammd5::class,
-        'zendmailprotocolsmtpauthlogin'   => Smtp\Auth\Login::class,
-        'zendmailprotocolsmtpauthplain'   => Smtp\Auth\Plain::class,
-        'zendmailprotocolsmtp'            => Smtp::class,
     ];
 
     /**
