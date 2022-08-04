@@ -6,7 +6,6 @@ use Laminas\Mail\Exception;
 use Laminas\Mail\Exception\InvalidArgumentException;
 use Laminas\Stdlib\AbstractOptions;
 
-use function get_class;
 use function gettype;
 use function is_callable;
 use function is_dir;
@@ -73,7 +72,7 @@ class FileOptions extends AbstractOptions
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects a valid callback; received "%s"',
                 __METHOD__,
-                is_object($callback) ? get_class($callback) : gettype($callback)
+                is_object($callback) ? $callback::class : gettype($callback)
             ));
         }
         $this->callback = $callback;

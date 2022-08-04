@@ -7,7 +7,6 @@ use Laminas\Mail\Header\GenericMultiHeader;
 use PHPUnit\Framework\TestCase;
 
 use function count;
-use function get_class;
 
 /**
  * @covers Laminas\Mail\Header\GenericMultiHeader<extended>
@@ -17,7 +16,7 @@ class GenericMultiHeaderTest extends TestCase
     public function testFromStringSingle(): void
     {
         $multiHeader = GenericMultiHeader::fromString('x-custom: test');
-        $this->assertSame(GenericMultiHeader::class, get_class($multiHeader));
+        $this->assertSame(GenericMultiHeader::class, $multiHeader::class);
     }
 
     public function testFromStringMultiple(): void
@@ -25,7 +24,7 @@ class GenericMultiHeaderTest extends TestCase
         $headers = GenericMultiHeader::fromString('x-custom: foo,bar');
         $this->assertSame(2, count($headers));
         foreach ($headers as $header) {
-            $this->assertSame(GenericMultiHeader::class, get_class($header));
+            $this->assertSame(GenericMultiHeader::class, $header::class);
         }
     }
 
