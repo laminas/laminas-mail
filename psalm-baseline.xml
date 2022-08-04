@@ -882,6 +882,9 @@
       <code>$name</code>
       <code>$requestedName</code>
     </MissingParamType>
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$options</code>
+    </MoreSpecificImplementedParamType>
     <ParamNameMismatch occurrences="1">
       <code>$container</code>
     </ParamNameMismatch>
