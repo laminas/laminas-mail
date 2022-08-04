@@ -18,9 +18,6 @@
         "webmozart/assert": "^1.11.0",
         "symfony/polyfill-intl-idn": "^1.26.0"
     },
-    "conflict": {
-        "zendframework/zend-mail": "*"
-    },
     "require-dev": {
         "laminas/laminas-coding-standard": "~2.3.0",
         "laminas/laminas-crypt": "^3.8.0",
