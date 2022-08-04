@@ -8,6 +8,8 @@ use Laminas\Mail\Header\InReplyTo;
 use Laminas\Mail\Header\References;
 use PHPUnit\Framework\TestCase;
 
+use function array_merge;
+
 class IdentificationFieldTest extends TestCase
 {
     public function stringHeadersProvider(): array

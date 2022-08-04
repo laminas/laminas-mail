@@ -3,14 +3,22 @@
 namespace LaminasTest\Mail\Transport;
 
 use Composer\InstalledVersions;
+use Laminas\Mail\Transport\Exception;
 use Laminas\Mail\Transport\Factory;
+use Laminas\Mail\Transport\File;
 use Laminas\Mail\Transport\InMemory;
 use Laminas\Mail\Transport\Sendmail;
+use Laminas\Mail\Transport\Smtp;
 use Laminas\Stdlib\ArrayObject;
 use PHPUnit\Framework\TestCase;
-use Laminas\Mail\Transport\Exception;
-use Laminas\Mail\Transport\File;
-use Laminas\Mail\Transport\Smtp;
+use stdClass;
+
+use function class_exists;
+use function restore_error_handler;
+use function set_error_handler;
+use function version_compare;
+
+use const E_USER_DEPRECATED;
 
 /**
  * @covers Laminas\Mail\Transport\Factory<extended>
@@ -19,7 +27,7 @@ class FactoryTest extends TestCase
 {
     /**
      * @dataProvider invalidSpecTypeProvider
-     * @param $spec
+     * @param mixed $spec
      */
     public function testInvalidSpecThrowsInvalidArgumentException($spec): void
     {
@@ -31,13 +39,10 @@ class FactoryTest extends TestCase
     {
         return [
             ['spec'],
-            [new \stdClass()],
+            [new stdClass()],
         ];
     }
 
-    /**
-     *
-     */
     public function testDefaultTypeIsSendmail(): void
     {
         $transport = Factory::create();
@@ -47,9 +52,9 @@ class FactoryTest extends TestCase
 
     /**
      * @dataProvider typeProvider
-     * @param $type
+     * @param class-string $type
      */
-    public function testCanCreateClassUsingTypeKey($type): void
+    public function testCanCreateClassUsingTypeKey(string $type): void
     {
         set_error_handler(function ($code, $message): void {
             // skip deprecation notices
@@ -64,22 +69,19 @@ class FactoryTest extends TestCase
 
     public function typeProvider(): array
     {
-        $types = [
+        return [
             [File::class],
             [InMemory::class],
             [Sendmail::class],
             [Smtp::class],
         ];
-
-        return $types;
     }
 
     /**
      * @dataProvider typeAliasProvider
-     * @param $type
-     * @param $expectedClass
+     * @param class-string $expectedClass
      */
-    public function testCanCreateClassFromTypeAlias($type, $expectedClass): void
+    public function testCanCreateClassFromTypeAlias(string $type, string $expectedClass): void
     {
         $transport = Factory::create([
             'type' => $type,
@@ -108,12 +110,10 @@ class FactoryTest extends TestCase
         ];
     }
 
-    /**
-     *
-     */
     public function testCanUseTraversableAsSpec(): void
     {
-        if (class_exists(InstalledVersions::class)
+        if (
+            class_exists(InstalledVersions::class)
             && version_compare((string) InstalledVersions::getVersion('laminas/laminas-stdlib'), '3.3.0') < 0
         ) {
             $this->markTestSkipped(
@@ -132,9 +132,8 @@ class FactoryTest extends TestCase
 
     /**
      * @dataProvider invalidClassProvider
-     * @param $class
      */
-    public function testInvalidClassThrowsDomainException($class): void
+    public function testInvalidClassThrowsDomainException(string $class): void
     {
         $this->expectException(Exception\DomainException::class);
         Factory::create([
@@ -150,13 +149,10 @@ class FactoryTest extends TestCase
         ];
     }
 
-    /**
-     *
-     */
     public function testCanCreateSmtpTransportWithOptions(): void
     {
         $transport = Factory::create([
-            'type' => 'smtp',
+            'type'    => 'smtp',
             'options' => [
                 'host' => 'somehost',
             ],
@@ -165,13 +161,10 @@ class FactoryTest extends TestCase
         $this->assertEquals($transport->getOptions()->getHost(), 'somehost');
     }
 
-    /**
-     *
-     */
     public function testCanCreateFileTransportWithOptions(): void
     {
         $transport = Factory::create([
-            'type' => 'file',
+            'type'    => 'file',
             'options' => [
                 'path' => __DIR__,
             ],

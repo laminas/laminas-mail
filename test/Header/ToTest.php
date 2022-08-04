@@ -6,6 +6,9 @@ use Laminas\Mail\Header;
 use Laminas\Mail\Header\Exception;
 use PHPUnit\Framework\TestCase;
 
+use function count;
+use function explode;
+
 /**
  * This test is primarily to test that AbstractAddressList headers perform
  * header folding and MIME encoding properly.
@@ -30,10 +33,10 @@ class ToTest extends TestCase
     public function headerLines(): array
     {
         return [
-            'newline'      => ["To: xxx yyy\n"],
-            'cr-lf'        => ["To: xxx yyy\r\n"],
-            'cr-lf-wsp'    => ["To: xxx yyy\r\n\r\n"],
-            'multiline'    => ["To: xxx\r\ny\r\nyy"],
+            'newline'   => ["To: xxx yyy\n"],
+            'cr-lf'     => ["To: xxx yyy\r\n"],
+            'cr-lf-wsp' => ["To: xxx yyy\r\n\r\n"],
+            'multiline' => ["To: xxx\r\ny\r\nyy"],
         ];
     }
 
@@ -41,7 +44,7 @@ class ToTest extends TestCase
      * @dataProvider headerLines
      * @group ZF2015-04
      */
-    public function testFromStringRaisesExceptionWhenCrlfInjectionIsDetected($header): void
+    public function testFromStringRaisesExceptionWhenCrlfInjectionIsDetected(string $header): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         Header\To::fromString($header);

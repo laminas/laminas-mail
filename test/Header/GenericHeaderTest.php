@@ -7,6 +7,8 @@ use Laminas\Mail\Header\Exception\InvalidArgumentException;
 use Laminas\Mail\Header\GenericHeader;
 use PHPUnit\Framework\TestCase;
 
+use function chr;
+
 /**
  * @covers Laminas\Mail\Header\GenericHeader<extended>
  */
@@ -15,7 +17,7 @@ class GenericHeaderTest extends TestCase
     public function invalidHeaderLines(): array
     {
         return [
-            'append-chr-32' => [
+            'append-chr-32'            => [
                 'Content-Type' . chr(32) . ': text/html',
                 'Invalid header name detected',
             ],
@@ -23,7 +25,7 @@ class GenericHeaderTest extends TestCase
                 'Content-Type: text/html; charset = "iso-8859-1"' . "\nThis is a test",
                 'Invalid header value detected',
             ],
-            'missing-colon' => [
+            'missing-colon'            => [
                 'content-type text/html',
                 'Header must match with the format "name:value"',
             ],
@@ -34,7 +36,7 @@ class GenericHeaderTest extends TestCase
      * @dataProvider invalidHeaderLines
      * @group ZF2015-04
      */
-    public function testSplitHeaderLineRaisesExceptionOnInvalidHeader($line, $message): void
+    public function testSplitHeaderLineRaisesExceptionOnInvalidHeader(string $line, string $message): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage($message);
@@ -46,7 +48,7 @@ class GenericHeaderTest extends TestCase
         return [
             'append-chr-13'  => ["Subject" . chr(13)],
             'append-chr-127' => ["Subject" . chr(127)],
-            'non-string' => [null],
+            'non-string'     => [null],
         ];
     }
 
@@ -149,8 +151,8 @@ class GenericHeaderTest extends TestCase
             'UTF-8 charset' => ['ázÁZ09-_', '=?UTF-8?Q?=C3=A1z=C3=81Z09-=5F?=', 'UTF-8'],
 
             // CRLF @group ZF2015-04 cases
-            'newline' => ["xxx yyy\n", '=?UTF-8?Q?xxx=20yyy=0A?=', 'UTF-8'],
-            'cr-lf' => ["xxx yyy\r\n", '=?UTF-8?Q?xxx=20yyy=0D=0A?=', 'UTF-8'],
+            'newline'   => ["xxx yyy\n", '=?UTF-8?Q?xxx=20yyy=0A?=', 'UTF-8'],
+            'cr-lf'     => ["xxx yyy\r\n", '=?UTF-8?Q?xxx=20yyy=0D=0A?=', 'UTF-8'],
             'cr-lf-wsp' => ["xxx yyy\r\n\r\n", '=?UTF-8?Q?xxx=20yyy=0D=0A=0D=0A?=', 'UTF-8'],
             'multiline' => ["xxx\r\ny\r\nyy", '=?UTF-8?Q?xxx=0D=0Ay=0D=0Ayy?=', 'UTF-8'],
         ];
@@ -162,7 +164,7 @@ class GenericHeaderTest extends TestCase
     public function testCastingToStringHandlesContinuationsProperly(): void
     {
         $encoded = '=?UTF-8?Q?foo=0D=0A=20bar?=';
-        $raw = "foo\r\n bar";
+        $raw     = "foo\r\n bar";
 
         $header = new GenericHeader('Foo');
         $header->setFieldValue($raw);

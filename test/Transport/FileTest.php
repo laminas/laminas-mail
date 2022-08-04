@@ -7,6 +7,15 @@ use Laminas\Mail\Transport\File;
 use Laminas\Mail\Transport\FileOptions;
 use PHPUnit\Framework\TestCase;
 
+use function file_get_contents;
+use function get_class;
+use function glob;
+use function is_dir;
+use function mkdir;
+use function rmdir;
+use function sys_get_temp_dir;
+use function unlink;
+
 /**
  * @group      Laminas_Mail
  * @covers Laminas\Mail\Transport\File<extended>
@@ -25,10 +34,10 @@ class FileTest extends TestCase
             $this->cleanup($this->tempDir);
         }
 
-        $fileOptions = new FileOptions([
+        $fileOptions     = new FileOptions([
             'path' => $this->tempDir,
         ]);
-        $this->transport  = new File($fileOptions);
+        $this->transport = new File($fileOptions);
     }
 
     public function tearDown(): void
@@ -37,7 +46,7 @@ class FileTest extends TestCase
         rmdir($this->tempDir);
     }
 
-    protected function cleanup($dir): void
+    protected function cleanup(string $dir): void
     {
         foreach (glob($dir . '/*.*') as $file) {
             unlink($file);
@@ -78,6 +87,6 @@ class FileTest extends TestCase
     public function testConstructorNoOptions(): void
     {
         $transport = new File();
-        $this->assertSame(FileOptions::class, \get_class($transport->getOptions()));
+        $this->assertSame(FileOptions::class, get_class($transport->getOptions()));
     }
 }

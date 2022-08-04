@@ -47,7 +47,7 @@ class AddressTest extends TestCase
     {
         return [
             // Description => [sender address, sender name],
-            'Empty' => ['', null],
+            'Empty'     => ['', null],
             'any ASCII' => ['azAZ09-_', null],
             'any UTF-8' => ['ázÁZ09-_', null],
 

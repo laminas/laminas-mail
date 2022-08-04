@@ -4,31 +4,54 @@ namespace Laminas\Mail\Storage\Folder;
 
 use Laminas\Mail\Storage;
 use Laminas\Mail\Storage\Exception;
+use Laminas\Mail\Storage\Exception\InvalidArgumentException;
+use Laminas\Mail\Storage\Folder;
 use Laminas\Mail\Storage\ParamsNormalizer;
 use Laminas\Stdlib\ErrorHandler;
+
+use function array_pop;
+use function array_push;
+use function closedir;
+use function explode;
+use function is_dir;
+use function opendir;
+use function readdir;
+use function rtrim;
+use function sort;
+use function strlen;
+use function strpos;
+use function substr;
+use function trim;
+
+use const DIRECTORY_SEPARATOR;
+use const E_WARNING;
 
 class Maildir extends Storage\Maildir implements FolderInterface
 {
     /**
      * root folder for folder structure
+     *
      * @var Storage\Folder
      */
     protected $rootFolder;
 
     /**
      * rootdir of folder structure
+     *
      * @var string
      */
     protected $rootdir;
 
     /**
      * name of current folder
+     *
      * @var string
      */
     protected $currentFolder;
 
     /**
      * delim char for subfolders
+     *
      * @var string
      */
     protected $delim;
@@ -42,7 +65,7 @@ class Maildir extends Storage\Maildir implements FolderInterface
      * - delim   delim char for folder structure, default is '.'
      * - folder initial selected folder, default is 'INBOX'
      *
-     * @param  $params array mail reader specific parameters
+     * @param  object|array $params mail reader specific parameters
      * @throws Exception\InvalidArgumentException
      */
     public function __construct($params)
@@ -61,14 +84,14 @@ class Maildir extends Storage\Maildir implements FolderInterface
 
         $this->rootdir = rtrim($dirname, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
-        $delim = $params['delim'] ?? '.';
+        $delim       = $params['delim'] ?? '.';
         $this->delim = (string) $delim;
 
         $folder = $params['folder'] ?? 'INBOX';
 
         $this->buildFolderTree();
         $this->selectFolder((string) $folder);
-        $this->has['top'] = true;
+        $this->has['top']   = true;
         $this->has['flags'] = true;
     }
 
@@ -82,7 +105,7 @@ class Maildir extends Storage\Maildir implements FolderInterface
      */
     protected function buildFolderTree()
     {
-        $this->rootFolder = new Storage\Folder('/', '/', false);
+        $this->rootFolder        = new Storage\Folder('/', '/', false);
         $this->rootFolder->INBOX = new Storage\Folder('INBOX', 'INBOX', true);
 
         ErrorHandler::start(E_WARNING);
@@ -106,10 +129,10 @@ class Maildir extends Storage\Maildir implements FolderInterface
         closedir($dh);
 
         sort($dirs);
-        $stack = [null];
-        $folderStack = [null];
+        $stack        = [null];
+        $folderStack  = [null];
         $parentFolder = $this->rootFolder;
-        $parent = '.';
+        $parent       = '.';
 
         foreach ($dirs as $dir) {
             do {
@@ -119,14 +142,14 @@ class Maildir extends Storage\Maildir implements FolderInterface
                         throw new Exception\RuntimeException('error while reading maildir');
                     }
                     array_push($stack, $parent);
-                    $parent = $dir . $this->delim;
-                    $folder = new Storage\Folder($local, substr($dir, 1), true);
+                    $parent               = $dir . $this->delim;
+                    $folder               = new Storage\Folder($local, substr($dir, 1), true);
                     $parentFolder->$local = $folder;
                     array_push($folderStack, $parentFolder);
                     $parentFolder = $folder;
                     break;
                 } elseif ($stack) {
-                    $parent = array_pop($stack);
+                    $parent       = array_pop($stack);
                     $parentFolder = array_pop($folderStack);
                 }
             } while ($stack);
@@ -140,8 +163,8 @@ class Maildir extends Storage\Maildir implements FolderInterface
      * get root folder or given folder
      *
      * @param string $rootFolder get folder structure for given folder, else root
-     * @throws \Laminas\Mail\Storage\Exception\InvalidArgumentException
-     * @return \Laminas\Mail\Storage\Folder root or wanted folder
+     * @throws InvalidArgumentException
+     * @return Folder root or wanted folder
      */
     public function getFolders($rootFolder = null)
     {
@@ -154,11 +177,11 @@ class Maildir extends Storage\Maildir implements FolderInterface
             $rootFolder = substr($rootFolder, 6);
         }
         $currentFolder = $this->rootFolder;
-        $subname = trim($rootFolder, $this->delim);
+        $subname       = trim($rootFolder, $this->delim);
 
         while ($currentFolder) {
             if (false !== strpos($subname, $this->delim)) {
-                list($entry, $subname) = explode($this->delim, $subname, 2);
+                [$entry, $subname] = explode($this->delim, $subname, 2);
             } else {
                 $entry   = $subname;
                 $subname = null;
@@ -214,7 +237,7 @@ class Maildir extends Storage\Maildir implements FolderInterface
     /**
      * get Storage\Folder instance for current folder
      *
-     * @return Storage\Folder instance of current folder
+     * @return string instance of current folder
      */
     public function getCurrentFolder()
     {

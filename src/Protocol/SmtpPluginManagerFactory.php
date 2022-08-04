@@ -11,7 +11,7 @@ class SmtpPluginManagerFactory implements FactoryInterface
     /**
      * laminas-servicemanager v2 support for invocation options.
      *
-     * @param array
+     * @var array
      */
     protected $creationOptions;
 
@@ -20,7 +20,7 @@ class SmtpPluginManagerFactory implements FactoryInterface
      *
      * @return SmtpPluginManager
      */
-    public function __invoke(ContainerInterface $container, $name, array $options = null)
+    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
     {
         return new SmtpPluginManager($container, $options ?: []);
     }

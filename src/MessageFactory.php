@@ -4,6 +4,16 @@ namespace Laminas\Mail;
 
 use Traversable;
 
+use function get_class;
+use function gettype;
+use function is_array;
+use function is_object;
+use function method_exists;
+use function sprintf;
+use function str_replace;
+use function strtr;
+use function ucwords;
+
 class MessageFactory
 {
     /**
@@ -16,7 +26,7 @@ class MessageFactory
             throw new Exception\InvalidArgumentException(sprintf(
                 '"%s" expects an array or Traversable; received "%s"',
                 __METHOD__,
-                (is_object($options) ? get_class($options) : gettype($options))
+                is_object($options) ? get_class($options) : gettype($options)
             ));
         }
 

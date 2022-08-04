@@ -15,7 +15,7 @@ class MimeVersionTest extends TestCase
     public function testSettingManually(): void
     {
         $version = "2.0";
-        $mime = new Header\MimeVersion();
+        $mime    = new Header\MimeVersion();
         $mime->setVersion($version);
         $this->assertEquals($version, $mime->getFieldValue());
     }
@@ -30,10 +30,10 @@ class MimeVersionTest extends TestCase
     public function headerLines(): array
     {
         return [
-            'newline'      => ["MIME-Version: 5.0\nbar"],
-            'cr-lf'        => ["MIME-Version: 2.0\r\n"],
-            'cr-lf-wsp'    => ["MIME-Version: 3\r\n\r\n.1"],
-            'multiline'    => ["MIME-Version: baz\r\nbar\r\nbau"],
+            'newline'   => ["MIME-Version: 5.0\nbar"],
+            'cr-lf'     => ["MIME-Version: 2.0\r\n"],
+            'cr-lf-wsp' => ["MIME-Version: 3\r\n\r\n.1"],
+            'multiline' => ["MIME-Version: baz\r\nbar\r\nbau"],
         ];
     }
 
@@ -41,7 +41,7 @@ class MimeVersionTest extends TestCase
      * @dataProvider headerLines
      * @group ZF2015-04
      */
-    public function testFromStringRaisesExceptionOnDetectionOfCrlfInjection($header): void
+    public function testFromStringRaisesExceptionOnDetectionOfCrlfInjection(string $header): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $mime = Header\MimeVersion::fromString($header);
@@ -61,7 +61,7 @@ class MimeVersionTest extends TestCase
      * @dataProvider invalidVersions
      * @group ZF2015-04
      */
-    public function testRaisesExceptionOnInvalidVersionFromSetVersion($value): void
+    public function testRaisesExceptionOnInvalidVersionFromSetVersion(string $value): void
     {
         $header = new Header\MimeVersion();
         $this->expectException(Exception\InvalidArgumentException::class);

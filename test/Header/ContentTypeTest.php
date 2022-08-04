@@ -30,7 +30,7 @@ class ContentTypeTest extends TestCase
         $contentTypeHeader = ContentType::fromString(
             'Content-Type: multipart/alternative; boundary="Apple-Mail=_1B852F10-F9C6-463D-AADD-CD503A5428DD";'
         );
-        $params = $contentTypeHeader->getParameters();
+        $params            = $contentTypeHeader->getParameters();
         $this->assertEquals(['boundary' => 'Apple-Mail=_1B852F10-F9C6-463D-AADD-CD503A5428DD'], $params);
     }
 
@@ -57,16 +57,16 @@ class ContentTypeTest extends TestCase
     /**
      * @dataProvider getLiteralData
      */
-    public function testHandlesLiterals(array $expected, $header): void
+    public function testHandlesLiterals(array $expected, string $header): void
     {
-        $header = ContentType::fromString('Content-Type: '.$header);
+        $header = ContentType::fromString('Content-Type: ' . $header);
         $this->assertEquals($expected, $header->getParameters());
     }
 
     /**
      * @dataProvider setTypeProvider
      */
-    public function testFromString($type, $parameters, $fieldValue, $expectedToString): void
+    public function testFromString(string $type, array $parameters, string $fieldValue, string $expectedToString): void
     {
         $header = ContentType::fromString($expectedToString);
 
@@ -81,7 +81,7 @@ class ContentTypeTest extends TestCase
     /**
      * @dataProvider setTypeProvider
      */
-    public function testSetType($type, $parameters, $fieldValue, $expectedToString): void
+    public function testSetType(string $type, array $parameters, string $fieldValue, string $expectedToString): void
     {
         $header = new ContentType();
 
@@ -98,10 +98,14 @@ class ContentTypeTest extends TestCase
     }
 
     /**
+     * @param class-string $expectedException
      * @dataProvider invalidHeaderLinesProvider
      */
-    public function testFromStringThrowException($headerLine, $expectedException, $exceptionMessage): void
-    {
+    public function testFromStringThrowException(
+        string $headerLine,
+        string $expectedException,
+        string $exceptionMessage
+    ): void {
         $this->expectException($expectedException);
         $this->expectExceptionMessage($exceptionMessage);
         ContentType::fromString($headerLine);
@@ -121,6 +125,7 @@ class ContentTypeTest extends TestCase
      * Should not throw if the optional count is missing
      *
      * @see https://tools.ietf.org/html/rfc2231
+     *
      * @dataProvider parameterWrappingProvider
      */
     public function testParameterWrapping(string $input, array $parameters): void
@@ -131,10 +136,15 @@ class ContentTypeTest extends TestCase
     }
 
     /**
+     * @param class-string $expectedException
      * @dataProvider invalidParametersProvider
      */
-    public function testAddParameterThrowException($paramName, $paramValue, $expectedException, $exceptionMessage): void
-    {
+    public function testAddParameterThrowException(
+        string $paramName,
+        string $paramValue,
+        string $expectedException,
+        string $exceptionMessage
+    ): void {
         $header = new ContentType();
         $header->setType('text/html');
 
@@ -257,7 +267,7 @@ class ContentTypeTest extends TestCase
     {
         yield 'Example from RFC2231' => [
             "Content-Type: application/x-stuff; title*=us-ascii'en-us'This%20is%20%2A%2A%2Afun%2A%2A%2A",
-            ['title*' => "us-ascii'en-us'This%20is%20%2A%2A%2Afun%2A%2A%2A"]
+            ['title*' => "us-ascii'en-us'This%20is%20%2A%2A%2Afun%2A%2A%2A"],
         ];
     }
 }

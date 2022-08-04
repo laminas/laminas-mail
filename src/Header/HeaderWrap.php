@@ -5,17 +5,29 @@ namespace Laminas\Mail\Header;
 use Laminas\Mail\Headers;
 use Laminas\Mime\Mime;
 
+use function array_reduce;
+use function explode;
+use function extension_loaded;
+use function iconv_mime_decode;
+use function iconv_mime_encode;
+use function implode;
+use function strlen;
+use function strpos;
+use function wordwrap;
+
+use const ICONV_MIME_DECODE_CONTINUE_ON_ERROR;
+
 /**
  * Utility class used for creating wrapped or MIME-encoded versions of header
  * values.
  */
+// phpcs:disable WebimpressCodingStandard.NamingConventions.AbstractClass.Prefix
 abstract class HeaderWrap
 {
     /**
      * Wrap a long header line
      *
      * @param  string          $value
-     * @param  HeaderInterface $header
      * @return string
      */
     public static function wrap($value, HeaderInterface $header)
@@ -34,7 +46,6 @@ abstract class HeaderWrap
      * Wrap at 78 characters or before, based on whitespace.
      *
      * @param string          $value
-     * @param HeaderInterface $header
      * @return string
      */
     protected static function wrapUnstructuredHeader($value, HeaderInterface $header)
@@ -50,7 +61,6 @@ abstract class HeaderWrap
      * Wrap a structured header line
      *
      * @param  string              $value
-     * @param  StructuredInterface $header
      * @return string
      */
     protected static function wrapStructuredHeader($value, StructuredInterface $header)
@@ -119,7 +129,7 @@ abstract class HeaderWrap
         return $decodedValue;
     }
 
-    private static function isNotDecoded($originalValue, $value)
+    private static function isNotDecoded(string $originalValue, string $value): bool
     {
         return 0 === strpos($value, '=?')
             && strlen($value) - 2 === strpos($value, '?=')
@@ -138,18 +148,18 @@ abstract class HeaderWrap
         // "test" -> 4
         // "x-test: =?ISO-8859-1?B?dGVzdA==?=" -> 33
         //  8       +2          +3         +3  -> 16
-        $charset = 'UTF-8';
+        $charset    = 'UTF-8';
         $lineLength = strlen($value) * 4 + strlen($charset) + 16;
 
         $preferences = [
-            'scheme' => 'Q',
-            'input-charset' => $charset,
+            'scheme'         => 'Q',
+            'input-charset'  => $charset,
             'output-charset' => $charset,
-            'line-length' => $lineLength,
+            'line-length'    => $lineLength,
         ];
 
         $encoded = iconv_mime_encode('x-test', $value, $preferences);
 
-        return (false !== $encoded);
+        return false !== $encoded;
     }
 }

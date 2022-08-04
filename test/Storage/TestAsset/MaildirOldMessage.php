@@ -12,7 +12,8 @@ class MaildirOldMessage extends Maildir
 {
     /**
      * used message class
-     * @var string
+     *
+     * @var class-string<Message>
      */
     protected $messageClass = Message::class;
 }

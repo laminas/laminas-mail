@@ -5,26 +5,52 @@ namespace LaminasTest\Mail\Storage;
 use ArrayObject;
 use Laminas\Mail\Storage;
 use Laminas\Mail\Storage\Exception;
+use PharData;
 use PHPUnit\Framework\TestCase;
+
+use function chmod;
+use function class_exists;
+use function closedir;
+use function copy;
+use function explode;
+use function file_exists;
+use function get_class;
+use function getenv;
+use function is_dir;
+use function is_file;
+use function mkdir;
+use function opendir;
+use function readdir;
+use function rename;
+use function rmdir;
+use function strtoupper;
+use function substr;
+use function touch;
+use function trim;
+use function unlink;
+
+use const PHP_OS;
 
 /**
  * @group      Laminas_Mail
  */
 class MaildirTest extends TestCase
 {
+    /** @var string */
     protected $maildir;
+    /** @var string */
     protected $tmpdir;
 
     public function setUp(): void
     {
-        if (\strtoupper(\substr(PHP_OS, 0, 3)) == 'WIN') {
+        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
             $this->markTestSkipped('This test does not work on Windows');
             return;
         }
 
         $originalMaildir = __DIR__ . '/../_files/test.maildir/';
 
-        if ($this->tmpdir == null) {
+        if (! isset($this->tmpdir)) {
             if (getenv('TESTS_LAMINAS_MAIL_TEMPDIR') != null) {
                 $this->tmpdir = getenv('TESTS_LAMINAS_MAIL_TEMPDIR');
             } else {
@@ -34,7 +60,7 @@ class MaildirTest extends TestCase
                 mkdir($this->tmpdir);
             }
             $count = 0;
-            $dh = opendir($this->tmpdir);
+            $dh    = opendir($this->tmpdir);
             while (readdir($dh) !== false) {
                 ++$count;
             }
@@ -45,16 +71,16 @@ class MaildirTest extends TestCase
             }
         }
 
-        if (! \file_exists($originalMaildir . 'maildirsize') && \class_exists('PharData')) {
+        if (! file_exists($originalMaildir . 'maildirsize') && class_exists('PharData')) {
             try {
-                $phar = new \PharData($originalMaildir . 'maildir.tar');
+                $phar = new PharData($originalMaildir . 'maildir.tar');
                 $phar->extractTo($originalMaildir);
             } catch (\Exception $e) {
                 // intentionally empty catch block
             }
         }
 
-        if (! \file_exists($originalMaildir . 'maildirsize')) {
+        if (! file_exists($originalMaildir . 'maildirsize')) {
             $this->markTestSkipped('You have to unpack maildir.tar in '
             . 'Laminas/Mail/_files/test.maildir/ directory to run the maildir tests');
             return;
@@ -80,14 +106,14 @@ class MaildirTest extends TestCase
     {
         foreach (['cur', 'new'] as $dir) {
             if (! is_dir($this->tmpdir . $dir)) {
-                if (\is_dir($this->tmpdir . $dir . '-isFileTest')) {
-                    \unlink($this->tmpdir . $dir);
-                    \rename($this->tmpdir . $dir . '-isFileTest', $this->tmpdir . $dir);
+                if (is_dir($this->tmpdir . $dir . '-isFileTest')) {
+                    unlink($this->tmpdir . $dir);
+                    rename($this->tmpdir . $dir . '-isFileTest', $this->tmpdir . $dir);
                 } else {
                     continue;
                 }
             }
-            \chmod($this->tmpdir . $dir, 0700);
+            chmod($this->tmpdir . $dir, 0700);
             $dh = opendir($this->tmpdir . $dir);
             while (($entry = readdir($dh)) !== false) {
                 $entry = $this->tmpdir . $dir . '/' . $entry;
@@ -100,21 +126,21 @@ class MaildirTest extends TestCase
             rmdir($this->tmpdir . $dir);
         }
 
-        if (\file_exists($this->tmpdir . 'tmp')) {
-            \unlink($this->tmpdir . 'tmp');
+        if (file_exists($this->tmpdir . 'tmp')) {
+            unlink($this->tmpdir . 'tmp');
         }
     }
 
     public function testLoadOk(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
-        $this->assertSame(Storage\Maildir::class, \get_class($mail));
+        $this->assertSame(Storage\Maildir::class, get_class($mail));
     }
 
     public function testLoadConfig(): void
     {
         $mail = new Storage\Maildir(new ArrayObject(['dirname' => $this->maildir]));
-        $this->assertSame(Storage\Maildir::class, \get_class($mail));
+        $this->assertSame(Storage\Maildir::class, get_class($mail));
     }
 
     public function testLoadFailure(): void
@@ -175,7 +201,7 @@ class MaildirTest extends TestCase
 
     public function testSize(): void
     {
-        $mail = new Storage\Maildir(['dirname' => $this->maildir]);
+        $mail        = new Storage\Maildir(['dirname' => $this->maildir]);
         $shouldSizes = [1 => 397, 89, 694, 452, 497];
 
         $sizes = $mail->getSize();
@@ -198,15 +224,6 @@ class MaildirTest extends TestCase
         $this->assertEquals('Simple Message', $subject);
     }
 
-/*
-    public function testFetchTopBody()
-    {
-        $mail = new Storage\Maildir(array('dirname' => $this->maildir));
-
-        $content = $mail->getHeader(3, 1)->getContent();
-        $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
-    }
-*/
     public function testFetchMessageHeader(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
@@ -219,8 +236,8 @@ class MaildirTest extends TestCase
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
 
-        $content = $mail->getMessage(3)->getContent();
-        list($content) = explode("\n", $content, 2);
+        $content   = $mail->getMessage(3)->getContent();
+        [$content] = explode("\n", $content, 2);
         $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
     }
 
@@ -277,15 +294,16 @@ class MaildirTest extends TestCase
         $this->assertTrue($mail->hasUniqueId);
         $this->assertEquals(1, $mail->getNumberByUniqueId($mail->getUniqueId(1)));
 
-        $ids = $mail->getUniqueId();
-        $should_ids = [1 => '1000000000.P1.example.org',
+        $ids       = $mail->getUniqueId();
+        $shouldIds = [
+            1 => '1000000000.P1.example.org',
             '1000000001.P1.example.org',
             '1000000002.P1.example.org',
             '1000000003.P1.example.org',
             '1000000004.P1.example.org',
         ];
         foreach ($ids as $num => $id) {
-            $this->assertEquals($id, $should_ids[$num]);
+            $this->assertEquals($id, $shouldIds[$num]);
 
             if ($mail->getNumberByUniqueId($id) != $num) {
                 $this->fail('reverse lookup failed');
@@ -304,8 +322,8 @@ class MaildirTest extends TestCase
 
     public function testCurIsFile(): void
     {
-        \rename($this->maildir . 'cur', $this->maildir . 'cur-isFileTest');
-        \touch($this->maildir . 'cur');
+        rename($this->maildir . 'cur', $this->maildir . 'cur-isFileTest');
+        touch($this->maildir . 'cur');
 
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('invalid maildir given');
@@ -314,8 +332,8 @@ class MaildirTest extends TestCase
 
     public function testNewIsFile(): void
     {
-        \rename($this->maildir . 'new', $this->maildir . 'new-isFileTest');
-        \touch($this->maildir . 'new');
+        rename($this->maildir . 'new', $this->maildir . 'new-isFileTest');
+        touch($this->maildir . 'new');
 
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('invalid maildir given');
@@ -324,7 +342,7 @@ class MaildirTest extends TestCase
 
     public function testTmpIsFile(): void
     {
-        \touch($this->maildir . 'tmp');
+        touch($this->maildir . 'tmp');
 
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('invalid maildir given');
@@ -333,7 +351,7 @@ class MaildirTest extends TestCase
 
     public function testNotReadableCur(): void
     {
-        \chmod($this->maildir . 'cur', 0);
+        chmod($this->maildir . 'cur', 0);
 
         $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('cannot open maildir');
@@ -342,7 +360,7 @@ class MaildirTest extends TestCase
 
     public function testNotReadableNew(): void
     {
-        \chmod($this->maildir . 'new', 0);
+        chmod($this->maildir . 'new', 0);
 
         $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('cannot read recent mails in maildir');
@@ -382,7 +400,7 @@ class MaildirTest extends TestCase
             $this->maildir . '/cur/1000000001.P1.example.org:2,FS',
             $this->maildir . '/cur/1000000001.P1.example.org,S=456:2,FS'
         );
-        $mail = new Storage\Maildir(['dirname' => $this->maildir]);
+        $mail        = new Storage\Maildir(['dirname' => $this->maildir]);
         $shouldSizes = [1 => 123, 456, 694, 452, 497];
 
         $sizes = $mail->getSize();
