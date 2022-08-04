@@ -11,7 +11,6 @@ use Traversable;
 
 use function count;
 use function escapeshellarg;
-use function get_class;
 use function gettype;
 use function implode;
 use function is_array;
@@ -92,7 +91,7 @@ class Sendmail implements TransportInterface
             throw new InvalidArgumentException(sprintf(
                 '%s expects a string, array, or Traversable object of parameters; received "%s"',
                 __METHOD__,
-                is_object($parameters) ? get_class($parameters) : gettype($parameters)
+                is_object($parameters) ? $parameters::class : gettype($parameters)
             ));
         }
 
@@ -120,7 +119,7 @@ class Sendmail implements TransportInterface
             throw new InvalidArgumentException(sprintf(
                 '%s expects a callable argument; received "%s"',
                 __METHOD__,
-                is_object($callable) ? get_class($callable) : gettype($callable)
+                is_object($callable) ? $callable::class : gettype($callable)
             ));
         }
         $this->callable = $callable;

@@ -6,7 +6,6 @@ use Laminas\Mail;
 use Laminas\Mail\Address\AddressInterface;
 use Laminas\Mime\Mime;
 
-use function get_class;
 use function gettype;
 use function is_object;
 use function is_string;
@@ -157,7 +156,7 @@ class Sender implements HeaderInterface
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects a string or AddressInterface object; received "%s"',
                 __METHOD__,
-                is_object($emailOrAddress) ? get_class($emailOrAddress) : gettype($emailOrAddress)
+                is_object($emailOrAddress) ? $emailOrAddress::class : gettype($emailOrAddress)
             ));
         }
         $this->address = $emailOrAddress;
