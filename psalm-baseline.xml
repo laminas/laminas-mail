@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="v4.25.0@d7cd84c4ebca74ba3419b9601f81d177bcbe2aac">
+<files psalm-version="4.26.0@6998fabb2bf528b65777bf9941920888d23c03ac">
   <file src="src/Address.php">
     <DocblockTypeContradiction occurrences="2">
       <code>! is_string($email)</code>
@@ -862,27 +862,13 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Protocol/SmtpPluginManager.php">
-    <DocblockTypeContradiction occurrences="1">
-      <code>gettype($instance)</code>
-    </DocblockTypeContradiction>
-    <InvalidPropertyAssignmentValue occurrences="1"/>
-    <InvalidTypeImport occurrences="1">
-      <code>FactoriesConfigurationType from ConfigInterface</code>
-    </InvalidTypeImport>
     <MissingReturnType occurrences="1">
       <code>validatePlugin</code>
     </MissingReturnType>
-    <NonInvariantDocblockPropertyType occurrences="3">
+    <NonInvariantDocblockPropertyType occurrences="2">
       <code>$aliases</code>
-      <code>$factories</code>
       <code>$instanceOf</code>
     </NonInvariantDocblockPropertyType>
-    <RedundantConditionGivenDocblockType occurrences="1">
-      <code>is_object($instance)</code>
-    </RedundantConditionGivenDocblockType>
-    <TooManyTemplateParams occurrences="1">
-      <code>SmtpPluginManager</code>
-    </TooManyTemplateParams>
   </file>
   <file src="src/Protocol/SmtpPluginManagerFactory.php">
     <DeprecatedInterface occurrences="1">
@@ -1707,9 +1693,6 @@
       <code>null === $this-&gt;callback</code>
       <code>null === $this-&gt;path</code>
     </DocblockTypeContradiction>
-    <MixedArgument occurrences="1">
-      <code>$callback</code>
-    </MixedArgument>
     <PropertyNotSetInConstructor occurrences="2">
       <code>$callback</code>
       <code>$path</code>
@@ -1736,9 +1719,6 @@
     <MissingReturnType occurrences="1">
       <code>mailHandler</code>
     </MissingReturnType>
-    <MixedArgument occurrences="1">
-      <code>$callable</code>
-    </MixedArgument>
     <MixedAssignment occurrences="1">
       <code>$param</code>
     </MixedAssignment>
@@ -1995,18 +1975,14 @@
     </NullArgument>
   </file>
   <file src="test/Header/GenericMultiHeaderTest.php">
-    <MixedArgument occurrences="1">
-      <code>$header</code>
-    </MixedArgument>
     <MixedAssignment occurrences="1">
       <code>$header</code>
     </MixedAssignment>
     <PossibleRawObjectIteration occurrences="1">
       <code>$headers</code>
     </PossibleRawObjectIteration>
-    <PossiblyInvalidArgument occurrences="2">
+    <PossiblyInvalidArgument occurrences="1">
       <code>$headers</code>
-      <code>$multiHeader</code>
     </PossiblyInvalidArgument>
   </file>
   <file src="test/Header/HeaderLocatorTest.php">
@@ -2158,9 +2134,6 @@
     <NullArgument occurrences="1">
       <code>null</code>
     </NullArgument>
-    <PossiblyFalseArgument occurrences="1">
-      <code>$return</code>
-    </PossiblyFalseArgument>
     <PossiblyFalseReference occurrences="13">
       <code>current</code>
       <code>getFieldValue</code>
