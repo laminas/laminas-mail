@@ -33,7 +33,7 @@ class InMemoryTest extends TestCase
 
     public function testReceivesMailArtifacts(): void
     {
-        $message = $this->getMessage();
+        $message   = $this->getMessage();
         $transport = new InMemory();
 
         $transport->send($message);

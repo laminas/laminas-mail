@@ -6,6 +6,8 @@ use Laminas\Mail\Header\Exception;
 use Laminas\Mail\Header\HeaderName;
 use PHPUnit\Framework\TestCase;
 
+use function chr;
+
 /**
  * @covers Laminas\Mail\Header\HeaderName<extended>
  */
@@ -31,7 +33,7 @@ class HeaderNameTest extends TestCase
      * @dataProvider getFilterNames
      * @group ZF2015-04
      */
-    public function testFilterName($name, $expected): void
+    public function testFilterName(string $name, string $expected): void
     {
         HeaderName::assertValid($expected);
         $this->assertEquals($expected, HeaderName::filter($name));
@@ -54,7 +56,7 @@ class HeaderNameTest extends TestCase
      * @dataProvider validateNames
      * @group ZF2015-04
      */
-    public function testValidateName($name, $assertion): void
+    public function testValidateName(string $name, string $assertion): void
     {
         $this->{$assertion}(HeaderName::isValid($name));
     }
@@ -73,7 +75,7 @@ class HeaderNameTest extends TestCase
      * @dataProvider assertNames
      * @group ZF2015-04
      */
-    public function testAssertValidRaisesExceptionForInvalidNames($name): void
+    public function testAssertValidRaisesExceptionForInvalidNames(string $name): void
     {
         $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('Invalid');

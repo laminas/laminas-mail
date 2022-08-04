@@ -4,11 +4,17 @@ namespace LaminasTest\Mail\TestAsset;
 
 class StringSerializableObject
 {
-    public function __construct($message)
+    /** @var string */
+    private $message;
+
+    public function __construct(string $message)
     {
         $this->message = $message;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->message;

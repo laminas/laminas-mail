@@ -5,27 +5,53 @@ namespace LaminasTest\Mail\Storage;
 use Laminas\Mail\Storage;
 use Laminas\Mail\Storage\Exception;
 use Laminas\Mail\Storage\Writable;
+use PharData;
 use PHPUnit\Framework\TestCase;
+
+use function array_reverse;
+use function class_exists;
+use function closedir;
+use function copy;
+use function fclose;
+use function file_exists;
+use function fopen;
+use function fseek;
+use function fwrite;
+use function getenv;
+use function is_file;
+use function mkdir;
+use function opendir;
+use function readdir;
+use function rmdir;
+use function strtoupper;
+use function substr;
+use function unlink;
+
+use const DIRECTORY_SEPARATOR;
+use const PHP_OS;
 
 /**
  * @group      Laminas_Mail
  */
 class MaildirWritableTest extends TestCase
 {
+    /** @var array */
     protected $params;
+    /** @var string */
     protected $tmpdir;
+    /** @var string[] */
     protected $subdirs = ['.', '.subfolder', '.subfolder.test'];
 
     public function setUp(): void
     {
-        if (\strtoupper(\substr(PHP_OS, 0, 3)) == 'WIN') {
+        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
             $this->markTestSkipped('This test does not work on Windows');
             return;
         }
 
         $originalMaildir = __DIR__ . '/../_files/test.maildir/';
 
-        if ($this->tmpdir == null) {
+        if (! isset($this->tmpdir)) {
             if (getenv('TESTS_LAMINAS_MAIL_TEMPDIR') != null) {
                 $this->tmpdir = getenv('TESTS_LAMINAS_MAIL_TEMPDIR');
             } else {
@@ -35,7 +61,7 @@ class MaildirWritableTest extends TestCase
                 mkdir($this->tmpdir);
             }
             $count = 0;
-            $dh = opendir($this->tmpdir);
+            $dh    = opendir($this->tmpdir);
             while (readdir($dh) !== false) {
                 ++$count;
             }
@@ -47,22 +73,22 @@ class MaildirWritableTest extends TestCase
             }
         }
 
-        if (! \file_exists($originalMaildir . 'maildirsize') && \class_exists('PharData')) {
+        if (! file_exists($originalMaildir . 'maildirsize') && class_exists('PharData')) {
             try {
-                $phar = new \PharData($originalMaildir . 'maildir.tar');
+                $phar = new PharData($originalMaildir . 'maildir.tar');
                 $phar->extractTo($originalMaildir);
             } catch (\Exception $e) {
                 // intentionally empty catch block
             }
         }
 
-        if (! \file_exists($originalMaildir . 'maildirsize')) {
+        if (! file_exists($originalMaildir . 'maildirsize')) {
             $this->markTestSkipped('You have to unpack maildir.tar in '
             . 'Laminas/Mail/_files/test.maildir/ directory to run the maildir tests');
             return;
         }
 
-        $this->params = [];
+        $this->params            = [];
         $this->params['dirname'] = $this->tmpdir;
 
         foreach ($this->subdirs as $dir) {
@@ -262,10 +288,10 @@ class MaildirWritableTest extends TestCase
 
     public function testAppend(): void
     {
-        $mail = new Writable\Maildir($this->params);
+        $mail  = new Writable\Maildir($this->params);
         $count = $mail->countMessages();
 
-        $message = '';
+        $message  = '';
         $message .= "From: me@example.org\r\n";
         $message .= "To: you@example.org\r\n";
         $message .= "Subject: append test\r\n";
@@ -333,7 +359,7 @@ class MaildirWritableTest extends TestCase
 
     public function testRemove(): void
     {
-        $mail = new Writable\Maildir($this->params);
+        $mail  = new Writable\Maildir($this->params);
         $count = $mail->countMessages();
 
         $mail->removeMessage(1);
@@ -362,15 +388,15 @@ class MaildirWritableTest extends TestCase
     public function testCheckQuotaDetailed(): void
     {
         $this->markTestIncomplete("Fail");
-        $mail = new Writable\Maildir($this->params);
+        $mail        = new Writable\Maildir($this->params);
         $quotaResult = [
-            'size'  => 2129,
-            'count' => 5,
-            'quota' => [
-                    'count' => 10,
-                    'L'     => 1,
-                    'size'  => 3000,
-                ],
+            'size'       => 2129,
+            'count'      => 5,
+            'quota'      => [
+                'count' => 10,
+                'L'     => 1,
+                'size'  => 3000,
+            ],
             'over_quota' => false,
         ];
         $this->assertEquals($quotaResult, $mail->checkQuota(true));
@@ -393,13 +419,13 @@ class MaildirWritableTest extends TestCase
         $this->assertEquals($mail->getQuota(true), ['size' => 3000, 'L' => 1, 'count' => 10]);
 
         $quotaResult = [
-            'size'  => 2129,
-            'count' => 5,
-            'quota' => [
-                    'size'  => 100,
-                    'count' => 2,
-                    'X'     => 0,
-                ],
+            'size'       => 2129,
+            'count'      => 5,
+            'quota'      => [
+                'size'  => 100,
+                'count' => 2,
+                'X'     => 0,
+            ],
             'over_quota' => true,
         ];
         $this->assertEquals($quotaResult, $mail->checkQuota(true, true));
@@ -428,13 +454,13 @@ class MaildirWritableTest extends TestCase
         $mail->setQuota(['size' => 100, 'count' => 2, 'X' => 0]);
 
         $quotaResult = [
-            'size'  => 2129,
-            'count' => 5,
-            'quota' => [
-                    'size'  => 100,
-                    'count' => 2,
-                    'X'     => 0,
-                ],
+            'size'       => 2129,
+            'count'      => 5,
+            'quota'      => [
+                'size'  => 100,
+                'count' => 2,
+                'X'     => 0,
+            ],
             'over_quota' => true,
         ];
         $this->assertEquals($mail->checkQuota(true), $quotaResult);
@@ -450,13 +476,13 @@ class MaildirWritableTest extends TestCase
         $this->assertFalse($mail->checkQuota(false, true));
         $mail->appendMessage("Subject: test\r\n\r\n");
         $quotaResult = [
-            'size'  => 2613,
-            'count' => 7,
-            'quota' => [
-                    'size'  => 3000,
-                    'count' => 6,
-                    'X'     => 0,
-                ],
+            'size'       => 2613,
+            'count'      => 7,
+            'quota'      => [
+                'size'  => 3000,
+                'count' => 6,
+                'X'     => 0,
+            ],
             'over_quota' => true,
         ];
         $this->assertEquals($mail->checkQuota(true), $quotaResult);
@@ -492,13 +518,13 @@ class MaildirWritableTest extends TestCase
         $this->assertFalse($mail->checkQuota(false, true));
         $mail->copyMessage(1, 'subfolder');
         $quotaResult = [
-            'size'  => 2993,
-            'count' => 7,
-            'quota' => [
-                    'size'  => 3000,
-                    'count' => 6,
-                    'X'     => 0,
-                ],
+            'size'       => 2993,
+            'count'      => 7,
+            'quota'      => [
+                'size'  => 3000,
+                'count' => 6,
+                'X'     => 0,
+            ],
             'over_quota' => true,
         ];
         $this->assertEquals($mail->checkQuota(true), $quotaResult);
@@ -507,7 +533,7 @@ class MaildirWritableTest extends TestCase
     public function testAppendStream(): void
     {
         $mail = new Writable\Maildir($this->params);
-        $fh = fopen('php://memory', 'rw');
+        $fh   = fopen('php://memory', 'rw');
         fwrite($fh, "Subject: test\r\n\r\n");
         fseek($fh, 0);
         $mail->appendMessage($fh);
@@ -519,7 +545,7 @@ class MaildirWritableTest extends TestCase
     public function testMove(): void
     {
         $this->markTestIncomplete("Fail");
-        $mail = new Writable\Maildir($this->params);
+        $mail   = new Writable\Maildir($this->params);
         $target = $mail->getFolders()->subfolder->test;
         $mail->selectFolder($target);
         $toCount = $mail->countMessages();
@@ -570,7 +596,7 @@ class MaildirWritableTest extends TestCase
         }
 
         $this->params['create'] = true;
-        $mail = new Writable\Maildir($this->params);
+        $mail                   = new Writable\Maildir($this->params);
         $this->assertEquals($mail->countMessages(), 0);
     }
 }
