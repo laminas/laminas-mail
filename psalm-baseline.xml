@@ -54,6 +54,12 @@
       <code>is_object($emailOrAddress)</code>
     </RedundantConditionGivenDocblockType>
   </file>
+  <file src="src/ConfigProvider.php">
+    <MixedArrayOffset occurrences="1"/>
+    <UndefinedClass occurrences="1">
+      <code>SmtpPluginManager</code>
+    </UndefinedClass>
+  </file>
   <file src="src/Header/AbstractAddressList.php">
     <DocblockTypeContradiction occurrences="1">
       <code>null === $this-&gt;addressList</code>
@@ -865,10 +871,17 @@
     <MissingReturnType occurrences="1">
       <code>validatePlugin</code>
     </MissingReturnType>
+    <MixedArrayOffset occurrences="1"/>
     <NonInvariantDocblockPropertyType occurrences="2">
       <code>$aliases</code>
       <code>$instanceOf</code>
     </NonInvariantDocblockPropertyType>
+    <UndefinedClass occurrences="4">
+      <code>Crammd5</code>
+      <code>Login</code>
+      <code>Plain</code>
+      <code>\Zend\Mail\Protocol\Smtp</code>
+    </UndefinedClass>
   </file>
   <file src="src/Protocol/SmtpPluginManagerFactory.php">
     <DeprecatedInterface occurrences="1">
