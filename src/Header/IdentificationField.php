@@ -15,7 +15,7 @@ use function trim;
 /**
  * @see https://tools.ietf.org/html/rfc5322#section-3.6.4
  */
-// phpcs:disable WebimpressCodingStandard.NamingConventions.AbstractClass.Prefix
+// phpcs:ignore WebimpressCodingStandard.NamingConventions.AbstractClass.Prefix
 abstract class IdentificationField implements HeaderInterface
 {
     /** @var string lower case field name */
