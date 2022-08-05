@@ -8,7 +8,6 @@ use ReturnTypeWillChange;
 
 use function count;
 use function current;
-use function get_class;
 use function gettype;
 use function is_int;
 use function is_numeric;
@@ -49,7 +48,7 @@ class AddressList implements Countable, Iterator
                 '%s expects an email address or %s\Address object as its first argument; received "%s"',
                 __METHOD__,
                 __NAMESPACE__,
-                is_object($emailOrAddress) ? get_class($emailOrAddress) : gettype($emailOrAddress)
+                is_object($emailOrAddress) ? $emailOrAddress::class : gettype($emailOrAddress)
             ));
         }
 
@@ -84,7 +83,7 @@ class AddressList implements Countable, Iterator
             if (! is_string($key)) {
                 throw new Exception\RuntimeException(sprintf(
                     'Invalid key type in provided addresses array ("%s")',
-                    is_object($key) ? get_class($key) : var_export($key, true)
+                    is_object($key) ? $key::class : var_export($key, true)
                 ));
             }
 

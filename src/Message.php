@@ -17,7 +17,6 @@ use Traversable;
 use function array_shift;
 use function count;
 use function date;
-use function get_class;
 use function gettype;
 use function is_array;
 use function is_object;
@@ -394,7 +393,7 @@ class Message
                         . ' object of type "%s" received',
                         __METHOD__,
                         Mime\Message::class,
-                        get_class($body)
+                        $body::class
                     ));
                 }
             }
@@ -501,7 +500,7 @@ class Message
         if (! $header instanceof Header\AbstractAddressList) {
             throw new Exception\DomainException(sprintf(
                 'Cannot grab address list from header of type "%s"; not an AbstractAddressList implementation',
-                get_class($header)
+                $header::class
             ));
         }
         return $header->getAddressList();
@@ -534,7 +533,7 @@ class Message
                 '%s expects a string, AddressInterface, array, AddressList, or Traversable as its first argument;'
                 . ' received "%s"',
                 $callingMethod,
-                is_object($emailOrAddressOrList) ? get_class($emailOrAddressOrList) : gettype($emailOrAddressOrList)
+                is_object($emailOrAddressOrList) ? $emailOrAddressOrList::class : gettype($emailOrAddressOrList)
             ));
         }
 

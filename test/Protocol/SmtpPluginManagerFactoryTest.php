@@ -2,6 +2,7 @@
 
 namespace LaminasTest\Mail\Protocol;
 
+// phpcs:ignore WebimpressCodingStandard.PHP.CorrectClassNameCase.Invalid
 use Interop\Container\ContainerInterface;
 use Laminas\Mail\Protocol\Smtp;
 use Laminas\Mail\Protocol\SmtpPluginManager;
