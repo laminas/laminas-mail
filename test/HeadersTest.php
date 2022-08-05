@@ -15,7 +15,6 @@ use PHPUnit\Framework\Error\Deprecated;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
-use function get_class;
 use function implode;
 use function restore_error_handler;
 use function set_error_handler;
@@ -403,7 +402,7 @@ class HeadersTest extends TestCase
         $headers->addHeader($received);
 
         $return = $headers->get('Received');
-        $this->assertSame(ArrayIterator::class, get_class($return));
+        $this->assertSame(ArrayIterator::class, $return::class);
     }
 
     /**

@@ -14,7 +14,6 @@ use function closedir;
 use function copy;
 use function explode;
 use function file_exists;
-use function get_class;
 use function getenv;
 use function is_dir;
 use function is_file;
@@ -134,13 +133,13 @@ class MaildirTest extends TestCase
     public function testLoadOk(): void
     {
         $mail = new Storage\Maildir(['dirname' => $this->maildir]);
-        $this->assertSame(Storage\Maildir::class, get_class($mail));
+        $this->assertSame(Storage\Maildir::class, $mail::class);
     }
 
     public function testLoadConfig(): void
     {
         $mail = new Storage\Maildir(new ArrayObject(['dirname' => $this->maildir]));
-        $this->assertSame(Storage\Maildir::class, get_class($mail));
+        $this->assertSame(Storage\Maildir::class, $mail::class);
     }
 
     public function testLoadFailure(): void

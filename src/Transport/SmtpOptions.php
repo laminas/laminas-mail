@@ -6,7 +6,6 @@ use Laminas\Mail\Exception;
 use Laminas\Mail\Exception\InvalidArgumentException;
 use Laminas\Stdlib\AbstractOptions;
 
-use function get_class;
 use function gettype;
 use function is_object;
 use function is_string;
@@ -64,7 +63,7 @@ class SmtpOptions extends AbstractOptions
         if (! is_string($name) && $name !== null) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'Name must be a string or null; argument of type "%s" provided',
-                is_object($name) ? get_class($name) : gettype($name)
+                is_object($name) ? $name::class : gettype($name)
             ));
         }
         $this->name = $name;
@@ -97,7 +96,7 @@ class SmtpOptions extends AbstractOptions
         if (! is_string($connectionClass) && $connectionClass !== null) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'Connection class must be a string or null; argument of type "%s" provided',
-                is_object($connectionClass) ? get_class($connectionClass) : gettype($connectionClass)
+                is_object($connectionClass) ? $connectionClass::class : gettype($connectionClass)
             ));
         }
         $this->connectionClass = $connectionClass;

@@ -69,7 +69,7 @@ class Mbox extends AbstractStorage
      *
      * @var string|null
      */
-    // phpcs:disable WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCapsProperty
+    // phpcs:ignore WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCapsProperty
     protected $messageEOL;
 
     /**

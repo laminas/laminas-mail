@@ -10,7 +10,6 @@ use Zend\Mail\Protocol\Smtp\Auth\Crammd5;
 use Zend\Mail\Protocol\Smtp\Auth\Login;
 use Zend\Mail\Protocol\Smtp\Auth\Plain;
 
-use function get_class;
 use function gettype;
 use function is_object;
 use function sprintf;
@@ -97,7 +96,7 @@ class SmtpPluginManager extends AbstractPluginManager
         if (! $instance instanceof $this->instanceOf) {
             throw new InvalidServiceException(sprintf(
                 'Plugin of type %s is invalid; must extend %s',
-                is_object($instance) ? get_class($instance) : gettype($instance),
+                is_object($instance) ? $instance::class : gettype($instance),
                 $this->instanceOf
             ));
         }

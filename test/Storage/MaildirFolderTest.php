@@ -16,7 +16,6 @@ use function clearstatcache;
 use function closedir;
 use function copy;
 use function file_exists;
-use function get_class;
 use function getenv;
 use function is_dir;
 use function is_file;
@@ -147,13 +146,13 @@ class MaildirFolderTest extends TestCase
     public function testLoadOk(): void
     {
         $mail = new Folder\Maildir($this->params);
-        $this->assertSame(Folder\Maildir::class, get_class($mail));
+        $this->assertSame(Folder\Maildir::class, $mail::class);
     }
 
     public function testLoadConfig(): void
     {
         $mail = new Folder\Maildir(new ArrayObject($this->params));
-        $this->assertSame(Folder\Maildir::class, get_class($mail));
+        $this->assertSame(Folder\Maildir::class, $mail::class);
     }
 
     public function testNoParams(): void

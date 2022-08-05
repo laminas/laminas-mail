@@ -6,14 +6,13 @@ use Laminas\Stdlib\ArrayUtils;
 use Traversable;
 
 use function class_exists;
-use function get_class;
 use function gettype;
 use function is_array;
 use function is_object;
 use function sprintf;
 use function strtolower;
 
-// phpcs:disable WebimpressCodingStandard.NamingConventions.AbstractClass.Prefix
+// phpcs:ignore WebimpressCodingStandard.NamingConventions.AbstractClass.Prefix
 abstract class Factory
 {
     /** @var array Known transport types */
@@ -42,7 +41,7 @@ abstract class Factory
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects an array or Traversable argument; received "%s"',
                 __METHOD__,
-                is_object($spec) ? get_class($spec) : gettype($spec)
+                is_object($spec) ? $spec::class : gettype($spec)
             ));
         }
 
