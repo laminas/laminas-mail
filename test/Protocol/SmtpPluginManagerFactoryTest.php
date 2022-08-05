@@ -2,7 +2,7 @@
 
 namespace LaminasTest\Mail\Protocol;
 
-use interop\container\containerinterface;
+use Interop\Container\ContainerInterface;
 use Laminas\Mail\Protocol\Smtp;
 use Laminas\Mail\Protocol\SmtpPluginManager;
 use Laminas\Mail\Protocol\SmtpPluginManagerFactory;
@@ -16,7 +16,7 @@ class SmtpPluginManagerFactoryTest extends TestCase
 {
     public function testFactoryReturnsPluginManager(): void
     {
-        $container = $this->createMock(containerinterface::class);
+        $container = $this->createMock(ContainerInterface::class);
         $factory   = new SmtpPluginManagerFactory();
 
         $plugins = $factory($container, SmtpPluginManager::class);
@@ -40,7 +40,7 @@ class SmtpPluginManagerFactoryTest extends TestCase
      */
     public function testFactoryConfiguresPluginManagerUnderContainerInterop(): void
     {
-        $container = $this->createMock(containerinterface::class);
+        $container = $this->createMock(ContainerInterface::class);
         $smtp      = $this->createMock(Smtp::class);
 
         $factory = new SmtpPluginManagerFactory();

@@ -2,7 +2,7 @@
 
 namespace Laminas\Mail\Protocol;
 
-use interop\container\containerinterface;
+use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\FactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\ServiceManager\ServiceManager;
@@ -28,7 +28,7 @@ class SmtpPluginManagerFactory implements FactoryInterface
      * @psalm-param ServiceManagerConfiguration $options
      * @return SmtpPluginManager
      */
-    public function __invoke(containerinterface $container, $name, ?array $options = null)
+    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
     {
         return new SmtpPluginManager($container, $options ?: []);
     }
