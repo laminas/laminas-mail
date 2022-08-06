@@ -46,7 +46,7 @@ class HeadersTest extends TestCase
     public function setDeprecationErrorHandler(): void
     {
         $this->originalErrorHandler = set_error_handler(
-            function (int $errno, string $errstr, string $errfile, int $errline): void {
+            static function (int $errno, string $errstr, string $errfile, int $errline): void {
                 /** @psalm-suppress InternalMethod */
                 throw new Deprecated($errstr, $errno, $errfile, $errline);
             },

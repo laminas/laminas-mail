@@ -12,7 +12,7 @@ use function strtolower;
 final class HeaderLocator implements HeaderLocatorInterface
 {
     /** @var array Pre-aliased Header plugins */
-    private $plugins = [
+    private array $plugins = [
         'bcc'                       => Bcc::class,
         'cc'                        => Cc::class,
         'contentdisposition'        => ContentDisposition::class,

@@ -9,6 +9,7 @@ use Laminas\Mime;
 use Laminas\Mime\Exception\RuntimeException;
 use RecursiveIterator;
 use ReturnTypeWillChange;
+use Stringable;
 
 use function array_map;
 use function count;
@@ -22,7 +23,7 @@ use function strlen;
 use function strtolower;
 use function trim;
 
-class Part implements RecursiveIterator, Part\PartInterface
+class Part implements RecursiveIterator, Part\PartInterface, Stringable
 {
     /**
      * Headers of the part
@@ -109,7 +110,7 @@ class Part implements RecursiveIterator, Part\PartInterface
             $this->messageNum = $params['id'];
         }
 
-        $params['strict'] = $params['strict'] ?? false;
+        $params['strict'] ??= false;
 
         if (isset($params['raw'])) {
             Mime\Decode::splitMessage(
@@ -146,7 +147,7 @@ class Part implements RecursiveIterator, Part\PartInterface
     {
         try {
             return stripos($this->contentType, 'multipart/') === 0;
-        } catch (Exception\ExceptionInterface $e) {
+        } catch (Exception\ExceptionInterface) {
             return false;
         }
     }
@@ -332,9 +333,8 @@ class Part implements RecursiveIterator, Part\PartInterface
                 } else {
                     $return = trim(implode(
                         Mime\Mime::LINEEND,
-                        array_map(static function ($header): string {
-                                return $header->getFieldValue(HeaderInterface::FORMAT_RAW);
-                        }, iterator_to_array($header))
+                        array_map(static fn($header): string
+                            => $header->getFieldValue(HeaderInterface::FORMAT_RAW), iterator_to_array($header))
                     ), Mime\Mime::LINEEND);
                 }
                 break;
@@ -411,7 +411,7 @@ class Part implements RecursiveIterator, Part\PartInterface
      *
      * @return string content
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getContent();
     }

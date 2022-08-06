@@ -16,7 +16,7 @@ use function opendir;
 use function readdir;
 use function rtrim;
 use function sprintf;
-use function strpos;
+use function str_contains;
 use function trim;
 
 use const DIRECTORY_SEPARATOR;
@@ -149,7 +149,7 @@ class Mbox extends Storage\Mbox implements FolderInterface
         $currentFolder = $this->rootFolder;
         $subname       = trim($rootFolder, DIRECTORY_SEPARATOR);
         while ($currentFolder) {
-            if (false !== strpos($subname, DIRECTORY_SEPARATOR)) {
+            if (str_contains($subname, DIRECTORY_SEPARATOR)) {
                 [$entry, $subname] = explode(DIRECTORY_SEPARATOR, $subname, 2);
             } else {
                 $entry   = $subname;

@@ -539,9 +539,8 @@ class MessageTest extends TestCase
 
     /**
      * @dataProvider invalidBodyValues
-     * @param mixed $body
      */
-    public function testSettingNonScalarNonMimeNonStringSerializableValueForBodyRaisesException($body): void
+    public function testSettingNonScalarNonMimeNonStringSerializableValueForBodyRaisesException(mixed $body): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->message->setBody($body);

@@ -67,7 +67,7 @@ class MaildirMessageOldTest extends TestCase
             try {
                 $phar = new PharData($originalMaildir . 'maildir.tar');
                 $phar->extractTo($originalMaildir);
-            } catch (Exception $e) {
+            } catch (Exception) {
                 // intentionally empty catch block
             }
         }

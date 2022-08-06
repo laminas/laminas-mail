@@ -8,7 +8,6 @@ use Laminas\Mail\Transport\FileOptions;
 use PHPUnit\Framework\TestCase;
 
 use function file_get_contents;
-use function get_class;
 use function glob;
 use function is_dir;
 use function mkdir;
@@ -22,8 +21,7 @@ use function unlink;
  */
 class FileTest extends TestCase
 {
-    /** @var string */
-    private $tempDir;
+    private string $tempDir;
 
     public function setUp(): void
     {
@@ -87,6 +85,6 @@ class FileTest extends TestCase
     public function testConstructorNoOptions(): void
     {
         $transport = new File();
-        $this->assertSame(FileOptions::class, get_class($transport->getOptions()));
+        $this->assertSame(FileOptions::class, $transport->getOptions()::class);
     }
 }

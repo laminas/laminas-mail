@@ -14,8 +14,7 @@ use function sys_get_temp_dir;
  */
 class FileOptionsTest extends TestCase
 {
-    /** @var FileOptions  */
-    private $options;
+    private FileOptions $options;
 
     public function setUp(): void
     {
@@ -47,7 +46,7 @@ class FileOptionsTest extends TestCase
     public function testCallbackIsMutable(): void
     {
         $original = $this->options->getCallback();
-        $new      = function ($transport): void {
+        $new      = static function ($transport): void {
         };
 
         $this->options->setCallback($new);

@@ -15,8 +15,8 @@ use function preg_match;
 use function preg_match_all;
 use function preg_replace;
 use function sprintf;
+use function str_contains;
 use function str_replace;
-use function strpos;
 use function strtolower;
 use function trim;
 
@@ -94,16 +94,13 @@ abstract class AbstractAddressList implements HeaderInterface
 
         $wasEncoded = false;
         $addresses  = array_map(
-            function ($value) use (&$wasEncoded) {
+            static function ($value) use (&$wasEncoded): ?Address {
                 $decodedValue = HeaderWrap::mimeDecodeValue($value);
                 $wasEncoded   = $wasEncoded || ($decodedValue !== $value);
-
-                $value = trim($decodedValue);
-
-                $comments = self::getComments($value);
-                $value    = self::stripComments($value);
-
-                $value = preg_replace(
+                $value        = trim($decodedValue);
+                $comments     = self::getComments($value);
+                $value        = self::stripComments($value);
+                $value        = preg_replace(
                     [
                         '#(?<!\\\)"(.*)(?<!\\\)"#', // quoted-text
                         '#\\\([\x01-\x09\x0b\x0c\x0e-\x7f])#', // quoted-pair
@@ -114,7 +111,6 @@ abstract class AbstractAddressList implements HeaderInterface
                     ],
                     $value
                 );
-
                 return empty($value) ? null : Address::fromString($value, $comments);
             },
             $values
@@ -183,7 +179,7 @@ abstract class AbstractAddressList implements HeaderInterface
             $name  = $address->getName();
 
             // quote $name if value requires so
-            if (! empty($name) && (false !== strpos($name, ',') || false !== strpos($name, ';'))) {
+            if (! empty($name) && (str_contains($name, ',') || str_contains($name, ';'))) {
                 // FIXME: what if name contains double quote?
                 $name = sprintf('"%s"', $name);
             }
