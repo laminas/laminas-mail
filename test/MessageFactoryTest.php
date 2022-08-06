@@ -115,9 +115,8 @@ class MessageFactoryTest extends TestCase
 
     /**
      * @dataProvider invalidMessageOptions
-     * @param mixed $options
      */
-    public function testExceptionForOptionsNotArrayOrTraversable($options): void
+    public function testExceptionForOptionsNotArrayOrTraversable(mixed $options): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         MessageFactory::getInstance($options);

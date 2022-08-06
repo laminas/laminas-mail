@@ -18,10 +18,10 @@ use function preg_split;
 use function restore_error_handler;
 use function set_error_handler;
 use function sprintf;
+use function str_starts_with;
 use function stream_get_meta_data;
 use function stream_set_timeout;
 use function stream_socket_client;
-use function strpos;
 
 use const E_WARNING;
 use const PREG_SPLIT_DELIM_CAPTURE;
@@ -59,13 +59,6 @@ abstract class AbstractProtocol
     protected $host;
 
     /**
-     * Port number of connection
-     *
-     * @var int
-     */
-    protected $port;
-
-    /**
      * Instance of Laminas\Validator\ValidatorChain to check hostnames
      *
      * @var ValidatorChain
@@ -95,17 +88,15 @@ abstract class AbstractProtocol
 
     /**
      * Log of mail requests and server responses for a session
-     *
-     * @var array
      */
-    private $log = [];
+    private array $log = [];
 
     /**
      * @param  string  $host OPTIONAL Hostname of remote connection (default: 127.0.0.1)
      * @param  int $port OPTIONAL Port number (default: null)
      * @throws Exception\RuntimeException
      */
-    public function __construct($host = '127.0.0.1', $port = null)
+    public function __construct($host = '127.0.0.1', protected $port = null)
     {
         $this->validHost = new Validator\ValidatorChain();
         $this->validHost->attach(new Validator\Hostname(Validator\Hostname::ALLOW_ALL));
@@ -115,7 +106,6 @@ abstract class AbstractProtocol
         }
 
         $this->host = $host;
-        $this->port = $port;
     }
 
     /**
@@ -227,7 +217,7 @@ abstract class AbstractProtocol
 
         // open connection
         set_error_handler(
-            function ($error, $message = '') {
+            static function ($error, $message = '') {
                 throw new Exception\RuntimeException(sprintf('Could not open socket: %s', $message), $error);
             },
             E_WARNING
@@ -359,7 +349,7 @@ abstract class AbstractProtocol
             }
 
         // The '-' message prefix indicates an information string instead of a response string.
-        } while (strpos($more, '-') === 0);
+        } while (str_starts_with($more, '-'));
 
         if ($errMsg !== '') {
             throw new Exception\RuntimeException($errMsg);

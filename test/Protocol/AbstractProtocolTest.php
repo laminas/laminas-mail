@@ -12,7 +12,7 @@ use Laminas\Mail\Protocol\ProtocolTrait;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Process;
 
-use function strpos;
+use function str_contains;
 
 use const PHP_BINARY;
 
@@ -22,8 +22,7 @@ use const PHP_BINARY;
  */
 final class AbstractProtocolTest extends TestCase
 {
-    /** @var Process */
-    private $process;
+    private Process $process;
 
     protected function setUp(): void
     {
@@ -35,9 +34,7 @@ final class AbstractProtocolTest extends TestCase
             __DIR__ . '/HttpStatusService',
         ]);
         $this->process->start();
-        $this->process->waitUntil(static function (string $type, string $output): bool {
-            return false !== strpos($output, 'started');
-        });
+        $this->process->waitUntil(static fn(string $type, string $output): bool => str_contains($output, 'started'));
     }
 
     protected function tearDown(): void

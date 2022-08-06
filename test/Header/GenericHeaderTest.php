@@ -55,9 +55,8 @@ class GenericHeaderTest extends TestCase
     /**
      * @dataProvider fieldNames
      * @group ZF2015-04
-     * @param mixed $fieldName
      */
-    public function testConstructorRaisesExceptionOnInvalidFieldName($fieldName): void
+    public function testConstructorRaisesExceptionOnInvalidFieldName(mixed $fieldName): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('name');
@@ -68,9 +67,8 @@ class GenericHeaderTest extends TestCase
     /**
      * @dataProvider fieldNames
      * @group ZF2015-04
-     * @param mixed $fieldName
      */
-    public function testSetFieldNameRaisesExceptionOnInvalidFieldName($fieldName): void
+    public function testSetFieldNameRaisesExceptionOnInvalidFieldName(mixed $fieldName): void
     {
         $header = new GenericHeader('Subject');
         $this->expectException(InvalidArgumentException::class);

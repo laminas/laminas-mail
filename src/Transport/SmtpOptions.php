@@ -116,7 +116,6 @@ class SmtpOptions extends AbstractOptions
     /**
      * Set connection configuration array
      *
-     * @param  array $connectionConfig
      * @return SmtpOptions
      */
     public function setConnectionConfig(array $connectionConfig)

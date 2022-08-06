@@ -10,11 +10,13 @@ use Iterator;
 use Laminas\Loader\PluginClassLocator;
 use Laminas\Mail\Header\GenericHeader;
 use Laminas\Mail\Header\HeaderInterface;
+use Laminas\Mail\Header\HeaderLocatorInterface;
 use ReturnTypeWillChange;
 use Traversable;
 
 use function array_keys;
 use function array_shift;
+use function assert;
 use function count;
 use function current;
 use function explode;
@@ -49,8 +51,7 @@ class Headers implements Countable, Iterator
     /** @var string Start of Line when folding */
     public const FOLDING = "\r\n ";
 
-    /** @var null|Header\HeaderLocatorInterface */
-    private $headerLocator;
+    private ?HeaderLocatorInterface $headerLocator = null;
 
     /**
      * @todo Remove for 3.0.0.
@@ -193,11 +194,14 @@ class Headers implements Countable, Iterator
      *
      * Lazyloads a Header\HeaderLocator instance if necessary.
      */
-    public function getHeaderLocator(): Header\HeaderLocatorInterface
+    public function getHeaderLocator(): HeaderLocatorInterface
     {
         if (! $this->headerLocator) {
             $this->setHeaderLocator(new Header\HeaderLocator());
         }
+
+        assert($this->headerLocator instanceof HeaderLocatorInterface);
+
         return $this->headerLocator;
     }
 
@@ -205,7 +209,7 @@ class Headers implements Countable, Iterator
      * @todo Return self when we update to 7.4 or later as minimum PHP version.
      * @return $this
      */
-    public function setHeaderLocator(Header\HeaderLocatorInterface $headerLocator)
+    public function setHeaderLocator(HeaderLocatorInterface $headerLocator)
     {
         $this->headerLocator = $headerLocator;
         return $this;

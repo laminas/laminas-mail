@@ -144,7 +144,6 @@ class Smtp implements TransportInterface
      * Return an SMTP connection
      *
      * @param  string $name
-     * @param  array|null $options
      * @return Protocol\Smtp
      */
     public function plugin($name, ?array $options = null)
@@ -164,7 +163,7 @@ class Smtp implements TransportInterface
 
         try {
             $connection->quit();
-        } catch (ProtocolException\ExceptionInterface $e) {
+        } catch (ProtocolException\ExceptionInterface) {
             // ignore
         }
 

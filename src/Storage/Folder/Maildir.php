@@ -18,8 +18,9 @@ use function opendir;
 use function readdir;
 use function rtrim;
 use function sort;
+use function str_contains;
+use function str_starts_with;
 use function strlen;
-use function strpos;
 use function substr;
 use function trim;
 
@@ -136,9 +137,9 @@ class Maildir extends Storage\Maildir implements FolderInterface
 
         foreach ($dirs as $dir) {
             do {
-                if (strpos($dir, $parent) === 0) {
-                    $local = substr($dir, strlen($parent));
-                    if (strpos($local, $this->delim) !== false) {
+                if (str_starts_with($dir, $parent)) {
+                    $local = substr($dir, strlen((string) $parent));
+                    if (str_contains($local, $this->delim)) {
                         throw new Exception\RuntimeException('error while reading maildir');
                     }
                     array_push($stack, $parent);
@@ -173,14 +174,14 @@ class Maildir extends Storage\Maildir implements FolderInterface
         }
 
         // rootdir is same as INBOX in maildir
-        if (strpos($rootFolder, 'INBOX' . $this->delim) === 0) {
+        if (str_starts_with($rootFolder, 'INBOX' . $this->delim)) {
             $rootFolder = substr($rootFolder, 6);
         }
         $currentFolder = $this->rootFolder;
         $subname       = trim($rootFolder, $this->delim);
 
         while ($currentFolder) {
-            if (false !== strpos($subname, $this->delim)) {
+            if (str_contains($subname, $this->delim)) {
                 [$entry, $subname] = explode($this->delim, $subname, 2);
             } else {
                 $entry   = $subname;

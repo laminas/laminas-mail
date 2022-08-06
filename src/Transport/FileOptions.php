@@ -87,9 +87,7 @@ class FileOptions extends AbstractOptions
     public function getCallback()
     {
         if (null === $this->callback) {
-            $this->setCallback(function () {
-                return 'LaminasMail_' . time() . '_' . mt_rand() . '.eml';
-            });
+            $this->setCallback(static fn() => 'LaminasMail_' . time() . '_' . mt_rand() . '.eml');
         }
         return $this->callback;
     }

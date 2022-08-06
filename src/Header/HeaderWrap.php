@@ -11,6 +11,8 @@ use function extension_loaded;
 use function iconv_mime_decode;
 use function iconv_mime_encode;
 use function implode;
+use function str_contains;
+use function str_starts_with;
 use function strlen;
 use function strpos;
 use function wordwrap;
@@ -119,9 +121,7 @@ abstract class HeaderWrap
         if (self::isNotDecoded($value, $decodedValue) && extension_loaded('imap')) {
             return array_reduce(
                 imap_mime_header_decode(imap_utf8($value)),
-                function ($accumulator, $headerPart) {
-                    return $accumulator . $headerPart->text;
-                },
+                static fn($accumulator, $headerPart) => $accumulator . $headerPart->text,
                 ''
             );
         }
@@ -131,9 +131,9 @@ abstract class HeaderWrap
 
     private static function isNotDecoded(string $originalValue, string $value): bool
     {
-        return 0 === strpos($value, '=?')
+        return str_starts_with($value, '=?')
             && strlen($value) - 2 === strpos($value, '?=')
-            && false !== strpos($originalValue, $value);
+            && str_contains($originalValue, $value);
     }
 
     /**

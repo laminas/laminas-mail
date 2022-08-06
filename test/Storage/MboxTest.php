@@ -303,7 +303,7 @@ class MboxTest extends TestCase
         $check = false;
         try {
             $mail = unserialize($serialzed);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $check = true;
             // test ok
         }

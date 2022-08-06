@@ -305,11 +305,9 @@ class Message
     /**
      * setSender
      *
-     * @param mixed $emailOrAddress
-     * @param mixed $name
      * @return Message
      */
-    public function setSender($emailOrAddress, $name = null)
+    public function setSender(mixed $emailOrAddress, mixed $name = null)
     {
         /** @var Sender $header */
         $header = $this->getHeaderByName('sender', Sender::class);

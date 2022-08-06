@@ -79,7 +79,7 @@ class MaildirFolderTest extends TestCase
                 $phar->extractTo($originalMaildir);
                 // This empty directory is in the tar, but not unpacked by PharData
                 mkdir($originalMaildir . '.subfolder/cur');
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // intentionally empty catch block
             }
         }
@@ -354,7 +354,7 @@ class MaildirFolderTest extends TestCase
         $check = false;
         try {
             $mail = new Folder\Maildir($this->params);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $check = true;
             // test ok
         }
