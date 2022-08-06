@@ -22,9 +22,8 @@ class ParamsNormalizerTest extends TestCase
 
     /**
      * @dataProvider invalidParams
-     * @param mixed $params
      */
-    public function testRaisesErrorOnInvalidParamsTypes($params): void
+    public function testRaisesErrorOnInvalidParamsTypes(mixed $params): void
     {
         $this->expectException(InvalidArgumentException::class);
         ParamsNormalizer::normalizeParams($params);

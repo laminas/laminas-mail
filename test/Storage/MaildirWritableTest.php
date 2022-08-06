@@ -77,7 +77,7 @@ class MaildirWritableTest extends TestCase
             try {
                 $phar = new PharData($originalMaildir . 'maildir.tar');
                 $phar->extractTo($originalMaildir);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // intentionally empty catch block
             }
         }
@@ -575,7 +575,7 @@ class MaildirWritableTest extends TestCase
         try {
             $mail = new Writable\Maildir($this->params);
             $this->fail('empty maildir should not be accepted');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         Writable\Maildir::initMaildir($this->params['dirname']);
@@ -592,7 +592,7 @@ class MaildirWritableTest extends TestCase
         try {
             $mail = new Writable\Maildir($this->params);
             $this->fail('empty maildir should not be accepted');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         $this->params['create'] = true;

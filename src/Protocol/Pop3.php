@@ -209,7 +209,7 @@ class Pop3
         if ($this->socket) {
             try {
                 $this->request('QUIT');
-            } catch (Exception\ExceptionInterface $e) {
+            } catch (Exception\ExceptionInterface) {
                 // ignore error - we're closing the socket anyway
             }
 
@@ -242,7 +242,7 @@ class Pop3
             try {
                 $this->request("APOP $user " . md5($this->timestamp . $password));
                 return;
-            } catch (Exception\ExceptionInterface $e) {
+            } catch (Exception\ExceptionInterface) {
                 // ignore
             }
         }

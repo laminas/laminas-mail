@@ -3,12 +3,12 @@
 namespace LaminasTest\Mail\Header;
 
 use Laminas\Mail\Header;
+use Laminas\Mail\Header\HeaderLocator;
 use PHPUnit\Framework\TestCase;
 
 class HeaderLocatorTest extends TestCase
 {
-    /** @var Header\HeaderLocator */
-    private $headerLocator;
+    private HeaderLocator $headerLocator;
 
     public function setUp(): void
     {

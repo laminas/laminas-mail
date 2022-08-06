@@ -49,7 +49,7 @@ class Pop3 extends AbstractStorage
      */
     public function getSize($id = 0)
     {
-        $id = $id ? $id : null;
+        $id = $id ?: null;
         return $this->protocol->getList($id);
     }
 
@@ -276,7 +276,7 @@ class Pop3 extends AbstractStorage
                 // need to make a real call, because not all server are honest in their capas
                 try {
                     $this->protocol->top(1, 0, false);
-                } catch (MailException\ExceptionInterface $e) {
+                } catch (MailException\ExceptionInterface) {
                     // ignoring error
                 }
             }
@@ -288,7 +288,7 @@ class Pop3 extends AbstractStorage
             $id = null;
             try {
                 $id = $this->protocol->uniqueid(1);
-            } catch (MailException\ExceptionInterface $e) {
+            } catch (MailException\ExceptionInterface) {
                 // ignoring error
             }
             $this->has['uniqueid'] = (bool) $id;

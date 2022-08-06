@@ -25,10 +25,10 @@ use function is_subclass_of;
 use function opendir;
 use function readdir;
 use function sprintf;
+use function str_contains;
 use function strcmp;
 use function stream_get_contents;
 use function strlen;
-use function strpos;
 use function substr;
 use function trim;
 use function usort;
@@ -332,14 +332,14 @@ class Maildir extends AbstractStorage
                 continue;
             }
 
-            if (false !== strpos($entry, ':')) {
+            if (str_contains($entry, ':')) {
                 [$uniq, $info] = explode(':', $entry, 2);
             } else {
                 $uniq = $entry;
                 $info = '';
             }
 
-            if (false !== strpos($uniq, ',')) {
+            if (str_contains($uniq, ',')) {
                 [, $size] = explode(',', $uniq, 2);
             } else {
                 $size = '';
@@ -353,7 +353,7 @@ class Maildir extends AbstractStorage
                 $size = null;
             }
 
-            if (false !== strpos($info, ',')) {
+            if (str_contains($info, ',')) {
                 [$version, $flags] = explode(',', $info, 2);
             } else {
                 $version = $info;
@@ -383,9 +383,7 @@ class Maildir extends AbstractStorage
             $this->files[] = $data;
         }
 
-        usort($this->files, function ($a, $b): int {
-            return strcmp($a['filename'], $b['filename']);
-        });
+        usort($this->files, static fn($a, $b): int => strcmp($a['filename'], $b['filename']));
     }
 
     /**

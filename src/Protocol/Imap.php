@@ -24,7 +24,9 @@ use function key;
 use function next;
 use function preg_match;
 use function rtrim;
+use function str_contains;
 use function str_replace;
+use function str_starts_with;
 use function stream_socket_enable_crypto;
 use function strlen;
 use function strpos;
@@ -154,7 +156,7 @@ class Imap
     protected function assumedNextLine($start)
     {
         $line = $this->nextLine();
-        return strpos($line, $start) === 0;
+        return str_starts_with($line, $start);
     }
 
     /**
@@ -318,7 +320,7 @@ class Imap
 
         // last line has response code
         if ($tokens[0] == 'OK') {
-            return $lines ? $lines : true;
+            return $lines ?: true;
         } elseif ($tokens[0] == 'NO') {
             return false;
         }
@@ -385,7 +387,7 @@ class Imap
     public function escapeString($string)
     {
         if (func_num_args() < 2) {
-            if (strpos($string, "\n") !== false) {
+            if (str_contains($string, "\n")) {
                 return ['{' . strlen($string) . '}', $string];
             }
 
@@ -441,7 +443,7 @@ class Imap
         if ($this->socket) {
             try {
                 $result = $this->requestAndResponse('LOGOUT', [], true);
-            } catch (Exception\ExceptionInterface $e) {
+            } catch (Exception\ExceptionInterface) {
                 // ignoring exception
             }
             fclose($this->socket);

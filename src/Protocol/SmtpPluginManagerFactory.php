@@ -47,7 +47,6 @@ class SmtpPluginManagerFactory implements FactoryInterface
     /**
      * laminas-servicemanager v2 support for invocation options.
      *
-     * @param array $options
      * @psalm-param ServiceManagerConfiguration $options
      * @return void
      */

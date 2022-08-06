@@ -22,8 +22,8 @@ use function preg_match;
 use function restore_error_handler;
 use function set_error_handler;
 use function sprintf;
+use function str_contains;
 use function str_replace;
-use function strpos;
 use function strtoupper;
 use function substr;
 use function trim;
@@ -240,7 +240,7 @@ class Sendmail implements TransportInterface
         $from = $headers->get('From');
         if ($from) {
             foreach ($from->getAddressList() as $address) {
-                if (strpos($address->getEmail(), '\\"') !== false) {
+                if (str_contains($address->getEmail(), '\\"')) {
                     throw new RuntimeException('Potential code injection in From header');
                 }
             }

@@ -76,9 +76,7 @@ abstract class IdentificationField implements HeaderInterface
      */
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)
     {
-        return implode(Headers::FOLDING, array_map(function ($id) {
-            return sprintf('<%s>', $id);
-        }, $this->messageIds));
+        return implode(Headers::FOLDING, array_map(static fn($id) => sprintf('<%s>', $id), $this->messageIds));
     }
 
     /**

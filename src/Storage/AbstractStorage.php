@@ -8,7 +8,7 @@ use Laminas\Mail\Storage\Message;
 use ReturnTypeWillChange;
 use SeekableIterator;
 
-use function strpos;
+use function str_starts_with;
 use function strtolower;
 use function substr;
 
@@ -67,7 +67,7 @@ abstract class AbstractStorage implements
      */
     public function __get($var)
     {
-        if (strpos($var, 'has') === 0) {
+        if (str_starts_with($var, 'has')) {
             $var = strtolower(substr($var, 3));
             return $this->has[$var] ?? null;
         }
@@ -211,7 +211,7 @@ abstract class AbstractStorage implements
             if ($this->getMessage($id)) {
                 return true;
             }
-        } catch (Exception\ExceptionInterface $e) {
+        } catch (Exception\ExceptionInterface) {
         }
 
         return false;
@@ -232,12 +232,10 @@ abstract class AbstractStorage implements
     /**
      * ArrayAccess::offsetSet()
      *
-     * @param mixed $id
-     * @param mixed $value
      * @throws Exception\RuntimeException
      */
     #[ReturnTypeWillChange]
-    public function offsetSet($id, $value)
+    public function offsetSet(mixed $id, mixed $value)
     {
         throw new Exception\RuntimeException('cannot write mail messages via array access');
     }

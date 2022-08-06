@@ -18,10 +18,9 @@ use function sprintf;
 final class ParamsNormalizer
 {
     /**
-     * @param mixed $params
      * @return array<string, mixed>
      */
-    public static function normalizeParams($params): array
+    public static function normalizeParams(mixed $params): array
     {
         if ($params instanceof Traversable) {
             $params = iterator_to_array($params);
