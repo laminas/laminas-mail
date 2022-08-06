@@ -27,7 +27,7 @@ class Folder implements RecursiveIterator, Stringable
      * @param string $globalName absolute name of folder
      * @param bool $selectable if true folder holds messages, if false it's
      *     just a parent for subfolders (Default: true)
-     * @param array<string, Folder> subfolders of folder array(localName => \Laminas\Mail\Storage\Folder folder)
+     * @param array<string, Folder> $folders subfolders of folder array(localName => \Laminas\Mail\Storage\Folder folder)
      */
     public function __construct(
         protected $localName,
