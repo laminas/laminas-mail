@@ -286,7 +286,7 @@
                     <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
                         <i class="fa fa-search"></i> Search
                     </a>
-                    <a href="https://github.com/laminas/laminas-mail/" class="header__link header__link--github" title="Go to repository of laminas-mail">
+                    <a href="https://github.com/laminas/laminas-mail" class="header__link header__link--github" title="Go to repository of laminas-mail">
                         <i class="fa fa-github"></i> GitHub
                     </a>
                 
@@ -385,18 +385,15 @@ $transport = new Smtp([
 ]);
 
 // Create a base message:
-$template = new Message();
-$template-&gt;addFrom('sender@example.com', 'John Doe');
-$template-&gt;addReplyTo('replyto@example.com', 'Jane Doe');
-$template-&gt;setSubject('Demo of multiple mails per SMTP connection');
-$template-&gt;setBody('... Your message here ...');
+$message = (new Message())
+                -&gt;addFrom('sender@example.com', 'John Doe')
+                -&gt;addReplyTo('replyto@example.com', 'Jane Doe')
+                -&gt;setSubject('Demo of multiple mails per SMTP connection')
+                -&gt;setBody('... Your message here ...');
 
 // Loop through recipients:
 foreach ($recipients as $address) {
-    // Clone the message and add a recipient:
-    $message = clone $template;
-    $message-&gt;addTo($address);
-
+    $message-&gt;setTo($address);
     $transport-&gt;send($message);
 }</code></pre>
 <p>If you wish to have a separate connection for each mail delivery, you will need
@@ -676,7 +673,7 @@ $protocol-&gt;disconnect();</code></pre>
                         <h4 class="footer__headline">License</h4>
                         <p>
                             Code licensed under <a
-                                href="https://github.com/laminas/laminas-mail/blob/master/LICENSE.md">BSD 3-Clause</a>.
+                                href="https://github.com/laminas/laminas-mail/blob/-/LICENSE.md">BSD 3-Clause</a>.
                         </p>
                     </div>
 
