@@ -12,7 +12,7 @@ use function count;
 use function in_array;
 use function is_string;
 use function ksort;
-use function strpos;
+use function str_starts_with;
 use function strrpos;
 use function substr;
 
@@ -357,8 +357,8 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
 
         foreach ($folders as $globalName => $data) {
             do {
-                if (! $parent || strpos($globalName, $parent) === 0) {
-                    $pos = strrpos($globalName, $data['delim']);
+                if (! $parent || str_starts_with($globalName, ! is_string($parent) ? (string) $parent : $parent)) {
+                    $pos = strrpos($globalName, (string) $data['delim']);
                     if ($pos === false) {
                         $localName = $globalName;
                     } else {

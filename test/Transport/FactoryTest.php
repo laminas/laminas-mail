@@ -27,9 +27,8 @@ class FactoryTest extends TestCase
 {
     /**
      * @dataProvider invalidSpecTypeProvider
-     * @param mixed $spec
      */
-    public function testInvalidSpecThrowsInvalidArgumentException($spec): void
+    public function testInvalidSpecThrowsInvalidArgumentException(mixed $spec): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         Factory::create($spec);
@@ -56,7 +55,7 @@ class FactoryTest extends TestCase
      */
     public function testCanCreateClassUsingTypeKey(string $type): void
     {
-        set_error_handler(function ($code, $message): void {
+        set_error_handler(static function ($code, $message): void {
             // skip deprecation notices
         }, E_USER_DEPRECATED);
         $transport = Factory::create([

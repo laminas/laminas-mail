@@ -111,7 +111,6 @@ class AddressList implements Countable, Iterator
     /**
      * Merge another address list into this one
      *
-     * @param  AddressList $addressList
      * @return AddressList
      */
     public function merge(self $addressList)

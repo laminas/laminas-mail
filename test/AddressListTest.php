@@ -18,8 +18,7 @@ use function count;
  */
 class AddressListTest extends TestCase
 {
-    /** @var AddressList */
-    private $list;
+    private AddressList $list;
 
     public function setUp(): void
     {
@@ -162,7 +161,7 @@ class AddressListTest extends TestCase
         // length'; hence the try/catch block, to allow finding the root cause.
         try {
             $to = Header\To::fromString('To:' . $header);
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             $this->fail('Header\To::fromString should not throw');
         }
         $addressList = $to->getAddressList();
@@ -220,7 +219,7 @@ class AddressListTest extends TestCase
         // hence the try/catch block, to allow finding the root cause.
         try {
             $to = Header\To::fromString('To:' . $header);
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             $this->fail('Header\To::fromString should not throw');
         }
 

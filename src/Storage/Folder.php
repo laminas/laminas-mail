@@ -4,28 +4,15 @@ namespace Laminas\Mail\Storage;
 
 use RecursiveIterator;
 use ReturnTypeWillChange;
+use Stringable;
 
 use function current;
 use function key;
 use function next;
 use function reset;
 
-class Folder implements RecursiveIterator
+class Folder implements RecursiveIterator, Stringable
 {
-    /**
-     * subfolders of folder array(localName => \Laminas\Mail\Storage\Folder folder)
-     *
-     * @var array<string, self>
-     */
-    protected $folders;
-
-    /**
-     * local name (name of folder in parent folder)
-     *
-     * @var string
-     */
-    protected $localName;
-
     /**
      * global name (absolute name of folder)
      *
@@ -34,27 +21,22 @@ class Folder implements RecursiveIterator
     protected $globalName;
 
     /**
-     * folder is selectable if folder is able to hold messages, otherwise it is a parent folder
-     *
-     * @var bool
-     */
-    protected $selectable = true;
-
-    /**
      * create a new mail folder instance
      *
-     * @param string $localName  name of folder in current subdirectory
+     * @param string $localName  local name (name of folder in parent folder)
      * @param string $globalName absolute name of folder
      * @param bool $selectable if true folder holds messages, if false it's
      *     just a parent for subfolders (Default: true)
-     * @param array<string, Folder> $folders init with given instances of Folder as subfolders
+     * @param array<string, Folder> $folders subfolders of
+     *     folder array(localName => \Laminas\Mail\Storage\Folder folder)
      */
-    public function __construct($localName, $globalName = '', $selectable = true, array $folders = [])
-    {
-        $this->localName  = $localName;
+    public function __construct(
+        protected $localName,
+        $globalName = '',
+        protected $selectable = true,
+        protected array $folders = []
+    ) {
         $this->globalName = $globalName ?: $localName;
-        $this->selectable = $selectable;
-        $this->folders    = $folders;
     }
 
     /**
@@ -173,7 +155,7 @@ class Folder implements RecursiveIterator
      *
      * @return string global name of folder
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->getGlobalName();
     }

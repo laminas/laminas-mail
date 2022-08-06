@@ -329,7 +329,7 @@ class MboxFolderTest extends TestCase
         $check = false;
         try {
             $mail = new Folder\Mbox($this->params);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $check = true;
             // test ok
         }

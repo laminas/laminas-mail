@@ -317,7 +317,7 @@ class MessageTest extends TestCase
         $part    = null;
         try {
             $part = $message->getPart(1);
-        } catch (Exception\RuntimeException $e) {
+        } catch (Exception\RuntimeException) {
             // ok
         }
         if ($part) {
