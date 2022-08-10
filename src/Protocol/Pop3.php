@@ -194,7 +194,7 @@ class Pop3
         if (strpos($result, ' ')) {
             [$status, $message] = explode(' ', $result, 2);
         } else {
-            $status = $result;
+            $status  = $result;
             $message = '';
         }
 

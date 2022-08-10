@@ -12,8 +12,8 @@ use PHPUnit\Framework\TestCase;
 
 use function fopen;
 use function rewind;
-use function stream_get_contents;
 use function str_replace;
+use function stream_get_contents;
 
 /**
  * @covers Laminas\Mail\Protocol\Pop3\Xoauth2\Microsoft
