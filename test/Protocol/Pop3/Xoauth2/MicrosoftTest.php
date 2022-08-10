@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LaminasTest\Mail\Protocol\Pop3\Xoauth2;
@@ -13,9 +14,11 @@ use PHPUnit\Framework\TestCase;
  */
 class MicrosoftTest extends TestCase
 {
-    public function testIntegration():void
+    public function testIntegration(): void
     {
         $protocol = new class() extends Microsoft {
+            private string $step;
+
             /** @psalm-suppress InternalClass */
             public function readRemoteResponse():Response
             {
@@ -40,7 +43,7 @@ class MicrosoftTest extends TestCase
             }
 
             /**
-             * @return resource
+             * @return null|resource
              */
             public function getSocket(){
                 return $this->socket;
@@ -53,10 +56,12 @@ class MicrosoftTest extends TestCase
 
         $this->assertInstanceOf(Microsoft::class, $protocol);
 
-        $socket = $protocol->getSocket();
-        rewind($socket);
-        $streamContents = stream_get_contents($socket);
-        $streamContents = str_replace("\r\n", "\n", $streamContents);
+        $streamContents = '';
+        if(($socket = $protocol->getSocket())){
+            rewind($socket);
+            $streamContents = stream_get_contents($socket);
+            $streamContents = str_replace("\r\n", "\n", $streamContents);
+        }
 
         $this->assertEquals(
             'AUTH XOAUTH2'."\n".Xoauth2::encodeXoauth2Sasl('test@example.com', '123')."\n",

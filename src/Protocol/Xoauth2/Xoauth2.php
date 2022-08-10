@@ -10,9 +10,6 @@ use function sprintf;
 
 /**
  * @internal
- * @psalm-internal LaminasTest\Mail\Protocol\Pop3\Xoauth2\MicrosoftTest
- * @psalm-internal Laminas\Mail\Protocol\Pop3\Xoauth2\Microsoft
- * @psalm-internal LaminasTest\Mail\Protocol\Xoauth2\Xoauth2Test
  */
 final class Xoauth2
 {

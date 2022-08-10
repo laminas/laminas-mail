@@ -12,11 +12,11 @@ class Microsoft extends Pop3
     protected const AUTH_RESPONSE_INITIALIZED_OK = '+';
 
     /**
-     * @param string $username the target mailbox to access
+     * @param string $user the target mailbox to access
      * @param string $password OAUTH2 accessToken
      * @param bool $tryApop obsolete parameter not used here
      */
-    public function login($username, $password, $tryApop = true): void
+    public function login($user, $password, $tryApop = true): void
     {
         $this->sendRequest(self::AUTH_INITIALIZE_REQUEST);
 
@@ -26,6 +26,6 @@ class Microsoft extends Pop3
             throw new RuntimeException($response->message());
         }
 
-        $this->request(Xoauth2::encodeXoauth2Sasl($username, $password));
+        $this->request(Xoauth2::encodeXoauth2Sasl($user, $password));
     }
 }

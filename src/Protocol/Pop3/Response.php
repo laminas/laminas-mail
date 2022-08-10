@@ -8,9 +8,6 @@ namespace Laminas\Mail\Protocol\Pop3;
  * POP3 response value object
  *
  * @internal
- * @psalm-internal Laminas\Mail\Protocol
- * @psalm-internal Laminas\Mail\Protocol\Pop3
- * @psalm-internal Laminas\Mail\Protocol\Pop3\Response
  */
 final class Response
 {
