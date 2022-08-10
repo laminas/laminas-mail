@@ -15,9 +15,14 @@ class Xoauth2Test extends TestCase
     /** @psalm-suppress InternalClass */
     public function testEncodeXoauth2Sasl(): void
     {
-        /** @psalm-suppress InternalMethod */
+        $accessToken = 'dXNlcj10ZXN0QGNvbnRvc28ub25taWNyb3NvZnQuY29tAWF1dGg9QmVhcmVyIEV3QkFBbDNCQUFVRkZwVUFvN';
+        $accessToken .= '0ozVmUwYmpMQldaV0NjbFJDM0VvQUEBAQ==';
+
+        /**
+         * @psalm-suppress InternalMethod
+         */
         $this->assertEquals(
-            'dXNlcj10ZXN0QGNvbnRvc28ub25taWNyb3NvZnQuY29tAWF1dGg9QmVhcmVyIEV3QkFBbDNCQUFVRkZwVUFvN0ozVmUwYmpMQldaV0NjbFJDM0VvQUEBAQ==',
+            $accessToken,
             Xoauth2::encodeXoauth2Sasl(
                 'test@contoso.onmicrosoft.com',
                 'EwBAAl3BAAUFFpUAo7J3Ve0bjLBWZWCclRC3EoAA'

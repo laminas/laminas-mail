@@ -178,6 +178,7 @@ class Pop3
     /**
      * read a response
      * return extracted status / message from response
+
      * @throws Exception\RuntimeException
      */
     protected function readRemoteResponse(): Response
@@ -191,7 +192,7 @@ class Pop3
 
         $result = trim($result);
         if (strpos($result, ' ')) {
-            list($status, $message) = explode(' ', $result, 2);
+            [$status, $message] = explode(' ', $result, 2);
         } else {
             $status = $result;
             $message = '';

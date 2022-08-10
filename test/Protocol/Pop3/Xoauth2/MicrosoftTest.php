@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 use function fopen;
 use function rewind;
 use function stream_get_contents;
+use function str_replace;
 
 /**
  * @covers Laminas\Mail\Protocol\Pop3\Xoauth2\Microsoft
@@ -24,6 +25,8 @@ class MicrosoftTest extends TestCase
     {
         /** @psalm-suppress PropertyNotSetInConstructor */
         $protocol = new class () extends Microsoft {
+            private string $step;
+
             /** @psalm-suppress InternalClass */
             public function readRemoteResponse(): Response
             {
@@ -89,7 +92,7 @@ class MicrosoftTest extends TestCase
         $xoauth2Sasl = Xoauth2::encodeXoauth2Sasl('test@example.com', '123');
 
         $this->assertEquals(
-            'AUTH XOAUTH2'."\n". $xoauth2Sasl ."\n",
+            'AUTH XOAUTH2' . "\n" . $xoauth2Sasl . "\n",
             $streamContents
         );
     }
