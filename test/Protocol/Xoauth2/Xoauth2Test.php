@@ -12,8 +12,10 @@ use PHPUnit\Framework\TestCase;
  */
 class Xoauth2Test extends TestCase
 {
+    /** @psalm-suppress InternalClass */
     public function testEncodeXoauth2Sasl(): void
     {
+        /** @psalm-suppress InternalMethod */
         $this->assertEquals(
             'dXNlcj10ZXN0QGNvbnRvc28ub25taWNyb3NvZnQuY29tAWF1dGg9QmVhcmVyIEV3QkFBbDNCQUFVRkZwVUFvN0ozVmUwYmpMQldaV0NjbFJDM0VvQUEBAQ==',
             Xoauth2::encodeXoauth2Sasl(
