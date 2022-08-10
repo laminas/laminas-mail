@@ -6,6 +6,7 @@ namespace Laminas\Mail\Protocol\Pop3;
 
 /**
  * POP3 response value object
+ *
  * @internal
  * @psalm-internal Laminas\Mail\Protocol
  * @psalm-internal Laminas\Mail\Protocol\Pop3
@@ -21,7 +22,7 @@ final class Response
 
     public function __construct(string $status, string $message)
     {
-        $this->status = $status;
+        $this->status  = $status;
         $this->message = $message;
     }
 
