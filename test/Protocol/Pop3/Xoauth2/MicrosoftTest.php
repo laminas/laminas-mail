@@ -50,10 +50,8 @@ class MicrosoftTest extends TestCase
 
         $protocol->connect('localhost', 0, false);
 
-        $protocol->authenticate(Xoauth2::encodeXoauth2Sasl('test@example.com', '123'));
+        $protocol->authenticate('test@example.com', '123');
 
         $this->assertInstanceOf(Microsoft::class, $protocol);
     }
 }
-
-
