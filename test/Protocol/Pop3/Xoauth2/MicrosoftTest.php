@@ -22,9 +22,8 @@ class MicrosoftTest extends TestCase
     /** @psalm-suppress InternalClass */
     public function testIntegration(): void
     {
+        /** @psalm-suppress PropertyNotSetInConstructor */
         $protocol = new class () extends Microsoft {
-            private string $step;
-
             /** @psalm-suppress InternalClass */
             public function readRemoteResponse(): Response
             {
