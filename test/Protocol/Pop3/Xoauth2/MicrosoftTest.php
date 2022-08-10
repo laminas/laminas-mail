@@ -10,6 +10,10 @@ use Laminas\Mail\Protocol\Pop3\Xoauth2\Microsoft;
 use Laminas\Mail\Protocol\Xoauth2\Xoauth2;
 use PHPUnit\Framework\TestCase;
 
+use function fopen;
+use function rewind;
+use function stream_get_contents;
+
 /**
  * @covers Laminas\Mail\Protocol\Pop3\Xoauth2\Microsoft
  */
@@ -54,15 +58,17 @@ class MicrosoftTest extends TestCase
              * @throws RuntimeException
              * @return string welcome message
              */
-            public function connect($host, $port = null, $ssl = false): void
+            public function connect($host, $port = null, $ssl = false)
             {
                 $this->socket = fopen("php://memory", 'rw+');
+                return '';
             }
 
             /**
              * @return null|resource
              */
-            public function getSocket(){
+            public function getSocket()
+            {
                 return $this->socket;
             }
         };
@@ -74,7 +80,7 @@ class MicrosoftTest extends TestCase
         $this->assertInstanceOf(Microsoft::class, $protocol);
 
         $streamContents = '';
-        if(($socket = $protocol->getSocket())){
+        if ($socket = $protocol->getSocket()) {
             rewind($socket);
             $streamContents = stream_get_contents($socket);
             $streamContents = str_replace("\r\n", "\n", $streamContents);
