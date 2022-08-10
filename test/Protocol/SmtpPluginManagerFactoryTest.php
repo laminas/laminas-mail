@@ -2,6 +2,7 @@
 
 namespace LaminasTest\Mail\Protocol;
 
+// phpcs:ignore WebimpressCodingStandard.PHP.CorrectClassNameCase.Invalid
 use Interop\Container\ContainerInterface;
 use Laminas\Mail\Protocol\Smtp;
 use Laminas\Mail\Protocol\SmtpPluginManager;
@@ -10,18 +11,20 @@ use Laminas\ServiceManager\ServiceLocatorInterface;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
+use function method_exists;
+
 class SmtpPluginManagerFactoryTest extends TestCase
 {
     public function testFactoryReturnsPluginManager(): void
     {
         $container = $this->createMock(ContainerInterface::class);
-        $factory = new SmtpPluginManagerFactory();
+        $factory   = new SmtpPluginManagerFactory();
 
         $plugins = $factory($container, SmtpPluginManager::class);
         $this->assertInstanceOf(SmtpPluginManager::class, $plugins);
 
         if (method_exists($plugins, 'configure')) {
-            $reflectionClass = new ReflectionClass($plugins);
+            $reflectionClass         = new ReflectionClass($plugins);
             $creationContextProperty = $reflectionClass->getProperty('creationContext');
             $creationContextProperty->setAccessible(true);
 
@@ -39,7 +42,7 @@ class SmtpPluginManagerFactoryTest extends TestCase
     public function testFactoryConfiguresPluginManagerUnderContainerInterop(): void
     {
         $container = $this->createMock(ContainerInterface::class);
-        $smtp = $this->createMock(Smtp::class);
+        $smtp      = $this->createMock(Smtp::class);
 
         $factory = new SmtpPluginManagerFactory();
         $plugins = $factory($container, SmtpPluginManager::class, [

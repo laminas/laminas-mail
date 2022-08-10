@@ -2,24 +2,47 @@
 
 namespace LaminasTest\Mail\Storage;
 
+use Exception;
 use Laminas\Mail\Storage;
+use PharData;
 use PHPUnit\Framework\TestCase;
+
+use function class_exists;
+use function closedir;
+use function copy;
+use function explode;
+use function file_exists;
+use function getenv;
+use function is_dir;
+use function is_file;
+use function mkdir;
+use function opendir;
+use function readdir;
+use function rmdir;
+use function strtoupper;
+use function substr;
+use function trim;
+use function unlink;
+
+use const PHP_OS;
 
 class MaildirMessageOldTest extends TestCase
 {
+    /** @var string */
     protected $maildir;
+    /** @var string */
     protected $tmpdir;
 
     public function setUp(): void
     {
-        if (\strtoupper(\substr(PHP_OS, 0, 3)) == 'WIN') {
+        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
             $this->markTestSkipped('This test does not work on Windows');
             return;
         }
 
         $originalMaildir = __DIR__ . '/../_files/test.maildir/';
 
-        if ($this->tmpdir == null) {
+        if (! isset($this->tmpdir)) {
             if (getenv('TESTS_LAMINAS_MAIL_TEMPDIR') != null) {
                 $this->tmpdir = getenv('TESTS_LAMINAS_MAIL_TEMPDIR');
             } else {
@@ -29,7 +52,7 @@ class MaildirMessageOldTest extends TestCase
                 mkdir($this->tmpdir);
             }
             $count = 0;
-            $dh = opendir($this->tmpdir);
+            $dh    = opendir($this->tmpdir);
             while (readdir($dh) !== false) {
                 ++$count;
             }
@@ -40,16 +63,16 @@ class MaildirMessageOldTest extends TestCase
             }
         }
 
-        if (! \file_exists($originalMaildir . 'maildirsize') && \class_exists('PharData')) {
+        if (! file_exists($originalMaildir . 'maildirsize') && class_exists('PharData')) {
             try {
-                $phar = new \PharData($originalMaildir . 'maildir.tar');
+                $phar = new PharData($originalMaildir . 'maildir.tar');
                 $phar->extractTo($originalMaildir);
-            } catch (\Exception $e) {
+            } catch (Exception) {
                 // intentionally empty catch block
             }
         }
 
-        if (! \file_exists($originalMaildir . 'maildirsize')) {
+        if (! file_exists($originalMaildir . 'maildirsize')) {
             $this->markTestSkipped('You have to unpack maildir.tar in '
             . 'Laminas/Mail/_files/test.maildir/ directory to run the maildir tests');
             return;
@@ -98,15 +121,6 @@ class MaildirMessageOldTest extends TestCase
         $this->assertEquals('Simple Message', $subject);
     }
 
-/*
-    public function testFetchTopBody()
-    {
-        $mail = new TestAsset\MaildirOldMessage(array('dirname' => $this->maildir));
-
-        $content = $mail->getHeader(3, 1)->getContent();
-        $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
-    }
-*/
     public function testFetchMessageHeader(): void
     {
         $mail = new TestAsset\MaildirOldMessage(['dirname' => $this->maildir]);
@@ -119,8 +133,8 @@ class MaildirMessageOldTest extends TestCase
     {
         $mail = new TestAsset\MaildirOldMessage(['dirname' => $this->maildir]);
 
-        $content = $mail->getMessage(3)->getContent();
-        list($content) = explode("\n", $content, 2);
+        $content   = $mail->getMessage(3)->getContent();
+        [$content] = explode("\n", $content, 2);
         $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
     }
 

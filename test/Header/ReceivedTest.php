@@ -46,15 +46,14 @@ class ReceivedTest extends TestCase
     }
 
     /** Implementation specific tests here */
-
     public function headerLines(): array
     {
         return [
-            'newline'      => ["Received: xx\nx"],
-            'cr-lf'        => ["Received: xxx\r\n"],
-            'cr-lf-fold'   => ["Received: xxx\r\n\r\n zzz"],
-            'cr-lf-x2'     => ["Received: xx\r\n\r\nx"],
-            'multiline'    => ["Received: x\r\nx\r\nx"],
+            'newline'    => ["Received: xx\nx"],
+            'cr-lf'      => ["Received: xxx\r\n"],
+            'cr-lf-fold' => ["Received: xxx\r\n\r\n zzz"],
+            'cr-lf-x2'   => ["Received: xx\r\n\r\nx"],
+            'multiline'  => ["Received: x\r\nx\r\nx"],
         ];
     }
 
@@ -62,7 +61,7 @@ class ReceivedTest extends TestCase
      * @dataProvider headerLines
      * @group ZF2015-04
      */
-    public function testRaisesExceptionViaFromStringOnDetectionOfCrlfInjection($header): void
+    public function testRaisesExceptionViaFromStringOnDetectionOfCrlfInjection(string $header): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $received = Header\Received::fromString($header);
@@ -71,10 +70,10 @@ class ReceivedTest extends TestCase
     public function invalidValues(): array
     {
         return [
-            'newline'      => ["xx\nx"],
-            'cr-lf'        => ["xxx\r\n"],
-            'cr-lf-wsp'    => ["xx\r\n\r\nx"],
-            'multiline'    => ["x\r\nx\r\nx"],
+            'newline'   => ["xx\nx"],
+            'cr-lf'     => ["xxx\r\n"],
+            'cr-lf-wsp' => ["xx\r\n\r\nx"],
+            'multiline' => ["x\r\nx\r\nx"],
         ];
     }
 
@@ -82,7 +81,7 @@ class ReceivedTest extends TestCase
      * @dataProvider invalidValues
      * @group ZF2015-04
      */
-    public function testConstructorRaisesExceptionOnValueWithCRLFInjectionAttempt($value): void
+    public function testConstructorRaisesExceptionOnValueWithCRLFInjectionAttempt(string $value): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         new Header\Received($value);

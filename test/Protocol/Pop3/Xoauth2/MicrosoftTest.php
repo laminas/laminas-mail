@@ -16,15 +16,6 @@ class MicrosoftTest extends TestCase
     public function testIntegration():void
     {
         $protocol = new class() extends Microsoft {
-
-            /** @var string $step */
-            private $step = '';
-
-            public function __construct()
-            {
-                parent::__construct();
-            }
-
             /** @psalm-suppress InternalClass */
             public function readRemoteResponse():Response
             {
@@ -40,18 +31,36 @@ class MicrosoftTest extends TestCase
             public function sendRequest($request):void
             {
                 $this->step = $request;
+                parent::sendRequest($request);
             }
 
             public function connect($host, $port = null, $ssl = false):void
             {
                 $this->socket = fopen("php://memory", 'rw+');
             }
+
+            /**
+             * @return resource
+             */
+            public function getSocket(){
+                return $this->socket;
+            }
         };
 
         $protocol->connect('localhost', 0, false);
 
-        $protocol->authenticate(Xoauth2::encodeXoauth2Sasl('test@example.com', '123'));
+        $protocol->login('test@example.com', '123');
 
         $this->assertInstanceOf(Microsoft::class, $protocol);
+
+        $socket = $protocol->getSocket();
+        rewind($socket);
+        $streamContents = stream_get_contents($socket);
+        $streamContents = str_replace("\r\n", "\n", $streamContents);
+
+        $this->assertEquals(
+            'AUTH XOAUTH2'."\n".Xoauth2::encodeXoauth2Sasl('test@example.com', '123')."\n",
+            $streamContents
+        );
     }
 }

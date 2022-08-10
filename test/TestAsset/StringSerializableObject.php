@@ -2,14 +2,15 @@
 
 namespace LaminasTest\Mail\TestAsset;
 
-class StringSerializableObject
+use Stringable;
+
+class StringSerializableObject implements Stringable
 {
-    public function __construct($message)
+    public function __construct(private string $message)
     {
-        $this->message = $message;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->message;
     }

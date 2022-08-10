@@ -2,15 +2,13 @@
 
 namespace LaminasTest\Mail\Header;
 
-use PHPUnit\Framework\TestCase;
 use Laminas\Mail\Header;
+use Laminas\Mail\Header\HeaderLocator;
+use PHPUnit\Framework\TestCase;
 
 class HeaderLocatorTest extends TestCase
 {
-    /**
-     * @var Header\HeaderLocator
-     */
-    private $headerLocator;
+    private HeaderLocator $headerLocator;
 
     public function setUp(): void
     {
@@ -27,12 +25,11 @@ class HeaderLocatorTest extends TestCase
     }
 
     /**
-     * @param $name
-     * @param $expected
-     * @param $default
+     * @param null|class-string $expected
+     * @param null|class-string $default
      * @dataProvider provideHeaderNames
      */
-    public function testHeaderIsProperlyLoaded($name, $expected, $default = null): void
+    public function testHeaderIsProperlyLoaded(string $name, ?string $expected, ?string $default = null): void
     {
         $this->assertEquals($expected, $this->headerLocator->get($name, $default));
     }

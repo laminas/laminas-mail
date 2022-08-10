@@ -2,21 +2,19 @@
 
 /**
  * @see       https://github.com/laminas/laminas-mail for the canonical source repository
- * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
  */
 
 namespace LaminasTest\Mail\Protocol;
 
-use Laminas\Mail\Headers;
-use Laminas\Mail\Message;
 use Laminas\Mail\Protocol\AbstractProtocol;
-use Laminas\Mail\Protocol\Exception;
+use Laminas\Mail\Protocol\Exception\RuntimeException;
 use Laminas\Mail\Protocol\ProtocolTrait;
-use Laminas\Mail\Transport\Smtp;
-use LaminasTest\Mail\TestAsset\SmtpProtocolSpy;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Process;
+
+use function str_contains;
+
+use const PHP_BINARY;
 
 /**
  * @group      Laminas_Mail
@@ -24,8 +22,7 @@ use Symfony\Component\Process\Process;
  */
 final class AbstractProtocolTest extends TestCase
 {
-    /** @var Process */
-    private $process;
+    private Process $process;
 
     protected function setUp(): void
     {
@@ -37,9 +34,7 @@ final class AbstractProtocolTest extends TestCase
             __DIR__ . '/HttpStatusService',
         ]);
         $this->process->start();
-        $this->process->waitUntil(static function (string $type, string $output): bool {
-            return false !== strpos($output, 'started');
-        });
+        $this->process->waitUntil(static fn(string $type, string $output): bool => str_contains($output, 'started'));
     }
 
     protected function tearDown(): void
@@ -52,7 +47,7 @@ final class AbstractProtocolTest extends TestCase
      */
     public function testExceptionShouldBeRaisedWhenConnectionHasTimedOut(): void
     {
-        $protocol = new class('127.0.0.1', 8080) extends AbstractProtocol {
+        $protocol = new class ('127.0.0.1', 8080) extends AbstractProtocol {
             use ProtocolTrait;
 
             public function connect(): void
@@ -75,7 +70,7 @@ final class AbstractProtocolTest extends TestCase
         self::assertSame('HTTP/1.1 200 OK' . AbstractProtocol::EOL, $protocol->send('/', null));
 
         $protocol->connect();
-        $this->expectExceptionObject(new \Laminas\Mail\Protocol\Exception\RuntimeException('127.0.0.1 has timed out'));
+        $this->expectExceptionObject(new RuntimeException('127.0.0.1 has timed out'));
         $protocol->send('/?sleep=3', 1);
     }
 }

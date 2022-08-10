@@ -6,14 +6,15 @@ use Laminas\Mail\Exception;
 use Laminas\Mail\Transport\FileOptions;
 use PHPUnit\Framework\TestCase;
 
+use function sys_get_temp_dir;
+
 /**
  * @group      Laminas_Mail
  * @covers Laminas\Mail\Transport\FileOptions<extended>
  */
 class FileOptionsTest extends TestCase
 {
-    /** @var FileOptions  */
-    private $options;
+    private FileOptions $options;
 
     public function setUp(): void
     {
@@ -29,7 +30,7 @@ class FileOptionsTest extends TestCase
     {
         $callback = $this->options->getCallback();
         $this->assertIsCallable($callback);
-        $test     = $callback('');
+        $test = $callback('');
         $this->assertMatchesRegularExpression('#^LaminasMail_\d+_\d+\.eml$#', $test);
     }
 
@@ -37,7 +38,7 @@ class FileOptionsTest extends TestCase
     {
         $original = $this->options->getPath();
         $this->options->setPath(__DIR__);
-        $test     = $this->options->getPath();
+        $test = $this->options->getPath();
         $this->assertNotEquals($original, $test);
         $this->assertEquals(__DIR__, $test);
     }
@@ -45,7 +46,7 @@ class FileOptionsTest extends TestCase
     public function testCallbackIsMutable(): void
     {
         $original = $this->options->getCallback();
-        $new      = function ($transport): void {
+        $new      = static function ($transport): void {
         };
 
         $this->options->setCallback($new);

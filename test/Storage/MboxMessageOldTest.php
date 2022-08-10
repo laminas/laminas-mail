@@ -4,15 +4,32 @@ namespace LaminasTest\Mail\Storage;
 
 use PHPUnit\Framework\TestCase;
 
+use function closedir;
+use function copy;
+use function explode;
+use function fclose;
+use function file_exists;
+use function fopen;
+use function fwrite;
+use function getenv;
+use function mkdir;
+use function opendir;
+use function readdir;
+use function trim;
+use function unlink;
+
 class MboxMessageOldTest extends TestCase
 {
+    /** @var string */
     protected $mboxOriginalFile;
+    /** @var string */
     protected $mboxFile;
+    /** @var string */
     protected $tmpdir;
 
     public function setUp(): void
     {
-        if ($this->tmpdir == null) {
+        if (! isset($this->tmpdir)) {
             if (getenv('TESTS_LAMINAS_MAIL_TEMPDIR') != null) {
                 $this->tmpdir = getenv('TESTS_LAMINAS_MAIL_TEMPDIR');
             } else {
@@ -22,7 +39,7 @@ class MboxMessageOldTest extends TestCase
                 mkdir($this->tmpdir);
             }
             $count = 0;
-            $dh = opendir($this->tmpdir);
+            $dh    = opendir($this->tmpdir);
             while (readdir($dh) !== false) {
                 ++$count;
             }
@@ -34,7 +51,7 @@ class MboxMessageOldTest extends TestCase
         }
 
         $this->mboxOriginalFile = __DIR__ . '/../_files/test.mbox/INBOX';
-        $this->mboxFile = $this->tmpdir . 'INBOX';
+        $this->mboxFile         = $this->tmpdir . 'INBOX';
 
         copy($this->mboxOriginalFile, $this->mboxFile);
     }
@@ -52,16 +69,6 @@ class MboxMessageOldTest extends TestCase
         $this->assertEquals('Simple Message', $subject);
     }
 
-/*
-    public function testFetchTopBody()
-    {
-        $mail = new TestAsset\MboxOldMessage(array('filename' => $this->mboxFile));
-
-        $content = $mail->getHeader(3, 1)->getContent();
-        $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
-    }
-*/
-
     public function testFetchMessageHeader(): void
     {
         $mail = new TestAsset\MboxOldMessage(['filename' => $this->mboxFile]);
@@ -74,8 +81,8 @@ class MboxMessageOldTest extends TestCase
     {
         $mail = new TestAsset\MboxOldMessage(['filename' => $this->mboxFile]);
 
-        $content = $mail->getMessage(3)->getContent();
-        list($content) = explode("\n", $content, 2);
+        $content   = $mail->getMessage(3)->getContent();
+        [$content] = explode("\n", $content, 2);
         $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
     }
 

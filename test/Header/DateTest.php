@@ -14,10 +14,10 @@ class DateTest extends TestCase
     public function headerLines(): array
     {
         return [
-            'newline'      => ["Date: xxx yyy\n"],
-            'cr-lf'        => ["Date: xxx yyy\r\n"],
-            'cr-lf-wsp'    => ["Date: xxx yyy\r\n\r\n"],
-            'multiline'    => ["Date: xxx\r\ny\r\nyy"],
+            'newline'   => ["Date: xxx yyy\n"],
+            'cr-lf'     => ["Date: xxx yyy\r\n"],
+            'cr-lf-wsp' => ["Date: xxx yyy\r\n\r\n"],
+            'multiline' => ["Date: xxx\r\ny\r\nyy"],
         ];
     }
 
@@ -25,7 +25,7 @@ class DateTest extends TestCase
      * @dataProvider headerLines
      * @group ZF2015-04
      */
-    public function testFromStringRaisesExceptionOnCrlfInjectionAttempt($header): void
+    public function testFromStringRaisesExceptionOnCrlfInjectionAttempt(string $header): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         Header\Date::fromString($header);

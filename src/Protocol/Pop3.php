@@ -5,6 +5,20 @@ namespace Laminas\Mail\Protocol;
 use Laminas\Mail\Protocol\Pop3\Response;
 use Laminas\Stdlib\ErrorHandler;
 
+use function explode;
+use function fclose;
+use function fgets;
+use function fwrite;
+use function is_string;
+use function md5;
+use function rtrim;
+use function stream_socket_enable_crypto;
+use function strpos;
+use function strtok;
+use function strtolower;
+use function substr;
+use function trim;
+
 class Pop3
 {
     use ProtocolTrait;
@@ -16,17 +30,17 @@ class Pop3
 
     /**
      * saves if server supports top
+     *
      * @var null|bool
      */
-    public $hasTop = null;
+    public $hasTop;
 
-    /**
-     * @var null|resource
-     */
+    /** @var null|resource */
     protected $socket;
 
     /**
      * greeting timestamp for apop
+     *
      * @var null|string
      */
     protected $timestamp;
@@ -68,7 +82,7 @@ class Pop3
     public function connect($host, $port = null, $ssl = false)
     {
         $transport = 'tcp';
-        $isTls = false;
+        $isTls     = false;
 
         if ($ssl) {
             $ssl = strtolower($ssl);
@@ -148,13 +162,13 @@ class Pop3
 
         if ($multiline) {
             $message = '';
-            $line = fgets($this->socket);
+            $line    = fgets($this->socket);
             while ($line && rtrim($line, "\r\n") != '.') {
                 if ($line[0] == '.') {
                     $line = substr($line, 1);
                 }
                 $message .= $line;
-                $line = fgets($this->socket);
+                $line     = fgets($this->socket);
             }
         }
 
@@ -191,6 +205,7 @@ class Pop3
      *
      * @see sendRequest()
      * @see readResponse()
+     *
      * @param  string $request    request
      * @param  bool   $multiline  multiline response?
      * @return string             result from readResponse()
@@ -209,7 +224,7 @@ class Pop3
         if ($this->socket) {
             try {
                 $this->request('QUIT');
-            } catch (Exception\ExceptionInterface $e) {
+            } catch (Exception\ExceptionInterface) {
                 // ignore error - we're closing the socket anyway
             }
 
@@ -242,7 +257,7 @@ class Pop3
             try {
                 $this->request("APOP $user " . md5($this->timestamp . $password));
                 return;
-            } catch (Exception\ExceptionInterface $e) {
+            } catch (Exception\ExceptionInterface) {
                 // ignore
             }
         }
@@ -260,10 +275,10 @@ class Pop3
     public function status(&$messages, &$octets)
     {
         $messages = 0;
-        $octets = 0;
-        $result = $this->request('STAT');
+        $octets   = 0;
+        $result   = $this->request('STAT');
 
-        list($messages, $octets) = explode(' ', $result);
+        [$messages, $octets] = explode(' ', $result);
     }
 
     /**
@@ -277,17 +292,17 @@ class Pop3
         if ($msgno !== null) {
             $result = $this->request("LIST $msgno");
 
-            list(, $result) = explode(' ', $result);
+            [, $result] = explode(' ', $result);
             return (int) $result;
         }
 
-        $result = $this->request('LIST', true);
+        $result   = $this->request('LIST', true);
         $messages = [];
-        $line = strtok($result, "\n");
+        $line     = strtok($result, "\n");
         while ($line) {
-            list($no, $size) = explode(' ', trim($line));
+            [$no, $size]         = explode(' ', trim($line));
             $messages[(int) $no] = (int) $size;
-            $line = strtok("\n");
+            $line                = strtok("\n");
         }
 
         return $messages;
@@ -304,19 +319,19 @@ class Pop3
         if ($msgno !== null) {
             $result = $this->request("UIDL $msgno");
 
-            list(, $result) = explode(' ', $result);
+            [, $result] = explode(' ', $result);
             return $result;
         }
 
         $result = $this->request('UIDL', true);
 
-        $result = explode("\n", $result);
+        $result   = explode("\n", $result);
         $messages = [];
         foreach ($result as $line) {
             if (! $line) {
                 continue;
             }
-            list($no, $id) = explode(' ', trim($line), 2);
+            [$no, $id]           = explode(' ', trim($line), 2);
             $messages[(int) $no] = $id;
         }
 
@@ -348,7 +363,7 @@ class Pop3
         }
         $this->hasTop = true;
 
-        $lines = (! $lines || $lines < 1) ? 0 : (int) $lines;
+        $lines = ! $lines || $lines < 1 ? 0 : (int) $lines;
 
         try {
             $result = $this->request("TOP $msgno $lines", true);
@@ -372,8 +387,7 @@ class Pop3
      */
     public function retrieve($msgno)
     {
-        $result = $this->request("RETR $msgno", true);
-        return $result;
+        return $this->request("RETR $msgno", true);
     }
 
     /**
@@ -387,7 +401,7 @@ class Pop3
     /**
      * Make a DELE count to remove a message
      *
-     * @param $msgno
+     * @param int $msgno
      */
     public function delete($msgno)
     {

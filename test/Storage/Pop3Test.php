@@ -8,12 +8,29 @@ use Laminas\Mail\Storage;
 use Laminas\Mail\Storage\Exception;
 use PHPUnit\Framework\TestCase;
 
+use function closedir;
+use function copy;
+use function count;
+use function explode;
+use function file_exists;
+use function getenv;
+use function is_dir;
+use function mkdir;
+use function opendir;
+use function readdir;
+use function rmdir;
+use function trim;
+use function unlink;
+
+use const DIRECTORY_SEPARATOR;
+
 /**
  * @group      Laminas_Mail
  * @covers Laminas\Mail\Storage\Pop3<extended>
  */
 class Pop3Test extends TestCase
 {
+    /** @var array */
     protected $params;
 
     public function setUp(): void
@@ -29,7 +46,8 @@ class Pop3Test extends TestCase
         ];
 
         if (getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR') && getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR')) {
-            if (! file_exists(getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'inbox')
+            if (
+                ! file_exists(getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'inbox')
                 && ! file_exists(getenv('TESTS_LAMINAS_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'INBOX')
             ) {
                 $this->markTestSkipped(
@@ -48,7 +66,7 @@ class Pop3Test extends TestCase
         }
     }
 
-    protected function cleanDir($dir): void
+    protected function cleanDir(string $dir): void
     {
         $dh = opendir($dir);
         while (($entry = readdir($dh)) !== false) {
@@ -66,14 +84,14 @@ class Pop3Test extends TestCase
         closedir($dh);
     }
 
-    protected function copyDir($dir, $dest): void
+    protected function copyDir(string $dir, string $dest): void
     {
         $dh = opendir($dir);
         while (($entry = readdir($dh)) !== false) {
             if ($entry == '.' || $entry == '..' || $entry == '.svn') {
                 continue;
             }
-            $fullname = $dir  . DIRECTORY_SEPARATOR . $entry;
+            $fullname = $dir . DIRECTORY_SEPARATOR . $entry;
             $destname = $dest . DIRECTORY_SEPARATOR . $entry;
             if (is_dir($fullname)) {
                 mkdir($destname);
@@ -137,7 +155,7 @@ class Pop3Test extends TestCase
             return;
         }
 
-        $this->params['ssl'] = 'SSL';
+        $this->params['ssl']            = 'SSL';
         $this->params['novalidatecert'] = true;
 
         new Storage\Pop3($this->params);
@@ -197,7 +215,7 @@ class Pop3Test extends TestCase
 
     public function testSize(): void
     {
-        $mail = new Storage\Pop3($this->params);
+        $mail        = new Storage\Pop3($this->params);
         $shouldSizes = [1 => 397, 89, 694, 452, 497, 101, 139];
 
         $sizes = $mail->getSize();
@@ -220,16 +238,6 @@ class Pop3Test extends TestCase
         $this->assertEquals('Simple Message', $subject);
     }
 
-/*
-    public function testFetchTopBody()
-    {
-        $mail = new Storage\Pop3($this->params);
-
-        $content = $mail->getHeader(3, 1)->getContent();
-        $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
-    }
-*/
-
     public function testFetchMessageHeader(): void
     {
         $mail = new Storage\Pop3($this->params);
@@ -242,30 +250,15 @@ class Pop3Test extends TestCase
     {
         $mail = new Storage\Pop3($this->params);
 
-        $content = $mail->getMessage(3)->getContent();
-        list($content) = explode("\n", $content, 2);
+        $content   = $mail->getMessage(3)->getContent();
+        [$content] = explode("\n", $content, 2);
         $this->assertEquals('Fair river! in thy bright, clear flow', trim($content));
     }
-
-/*
-    public function testFailedRemove()
-    {
-        $mail = new Laminas_Mail_Storage_Pop3($this->params);
-
-        try {
-            $mail->removeMessage(1);
-        } catch (Exception $e) {
-            return; // test ok
-        }
-
-        $this->fail('no exception raised while deleting message (mbox is read-only)');
-    }
-*/
 
     public function testWithInstanceConstruction(): void
     {
         $protocol = new Protocol\Pop3($this->params['host']);
-        $mail = new Storage\Pop3($protocol);
+        $mail     = new Storage\Pop3($protocol);
 
         $this->expectException(Exception\InvalidArgumentException::class);
         // because we did no login this has to throw an exception
@@ -314,11 +307,11 @@ class Pop3Test extends TestCase
 
         $ids = $mail->getUniqueId();
         foreach ($ids as $num => $id) {
-            foreach ($ids as $inner_num => $inner_id) {
-                if ($num == $inner_num) {
+            foreach ($ids as $innerNum => $innerId) {
+                if ($num == $innerNum) {
                     continue;
                 }
-                if ($id == $inner_id) {
+                if ($id == $innerId) {
                     $this->fail('not all ids are unique');
                 }
             }
@@ -348,7 +341,7 @@ class Pop3Test extends TestCase
 
     public function testRemove(): void
     {
-        $mail = new Storage\Pop3($this->params);
+        $mail  = new Storage\Pop3($this->params);
         $count = $mail->countMessages();
 
         $mail->removeMessage(1);
@@ -360,8 +353,8 @@ class Pop3Test extends TestCase
 
     public function testDotMessage(): void
     {
-        $mail = new Storage\Pop3($this->params);
-        $content = '';
+        $mail     = new Storage\Pop3($this->params);
+        $content  = '';
         $content .= "Before the dot\r\n";
         $content .= ".\r\n";
         $content .= "is after the dot\r\n";

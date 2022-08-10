@@ -7,6 +7,11 @@ use Laminas\Mail\Header\Exception;
 use Laminas\Mail\Header\HeaderInterface;
 use PHPUnit\Framework\TestCase;
 
+use function chr;
+use function strtolower;
+use function strtoupper;
+use function substr;
+
 /**
  * @group      Laminas_Mail
  * @covers Laminas\Mail\Header\ContentTransferEncoding<extended>
@@ -34,9 +39,10 @@ class ContentTransferEncodingTest extends TestCase
     /**
      * @dataProvider dataValidEncodings
      */
-    public function testContentTransferEncodingFromStringCreatesValidContentTransferEncodingHeader($encoding): void
-    {
-        $contentTransferEncodingHeader = ContentTransferEncoding::fromString('Content-Transfer-Encoding: '.$encoding);
+    public function testContentTransferEncodingFromStringCreatesValidContentTransferEncodingHeader(
+        string $encoding
+    ): void {
+        $contentTransferEncodingHeader = ContentTransferEncoding::fromString('Content-Transfer-Encoding: ' . $encoding);
         $this->assertInstanceOf(HeaderInterface::class, $contentTransferEncodingHeader);
         $this->assertInstanceOf(ContentTransferEncoding::class, $contentTransferEncodingHeader);
     }
@@ -44,10 +50,10 @@ class ContentTransferEncodingTest extends TestCase
     /**
      * @dataProvider dataInvalidEncodings
      */
-    public function testContentTransferEncodingFromStringRaisesException($encoding): void
+    public function testContentTransferEncodingFromStringRaisesException(string $encoding): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
-        $contentTransferEncodingHeader = ContentTransferEncoding::fromString('Content-Transfer-Encoding: '.$encoding);
+        $contentTransferEncodingHeader = ContentTransferEncoding::fromString('Content-Transfer-Encoding: ' . $encoding);
     }
 
     public function testContentTransferEncodingGetFieldNameReturnsHeaderName(): void
@@ -59,7 +65,7 @@ class ContentTransferEncodingTest extends TestCase
     /**
      * @dataProvider dataValidEncodings
      */
-    public function testContentTransferEncodingGetFieldValueReturnsProperValue($encoding): void
+    public function testContentTransferEncodingGetFieldValueReturnsProperValue(string $encoding): void
     {
         $contentTransferEncodingHeader = new ContentTransferEncoding();
         $contentTransferEncodingHeader->setTransferEncoding($encoding);
@@ -70,21 +76,21 @@ class ContentTransferEncodingTest extends TestCase
     /**
      * @dataProvider dataValidEncodings
      */
-    public function testContentTransferEncodingHandlesCaseInsensitivity($encoding): void
+    public function testContentTransferEncodingHandlesCaseInsensitivity(string $encoding): void
     {
         $header = new ContentTransferEncoding();
-        $header->setTransferEncoding(strtoupper(substr($encoding, 0, 4)).substr($encoding, 4));
+        $header->setTransferEncoding(strtoupper(substr($encoding, 0, 4)) . substr($encoding, 4));
         $this->assertEquals(strtolower($encoding), strtolower($header->getFieldValue()));
     }
 
     /**
      * @dataProvider dataValidEncodings
      */
-    public function testContentTransferEncodingToStringReturnsHeaderFormattedString($encoding): void
+    public function testContentTransferEncodingToStringReturnsHeaderFormattedString(string $encoding): void
     {
         $contentTransferEncodingHeader = new ContentTransferEncoding();
         $contentTransferEncodingHeader->setTransferEncoding($encoding);
-        $this->assertEquals("Content-Transfer-Encoding: ".$encoding, $contentTransferEncodingHeader->toString());
+        $this->assertEquals("Content-Transfer-Encoding: " . $encoding, $contentTransferEncodingHeader->toString());
     }
 
     public function testProvidingParametersIntroducesHeaderFolding(): void
@@ -108,8 +114,8 @@ class ContentTransferEncodingTest extends TestCase
     public function headerLines(): array
     {
         return [
-            'newline' => ["Content-Transfer-Encoding: 8bit\n7bit"],
-            'cr-lf' => ["Content-Transfer-Encoding: 8bit\r\n7bit"],
+            'newline'   => ["Content-Transfer-Encoding: 8bit\n7bit"],
+            'cr-lf'     => ["Content-Transfer-Encoding: 8bit\r\n7bit"],
             'multiline' => ["Content-Transfer-Encoding: 8bit\r\n7bit\r\nUTF-8"],
         ];
     }
@@ -118,7 +124,7 @@ class ContentTransferEncodingTest extends TestCase
      * @dataProvider headerLines
      * @group ZF2015-04
      */
-    public function testFromStringRaisesExceptionForInvalidMultilineValues($headerLine): void
+    public function testFromStringRaisesExceptionForInvalidMultilineValues(string $headerLine): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         ContentTransferEncoding::fromString($headerLine);

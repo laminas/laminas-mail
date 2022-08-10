@@ -5,6 +5,8 @@ namespace LaminasTest\Mail;
 use Laminas\Mail\Module;
 use PHPUnit\Framework\TestCase;
 
+use function array_keys;
+
 /**
  * @group      Laminas_Mail
  * @covers \Laminas\Mail\Module<extended>
@@ -15,6 +17,6 @@ class ModuleTest extends TestCase
     {
         $module = new Module();
         $config = $module->getConfig();
-        $this->assertEquals(['service_manager'], \array_keys($config));
+        $this->assertEquals(['service_manager'], array_keys($config));
     }
 }

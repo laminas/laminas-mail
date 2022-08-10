@@ -12,7 +12,8 @@ class MboxOldMessage extends Mbox
 {
     /**
      * used message class
-     * @var string
+     *
+     * @var class-string<Message\MessageInterface>
      */
     protected $messageClass = Message::class;
 }
