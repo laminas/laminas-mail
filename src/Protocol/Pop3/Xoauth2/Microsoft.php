@@ -6,6 +6,9 @@ use Laminas\Mail\Protocol\Exception\RuntimeException;
 use Laminas\Mail\Protocol\Pop3;
 use Laminas\Mail\Protocol\Xoauth2\Xoauth2;
 
+/**
+ * @final
+ */
 class Microsoft extends Pop3
 {
     protected const AUTH_INITIALIZE_REQUEST      = 'AUTH XOAUTH2';
