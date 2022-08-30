@@ -102,14 +102,14 @@ abstract class HeaderWrap
      * Performs quoted-printable encoding on a value, setting maximum
      * line-length to 998.
      *
-     * @param string $value
-     * @param string $encoding
-     * @param int    $lineLength       maximum line-length, by default 998
-     * @param int    $firstLineGapSize When folding a line, it is necessary to calculate
-     *                                 the length of the entire line (together with the header name).
-     *                                 Therefore, you can specify the header name and colon length
-     *                                 in this argument to fold the string properly.
-     *
+     * @param string            $value
+     * @param string            $encoding
+     * @param int               $lineLength         Maximum line-length, by default 998
+     * @param positive-int|0    $firstLineGapSize   When folding a line, it is necessary to calculate
+     *                                              the length of the entire line (together with the
+     *                                              header name). Therefore, you can specify the header
+     *                                              name and colon length in this argument to fold the
+     *                                              string properly.
      * @return string Returns the mime encode value without the last line ending
      */
     public static function mimeEncodeValue($value, $encoding, $lineLength = 998, $firstLineGapSize = 0)
