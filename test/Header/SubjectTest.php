@@ -7,7 +7,6 @@ use Laminas\Mail\Header\Exception;
 use PHPUnit\Framework\TestCase;
 
 use function str_repeat;
-use function wordwrap;
 
 /**
  * @group      Laminas_Mail
@@ -21,7 +20,10 @@ class SubjectTest extends TestCase
         $subject = new Header\Subject();
         $subject->setSubject($string);
 
-        $expected = wordwrap($string, 78, "\r\n ");
+        $expected = "foobarblahblahblah baz batfoobarblahblahblah baz\r\n "
+                    . "batfoobarblahblahblah baz batfoobarblahblahblah baz batfoobarblahblahblah baz\r\n "
+                    . "batfoobarblahblahblah baz batfoobarblahblahblah baz batfoobarblahblahblah baz\r\n "
+                    . "batfoobarblahblahblah baz batfoobarblahblahblah baz bat";
         $test     = $subject->getFieldValue(Header\HeaderInterface::FORMAT_ENCODED);
         $this->assertEquals($expected, $test);
     }
