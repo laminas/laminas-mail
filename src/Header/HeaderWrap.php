@@ -12,9 +12,11 @@ use function iconv_mime_decode;
 use function iconv_mime_encode;
 use function implode;
 use function str_contains;
+use function str_pad;
 use function str_starts_with;
 use function strlen;
 use function strpos;
+use function substr;
 use function wordwrap;
 
 use const ICONV_MIME_DECODE_CONTINUE_ON_ERROR;
@@ -52,11 +54,23 @@ abstract class HeaderWrap
      */
     protected static function wrapUnstructuredHeader($value, HeaderInterface $header)
     {
-        $encoding = $header->getEncoding();
+        $headerNameColonSize = strlen($header->getFieldName() . ': ');
+        $encoding            = $header->getEncoding();
+
         if ($encoding == 'ASCII') {
-            return wordwrap($value, 78, Headers::FOLDING);
+            /*
+             * Before folding the header line, it is necessary to calculate the length of the
+             * entire header (including the name and colon). We need to put a stub at the
+             * beginning of the value so that the folding is performed correctly.
+             */
+            $headerLine       = str_pad('0', $headerNameColonSize, '0') . $value;
+            $foldedHeaderLine = wordwrap($headerLine, 78, Headers::FOLDING);
+
+            // Remove the stub and return the header folded value.
+            return substr($foldedHeaderLine, $headerNameColonSize);
         }
-        return static::mimeEncodeValue($value, $encoding, 78);
+
+        return static::mimeEncodeValue($value, $encoding, 78, $headerNameColonSize);
     }
 
     /**
@@ -88,14 +102,19 @@ abstract class HeaderWrap
      * Performs quoted-printable encoding on a value, setting maximum
      * line-length to 998.
      *
-     * @param  string $value
-     * @param  string $encoding
-     * @param  int    $lineLength maximum line-length, by default 998
+     * @param string            $value
+     * @param string            $encoding
+     * @param int               $lineLength         Maximum line-length, by default 998
+     * @param positive-int|0    $firstLineGapSize   When folding a line, it is necessary to calculate
+     *                                              the length of the entire line (together with the
+     *                                              header name). Therefore, you can specify the header
+     *                                              name and colon length in this argument to fold the
+     *                                              string properly.
      * @return string Returns the mime encode value without the last line ending
      */
-    public static function mimeEncodeValue($value, $encoding, $lineLength = 998)
+    public static function mimeEncodeValue($value, $encoding, $lineLength = 998, $firstLineGapSize = 0)
     {
-        return Mime::encodeQuotedPrintableHeader($value, $encoding, $lineLength, Headers::EOL);
+        return Mime::encodeQuotedPrintableHeader($value, $encoding, $lineLength, Headers::EOL, $firstLineGapSize);
     }
 
     /**

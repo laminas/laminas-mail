@@ -11,7 +11,7 @@
         "php": "~8.0.0 || ~8.1.0",
         "ext-iconv": "*",
         "laminas/laminas-loader": "^2.8.0",
-        "laminas/laminas-mime": "^2.9.1",
+        "laminas/laminas-mime": "^2.10.0",
         "laminas/laminas-stdlib": "^3.11.0",
         "laminas/laminas-validator": "^2.23.0",
         "symfony/polyfill-mbstring": "^1.16.0",
