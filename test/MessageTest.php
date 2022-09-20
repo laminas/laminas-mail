@@ -884,8 +884,8 @@ class MessageTest extends TestCase
         $mail       = Message::fromString($rawMessage);
 
         $this->assertStringContainsString(
-            'Subject: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
-            . ' =?UTF-8?Q?vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=' . "\r\n",
+            'Subject: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20?=' . "\r\n"
+            . ' =?UTF-8?Q?accented=20vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=' . "\r\n",
             $mail->toString()
         );
     }
@@ -896,8 +896,8 @@ class MessageTest extends TestCase
         $mail->setSubject('Non “ascii” characters like accented vowels òàùèéì');
 
         $this->assertStringContainsString(
-            'Subject: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
-            . ' =?UTF-8?Q?vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=' . "\r\n",
+            'Subject: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20?=' . "\r\n"
+            . ' =?UTF-8?Q?accented=20vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=' . "\r\n",
             $mail->toString()
         );
     }
@@ -909,8 +909,8 @@ class MessageTest extends TestCase
         $mail->getHeaders()->addHeader($header);
 
         $this->assertStringContainsString(
-            'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
-            . ' =?UTF-8?Q?vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=' . "\r\n",
+            'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20?=' . "\r\n"
+            . ' =?UTF-8?Q?accented=20vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=' . "\r\n",
             $mail->toString()
         );
     }
@@ -924,8 +924,8 @@ class MessageTest extends TestCase
         $mail->setHeaders($headers);
 
         $this->assertStringContainsString(
-            'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
-            . ' =?UTF-8?Q?vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=' . "\r\n",
+            'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20?=' . "\r\n"
+            . ' =?UTF-8?Q?accented=20vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=' . "\r\n",
             $mail->toString()
         );
     }
@@ -939,8 +939,8 @@ class MessageTest extends TestCase
         $mail->getHeaders()->addHeader($header);
 
         $this->assertStringContainsString(
-            'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
-            . ' =?UTF-8?Q?vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=' . "\r\n",
+            'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20?=' . "\r\n"
+            . ' =?UTF-8?Q?accented=20vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=',
             $mail->toString()
         );
     }
@@ -957,8 +957,8 @@ class MessageTest extends TestCase
         $mail->setHeaders($headers);
 
         $this->assertStringContainsString(
-            'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20accented=20?=' . "\r\n"
-            . ' =?UTF-8?Q?vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=' . "\r\n",
+            'X-Test: =?UTF-8?Q?Non=20=E2=80=9Cascii=E2=80=9D=20characters=20like=20?=' . "\r\n"
+            . ' =?UTF-8?Q?accented=20vowels=20=C3=B2=C3=A0=C3=B9=C3=A8=C3=A9=C3=AC?=',
             $mail->toString()
         );
     }
