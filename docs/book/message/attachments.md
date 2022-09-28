@@ -100,8 +100,6 @@ use Laminas\Mime\Message as MimeMessage;
 use Laminas\Mime\Mime;
 use Laminas\Mime\Part as MimePart;
 
-$body = new MimeMessage();
-
 $text           = new MimePart($textContent);
 $text->type     = Mime::TYPE_TEXT;
 $text->charset  = 'utf-8';
