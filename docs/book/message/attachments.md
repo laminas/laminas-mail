@@ -115,7 +115,7 @@ $multipartContent = new MimeMessage();
 $multipartContent->setParts([$text, $html]);
 
 $multipartPart = new MimePart($multipartContent->generateMessage());
-$multipartPart->charset  = 'UTF-8';
+$multipartPart->charset  = 'utf-8';
 $multipartPart->type     = 'multipart/alternative';
 $multipartPart->boundary = $multipartContent->getMime()->boundary();
 
