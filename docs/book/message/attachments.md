@@ -100,8 +100,6 @@ use Laminas\Mime\Message as MimeMessage;
 use Laminas\Mime\Mime;
 use Laminas\Mime\Part as MimePart;
 
-$body = new MimeMessage();
-
 $text           = new MimePart($textContent);
 $text->type     = Mime::TYPE_TEXT;
 $text->charset  = 'utf-8';
@@ -112,11 +110,14 @@ $html->type     = Mime::TYPE_HTML;
 $html->charset  = 'utf-8';
 $html->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
 
-$content = new MimeMessage();
+$multipartContent = new MimeMessage();
 // This order is important for email clients to properly display the correct version of the content
-$content->setParts([$text, $html]);
+$multipartContent->setParts([$text, $html]);
 
-$contentPart = new MimePart($content->generateMessage());
+$multipartPart = new MimePart($multipartContent->generateMessage());
+$multipartPart->charset  = 'utf-8';
+$multipartPart->type     = 'multipart/alternative';
+$multipartPart->boundary = $multipartContent->getMime()->boundary();
 
 $image              = new MimePart(fopen($pathToImage, 'r'));
 $image->type        = 'image/jpeg';
@@ -125,7 +126,7 @@ $image->disposition = Mime::DISPOSITION_ATTACHMENT;
 $image->encoding    = Mime::ENCODING_BASE64;
 
 $body = new MimeMessage();
-$body->setParts([$contentPart, $image]);
+$body->setParts([$multipartPart, $image]);
 
 $message = new Message();
 $message->setBody($body);
