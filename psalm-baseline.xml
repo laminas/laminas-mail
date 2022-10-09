@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.26.0@6998fabb2bf528b65777bf9941920888d23c03ac">
+<files psalm-version="4.28.0@52e96bea381e6cb07a672aefec791a5817694a26">
   <file src="src/Address.php">
     <DocblockTypeContradiction occurrences="2">
       <code>! is_string($email)</code>
@@ -253,14 +253,6 @@
     <MissingConstructor occurrences="1">
       <code>$messageId</code>
     </MissingConstructor>
-    <MixedAssignment occurrences="2">
-      <code>$hostName</code>
-      <code>$user</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="2">
-      <code>$hostName</code>
-      <code>$user</code>
-    </MixedOperand>
     <UnsafeInstantiation occurrences="1">
       <code>new static()</code>
     </UnsafeInstantiation>
@@ -325,9 +317,6 @@
       <code>is_array($headers)</code>
       <code>is_string($headerFieldNameOrLine)</code>
     </DocblockTypeContradiction>
-    <InvalidNullableReturnType occurrences="1">
-      <code>Header\HeaderLocatorInterface</code>
-    </InvalidNullableReturnType>
     <MixedArgument occurrences="6">
       <code>$headers</code>
       <code>$key</code>
@@ -373,9 +362,6 @@
       <code>$current</code>
       <code>$results[0]</code>
     </MixedReturnStatement>
-    <NullableReturnStatement occurrences="1">
-      <code>$this-&gt;headerLocator</code>
-    </NullableReturnStatement>
     <PossiblyInvalidArgument occurrences="1">
       <code>Header\GenericMultiHeader::fromString($headerFieldNameOrLine . ':' . $i)</code>
     </PossiblyInvalidArgument>
@@ -498,9 +484,6 @@
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$this-&gt;log</code>
     </MixedArgumentTypeCoercion>
-    <PossiblyNullPropertyAssignmentValue occurrences="1">
-      <code>$port</code>
-    </PossiblyNullPropertyAssignmentValue>
     <PropertyNotSetInConstructor occurrences="2">
       <code>$request</code>
       <code>$response</code>
@@ -1050,8 +1033,7 @@
       <code>selectFolder</code>
       <code>setFlags</code>
     </MissingReturnType>
-    <MixedArgument occurrences="3">
-      <code>$data['delim']</code>
+    <MixedArgument occurrences="2">
       <code>$data['flags']</code>
       <code>$flag</code>
     </MixedArgument>
@@ -2279,6 +2261,9 @@
     <ArgumentTypeCoercion occurrences="1">
       <code>(int) $_GET['sleep']</code>
     </ArgumentTypeCoercion>
+    <RiskyCast occurrences="1">
+      <code>$_GET['sleep']</code>
+    </RiskyCast>
   </file>
   <file src="test/Protocol/ProtocolTraitTest.php">
     <InvalidScalarArgument occurrences="1">
