@@ -98,9 +98,10 @@ class SmtpPluginManager extends AbstractPluginManager
     /**
      * Validate a retrieved plugin instance (v2).
      *
+     * @deprecated
+     *
      * @param object $plugin
      * @throws Exception\InvalidArgumentException
-     * @deprecated
      */
     public function validatePlugin(mixed $plugin)
     {
