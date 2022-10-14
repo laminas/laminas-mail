@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.28.0@52e96bea381e6cb07a672aefec791a5817694a26">
+<files psalm-version="4.29.0@7ec5ffbd5f68ae03782d7fd33fff0c45a69f95b3">
   <file src="src/Address.php">
     <DocblockTypeContradiction occurrences="2">
       <code>! is_string($email)</code>
@@ -54,12 +54,6 @@
       <code>is_object($emailOrAddress)</code>
     </RedundantConditionGivenDocblockType>
   </file>
-  <file src="src/ConfigProvider.php">
-    <MixedArrayOffset occurrences="1"/>
-    <UndefinedClass occurrences="1">
-      <code>SmtpPluginManager</code>
-    </UndefinedClass>
-  </file>
   <file src="src/Header/AbstractAddressList.php">
     <DocblockTypeContradiction occurrences="1">
       <code>null === $this-&gt;addressList</code>
@@ -80,15 +74,6 @@
     <MixedArgument occurrences="1">
       <code>$value</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="1">
-      <code>$conversionInfo['errors']</code>
-    </MixedArrayAccess>
-    <MixedInferredReturnType occurrences="1">
-      <code>string</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
-      <code>$ascii</code>
-    </MixedReturnStatement>
     <RedundantConditionGivenDocblockType occurrences="1">
       <code>$format !== HeaderInterface::FORMAT_RAW</code>
     </RedundantConditionGivenDocblockType>
@@ -854,17 +839,10 @@
     <MissingReturnType occurrences="1">
       <code>validatePlugin</code>
     </MissingReturnType>
-    <MixedArrayOffset occurrences="1"/>
     <NonInvariantDocblockPropertyType occurrences="2">
       <code>$aliases</code>
       <code>$instanceOf</code>
     </NonInvariantDocblockPropertyType>
-    <UndefinedClass occurrences="4">
-      <code>Crammd5</code>
-      <code>Login</code>
-      <code>Plain</code>
-      <code>\Zend\Mail\Protocol\Smtp</code>
-    </UndefinedClass>
   </file>
   <file src="src/Protocol/SmtpPluginManagerFactory.php">
     <DeprecatedInterface occurrences="1">

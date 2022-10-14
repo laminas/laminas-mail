@@ -9,8 +9,11 @@ use Laminas\Mail\Storage\Exception\RuntimeException;
 
 use function array_filter;
 use function array_map;
+use function assert;
 use function idn_to_ascii;
 use function implode;
+use function is_array;
+use function is_string;
 use function preg_match;
 use function preg_match_all;
 use function preg_replace;
@@ -146,13 +149,16 @@ abstract class AbstractAddressList implements HeaderInterface
      */
     protected function idnToAscii($domainName): string
     {
+        /** @psalm-var string|false $ascii */
         $ascii = idn_to_ascii($domainName, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46, $conversionInfo);
-        if (false !== $ascii) {
+        if (is_string($ascii)) {
             return $ascii;
         }
 
         $messages = [];
-        $errors   = (int) $conversionInfo['errors'];
+        assert(is_array($conversionInfo));
+        /* @psalm-var array{errors: numeric-string} $conversionInfo */
+        $errors = (int) $conversionInfo['errors'];
 
         foreach (self::IDNA_ERROR_MAP as $flag => $message) {
             if (($flag & $errors) === $flag) {
