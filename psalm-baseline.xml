@@ -54,12 +54,6 @@
       <code>is_object($emailOrAddress)</code>
     </RedundantConditionGivenDocblockType>
   </file>
-  <file src="src/ConfigProvider.php">
-    <MixedArrayOffset occurrences="1"/>
-    <UndefinedClass occurrences="1">
-      <code>SmtpPluginManager</code>
-    </UndefinedClass>
-  </file>
   <file src="src/Header/AbstractAddressList.php">
     <DocblockTypeContradiction occurrences="1">
       <code>null === $this-&gt;addressList</code>
