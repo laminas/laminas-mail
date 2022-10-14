@@ -6,9 +6,6 @@ use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\ConfigInterface;
 use Laminas\ServiceManager\Exception\InvalidServiceException;
 use Laminas\ServiceManager\Factory\InvokableFactory;
-use Zend\Mail\Protocol\Smtp\Auth\Crammd5;
-use Zend\Mail\Protocol\Smtp\Auth\Login;
-use Zend\Mail\Protocol\Smtp\Auth\Plain;
 
 use function gettype;
 use function is_object;
@@ -24,8 +21,8 @@ use function sprintf;
  *
  * @psalm-import-type FactoriesConfigurationType from ConfigInterface
  *
- * @template InstanceType of Smtp
- * @extends AbstractPluginManager<InstanceType>
+ * @extends AbstractPluginManager<Smtp>
+ * @final
  */
 class SmtpPluginManager extends AbstractPluginManager
 {
@@ -47,18 +44,20 @@ class SmtpPluginManager extends AbstractPluginManager
         'smtp'    => Smtp::class,
         'Smtp'    => Smtp::class,
         'SMTP'    => Smtp::class,
-
         // Legacy Zend Framework aliases
-        Crammd5::class                  => Smtp\Auth\Crammd5::class,
-        Login::class                    => Smtp\Auth\Login::class,
-        Plain::class                    => Smtp\Auth\Plain::class,
-        \Zend\Mail\Protocol\Smtp::class => Smtp::class,
-
+        'Zend\Mail\Protocol\Smtp\Auth\Crammd5' => Smtp\Auth\Crammd5::class,
+        'Zend\Mail\Protocol\Smtp\Auth\Login'   => Smtp\Auth\Login::class,
+        'Zend\Mail\Protocol\Smtp\Auth\Plain'   => Smtp\Auth\Plain::class,
+        'Zend\Mail\Protocol\Smtp'              => Smtp::class,
         // v2 normalized FQCNs
-        'zendmailprotocolsmtpauthcrammd5' => Smtp\Auth\Crammd5::class,
-        'zendmailprotocolsmtpauthlogin'   => Smtp\Auth\Login::class,
-        'zendmailprotocolsmtpauthplain'   => Smtp\Auth\Plain::class,
-        'zendmailprotocolsmtp'            => Smtp::class,
+        'zendmailprotocolsmtpauthcrammd5'    => Smtp\Auth\Crammd5::class,
+        'zendmailprotocolsmtpauthlogin'      => Smtp\Auth\Login::class,
+        'zendmailprotocolsmtpauthplain'      => Smtp\Auth\Plain::class,
+        'zendmailprotocolsmtp'               => Smtp::class,
+        'laminasmailprotocolsmtpauthcrammd5' => Smtp\Auth\Crammd5::class,
+        'laminasmailprotocolsmtpauthlogin'   => Smtp\Auth\Login::class,
+        'laminasmailprotocolsmtpauthplain'   => Smtp\Auth\Plain::class,
+        'laminasmailprotocolsmtp'            => Smtp::class,
     ];
 
     /**
@@ -71,18 +70,12 @@ class SmtpPluginManager extends AbstractPluginManager
         Smtp\Auth\Login::class   => InvokableFactory::class,
         Smtp\Auth\Plain::class   => InvokableFactory::class,
         Smtp::class              => InvokableFactory::class,
-
-        // v2 normalized service names
-        'laminasmailprotocolsmtpauthcrammd5' => InvokableFactory::class,
-        'laminasmailprotocolsmtpauthlogin'   => InvokableFactory::class,
-        'laminasmailprotocolsmtpauthplain'   => InvokableFactory::class,
-        'laminasmailprotocolsmtp'            => InvokableFactory::class,
     ];
 
     /**
      * Plugins must be an instance of the Smtp class
      *
-     * @var string
+     * @var class-string<Smtp>
      */
     protected $instanceOf = Smtp::class;
 
@@ -91,7 +84,7 @@ class SmtpPluginManager extends AbstractPluginManager
      *
      * {@inheritDoc}
      */
-    public function validate($instance)
+    public function validate(mixed $instance)
     {
         if (! $instance instanceof $this->instanceOf) {
             throw new InvalidServiceException(sprintf(
@@ -107,8 +100,9 @@ class SmtpPluginManager extends AbstractPluginManager
      *
      * @param object $plugin
      * @throws Exception\InvalidArgumentException
+     * @deprecated
      */
-    public function validatePlugin($plugin)
+    public function validatePlugin(mixed $plugin)
     {
         try {
             $this->validate($plugin);
