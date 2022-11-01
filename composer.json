@@ -20,7 +20,7 @@
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "~2.4.0",
-        "laminas/laminas-crypt": "^3.8.0",
+        "laminas/laminas-crypt": "^3.9.0",
         "laminas/laminas-db": "^2.15.0",
         "laminas/laminas-servicemanager": "^3.19",
         "phpunit/phpunit": "^9.5.25",
