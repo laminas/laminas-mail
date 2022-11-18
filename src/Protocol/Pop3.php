@@ -2,7 +2,6 @@
 
 namespace Laminas\Mail\Protocol;
 
-use Laminas\Mail\Protocol\Pop3\Response;
 use Laminas\Stdlib\ErrorHandler;
 
 use function explode;
@@ -152,37 +151,6 @@ class Pop3
      */
     public function readResponse($multiline = false)
     {
-        $response = $this->readRemoteResponse();
-
-        if ($response->status() != '+OK') {
-            throw new Exception\RuntimeException('last request failed');
-        }
-
-        $message = $response->message();
-
-        if ($multiline) {
-            $message = '';
-            $line    = fgets($this->socket);
-            while ($line && rtrim($line, "\r\n") != '.') {
-                if ($line[0] == '.') {
-                    $line = substr($line, 1);
-                }
-                $message .= $line;
-                $line     = fgets($this->socket);
-            }
-        }
-
-        return $message;
-    }
-
-    /**
-     * read a response
-     * return extracted status / message from response
-
-     * @throws Exception\RuntimeException
-     */
-    protected function readRemoteResponse(): Response
-    {
         ErrorHandler::start();
         $result = fgets($this->socket);
         $error  = ErrorHandler::stop();
@@ -198,7 +166,23 @@ class Pop3
             $message = '';
         }
 
-        return new Response($status, $message);
+        if ($status != '+OK') {
+            throw new Exception\RuntimeException('last request failed');
+        }
+
+        if ($multiline) {
+            $message = '';
+            $line    = fgets($this->socket);
+            while ($line && rtrim($line, "\r\n") != '.') {
+                if ($line[0] == '.') {
+                    $line = substr($line, 1);
+                }
+                $message .= $line;
+                $line     = fgets($this->socket);
+            }
+        }
+
+        return $message;
     }
 
     /**
