@@ -5,6 +5,7 @@ namespace LaminasTest\Mail\Header;
 use Laminas\Mail\Header\Exception;
 use Laminas\Mail\Header\Exception\InvalidArgumentException;
 use Laminas\Mail\Header\GenericHeader;
+use Laminas\Mail\Header\HeaderInterface;
 use PHPUnit\Framework\TestCase;
 
 use function chr;
@@ -14,6 +15,7 @@ use function chr;
  */
 class GenericHeaderTest extends TestCase
 {
+    /** @return array<string, array{0: string, 1: string}> */
     public function invalidHeaderLines(): array
     {
         return [
@@ -43,6 +45,7 @@ class GenericHeaderTest extends TestCase
         GenericHeader::splitHeaderLine($line);
     }
 
+    /** @return array<string, array{0: string|null}> */
     public function fieldNames(): array
     {
         return [
@@ -56,7 +59,7 @@ class GenericHeaderTest extends TestCase
      * @dataProvider fieldNames
      * @group ZF2015-04
      */
-    public function testConstructorRaisesExceptionOnInvalidFieldName(mixed $fieldName): void
+    public function testConstructorRaisesExceptionOnInvalidFieldName(?string $fieldName): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('name');
@@ -68,7 +71,7 @@ class GenericHeaderTest extends TestCase
      * @dataProvider fieldNames
      * @group ZF2015-04
      */
-    public function testSetFieldNameRaisesExceptionOnInvalidFieldName(mixed $fieldName): void
+    public function testSetFieldNameRaisesExceptionOnInvalidFieldName(?string $fieldName): void
     {
         $header = new GenericHeader('Subject');
         $this->expectException(InvalidArgumentException::class);
@@ -77,6 +80,7 @@ class GenericHeaderTest extends TestCase
         $header->setFieldName($fieldName);
     }
 
+    /** @return array<string, array{0: string}> */
     public function fieldValues(): array
     {
         return [
@@ -94,9 +98,8 @@ class GenericHeaderTest extends TestCase
     /**
      * @dataProvider fieldValues
      * @group ZF2015-04
-     * @param string $fieldValue
      */
-    public function testCRLFsequencesAreEncodedOnToString($fieldValue): void
+    public function testCRLFsequencesAreEncodedOnToString(string $fieldValue): void
     {
         $header = new GenericHeader('Foo');
         $header->setFieldValue($fieldValue);
@@ -109,11 +112,8 @@ class GenericHeaderTest extends TestCase
     /**
      * @dataProvider validFieldValuesProvider
      * @group ZF2015-04
-     * @param string $decodedValue
-     * @param string $encodedValue
-     * @param string $encoding
      */
-    public function testParseValidSubjectHeader($decodedValue, $encodedValue, $encoding): void
+    public function testParseValidSubjectHeader(string $decodedValue, string $encodedValue, string $encoding): void
     {
         $header = GenericHeader::fromString('Foo:' . $encodedValue);
 
@@ -124,11 +124,8 @@ class GenericHeaderTest extends TestCase
     /**
      * @dataProvider validFieldValuesProvider
      * @group ZF2015-04
-     * @param string $decodedValue
-     * @param string $encodedValue
-     * @param string $encoding
      */
-    public function testSetFieldValueValidValue($decodedValue, $encodedValue, $encoding): void
+    public function testSetFieldValueValidValue(string $decodedValue, string $encodedValue, string $encoding): void
     {
         $header = new GenericHeader('Foo');
         $header->setFieldValue($decodedValue);
@@ -138,6 +135,7 @@ class GenericHeaderTest extends TestCase
         $this->assertEquals($encoding, $header->getEncoding());
     }
 
+    /** @return array<string, array{0: string, 1: string, 2: string}> */
     public function validFieldValuesProvider(): array
     {
         return [
@@ -168,12 +166,13 @@ class GenericHeaderTest extends TestCase
         $header->setFieldValue($raw);
 
         $this->assertEquals($raw, $header->getFieldValue());
-        $this->assertEquals($encoded, $header->getFieldValue(GenericHeader::FORMAT_ENCODED));
+        $this->assertEquals($encoded, $header->getFieldValue(HeaderInterface::FORMAT_ENCODED));
         $this->assertEquals('Foo: ' . $encoded, $header->toString());
     }
 
     public function testAllowZeroInHeaderValueInConstructor(): void
     {
+        /** @psalm-suppress InvalidArgument $header */
         $header = new GenericHeader('Foo', 0);
         $this->assertEquals(0, $header->getFieldValue());
         $this->assertEquals('Foo: 0', $header->toString());
