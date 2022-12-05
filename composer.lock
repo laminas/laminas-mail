@@ -1710,16 +1710,16 @@
         },
         {
             "name": "laminas/laminas-db",
-            "version": "2.16.0",
+            "version": "2.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-db.git",
-                "reference": "0fb9d7a32b40036a158961a5df082ff421321aa7"
+                "reference": "2bdc91a08d903fb981b451adfb8548eeb8a87c80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-db/zipball/0fb9d7a32b40036a158961a5df082ff421321aa7",
-                "reference": "0fb9d7a32b40036a158961a5df082ff421321aa7",
+                "url": "https://api.github.com/repos/laminas/laminas-db/zipball/2bdc91a08d903fb981b451adfb8548eeb8a87c80",
+                "reference": "2bdc91a08d903fb981b451adfb8548eeb8a87c80",
                 "shasum": ""
             },
             "require": {
@@ -1777,7 +1777,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-11-18T09:28:22+00:00"
+            "time": "2022-12-05T18:24:57+00:00"
         },
         {
             "name": "laminas/laminas-math",
