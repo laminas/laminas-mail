@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.29.0@7ec5ffbd5f68ae03782d7fd33fff0c45a69f95b3">
+<files psalm-version="5.1.0@4defa177c89397c5e14737a80fe4896584130674">
   <file src="src/Address.php">
     <DocblockTypeContradiction occurrences="2">
       <code>! is_string($email)</code>
@@ -22,37 +22,32 @@
     </UnsafeInstantiation>
   </file>
   <file src="src/AddressList.php">
-    <DocblockTypeContradiction occurrences="2">
+    <DocblockTypeContradiction occurrences="1">
       <code>gettype($emailOrAddress)</code>
-      <code>is_string($key)</code>
     </DocblockTypeContradiction>
-    <LessSpecificImplementedReturnType occurrences="2">
-      <code>mixed</code>
-      <code>mixed</code>
-    </LessSpecificImplementedReturnType>
-    <MixedArgument occurrences="2">
+    <ImplementedReturnTypeMismatch occurrences="2">
+      <code>false|AddressInterface</code>
+      <code>false|AddressInterface</code>
+    </ImplementedReturnTypeMismatch>
+    <MixedArgument occurrences="3">
       <code>$value</code>
       <code>$value</code>
+      <code>is_object($key) ? $key::class : var_export($key, true)</code>
     </MixedArgument>
     <MixedAssignment occurrences="1">
       <code>$value</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="2">
-      <code>Address</code>
-      <code>bool|Address\AddressInterface</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="2">
-      <code>$this-&gt;addresses[$email]</code>
-      <code>current($this-&gt;addresses)</code>
-    </MixedReturnStatement>
-    <MixedReturnTypeCoercion occurrences="2">
-      <code>key($this-&gt;addresses)</code>
-      <code>string</code>
-    </MixedReturnTypeCoercion>
+    <RedundantCondition occurrences="1">
+      <code>var_export($key, true)</code>
+    </RedundantCondition>
     <RedundantConditionGivenDocblockType occurrences="2">
       <code>$key !== false</code>
       <code>is_object($emailOrAddress)</code>
     </RedundantConditionGivenDocblockType>
+    <TypeDoesNotContainType occurrences="2">
+      <code>is_object($key)</code>
+      <code>is_string($key)</code>
+    </TypeDoesNotContainType>
   </file>
   <file src="src/Header/AbstractAddressList.php">
     <DocblockTypeContradiction occurrences="1">
@@ -74,11 +69,13 @@
     <MixedArgument occurrences="1">
       <code>$value</code>
     </MixedArgument>
-    <RedundantConditionGivenDocblockType occurrences="1">
-      <code>$format !== HeaderInterface::FORMAT_RAW</code>
-    </RedundantConditionGivenDocblockType>
-    <UnnecessaryVarAnnotation occurrences="1">
+    <RedundantCondition occurrences="2">
+      <code>assert(is_array($conversionInfo))</code>
+      <code>is_array($conversionInfo)</code>
+    </RedundantCondition>
+    <UnnecessaryVarAnnotation occurrences="2">
       <code>AddressList</code>
+      <code>string|false</code>
     </UnnecessaryVarAnnotation>
     <UnsafeInstantiation occurrences="1">
       <code>new static()</code>
@@ -188,7 +185,8 @@
     </UnsafeInstantiation>
   </file>
   <file src="src/Header/GenericMultiHeader.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
+    <ImplementedReturnTypeMismatch occurrences="2">
+      <code>array|GenericHeader|GenericMultiHeader|static</code>
       <code>array|GenericHeader|GenericMultiHeader|static</code>
     </ImplementedReturnTypeMismatch>
     <MixedArgumentTypeCoercion occurrences="1">
@@ -210,7 +208,8 @@
     <MixedInferredReturnType occurrences="1">
       <code>?string</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
+    <MixedReturnStatement occurrences="2">
+      <code>$this-&gt;plugins[$name] ?? $default</code>
       <code>$this-&gt;plugins[$name] ?? $default</code>
     </MixedReturnStatement>
   </file>
@@ -297,14 +296,16 @@
   <file src="src/Headers.php">
     <DocblockTypeContradiction occurrences="5">
       <code>! $instanceOrFieldName instanceof Header\HeaderInterface &amp;&amp; ! is_string($instanceOrFieldName)</code>
-      <code>gettype($headers)</code>
+      <code>! is_array($headers) &amp;&amp; ! $headers instanceof Traversable</code>
       <code>is_array($fieldValue)</code>
       <code>is_array($headers)</code>
       <code>is_string($headerFieldNameOrLine)</code>
     </DocblockTypeContradiction>
-    <MixedArgument occurrences="6">
+    <LessSpecificImplementedReturnType occurrences="1">
+      <code>mixed</code>
+    </LessSpecificImplementedReturnType>
+    <MixedArgument occurrences="5">
       <code>$headers</code>
-      <code>$key</code>
       <code>$value</code>
       <code>$value[0]</code>
       <code>$value[1]</code>
@@ -317,13 +318,16 @@
       <code>$this-&gt;headersKeys[$index]</code>
       <code>$this-&gt;headers[$index]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="9">
+    <MixedArrayTypeCoercion occurrences="2">
+      <code>$this-&gt;headersKeys[$index]</code>
+      <code>$this-&gt;headers[$index]</code>
+    </MixedArrayTypeCoercion>
+    <MixedAssignment occurrences="8">
       <code>$current</code>
       <code>$current</code>
       <code>$header</code>
       <code>$i</code>
       <code>$index</code>
-      <code>$key</code>
       <code>$name</code>
       <code>$results[]</code>
       <code>$value</code>
@@ -343,16 +347,15 @@
       <code>$this-&gt;headers</code>
       <code>$this-&gt;headers</code>
     </MixedPropertyTypeCoercion>
-    <MixedReturnStatement occurrences="2">
+    <MixedReturnStatement occurrences="4">
       <code>$current</code>
+      <code>$current</code>
+      <code>$results[0]</code>
       <code>$results[0]</code>
     </MixedReturnStatement>
     <PossiblyInvalidArgument occurrences="1">
       <code>Header\GenericMultiHeader::fromString($headerFieldNameOrLine . ':' . $i)</code>
     </PossiblyInvalidArgument>
-    <RedundantConditionGivenDocblockType occurrences="1">
-      <code>is_object($headers)</code>
-    </RedundantConditionGivenDocblockType>
     <UnsafeInstantiation occurrences="1">
       <code>new static()</code>
     </UnsafeInstantiation>
@@ -436,7 +439,7 @@
   </file>
   <file src="src/MessageFactory.php">
     <DocblockTypeContradiction occurrences="1">
-      <code>gettype($options)</code>
+      <code>! is_array($options) &amp;&amp; ! $options instanceof Traversable</code>
     </DocblockTypeContradiction>
     <MixedArgument occurrences="1">
       <code>$key</code>
@@ -445,13 +448,11 @@
       <code>$key</code>
       <code>$value</code>
     </MixedAssignment>
-    <RedundantConditionGivenDocblockType occurrences="1">
-      <code>is_object($options)</code>
-    </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Protocol/AbstractProtocol.php">
-    <DocblockTypeContradiction occurrences="1">
+    <DocblockTypeContradiction occurrences="2">
       <code>$cmd === null</code>
+      <code>$errMsg !== ''</code>
     </DocblockTypeContradiction>
     <InvalidArgument occurrences="1">
       <code>Validator\Hostname::ALLOW_ALL</code>
@@ -512,7 +513,7 @@
       <code>$result</code>
       <code>$string</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="18">
+    <MixedArrayAccess occurrences="20">
       <code>$ids[0]</code>
       <code>$item[0]</code>
       <code>$item[1]</code>
@@ -522,6 +523,8 @@
       <code>$token[1]</code>
       <code>$token[2]</code>
       <code>$token[2]</code>
+      <code>$token[2][0]</code>
+      <code>$token[2][1]</code>
       <code>$tokens[2][$count - 2]</code>
       <code>$tokens[2][$i + 1]</code>
       <code>$tokens[2][$i]</code>
@@ -587,10 +590,11 @@
       <code>$token[0]</code>
       <code>array_search('UID', $tokens[2])</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="13">
+    <MixedReturnStatement occurrences="14">
       <code>$data</code>
       <code>$ids</code>
       <code>$response</code>
+      <code>$result</code>
       <code>$result</code>
       <code>$this-&gt;requestAndResponse('APPEND', $tokens, true)</code>
       <code>$this-&gt;requestAndResponse('COPY', [$set, $this-&gt;escapeString($folder)], true)</code>
@@ -629,7 +633,8 @@
       <code>$string</code>
       <code>$tokens</code>
     </PossiblyInvalidCast>
-    <PossiblyNullArgument occurrences="9">
+    <PossiblyNullArgument occurrences="10">
+      <code>$tag</code>
       <code>$tag</code>
       <code>$tag</code>
       <code>$tag</code>
@@ -700,7 +705,7 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Protocol/Smtp.php">
-    <InvalidScalarArgument occurrences="9">
+    <InvalidArgument occurrences="9">
       <code>220</code>
       <code>220</code>
       <code>221</code>
@@ -710,7 +715,7 @@
       <code>250</code>
       <code>250</code>
       <code>354</code>
-    </InvalidScalarArgument>
+    </InvalidArgument>
     <MismatchingDocblockReturnType occurrences="1">
       <code>Generator|string[]</code>
     </MismatchingDocblockReturnType>
@@ -758,10 +763,10 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/Protocol/Smtp/Auth/Crammd5.php">
-    <InvalidScalarArgument occurrences="2">
+    <InvalidArgument occurrences="2">
       <code>235</code>
       <code>334</code>
-    </InvalidScalarArgument>
+    </InvalidArgument>
     <MissingReturnType occurrences="1">
       <code>auth</code>
     </MissingReturnType>
@@ -782,11 +787,11 @@
     <DocblockTypeContradiction occurrences="1">
       <code>is_array($host)</code>
     </DocblockTypeContradiction>
-    <InvalidScalarArgument occurrences="3">
+    <InvalidArgument occurrences="3">
       <code>235</code>
       <code>334</code>
       <code>334</code>
-    </InvalidScalarArgument>
+    </InvalidArgument>
     <MissingReturnType occurrences="1">
       <code>auth</code>
     </MissingReturnType>
@@ -811,10 +816,10 @@
     <DocblockTypeContradiction occurrences="1">
       <code>is_array($host)</code>
     </DocblockTypeContradiction>
-    <InvalidScalarArgument occurrences="2">
+    <InvalidArgument occurrences="2">
       <code>235</code>
       <code>334</code>
-    </InvalidScalarArgument>
+    </InvalidArgument>
     <MissingReturnType occurrences="1">
       <code>auth</code>
     </MissingReturnType>
@@ -845,6 +850,9 @@
     </NonInvariantDocblockPropertyType>
   </file>
   <file src="src/Protocol/SmtpPluginManagerFactory.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$options ?: []</code>
+    </ArgumentTypeCoercion>
     <DeprecatedInterface occurrences="1">
       <code>SmtpPluginManagerFactory</code>
     </DeprecatedInterface>
@@ -856,9 +864,6 @@
       <code>$name</code>
       <code>$requestedName</code>
     </MissingParamType>
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$options</code>
-    </MoreSpecificImplementedParamType>
     <ParamNameMismatch occurrences="1">
       <code>$container</code>
     </ParamNameMismatch>
@@ -878,11 +883,16 @@
       <code>noop</code>
       <code>removeMessage</code>
     </MissingReturnType>
+    <MissingTemplateParam occurrences="2">
+      <code>ArrayAccess</code>
+      <code>SeekableIterator</code>
+    </MissingTemplateParam>
     <MixedInferredReturnType occurrences="2">
       <code>bool</code>
       <code>null|bool</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="2">
+    <MixedReturnStatement occurrences="3">
+      <code>$this-&gt;has[$var] ?? null</code>
       <code>$this-&gt;has[$var] ?? null</code>
       <code>$this-&gt;removeMessage($id)</code>
     </MixedReturnStatement>
@@ -899,11 +909,13 @@
       <code>Folder</code>
       <code>string</code>
     </ImplementedReturnTypeMismatch>
+    <MissingTemplateParam occurrences="1">
+      <code>RecursiveIterator</code>
+    </MissingTemplateParam>
     <RedundantCastGivenDocblockType occurrences="1">
       <code>(string) $this-&gt;getGlobalName()</code>
     </RedundantCastGivenDocblockType>
-    <RedundantConditionGivenDocblockType occurrences="3">
-      <code>$current</code>
+    <RedundantConditionGivenDocblockType occurrences="2">
       <code>$current</code>
       <code>$current &amp;&amp; $current instanceof self</code>
     </RedundantConditionGivenDocblockType>
@@ -935,11 +947,7 @@
     <MixedReturnStatement occurrences="1">
       <code>$currentFolder</code>
     </MixedReturnStatement>
-    <PossiblyNullArgument occurrences="1">
-      <code>$parent</code>
-    </PossiblyNullArgument>
-    <RedundantCondition occurrences="2">
-      <code>$stack</code>
+    <RedundantCondition occurrences="1">
       <code>$stack</code>
     </RedundantCondition>
     <TypeDoesNotContainType occurrences="2">
@@ -980,6 +988,13 @@
       <code>$folder</code>
       <code>$folder</code>
     </ImplicitToStringCast>
+    <InvalidArgument occurrences="2">
+      <code>INF</code>
+      <code>INF</code>
+    </InvalidArgument>
+    <InvalidCast occurrences="1">
+      <code>$parent</code>
+    </InvalidCast>
     <InvalidReturnStatement occurrences="4">
       <code>$this-&gt;protocol-&gt;fetch('RFC822.HEADER', $id)</code>
       <code>$this-&gt;protocol-&gt;fetch('RFC822.SIZE', $id)</code>
@@ -991,10 +1006,6 @@
       <code>string</code>
       <code>string</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="2">
-      <code>INF</code>
-      <code>INF</code>
-    </InvalidScalarArgument>
     <LessSpecificReturnStatement occurrences="1">
       <code>new $this-&gt;messageClass(['handler' =&gt; $this, 'id' =&gt; $id, 'headers' =&gt; $header, 'flags' =&gt; $flags])</code>
     </LessSpecificReturnStatement>
@@ -1090,13 +1101,9 @@
       <code>store</code>
       <code>store</code>
     </PossiblyNullReference>
-    <RedundantCondition occurrences="2">
-      <code>$stack</code>
+    <RedundantCondition occurrences="1">
       <code>$stack</code>
     </RedundantCondition>
-    <RedundantConditionGivenDocblockType occurrences="1">
-      <code>$flags === null</code>
-    </RedundantConditionGivenDocblockType>
     <TypeDoesNotContainType occurrences="2">
       <code>! $stack</code>
       <code>$stack</code>
@@ -1156,7 +1163,8 @@
       <code>int|array</code>
       <code>string|array</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="3">
+    <MixedReturnStatement occurrences="4">
+      <code>$filedata['size'] ?? filesize($filedata['filename'])</code>
       <code>$filedata['size'] ?? filesize($filedata['filename'])</code>
       <code>$this-&gt;files[$id - 1]</code>
       <code>$this-&gt;files[$id - 1][$field]</code>
@@ -1180,6 +1188,9 @@
     </UnusedForeachValue>
   </file>
   <file src="src/Storage/Mbox.php">
+    <InvalidArgument occurrences="1">
+      <code>$id</code>
+    </InvalidArgument>
     <InvalidOperand occurrences="1">
       <code>$num</code>
     </InvalidOperand>
@@ -1196,9 +1207,6 @@
       <code>array|string</code>
       <code>int</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="1">
-      <code>$id</code>
-    </InvalidScalarArgument>
     <LessSpecificReturnStatement occurrences="2">
       <code>new $this-&gt;messageClass($messageClassParams)</code>
       <code>new $this-&gt;messageClass(['handler' =&gt; $this, 'id' =&gt; $id, 'headers' =&gt; $message])</code>
@@ -1284,11 +1292,13 @@
       <code>$this-&gt;getHeader($name, 'string')</code>
       <code>$this-&gt;iterationPos</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="3">
-      <code>null</code>
+    <InvalidReturnType occurrences="2">
       <code>string</code>
       <code>string</code>
     </InvalidReturnType>
+    <MissingTemplateParam occurrences="1">
+      <code>RecursiveIterator</code>
+    </MissingTemplateParam>
     <MixedArgument occurrences="5">
       <code>$params['headers']</code>
       <code>$params['headers']</code>
@@ -1316,11 +1326,13 @@
       <code>getFieldValue</code>
       <code>getFieldValue</code>
     </MixedMethodCall>
-    <MixedReturnStatement occurrences="3">
+    <MixedReturnStatement occurrences="2">
       <code>$header-&gt;getFieldValue(HeaderInterface::FORMAT_RAW)</code>
       <code>$this-&gt;parts[$num]</code>
-      <code>$this-&gt;parts[$num]</code>
     </MixedReturnStatement>
+    <NoValue occurrences="1">
+      <code>return $this-&gt;parts[$num];</code>
+    </NoValue>
     <PossiblyInvalidArgument occurrences="2">
       <code>$boundary</code>
       <code>$this-&gt;getHeader($name, 'array')</code>
@@ -1334,8 +1346,7 @@
       <code>$this-&gt;headers</code>
       <code>$this-&gt;headers</code>
     </PossiblyNullArgument>
-    <RedundantConditionGivenDocblockType occurrences="3">
-      <code>$current</code>
+    <RedundantConditionGivenDocblockType occurrences="2">
       <code>$current</code>
       <code>$current &amp;&amp; $current instanceof self</code>
     </RedundantConditionGivenDocblockType>
@@ -1382,6 +1393,11 @@
       <code>$boundary</code>
     </PossiblyInvalidOperand>
     <UnsafeInstantiation occurrences="1"/>
+  </file>
+  <file src="src/Storage/Part/PartInterface.php">
+    <MissingTemplateParam occurrences="1">
+      <code>RecursiveIterator</code>
+    </MissingTemplateParam>
   </file>
   <file src="src/Storage/Pop3.php">
     <ImplementedReturnTypeMismatch occurrences="1">
@@ -1453,10 +1469,6 @@
     <ImplementedParamTypeMismatch occurrences="1">
       <code>$message</code>
     </ImplementedParamTypeMismatch>
-    <InvalidArrayOffset occurrences="2">
-      <code>$filedata['filename']</code>
-      <code>$filedata['flags']</code>
-    </InvalidArrayOffset>
     <InvalidOperand occurrences="2">
       <code>$count</code>
       <code>$size</code>
@@ -1556,7 +1568,8 @@
       <code>$uniq</code>
       <code>$value</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="1">
+    <MixedReturnStatement occurrences="2">
+      <code>$detailedResponse ? $result : $result['over_quota']</code>
       <code>$detailedResponse ? $result : $result['over_quota']</code>
     </MixedReturnStatement>
     <PossiblyFalseArgument occurrences="2">
@@ -1568,10 +1581,12 @@
       <code>$filename</code>
       <code>$message</code>
     </PossiblyInvalidArgument>
-    <PossiblyInvalidArrayOffset occurrences="6">
+    <PossiblyInvalidArrayOffset occurrences="8">
       <code>$filedata['filename']</code>
       <code>$filedata['filename']</code>
       <code>$filedata['filename']</code>
+      <code>$filedata['filename']</code>
+      <code>$filedata['flags']</code>
       <code>$filedata['flags']</code>
       <code>$filedata['flags']</code>
       <code>$filedata[uniq]</code>
@@ -1686,12 +1701,12 @@
       <code>$this-&gt;errstr !== null</code>
       <code>is_object($callable)</code>
     </DocblockTypeContradiction>
+    <InvalidArgument occurrences="1">
+      <code>[$this, 'handleMailErrors']</code>
+    </InvalidArgument>
     <InvalidNullableReturnType occurrences="1">
       <code>string</code>
     </InvalidNullableReturnType>
-    <InvalidScalarArgument occurrences="1">
-      <code>[$this, 'handleMailErrors']</code>
-    </InvalidScalarArgument>
     <MissingReturnType occurrences="1">
       <code>mailHandler</code>
     </MissingReturnType>
@@ -1724,8 +1739,7 @@
     <RedundantCastGivenDocblockType occurrences="1">
       <code>(string) $this-&gt;parameters</code>
     </RedundantCastGivenDocblockType>
-    <RedundantConditionGivenDocblockType occurrences="4">
-      <code>$from</code>
+    <RedundantConditionGivenDocblockType occurrences="3">
       <code>$from</code>
       <code>$this-&gt;errstr !== null</code>
       <code>gettype($callable)</code>
@@ -1748,7 +1762,8 @@
     <MixedInferredReturnType occurrences="1">
       <code>Protocol\Smtp</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
+    <MixedReturnStatement occurrences="2">
+      <code>$this-&gt;getPluginManager()-&gt;get($name, $options)</code>
       <code>$this-&gt;getPluginManager()-&gt;get($name, $options)</code>
     </MixedReturnStatement>
     <PossiblyNullReference occurrences="4">
@@ -1786,14 +1801,12 @@
     <NullArgument occurrences="1">
       <code>null</code>
     </NullArgument>
-    <PossiblyInvalidMethodCall occurrences="6">
-      <code>getComment</code>
-      <code>getEmail</code>
+    <PossiblyFalseReference occurrences="4">
       <code>getName</code>
       <code>getName</code>
       <code>getName</code>
       <code>getName</code>
-    </PossiblyInvalidMethodCall>
+    </PossiblyFalseReference>
     <UndefinedInterfaceMethod occurrences="1">
       <code>getComment</code>
     </UndefinedInterfaceMethod>
@@ -1864,9 +1877,9 @@
       <code>has</code>
       <code>has</code>
     </MixedMethodCall>
-    <PossiblyInvalidMethodCall occurrences="1">
+    <PossiblyFalseReference occurrences="1">
       <code>getName</code>
-    </PossiblyInvalidMethodCall>
+    </PossiblyFalseReference>
     <PossiblyNullArgument occurrences="1">
       <code>$sample</code>
     </PossiblyNullArgument>
@@ -1937,18 +1950,12 @@
     </UnusedVariable>
   </file>
   <file src="test/Header/GenericHeaderTest.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>0</code>
-    </InvalidScalarArgument>
-    <MixedInferredReturnType occurrences="4">
-      <code>array</code>
-      <code>array</code>
-      <code>array</code>
-      <code>array</code>
-    </MixedInferredReturnType>
     <NullArgument occurrences="1">
       <code>null</code>
     </NullArgument>
+    <PossiblyNullArgument occurrences="1">
+      <code>$fieldName</code>
+    </PossiblyNullArgument>
   </file>
   <file src="test/Header/GenericMultiHeaderTest.php">
     <MixedAssignment occurrences="1">
@@ -2110,7 +2117,7 @@
     <NullArgument occurrences="1">
       <code>null</code>
     </NullArgument>
-    <PossiblyFalseReference occurrences="13">
+    <PossiblyFalseReference occurrences="14">
       <code>current</code>
       <code>getFieldValue</code>
       <code>getFieldValue</code>
@@ -2124,11 +2131,8 @@
       <code>getFieldValue</code>
       <code>getFieldValue</code>
       <code>getFieldValue</code>
-    </PossiblyFalseReference>
-    <PossiblyInvalidMethodCall occurrences="2">
-      <code>getEmail</code>
       <code>getName</code>
-    </PossiblyInvalidMethodCall>
+    </PossiblyFalseReference>
     <PossiblyUndefinedMethod occurrences="13">
       <code>current</code>
       <code>getFieldValue</code>
@@ -2152,21 +2156,14 @@
     <MixedInferredReturnType occurrences="1">
       <code>array</code>
     </MixedInferredReturnType>
-    <PossiblyInvalidMethodCall occurrences="1">
+    <PossiblyFalseReference occurrences="1">
       <code>getName</code>
-    </PossiblyInvalidMethodCall>
+    </PossiblyFalseReference>
     <PossiblyNullReference occurrences="1">
       <code>getEmail</code>
     </PossiblyNullReference>
   </file>
   <file src="test/MessageTest.php">
-    <DocblockTypeContradiction occurrences="5">
-      <code>assertSame</code>
-      <code>assertSame</code>
-      <code>assertSame</code>
-      <code>assertSame</code>
-      <code>assertSame</code>
-    </DocblockTypeContradiction>
     <MixedArgument occurrences="8">
       <code>$body</code>
       <code>$header-&gt;getAddressList()</code>
@@ -2244,9 +2241,9 @@
     </RiskyCast>
   </file>
   <file src="test/Protocol/ProtocolTraitTest.php">
-    <InvalidScalarArgument occurrences="1">
+    <InvalidArgument occurrences="1">
       <code>ProtocolTrait::class</code>
-    </InvalidScalarArgument>
+    </InvalidArgument>
     <UndefinedInterfaceMethod occurrences="1">
       <code>getCryptoMethod</code>
     </UndefinedInterfaceMethod>
@@ -2277,8 +2274,10 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="test/Storage/ImapTest.php">
-    <InvalidArgument occurrences="9">
+    <InvalidArgument occurrences="11">
       <code>$mail-&gt;getRawHeader(1)</code>
+      <code>INF</code>
+      <code>INF</code>
       <code>Storage::FLAG_ANSWERED</code>
       <code>Storage::FLAG_ANSWERED</code>
       <code>Storage::FLAG_FLAGGED</code>
@@ -2288,10 +2287,6 @@
       <code>[Storage::FLAG_SEEN, Storage::FLAG_ANSWERED]</code>
       <code>[Storage::FLAG_SEEN, Storage::FLAG_FLAGGED]</code>
     </InvalidArgument>
-    <InvalidScalarArgument occurrences="2">
-      <code>INF</code>
-      <code>INF</code>
-    </InvalidScalarArgument>
     <MixedArgument occurrences="30">
       <code>$id</code>
       <code>$result[1]</code>
@@ -2660,8 +2655,7 @@
       <code>unlink($this-&gt;params['dirname'] . 'cur/1000000000.P1.example.org:2,S');</code>
       <code>unlink($this-&gt;tmpdir . 'maildirsize');</code>
     </UnevaluatedCode>
-    <UnusedVariable occurrences="5">
-      <code>$count</code>
+    <UnusedVariable occurrences="4">
       <code>$e</code>
       <code>$e</code>
       <code>$mail</code>
@@ -2775,9 +2769,9 @@
       <code>addToAssertionCount</code>
       <code>addToAssertionCount</code>
     </InternalMethod>
-    <InvalidScalarArgument occurrences="1">
+    <InvalidArgument occurrences="1">
       <code>INF</code>
-    </InvalidScalarArgument>
+    </InvalidArgument>
     <MixedArgument occurrences="1">
       <code>$id</code>
     </MixedArgument>
@@ -2854,9 +2848,6 @@
       <code>$headers1</code>
       <code>$headers2</code>
     </NullReference>
-    <PossiblyInvalidMethodCall occurrences="1">
-      <code>getName</code>
-    </PossiblyInvalidMethodCall>
     <PossiblyNullArgument occurrences="2">
       <code>$decodedBody</code>
       <code>$decodedHeaders</code>
@@ -2921,9 +2912,6 @@
     <UndefinedMethod occurrences="1">
       <code>assertInternalType</code>
     </UndefinedMethod>
-    <UnusedVariable occurrences="1">
-      <code>$count</code>
-    </UnusedVariable>
   </file>
   <file src="test/Storage/TestAsset/MaildirOldMessage.php">
     <NonInvariantDocblockPropertyType occurrences="1">

@@ -42,6 +42,8 @@ use const E_USER_DEPRECATED;
  * Basic mail headers collection functionality
  *
  * Handles aggregation of headers
+ *
+ * @implements Iterator<int, HeaderInterface>
  */
 class Headers implements Countable, Iterator
 {
@@ -59,10 +61,10 @@ class Headers implements Countable, Iterator
      */
     protected $pluginClassLoader;
 
-    /** @var array key names for $headers array */
+    /** @var list<string> key names for $headers array */
     protected $headersKeys = [];
 
-    /** @var  HeaderInterface[] instances */
+    /** @var  list<HeaderInterface> instances */
     protected $headers = [];
 
     /**
@@ -520,7 +522,7 @@ class Headers implements Countable, Iterator
      * Return the headers container as an array
      *
      * @param  bool $format Return the values in Mime::Encoded or in Raw format
-     * @return array
+     * @return array<string, list<string>|string>
      * @todo determine how to produce single line headers, if they are supported
      */
     public function toArray($format = HeaderInterface::FORMAT_RAW)
