@@ -2,57 +2,57 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://docs.laminas.dev/laminas-mail/</loc>
-         <lastmod>2022-11-18</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-mail/intro/</loc>
-         <lastmod>2022-11-18</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-mail/read/</loc>
-         <lastmod>2022-11-18</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-mail/message/attachments/</loc>
-         <lastmod>2022-11-18</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-mail/message/character-sets/</loc>
-         <lastmod>2022-11-18</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-mail/message/intro/</loc>
-         <lastmod>2022-11-18</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-mail/transport/file-options/</loc>
-         <lastmod>2022-11-18</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-mail/transport/intro/</loc>
-         <lastmod>2022-11-18</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-mail/transport/smtp-authentication/</loc>
-         <lastmod>2022-11-18</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-mail/transport/smtp-multiple-send/</loc>
-         <lastmod>2022-11-18</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-mail/transport/smtp-options/</loc>
-         <lastmod>2022-11-18</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
