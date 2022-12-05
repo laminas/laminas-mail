@@ -3,6 +3,7 @@
 namespace LaminasTest\Mail\Storage;
 
 use Exception as GeneralException;
+use Laminas\Mail\Address\AddressInterface;
 use Laminas\Mail\Exception as MailException;
 use Laminas\Mail\Header\HeaderInterface;
 use Laminas\Mail\Header\To;
@@ -495,7 +496,9 @@ class MessageTest extends TestCase
         $header      = $message->getHeader('to');
         $addressList = $header->getAddressList();
         $this->assertEquals(2, $addressList->count());
-        $this->assertEquals('nicpoń', $addressList->get('bar@example.pl')->getName());
+        $address = $addressList->get('bar@example.pl');
+        self::assertInstanceOf(AddressInterface::class, $address);
+        $this->assertEquals('nicpoń', $address->getName());
     }
 
     public function filesProvider(): array
