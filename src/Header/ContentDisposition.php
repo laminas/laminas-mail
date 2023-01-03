@@ -8,6 +8,7 @@ use Laminas\Mime\Mime;
 use function count;
 use function explode;
 use function gettype;
+use function in_array;
 use function is_numeric;
 use function mb_strlen;
 use function mb_substr;
@@ -50,7 +51,7 @@ class ContentDisposition implements UnstructuredInterface
         $value          = HeaderWrap::mimeDecodeValue($value);
 
         // check to ensure proper header type for this factory
-        if (strtolower($name) !== 'content-disposition') {
+        if (! in_array(strtolower($name), ['contentdisposition', 'content_disposition', 'content-disposition'])) {
             throw new Exception\InvalidArgumentException('Invalid header line for Content-Disposition string');
         }
 
