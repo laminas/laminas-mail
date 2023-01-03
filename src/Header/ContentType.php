@@ -8,6 +8,7 @@ use Laminas\Mime\Mime;
 use function count;
 use function explode;
 use function implode;
+use function in_array;
 use function preg_match;
 use function sprintf;
 use function str_replace;
@@ -39,7 +40,7 @@ class ContentType implements UnstructuredInterface
         $value          = HeaderWrap::mimeDecodeValue($value);
 
         // check to ensure proper header type for this factory
-        if (strtolower($name) !== 'content-type') {
+        if (! in_array(strtolower($name), ['contenttype', 'content_type', 'content-type'])) {
             throw new Exception\InvalidArgumentException('Invalid header line for Content-Type string');
         }
 
