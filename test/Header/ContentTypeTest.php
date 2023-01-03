@@ -270,4 +270,22 @@ class ContentTypeTest extends TestCase
             ['title*' => "us-ascii'en-us'This%20is%20%2A%2A%2Afun%2A%2A%2A"],
         ];
     }
+
+    public function unconventionalHeaderLinesProvider(): array {
+        return [
+            // Description => [header line, expected value]
+            'contenttype' => ['ContentType: text/plain', 'text/plain'],
+            'content_type' => ['Content_Type: text/plain', 'text/plain'],
+        ];
+    }
+
+    /**
+     * @dataProvider unconventionalHeaderLinesProvider
+     */
+    public function testFromStringHandlesUnconventionalNames(string $headerLine, string $expected) {
+        $header = ContentType::fromString($headerLine);
+        $this->assertInstanceOf(ContentType::class, $header);
+        $this->assertEquals('Content-Type', $header->getFieldName());
+        $this->assertEquals($expected, $header->getFieldValue());
+    }
 }

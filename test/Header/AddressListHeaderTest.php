@@ -273,4 +273,24 @@ class AddressListHeaderTest extends TestCase
             $this->assertEquals($addressList->get($k)->getName(), $v);
         }
     }
+
+    public function unconventionalHeaderLinesProvider(): array {
+        return [
+            // Description => [header line, expected]
+            'replyto' => ['ReplyTo: test@example.com', ReplyTo::class, 'test@example.com'],
+            'reply_to' => ['Reply_To: test@example.com', ReplyTo::class, 'test@example.com'],
+        ];
+    }
+
+    /**
+     * @dataProvider unconventionalHeaderLinesProvider
+     */
+    public function testFromStringHandlesUnconventionalNames(string $headerLine, string $class, string $expected) {
+        $callback = sprintf('%s::fromString', $class);
+        $header   = $callback($headerLine);
+        $this->assertInstanceOf($class, $header);
+        $this->assertEquals('Reply-To', $header->getFieldName());
+        $this->assertEquals($expected, $header->getFieldValue());
+    }
+
 }
