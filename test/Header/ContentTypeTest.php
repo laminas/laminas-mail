@@ -271,10 +271,11 @@ class ContentTypeTest extends TestCase
         ];
     }
 
-    public function unconventionalHeaderLinesProvider(): array {
+    public function unconventionalHeaderLinesProvider(): array
+    {
         return [
             // Description => [header line, expected value]
-            'contenttype' => ['ContentType: text/plain', 'text/plain'],
+            'contenttype'  => ['ContentType: text/plain', 'text/plain'],
             'content_type' => ['Content_Type: text/plain', 'text/plain'],
         ];
     }
@@ -282,7 +283,8 @@ class ContentTypeTest extends TestCase
     /**
      * @dataProvider unconventionalHeaderLinesProvider
      */
-    public function testFromStringHandlesUnconventionalNames(string $headerLine, string $expected) {
+    public function testFromStringHandlesUnconventionalNames(string $headerLine, string $expected)
+    {
         $header = ContentType::fromString($headerLine);
         $this->assertInstanceOf(ContentType::class, $header);
         $this->assertEquals('Content-Type', $header->getFieldName());
