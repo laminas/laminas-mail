@@ -170,4 +170,22 @@ class ContentTransferEncodingTest extends TestCase
         $header->setEncoding('UTF-8');
         $this->assertSame('ASCII', $header->getEncoding());
     }
+
+    public function unconventionalHeaderLinesProvider(): array {
+        return [
+            // Description => [header line, expected value]
+            'contenttransferencoding' => ['ContentTransferEncoding: 7bit', '7bit'],
+            'content_transfer_encoding' => ['Content_Transfer_Encoding: 7bit', '7bit'],
+        ];
+    }
+
+    /**
+     * @dataProvider unconventionalHeaderLinesProvider
+     */
+    public function testFromStringHandlesUnconventionalNames(string $headerLine, string $expected) {
+        $header = ContentTransferEncoding::fromString($headerLine);
+        $this->assertInstanceOf(ContentTransferEncoding::class, $header);
+        $this->assertEquals('Content-Transfer-Encoding', $header->getFieldName());
+        $this->assertEquals($expected, $header->getFieldValue());
+    }
 }
