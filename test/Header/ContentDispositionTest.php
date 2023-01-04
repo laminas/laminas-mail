@@ -351,7 +351,7 @@ class ContentDispositionTest extends TestCase
     /**
      * @dataProvider unconventionalHeaderLinesProvider
      */
-    public function testFromStringHandlesUnconventionalNames(string $headerLine, string $expected)
+    public function testFromStringHandlesUnconventionalNames(string $headerLine, string $expected): void
     {
         $header = ContentDisposition::fromString($headerLine);
         $this->assertInstanceOf(ContentDisposition::class, $header);

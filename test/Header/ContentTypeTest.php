@@ -283,7 +283,7 @@ class ContentTypeTest extends TestCase
     /**
      * @dataProvider unconventionalHeaderLinesProvider
      */
-    public function testFromStringHandlesUnconventionalNames(string $headerLine, string $expected)
+    public function testFromStringHandlesUnconventionalNames(string $headerLine, string $expected): void
     {
         $header = ContentType::fromString($headerLine);
         $this->assertInstanceOf(ContentType::class, $header);
