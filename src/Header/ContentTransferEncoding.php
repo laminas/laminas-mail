@@ -43,7 +43,12 @@ class ContentTransferEncoding implements HeaderInterface
         $value          = HeaderWrap::mimeDecodeValue($value);
 
         // check to ensure proper header type for this factory
-        if (! in_array(strtolower($name), ['contenttransferencoding', 'content_transfer_encoding', 'content-transfer-encoding'])) {
+        if (
+            ! in_array(
+                strtolower($name),
+                ['contenttransferencoding', 'content_transfer_encoding', 'content-transfer-encoding']
+            )
+        ) {
             throw new Exception\InvalidArgumentException('Invalid header line for Content-Transfer-Encoding string');
         }
 
