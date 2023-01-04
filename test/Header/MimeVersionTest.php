@@ -100,7 +100,7 @@ class MimeVersionTest extends TestCase
     /**
      * @dataProvider unconventionalHeaderLinesProvider
      */
-    public function testFromStringHandlesUnconventionalNames(string $headerLine, string $expected)
+    public function testFromStringHandlesUnconventionalNames(string $headerLine, string $expected): void
     {
         $header = Header\MimeVersion::fromString($headerLine);
         $this->assertInstanceOf(Header\MimeVersion::class, $header);

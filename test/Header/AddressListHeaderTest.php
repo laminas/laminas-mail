@@ -284,9 +284,10 @@ class AddressListHeaderTest extends TestCase
     }
 
     /**
+     * @param class-string $class
      * @dataProvider unconventionalHeaderLinesProvider
      */
-    public function testFromStringHandlesUnconventionalNames(string $headerLine, string $class, string $expected)
+    public function testFromStringHandlesUnconventionalNames(string $headerLine, string $class, string $expected): void
     {
         $callback = sprintf('%s::fromString', $class);
         $header   = $callback($headerLine);

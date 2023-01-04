@@ -183,7 +183,7 @@ class ContentTransferEncodingTest extends TestCase
     /**
      * @dataProvider unconventionalHeaderLinesProvider
      */
-    public function testFromStringHandlesUnconventionalNames(string $headerLine, string $expected)
+    public function testFromStringHandlesUnconventionalNames(string $headerLine, string $expected): void
     {
         $header = ContentTransferEncoding::fromString($headerLine);
         $this->assertInstanceOf(ContentTransferEncoding::class, $header);
