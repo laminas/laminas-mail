@@ -19,7 +19,7 @@
         "symfony/polyfill-intl-idn": "^1.26.0"
     },
     "require-dev": {
-        "laminas/laminas-coding-standard": "~2.4.0",
+        "laminas/laminas-coding-standard": "~2.5.0",
         "laminas/laminas-crypt": "^3.9.0",
         "laminas/laminas-db": "^2.16",
         "laminas/laminas-servicemanager": "^3.20",
