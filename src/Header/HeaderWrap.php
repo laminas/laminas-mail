@@ -10,6 +10,8 @@ use function explode;
 use function extension_loaded;
 use function iconv_mime_decode;
 use function iconv_mime_encode;
+use function imap_mime_header_decode;
+use function imap_utf8;
 use function implode;
 use function str_contains;
 use function str_pad;

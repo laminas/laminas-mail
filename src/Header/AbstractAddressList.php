@@ -12,6 +12,7 @@ use function array_map;
 use function assert;
 use function idn_to_ascii;
 use function implode;
+use function in_array;
 use function is_array;
 use function is_string;
 use function preg_match;
@@ -76,6 +77,9 @@ abstract class AbstractAddressList implements HeaderInterface
     /** @var string lower case field name */
     protected static $type;
 
+    /** @var string[] lower case aliases for the field name */
+    protected static $typeAliases = [];
+
     /**
      * @param string $headerLine
      * @return static
@@ -83,7 +87,7 @@ abstract class AbstractAddressList implements HeaderInterface
     public static function fromString($headerLine)
     {
         [$fieldName, $fieldValue] = GenericHeader::splitHeaderLine($headerLine);
-        if (strtolower($fieldName) !== static::$type) {
+        if ((strtolower($fieldName) !== static::$type) && ! in_array(strtolower($fieldName), static::$typeAliases)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'Invalid header line for "%s" string',
                 self::class
