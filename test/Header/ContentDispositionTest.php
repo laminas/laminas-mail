@@ -338,4 +338,24 @@ class ContentDispositionTest extends TestCase
         ];
         // @codingStandardsIgnoreEnd
     }
+
+    public function unconventionalHeaderLinesProvider(): array
+    {
+        return [
+            // Description => [header line, expected]
+            'contentdisposition'  => ['Content-Disposition: inline', 'inline'],
+            'content_disposition' => ['Content_Disposition: inline', 'inline'],
+        ];
+    }
+
+    /**
+     * @dataProvider unconventionalHeaderLinesProvider
+     */
+    public function testFromStringHandlesUnconventionalNames(string $headerLine, string $expected): void
+    {
+        $header = ContentDisposition::fromString($headerLine);
+        $this->assertInstanceOf(ContentDisposition::class, $header);
+        $this->assertEquals('Content-Disposition', $header->getFieldName());
+        $this->assertEquals($expected, $header->getFieldValue());
+    }
 }
