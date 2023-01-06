@@ -87,4 +87,24 @@ class MimeVersionTest extends TestCase
         $header->setEncoding('UTF-8');
         $this->assertSame('ASCII', $header->getEncoding());
     }
+
+    public function unconventionalHeaderLinesProvider(): array
+    {
+        return [
+            // Description => [header line, expected value]
+            'mimeversion'  => ["MIMEVersion: 1.0", "1.0"],
+            'mime_version' => ["MIME_Version: 1.0", "1.0"],
+        ];
+    }
+
+    /**
+     * @dataProvider unconventionalHeaderLinesProvider
+     */
+    public function testFromStringHandlesUnconventionalNames(string $headerLine, string $expected): void
+    {
+        $header = Header\MimeVersion::fromString($headerLine);
+        $this->assertInstanceOf(Header\MimeVersion::class, $header);
+        $this->assertEquals('MIME-Version', $header->getFieldName());
+        $this->assertEquals($expected, $header->getFieldValue());
+    }
 }

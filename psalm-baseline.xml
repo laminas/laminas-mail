@@ -1826,7 +1826,7 @@
       <code>$k</code>
       <code>$k</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="13">
+    <MixedAssignment occurrences="14">
       <code>$address</code>
       <code>$address</code>
       <code>$address</code>
@@ -1835,13 +1835,15 @@
       <code>$address</code>
       <code>$address</code>
       <code>$address</code>
+      <code>$header</code>
       <code>$header</code>
       <code>$header</code>
       <code>$list</code>
       <code>$list</code>
       <code>$v</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="6">
+    <MixedInferredReturnType occurrences="7">
+      <code>array</code>
       <code>array</code>
       <code>array</code>
       <code>array</code>
@@ -1849,7 +1851,7 @@
       <code>array</code>
       <code>array</code>
     </MixedInferredReturnType>
-    <MixedMethodCall occurrences="26">
+    <MixedMethodCall occurrences="28">
       <code>get</code>
       <code>get</code>
       <code>get</code>
@@ -1860,6 +1862,8 @@
       <code>get</code>
       <code>getAddressList</code>
       <code>getAddressList</code>
+      <code>getFieldName</code>
+      <code>getFieldValue</code>
       <code>getName</code>
       <code>getName</code>
       <code>getName</code>
@@ -1899,7 +1903,8 @@
     <MixedAssignment occurrences="1">
       <code>$value</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="7">
+    <MixedInferredReturnType occurrences="8">
+      <code>array</code>
       <code>array</code>
       <code>array</code>
       <code>array</code>
@@ -1910,7 +1915,8 @@
     </MixedInferredReturnType>
   </file>
   <file src="test/Header/ContentTransferEncodingTest.php">
-    <MixedInferredReturnType occurrences="3">
+    <MixedInferredReturnType occurrences="4">
+      <code>array</code>
       <code>array</code>
       <code>array</code>
       <code>array</code>
@@ -1933,7 +1939,8 @@
     <MixedAssignment occurrences="1">
       <code>$value</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="5">
+    <MixedInferredReturnType occurrences="6">
+      <code>array</code>
       <code>array</code>
       <code>array</code>
       <code>array</code>
@@ -2027,7 +2034,8 @@
     </UnusedVariable>
   </file>
   <file src="test/Header/MimeVersionTest.php">
-    <MixedInferredReturnType occurrences="2">
+    <MixedInferredReturnType occurrences="3">
+      <code>array</code>
       <code>array</code>
       <code>array</code>
     </MixedInferredReturnType>
