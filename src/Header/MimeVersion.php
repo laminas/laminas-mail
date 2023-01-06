@@ -2,6 +2,7 @@
 
 namespace Laminas\Mail\Header;
 
+use function in_array;
 use function preg_match;
 use function strtolower;
 
@@ -20,7 +21,7 @@ class MimeVersion implements HeaderInterface
         $value          = HeaderWrap::mimeDecodeValue($value);
 
         // check to ensure proper header type for this factory
-        if (strtolower($name) !== 'mime-version') {
+        if (! in_array(strtolower($name), ['mimeversion', 'mime_version', 'mime-version'])) {
             throw new Exception\InvalidArgumentException('Invalid header line for MIME-Version string');
         }
 
