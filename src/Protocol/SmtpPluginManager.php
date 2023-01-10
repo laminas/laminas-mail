@@ -71,7 +71,7 @@ class SmtpPluginManager extends AbstractPluginManager
         Smtp\Auth\Crammd5::class => InvokableFactory::class,
         Smtp\Auth\Login::class   => InvokableFactory::class,
         Smtp\Auth\Plain::class   => InvokableFactory::class,
-        Smtp\Auth\Xoauth2::class   => InvokableFactory::class,
+        Smtp\Auth\Xoauth2::class => InvokableFactory::class,
         Smtp::class              => InvokableFactory::class,
     ];
 
