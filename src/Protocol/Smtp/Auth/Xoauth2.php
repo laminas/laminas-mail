@@ -6,7 +6,6 @@ use Laminas\Mail\Protocol\Smtp;
 use Laminas\Mail\Protocol\Xoauth2\Xoauth2 as Xoauth2AuthEncoder;
 
 use function array_replace_recursive;
-use function base64_encode;
 use function is_array;
 
 /**
