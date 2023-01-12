@@ -16,11 +16,15 @@ use function is_array;
 final class Xoauth2 extends Smtp
 {
     /**
+     * SMTP username
+     *
      * @var string
      */
     protected $username;
 
     /**
+     * Xoauth2 access token
+     *
      * @var string
      */
     protected $accessToken;
