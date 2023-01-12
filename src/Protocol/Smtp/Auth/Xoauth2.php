@@ -86,7 +86,6 @@ final class Xoauth2 extends Smtp
     public function setUsername($username)
     {
         $this->username = $username;
-        
         return $this;
     }
 
@@ -109,7 +108,6 @@ final class Xoauth2 extends Smtp
     public function setAccessToken($token)
     {
         $this->accessToken = $token;
-        
         return $this;
     }
 
