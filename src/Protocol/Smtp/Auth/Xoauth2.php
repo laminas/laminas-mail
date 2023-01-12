@@ -32,7 +32,7 @@ class Xoauth2 extends Smtp
      * @param  int    $port   (Default: null)
      * @param  array  $config Auth-specific parameters
      */
-    public function __construct($host = '127.0.0.1', $port = null, $config = null)
+    public function __construct($host = '127.0.0.1', $port = null, ?array $config = null)
     {
         // Did we receive a configuration array?
         $origConfig = $config;
