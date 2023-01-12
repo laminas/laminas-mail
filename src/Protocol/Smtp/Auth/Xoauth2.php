@@ -30,10 +30,9 @@ final class Xoauth2 extends Smtp
     protected $accessToken;
 
     /**
-     *
-     * @param  string|array  $host   (Default: 127.0.0.1)
-     * @param  int|null    $port   (Default: null)
-     * @param  array|null  $config Auth-specific parameters
+     * @param string|array $host (Default: 127.0.0.1)
+     * @param int|null $port (Default: null)
+     * @param array|null $config Auth-specific parameters
      */
     public function __construct($host = '127.0.0.1', $port = null, ?array $config = null)
     {
@@ -81,7 +80,7 @@ final class Xoauth2 extends Smtp
     /**
      * Set value for username
      *
-     * @param  string $username
+     * @param string $username
      * @return Xoauth2
      */
     public function setUsername($username)
@@ -104,7 +103,7 @@ final class Xoauth2 extends Smtp
     /**
      * Set value for access token
      *
-     * @param  string $token
+     * @param string $token
      * @return Xoauth2
      */
     public function setAccessToken($token)
