@@ -11,7 +11,7 @@ use function is_array;
 /**
  * Performs PLAIN authentication
  */
-class Xoauth2 extends Smtp
+final class Xoauth2 extends Smtp
 {
     /**
      * PLAIN username
