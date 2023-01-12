@@ -9,28 +9,27 @@ use function array_replace_recursive;
 use function is_array;
 
 /**
- * Performs PLAIN authentication
+ * Performs Xoauth2 authentication
+ *
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class Xoauth2 extends Smtp
 {
     /**
-     * PLAIN username
-     *
      * @var string
      */
     protected $username;
 
     /**
-     * PLAIN password
-     *
      * @var string
      */
     protected $accessToken;
 
     /**
-     * @param  string $host   (Default: 127.0.0.1)
-     * @param  int    $port   (Default: null)
-     * @param  array  $config Auth-specific parameters
+     *
+     * @param  string|array  $host   (Default: 127.0.0.1)
+     * @param  int|null    $port   (Default: null)
+     * @param  array|null  $config Auth-specific parameters
      */
     public function __construct($host = '127.0.0.1', $port = null, ?array $config = null)
     {
@@ -47,10 +46,10 @@ final class Xoauth2 extends Smtp
 
         if (is_array($config)) {
             if (isset($config['username'])) {
-                $this->setUsername($config['username']);
+                $this->setUsername((string) $config['username']);
             }
             if (isset($config['access_token'])) {
-                $this->setAccessToken($config['access_token']);
+                $this->setAccessToken((string) $config['access_token']);
             }
         }
 
@@ -60,6 +59,8 @@ final class Xoauth2 extends Smtp
 
     /**
      * Perform XOAUTH2 authentication with supplied credentials
+     *
+     * @return void
      */
     public function auth()
     {
@@ -67,9 +68,9 @@ final class Xoauth2 extends Smtp
         parent::auth();
 
         $this->_send('AUTH XOAUTH2');
-        $this->_expect(334);
+        $this->_expect('334');
         $this->_send(Xoauth2AuthEncoder::encodeXoauth2Sasl($this->getUsername(), $this->getAccessToken()));
-        $this->_expect(235);
+        $this->_expect('235');
         $this->auth = true;
     }
 
@@ -77,11 +78,12 @@ final class Xoauth2 extends Smtp
      * Set value for username
      *
      * @param  string $username
-     * @return Plain
+     * @return Xoauth2
      */
     public function setUsername($username)
     {
         $this->username = $username;
+        
         return $this;
     }
 
@@ -99,11 +101,12 @@ final class Xoauth2 extends Smtp
      * Set value for access token
      *
      * @param  string $token
-     * @return Plain
+     * @return Xoauth2
      */
     public function setAccessToken($token)
     {
         $this->accessToken = $token;
+        
         return $this;
     }
 
