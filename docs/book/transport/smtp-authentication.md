@@ -159,7 +159,8 @@ $transport->setOptions($options);
 #### For example on acquiring access tokens: a **Microsoft Office 365** implementation looks like this
 
 Get access token using an "authorization code" (can only be performed once per authorization code
-```
+
+```php
 $body = [
     'client_id' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
     'client_secret' => 'xxxxx~xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
@@ -180,11 +181,12 @@ $opts = [
 $context  = stream_context_create($opts);
 $result = file_get_contents('https://login.microsoftonline.com/organizations/oauth2/v2.0/token', false, $context);
 ```
+
 In order to avoid human interaction every time you need to send email via SMTP, you need to include "offline_access" in the scope like above so that you receive a "refresh_token" in the response. Then you can use that to generate the next access token with no human-interaction. 
 
 Use a refresh token to get a new access token:
 
-```
+```php
 $body = [
     'client_id' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
     'client_secret' => 'xxxxx~xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
