@@ -182,7 +182,7 @@ $context  = stream_context_create($opts);
 $result = file_get_contents('https://login.microsoftonline.com/organizations/oauth2/v2.0/token', false, $context);
 ```
 
-In order to avoid human interaction every time you need to send email via SMTP, you need to include "offline_access" in the scope like above so that you receive a "refresh_token" in the response. Then you can use that to generate the next access token with no human-interaction. 
+In order to avoid human interaction every time you need to send email via SMTP, you need to include "offline_access" in the scope like above so that you receive a "refresh_token" in the response. Then you can use that to generate the next access token with no human-interaction.
 
 Use a refresh token to get a new access token:
 
