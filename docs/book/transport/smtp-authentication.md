@@ -156,7 +156,7 @@ $options   = new SmtpOptions([
 $transport->setOptions($options);
 ```
 
-For example on acquiring access tokens: Microsoft Office 365 implementation looks like this:
+#### For example on acquiring access tokens: a **Microsoft Office 365** implementation looks like this
 
 Get access token using an "authorization code" (can only be performed once per authorization code
 ```
