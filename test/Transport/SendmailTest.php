@@ -224,7 +224,6 @@ class SendmailTest extends TestCase
         $message->expects($this->never())->method('getFrom');
 
         $r = new ReflectionMethod($this->transport, 'prepareParameters');
-        $r->setAccessible(true);
 
         $parameters = $r->invoke($this->transport, $message);
         $this->assertEquals(' -f' . escapeshellarg($injectedEmail), $parameters);
@@ -250,7 +249,6 @@ class SendmailTest extends TestCase
         $message->method('getFrom')->willReturn($from);
 
         $r = new ReflectionMethod($this->transport, 'prepareParameters');
-        $r->setAccessible(true);
 
         $parameters = $r->invoke($this->transport, $message);
         $this->assertEquals(' -f' . escapeshellarg($injectedEmail), $parameters);
@@ -261,7 +259,6 @@ class SendmailTest extends TestCase
         $this->transport->setParameters([' -R', 'hdrs ']);
 
         $r = new ReflectionProperty($this->transport, 'parameters');
-        $r->setAccessible(true);
 
         $this->assertSame('-R hdrs', $r->getValue($this->transport));
     }
