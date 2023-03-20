@@ -376,7 +376,6 @@ class SmtpTest extends TestCase
         $connectedTimeProperty = $reflClass->getProperty('connectedTime');
 
         $this->assertNotNull($connectedTimeProperty);
-        $connectedTimeProperty->setAccessible(true);
         $connectedTimeAfterFirstMail = $connectedTimeProperty->getValue($this->transport);
         $this->assertNotNull($connectedTimeAfterFirstMail);
 
