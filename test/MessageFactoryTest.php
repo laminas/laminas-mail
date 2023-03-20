@@ -96,7 +96,7 @@ class MessageFactoryTest extends TestCase
         $this->assertInstanceOf(Message::class, $mail);
     }
 
-    public function invalidMessageOptions(): array
+    public static function invalidMessageOptions(): array
     {
         return [
             'null'         => [null],

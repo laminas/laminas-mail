@@ -1,37 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-         bootstrap="./vendor/autoload.php"
-         colors="true">
-    <testsuites>
-        <testsuite name="laminas-mail Test Suite">
-            <directory>./test/</directory>
-        </testsuite>
-    </testsuites>
-
-    <groups>
-        <exclude>
-            <group>disable</group>
-        </exclude>
-    </groups>
-
-    <coverage includeUncoveredFiles="true">
-        <include>
-            <directory suffix=".php">./src</directory>
-        </include>
-    </coverage>
-
-    <php>
-        <ini name="date.timezone" value="UTC"/>
-        <ini name="error_reporting" value="-1"/>
-
-        <!-- OB_ENABLED should be enabled for some tests to check if all
+         colors="true"
+         cacheDirectory=".phpunit.cache">
+  <testsuites>
+    <testsuite name="laminas-mail Test Suite">
+      <directory>./test/</directory>
+    </testsuite>
+  </testsuites>
+  <groups>
+    <exclude>
+      <group>disable</group>
+    </exclude>
+  </groups>
+  <coverage>
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+  </coverage>
+  <php>
+    <ini name="date.timezone" value="UTC"/>
+    <ini name="error_reporting" value="-1"/>
+    <!-- OB_ENABLED should be enabled for some tests to check if all
              functionality works as expected. Such tests include those for
              Laminas\Soap and Laminas\Session, which require that headers not be sent
              in order to work. -->
-        <env name="TESTS_LAMINAS_OB_ENABLED" value="false" />
-
-        <!-- Laminas\Mail\Storage tests
+    <env name="TESTS_LAMINAS_OB_ENABLED" value="false"/>
+    <!-- Laminas\Mail\Storage tests
 
              TESTS_LAMINAS_MAIL_SERVER_TESTDIR and TESTS_LAMINAS_MAIL_SERVER_FORMAT
              are used for POP3 and IMAP tests.  TESTS_LAMINAS_MAIL_SERVER_FORMAT
@@ -43,42 +38,39 @@
 
              TESTS_LAMINAS_MAIL_TEMPDIR is used for testing write operations in
              local storages. If not set (== null) tempnam() is used. -->
-        <env name="TESTS_LAMINAS_MAIL_SERVER_TESTDIR" value="" />
-        <env name="TESTS_LAMINAS_MAIL_SERVER_FORMAT" value="mbox" />
-        <env name="TESTS_LAMINAS_MAIL_TEMPDIR" value="" />
-
-        <!-- Laminas\Mail\Storage\Pop3 / Laminas\Mail\Transport\Pop3
-
-             IMPORTANT: you need to copy tests/Laminas/Mail/_files/test.mbox to
-             your mail if you haven't set TESTS_LAMINAS_MAIL_SERVER_TESTDIR -->
-        <env name="TESTS_LAMINAS_MAIL_POP3_ENABLED" value="false" />
-        <env name="TESTS_LAMINAS_MAIL_POP3_HOST" value="localhost" />
-        <env name="TESTS_LAMINAS_MAIL_POP3_USER" value="test" />
-        <env name="TESTS_LAMINAS_MAIL_POP3_PASSWORD" value="" />
-        <env name="TESTS_LAMINAS_MAIL_POP3_SSL" value="true" />
-        <env name="TESTS_LAMINAS_MAIL_POP3_TLS" value="true" />
-        <env name="TESTS_LAMINAS_MAIL_POP3_WRONG_PORT" value="80" />
-        <env name="TESTS_LAMINAS_MAIL_POP3_INVALID_PORT" value="3141" />
-
-        <!-- Laminas\Mail\Storage\Imap / Laminas\Mail\Transport\Imap
+    <env name="TESTS_LAMINAS_MAIL_SERVER_TESTDIR" value=""/>
+    <env name="TESTS_LAMINAS_MAIL_SERVER_FORMAT" value="mbox"/>
+    <env name="TESTS_LAMINAS_MAIL_TEMPDIR" value=""/>
+    <!-- Laminas\Mail\Storage\Pop3 / Laminas\Mail\Transport\Pop3
 
              IMPORTANT: you need to copy tests/Laminas/Mail/_files/test.mbox to
              your mail if you haven't set TESTS_LAMINAS_MAIL_SERVER_TESTDIR -->
-        <env name="TESTS_LAMINAS_MAIL_IMAP_ENABLED" value="false" />
-        <env name="TESTS_LAMINAS_MAIL_IMAP_HOST" value="localhost" />
-        <env name="TESTS_LAMINAS_MAIL_IMAP_USER" value="test" />
-        <env name="TESTS_LAMINAS_MAIL_IMAP_PASSWORD" value="" />
-        <env name="TESTS_LAMINAS_MAIL_IMAP_SSL" value="true" />
-        <env name="TESTS_LAMINAS_MAIL_IMAP_TLS" value="true" />
-        <env name="TESTS_LAMINAS_MAIL_IMAP_WRONG_PORT" value="80" />
-        <env name="TESTS_LAMINAS_MAIL_IMAP_INVALID_PORT" value="3141" />
+    <env name="TESTS_LAMINAS_MAIL_POP3_ENABLED" value="false"/>
+    <env name="TESTS_LAMINAS_MAIL_POP3_HOST" value="localhost"/>
+    <env name="TESTS_LAMINAS_MAIL_POP3_USER" value="test"/>
+    <env name="TESTS_LAMINAS_MAIL_POP3_PASSWORD" value=""/>
+    <env name="TESTS_LAMINAS_MAIL_POP3_SSL" value="true"/>
+    <env name="TESTS_LAMINAS_MAIL_POP3_TLS" value="true"/>
+    <env name="TESTS_LAMINAS_MAIL_POP3_WRONG_PORT" value="80"/>
+    <env name="TESTS_LAMINAS_MAIL_POP3_INVALID_PORT" value="3141"/>
+    <!-- Laminas\Mail\Storage\Imap / Laminas\Mail\Transport\Imap
 
-        <!-- Laminas\Mail\Storage\Maildir test -->
-        <env name="TESTS_LAMINAS_MAIL_SMTP_ENABLED" value="false" />
-        <env name="TESTS_LAMINAS_MAIL_SMTP_HOST" value="localhost" />
-        <env name="TESTS_LAMINAS_MAIL_SMTP_PORT" value="25" />
-        <env name="TESTS_LAMINAS_MAIL_SMTP_USER" value="testuser" />
-        <env name="TESTS_LAMINAS_MAIL_SMTP_PASSWORD" value="testpassword" />
-        <env name="TESTS_LAMINAS_MAIL_SMTP_AUTH" value="false" />
-    </php>
+             IMPORTANT: you need to copy tests/Laminas/Mail/_files/test.mbox to
+             your mail if you haven't set TESTS_LAMINAS_MAIL_SERVER_TESTDIR -->
+    <env name="TESTS_LAMINAS_MAIL_IMAP_ENABLED" value="false"/>
+    <env name="TESTS_LAMINAS_MAIL_IMAP_HOST" value="localhost"/>
+    <env name="TESTS_LAMINAS_MAIL_IMAP_USER" value="test"/>
+    <env name="TESTS_LAMINAS_MAIL_IMAP_PASSWORD" value=""/>
+    <env name="TESTS_LAMINAS_MAIL_IMAP_SSL" value="true"/>
+    <env name="TESTS_LAMINAS_MAIL_IMAP_TLS" value="true"/>
+    <env name="TESTS_LAMINAS_MAIL_IMAP_WRONG_PORT" value="80"/>
+    <env name="TESTS_LAMINAS_MAIL_IMAP_INVALID_PORT" value="3141"/>
+    <!-- Laminas\Mail\Storage\Maildir test -->
+    <env name="TESTS_LAMINAS_MAIL_SMTP_ENABLED" value="false"/>
+    <env name="TESTS_LAMINAS_MAIL_SMTP_HOST" value="localhost"/>
+    <env name="TESTS_LAMINAS_MAIL_SMTP_PORT" value="25"/>
+    <env name="TESTS_LAMINAS_MAIL_SMTP_USER" value="testuser"/>
+    <env name="TESTS_LAMINAS_MAIL_SMTP_PASSWORD" value="testpassword"/>
+    <env name="TESTS_LAMINAS_MAIL_SMTP_AUTH" value="false"/>
+  </php>
 </phpunit>

@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 class ParamsNormalizerTest extends TestCase
 {
     /** @psalm-return iterable<string, array{0: mixed}> */
-    public function invalidParams(): iterable
+    public static function invalidParams(): iterable
     {
         yield 'null'         => [null];
         yield 'bool'         => [true];

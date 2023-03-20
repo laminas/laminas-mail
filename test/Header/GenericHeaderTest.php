@@ -16,7 +16,7 @@ use function chr;
 class GenericHeaderTest extends TestCase
 {
     /** @return array<string, array{0: string, 1: string}> */
-    public function invalidHeaderLines(): array
+    public static function invalidHeaderLines(): array
     {
         return [
             'append-chr-32'            => [
@@ -46,7 +46,7 @@ class GenericHeaderTest extends TestCase
     }
 
     /** @return array<string, array{0: string|null}> */
-    public function fieldNames(): array
+    public static function fieldNames(): array
     {
         return [
             'append-chr-13'  => ["Subject" . chr(13)],
@@ -81,7 +81,7 @@ class GenericHeaderTest extends TestCase
     }
 
     /** @return array<string, array{0: string}> */
-    public function fieldValues(): array
+    public static function fieldValues(): array
     {
         return [
             'empty-lines'             => ["\n\n\r\n\r\n\n"],
@@ -136,7 +136,7 @@ class GenericHeaderTest extends TestCase
     }
 
     /** @return array<string, array{0: string, 1: string, 2: string}> */
-    public function validFieldValuesProvider(): array
+    public static function validFieldValuesProvider(): array
     {
         return [
             // Description => [decoded format, encoded format, encoding],

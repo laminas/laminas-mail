@@ -318,7 +318,7 @@ class SmtpTest extends TestCase
         // Mock the connection
         $connectionMock = $this->getMockBuilder(SmtpProtocol::class)
             ->disableOriginalConstructor()
-            ->setMethods(['connect', 'helo', 'hasSession', 'mail', 'rcpt', 'data', 'rset'])
+            ->onlyMethods(['connect', 'helo', 'hasSession', 'mail', 'rcpt', 'data', 'rset'])
             ->getMock();
 
         $connectionMock
@@ -358,7 +358,7 @@ class SmtpTest extends TestCase
         // Mock the plugin manager so that lazyLoadConnection() works
         $pluginManagerMock = $this->getMockBuilder(SmtpPluginManager::class)
             ->disableOriginalConstructor()
-            ->setMethods(['get'])
+            ->onlyMethods(['get'])
             ->getMock();
 
         $pluginManagerMock

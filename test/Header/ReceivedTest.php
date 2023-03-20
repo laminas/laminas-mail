@@ -46,7 +46,7 @@ class ReceivedTest extends TestCase
     }
 
     /** Implementation specific tests here */
-    public function headerLines(): array
+    public static function headerLines(): array
     {
         return [
             'newline'    => ["Received: xx\nx"],
@@ -67,7 +67,7 @@ class ReceivedTest extends TestCase
         $received = Header\Received::fromString($header);
     }
 
-    public function invalidValues(): array
+    public static function invalidValues(): array
     {
         return [
             'newline'   => ["xx\nx"],

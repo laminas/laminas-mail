@@ -30,7 +30,7 @@ class ToTest extends TestCase
         $this->assertEquals(10, count($emails));
     }
 
-    public function headerLines(): array
+    public static function headerLines(): array
     {
         return [
             'newline'   => ["To: xxx yyy\n"],

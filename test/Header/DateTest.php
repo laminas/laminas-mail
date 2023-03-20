@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  */
 class DateTest extends TestCase
 {
-    public function headerLines(): array
+    public static function headerLines(): array
     {
         return [
             'newline'   => ["Date: xxx yyy\n"],

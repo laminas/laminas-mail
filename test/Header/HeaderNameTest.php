@@ -16,7 +16,7 @@ class HeaderNameTest extends TestCase
     /**
      * Data for filter name
      */
-    public function getFilterNames(): array
+    public static function getFilterNames(): array
     {
         return [
             ['Subject', 'Subject'],
@@ -39,7 +39,7 @@ class HeaderNameTest extends TestCase
         $this->assertEquals($expected, HeaderName::filter($name));
     }
 
-    public function validateNames(): array
+    public static function validateNames(): array
     {
         return [
             ['Subject', 'assertTrue'],
@@ -61,7 +61,7 @@ class HeaderNameTest extends TestCase
         $this->{$assertion}(HeaderName::isValid($name));
     }
 
-    public function assertNames(): array
+    public static function assertNames(): array
     {
         return [
             ['Subject:'],

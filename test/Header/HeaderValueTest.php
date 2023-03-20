@@ -14,7 +14,7 @@ class HeaderValueTest extends TestCase
     /**
      * Data for filter value
      */
-    public function getFilterValues(): array
+    public static function getFilterValues(): array
     {
         return [
             ["This is a\n test", "This is a test"],
@@ -41,7 +41,7 @@ class HeaderValueTest extends TestCase
         $this->assertEquals($expected, HeaderValue::filter($value));
     }
 
-    public function validateValues(): array
+    public static function validateValues(): array
     {
         return [
             ["This is a\n test", 'assertFalse'],
@@ -72,7 +72,7 @@ class HeaderValueTest extends TestCase
         $this->{$assertion}(HeaderValue::isValid($value));
     }
 
-    public function assertValues(): array
+    public static function assertValues(): array
     {
         return [
             ["This is a\n test"],
