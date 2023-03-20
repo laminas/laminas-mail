@@ -26,7 +26,6 @@ class SmtpPluginManagerFactoryTest extends TestCase
         if (method_exists($plugins, 'configure')) {
             $reflectionClass         = new ReflectionClass($plugins);
             $creationContextProperty = $reflectionClass->getProperty('creationContext');
-            $creationContextProperty->setAccessible(true);
 
             // laminas-servicemanager v3
             $this->assertEquals($container, $creationContextProperty->getValue($plugins));

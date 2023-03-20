@@ -24,7 +24,6 @@ class Crammd5Test extends TestCase
     {
         $class  = new ReflectionClass(Crammd5::class);
         $method = $class->getMethod('hmacMd5');
-        $method->setAccessible(true);
 
         $result = $method->invokeArgs(
             $this->auth,

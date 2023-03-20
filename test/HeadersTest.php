@@ -4,6 +4,7 @@ namespace LaminasTest\Mail;
 
 use ArrayIterator;
 use Countable;
+use ErrorException;
 use Iterator;
 use Laminas\Loader\PluginClassLocator;
 use Laminas\Mail;
@@ -11,7 +12,6 @@ use Laminas\Mail\Header;
 use Laminas\Mail\Header\Exception;
 use Laminas\Mail\Header\GenericHeader;
 use Laminas\Mail\Header\GenericMultiHeader;
-use PHPUnit\Framework\Error\Deprecated;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
@@ -47,8 +47,7 @@ class HeadersTest extends TestCase
     {
         $this->originalErrorHandler = set_error_handler(
             static function (int $errno, string $errstr, string $errfile, int $errline): void {
-                /** @psalm-suppress InternalMethod */
-                throw new Deprecated($errstr, $errno, $errfile, $errline);
+                throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
             },
             E_USER_DEPRECATED
         );
@@ -613,7 +612,6 @@ class HeadersTest extends TestCase
         $this->setDeprecationErrorHandler();
         $headers = new Mail\Headers();
 
-        $this->expectDeprecation();
         $this->expectExceptionMessage('getPluginClassLoader is deprecated');
         $headers->getPluginClassLoader();
     }
@@ -627,7 +625,6 @@ class HeadersTest extends TestCase
         $headers = new Mail\Headers();
         $loader  = $this->createMock(PluginClassLocator::class);
 
-        $this->expectDeprecation();
         $this->expectExceptionMessage('deprecated');
         $headers->setPluginClassLoader($loader);
     }

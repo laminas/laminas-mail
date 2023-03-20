@@ -189,7 +189,7 @@ class Part implements RecursiveIterator, Part\PartInterface, Stringable
      * Cache content and split in parts if multipart
      *
      * @throws Exception\RuntimeException
-     * @return null
+     * @return void
      */
     protected function cacheContent()
     {

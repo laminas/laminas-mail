@@ -22,6 +22,7 @@ use function unlink;
 class FileTest extends TestCase
 {
     private string $tempDir;
+    private File $transport;
 
     public function setUp(): void
     {

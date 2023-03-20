@@ -42,9 +42,6 @@ final class AbstractProtocolTest extends TestCase
         $this->process->stop();
     }
 
-    /**
-     * @requires PHP >= 7.4
-     */
     public function testExceptionShouldBeRaisedWhenConnectionHasTimedOut(): void
     {
         $protocol = new class ('127.0.0.1', 8080) extends AbstractProtocol {
