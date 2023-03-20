@@ -112,7 +112,7 @@ class SenderTest extends TestCase
         $this->assertEquals($encoding, $header->getEncoding());
     }
 
-    public function validSenderDataProvider(): array
+    public static function validSenderDataProvider(): array
     {
         return [
             // Description => [sender address, sender name, getFieldValue, encoded version, encoding],
@@ -140,10 +140,10 @@ class SenderTest extends TestCase
         ];
     }
 
-    public function validSenderHeaderDataProvider(): array
+    public static function validSenderHeaderDataProvider(): array
     {
         return array_merge(array_map(static fn($parameters)
-            => array_slice($parameters, 2), $this->validSenderDataProvider()), [
+            => array_slice($parameters, 2), self::validSenderDataProvider()), [
             // Per RFC 2822, 3.4 and 3.6.2, "Sender: foo@bar" is valid.
                 'Unbracketed email' => [
                     '<foo@bar>',
@@ -153,7 +153,7 @@ class SenderTest extends TestCase
             ]);
     }
 
-    public function invalidSenderDataProvider(): array
+    public static function invalidSenderDataProvider(): array
     {
         $mailInvalidArgumentException = Exception\InvalidArgumentException::class;
 
@@ -176,7 +176,7 @@ class SenderTest extends TestCase
         ];
     }
 
-    public function invalidSenderEncodedDataProvider(): array
+    public static function invalidSenderEncodedDataProvider(): array
     {
         $mailInvalidArgumentException   = Exception\InvalidArgumentException::class;
         $headerInvalidArgumentException = Header\Exception\InvalidArgumentException::class;
@@ -213,7 +213,7 @@ class SenderTest extends TestCase
         $this->assertSame($expectedEmail, $header->getAddress()->getEmail());
     }
 
-    public function validHeaderLinesProvider(): array
+    public static function validHeaderLinesProvider(): array
     {
         // @codingStandardsIgnoreStart
         return [
@@ -245,7 +245,7 @@ class SenderTest extends TestCase
         Header\Sender::fromString($headerString);
     }
 
-    public function invalidHeaderLinesProvider(): array
+    public static function invalidHeaderLinesProvider(): array
     {
         $mailInvalidArgumentException   = Exception\InvalidArgumentException::class;
         $headerInvalidArgumentException = Header\Exception\InvalidArgumentException::class;

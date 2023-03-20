@@ -15,7 +15,7 @@ class HeaderLocatorTest extends TestCase
         $this->headerLocator = new Header\HeaderLocator();
     }
 
-    public function provideHeaderNames(): array
+    public static function provideHeaderNames(): array
     {
         return [
             'with existing name'     => ['to', Header\To::class],

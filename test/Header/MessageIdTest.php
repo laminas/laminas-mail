@@ -46,7 +46,7 @@ class MessageIdTest extends TestCase
         $_SERVER = $serverBeforeTest;
     }
 
-    public function headerLines(): array
+    public static function headerLines(): array
     {
         return [
             'newline'   => ["Message-ID: foo\nbar"],
@@ -66,7 +66,7 @@ class MessageIdTest extends TestCase
         $messageid = Header\MessageId::fromString($header);
     }
 
-    public function invalidIdentifiers(): array
+    public static function invalidIdentifiers(): array
     {
         return [
             'newline'   => ["foo\nbar"],

@@ -43,7 +43,7 @@ class AddressTest extends TestCase
         new Address($email, $name);
     }
 
-    public function invalidSenderDataProvider(): array
+    public static function invalidSenderDataProvider(): array
     {
         return [
             // Description => [sender address, sender name],
@@ -74,7 +74,7 @@ class AddressTest extends TestCase
         $this->assertInstanceOf(Address::class, $address);
     }
 
-    public function validSenderDataProvider(): array
+    public static function validSenderDataProvider(): array
     {
         return [
             // Description => [sender address, sender name],

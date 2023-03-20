@@ -12,7 +12,7 @@ use function array_merge;
 
 class IdentificationFieldTest extends TestCase
 {
-    public function stringHeadersProvider(): array
+    public static function stringHeadersProvider(): array
     {
         return array_merge(
             [
@@ -22,11 +22,11 @@ class IdentificationFieldTest extends TestCase
                     ['1234@local.machine.example', '3456@example.net'],
                 ],
             ],
-            $this->reversibleStringHeadersProvider()
+            self::reversibleStringHeadersProvider()
         );
     }
 
-    public function reversibleStringHeadersProvider(): array
+    public static function reversibleStringHeadersProvider(): array
     {
         return [
             [References::class, 'References: <1234@local.machine.example>', ['1234@local.machine.example']],
@@ -39,7 +39,7 @@ class IdentificationFieldTest extends TestCase
         ];
     }
 
-    public function invalidIds(): array
+    public static function invalidIds(): array
     {
         return [
             [References::class, ["1234@local.machine.example\r\n"]],
