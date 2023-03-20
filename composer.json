@@ -8,29 +8,29 @@
     "homepage": "https://laminas.dev",
     "license": "BSD-3-Clause",
     "require": {
-        "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
+        "php": "~8.1.0 || ~8.2.0",
         "ext-iconv": "*",
-        "laminas/laminas-loader": "^2.8.0",
-        "laminas/laminas-mime": "^2.10.0",
-        "laminas/laminas-stdlib": "^3.11.0",
-        "laminas/laminas-validator": "^2.23.0",
-        "symfony/polyfill-mbstring": "^1.16.0",
+        "laminas/laminas-loader": "^2.9.0",
+        "laminas/laminas-mime": "^2.11.0",
+        "laminas/laminas-stdlib": "^3.17.0",
+        "laminas/laminas-validator": "^2.30.1",
+        "symfony/polyfill-mbstring": "^1.27.0",
         "webmozart/assert": "^1.11.0",
-        "symfony/polyfill-intl-idn": "^1.26.0"
+        "symfony/polyfill-intl-idn": "^1.27.0"
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "~2.5.0",
-        "laminas/laminas-crypt": "^3.9.0",
-        "laminas/laminas-db": "^2.16",
+        "laminas/laminas-crypt": "^3.10.0",
+        "laminas/laminas-db": "^2.17",
         "laminas/laminas-servicemanager": "^3.20",
-        "phpunit/phpunit": "^9.5.26",
+        "phpunit/phpunit": "^9.6.5",
         "psalm/plugin-phpunit": "^0.18.4",
-        "symfony/process": "^6.0.11",
-        "vimeo/psalm": "^5.1"
+        "symfony/process": "^6.2.7",
+        "vimeo/psalm": "^5.8"
     },
     "suggest": {
-        "laminas/laminas-crypt": "^3.8 Crammd5 support in SMTP Auth",
-        "laminas/laminas-servicemanager": "^3.16 when using SMTP to deliver messages"
+        "laminas/laminas-crypt": "^3.10 Crammd5 support in SMTP Auth",
+        "laminas/laminas-servicemanager": "^3.20 when using SMTP to deliver messages"
     },
     "config": {
         "sort-packages": true,
@@ -39,7 +39,7 @@
             "dealerdirect/phpcodesniffer-composer-installer": true
         },
         "platform": {
-            "php": "8.0.99"
+            "php": "8.1.99"
         }
     },
     "extra": {
