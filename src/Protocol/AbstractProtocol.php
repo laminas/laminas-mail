@@ -352,7 +352,7 @@ abstract class AbstractProtocol
         } while (str_starts_with($more, '-'));
 
         if ($errMsg !== '') {
-            throw new Exception\RuntimeException($errMsg);
+            throw new Exception\RuntimeException($errMsg, $cmd);
         }
 
         return $msg;

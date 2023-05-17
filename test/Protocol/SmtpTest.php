@@ -178,4 +178,24 @@ class SmtpTest extends TestCase
         $this->expectExceptionMessage('No recipient forward path has been supplied');
         $this->connection->data('message');
     }
+
+    public function testRcptThrowsWithCodeWhenErroneousRecipient(): void
+    {
+        $this->expectException(Exception\RuntimeException::class);
+        $this->expectExceptionMessage(
+            SmtpProtocolSpy::ERRONEOUS_RECIPIENT_ENHANCED_CODE.' '.SmtpProtocolSpy::ERRONEOUS_RECIPIENT_MESSAGE
+        );
+        $this->expectExceptionCode(SmtpProtocolSpy::ERRONEOUS_RECIPIENT_CODE);
+
+        $headers = new Headers();
+        $headers->addHeaderLine('Date', 'Sun, 10 Jun 2012 20:07:24 +0200');
+
+        $message = new Message();
+        $message->setHeaders($headers);
+        $message->setSender('sender@example.com', 'Example Sender');
+        $message->setBody("This is a test\n.");
+        $message->addTo(SmtpProtocolSpy::ERRONEOUS_RECIPIENT, 'Erroneous Recipient Name');
+
+        $this->transport->send($message);
+    }
 }
