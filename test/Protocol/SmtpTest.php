@@ -183,7 +183,7 @@ class SmtpTest extends TestCase
     {
         $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage(
-            SmtpProtocolSpy::ERRONEOUS_RECIPIENT_ENHANCED_CODE.' '.SmtpProtocolSpy::ERRONEOUS_RECIPIENT_MESSAGE
+            SmtpProtocolSpy::ERRONEOUS_RECIPIENT_ENHANCED_CODE . ' ' . SmtpProtocolSpy::ERRONEOUS_RECIPIENT_MESSAGE
         );
         $this->expectExceptionCode(SmtpProtocolSpy::ERRONEOUS_RECIPIENT_CODE);
 
