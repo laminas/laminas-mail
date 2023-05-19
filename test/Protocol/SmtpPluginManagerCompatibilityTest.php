@@ -13,7 +13,7 @@ class SmtpPluginManagerCompatibilityTest extends TestCase
 {
     use CommonPluginManagerTrait;
 
-    protected function getPluginManager(): SmtpPluginManager
+    protected static function getPluginManager(): SmtpPluginManager
     {
         return new SmtpPluginManager(new ServiceManager());
     }
