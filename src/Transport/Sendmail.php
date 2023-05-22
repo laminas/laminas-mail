@@ -200,7 +200,7 @@ class Sendmail implements TransportInterface
     {
         $headers = $message->getHeaders();
         if (! $headers->has('subject')) {
-            return;
+            return '';
         }
         $header = $headers->get('subject');
         return $header->getFieldValue(HeaderInterface::FORMAT_ENCODED);
@@ -259,7 +259,7 @@ class Sendmail implements TransportInterface
     protected function prepareParameters(Mail\Message $message)
     {
         if ($this->isWindowsOs()) {
-            return;
+            return '';
         }
 
         $parameters = (string) $this->parameters;
