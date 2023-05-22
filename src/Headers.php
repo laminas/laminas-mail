@@ -566,8 +566,9 @@ class Headers implements Countable, Iterator
     {
         [$name] = GenericHeader::splitHeaderLine($headerLine);
 
-        /** @var HeaderInterface $class */
         $class = $this->resolveHeaderClass($name);
+        assert(null !== $class);
+
         return $class::fromString($headerLine);
     }
 
@@ -581,16 +582,18 @@ class Headers implements Countable, Iterator
 
         $key = $this->headersKeys[$index];
 
-        /** @var GenericHeader $class */
         $class = $this->resolveHeaderClass($key);
+        assert(null !== $class);
 
         $encoding = $current->getEncoding();
         $headers  = $class::fromString($current->toString());
         if (is_array($headers)) {
             $current = array_shift($headers);
+            assert($current instanceof HeaderInterface);
             $current->setEncoding($encoding);
             $this->headers[$index] = $current;
             foreach ($headers as $header) {
+                assert($header instanceof HeaderInterface);
                 $header->setEncoding($encoding);
                 $this->headersKeys[] = $key;
                 $this->headers[]     = $header;
@@ -617,9 +620,9 @@ class Headers implements Countable, Iterator
 
     /**
      * @param string $key
-     * @return null|string
+     * @return null|class-string<HeaderInterface>
      */
-    private function resolveHeaderClass($key)
+    private function resolveHeaderClass($key): ?string
     {
         if ($this->pluginClassLoader) {
             return $this->pluginClassLoader->load($key) ?: GenericHeader::class;

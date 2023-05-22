@@ -9,6 +9,10 @@ namespace Laminas\Mail\Header;
  */
 interface HeaderLocatorInterface
 {
+    /**
+     * @param class-string<HeaderInterface>|null $default
+     * @return class-string<HeaderInterface>|null
+     */
     public function get(string $name, ?string $default = null): ?string;
 
     public function has(string $name): bool;
