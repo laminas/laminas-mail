@@ -12,7 +12,9 @@ class ProtocolTraitTest extends TestCase
 {
     public function testTls12Version(): void
     {
-        $mock = $this->getMockForTrait(ProtocolTrait::class);
+        $mock = new class {
+            use ProtocolTrait;
+        };
 
         $this->assertNotEmpty(
             STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT & $mock->getCryptoMethod(),

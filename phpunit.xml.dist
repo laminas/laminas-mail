@@ -13,11 +13,6 @@
       <group>disable</group>
     </exclude>
   </groups>
-  <coverage>
-    <include>
-      <directory suffix=".php">./src</directory>
-    </include>
-  </coverage>
   <php>
     <ini name="date.timezone" value="UTC"/>
     <ini name="error_reporting" value="-1"/>
@@ -73,4 +68,9 @@
     <env name="TESTS_LAMINAS_MAIL_SMTP_PASSWORD" value="testpassword"/>
     <env name="TESTS_LAMINAS_MAIL_SMTP_AUTH" value="false"/>
   </php>
+  <source>
+    <include>
+      <directory>./src</directory>
+    </include>
+  </source>
 </phpunit>
