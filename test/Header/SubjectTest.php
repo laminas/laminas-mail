@@ -97,7 +97,7 @@ class SubjectTest extends TestCase
         $this->assertEquals($encoding, $header->getEncoding());
     }
 
-    public function validSubjectValuesProvider(): array
+    public static function validSubjectValuesProvider(): array
     {
         return [
             // Description => [decoded format, encoded format, encoding],
@@ -115,7 +115,7 @@ class SubjectTest extends TestCase
         ];
     }
 
-    public function invalidSubjectValuesProvider(): array
+    public static function invalidSubjectValuesProvider(): array
     {
         $invalidArgumentException   = Exception\InvalidArgumentException::class;
         $invalidHeaderValueDetected = 'Invalid header value detected';

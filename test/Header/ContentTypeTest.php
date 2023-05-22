@@ -153,7 +153,7 @@ class ContentTypeTest extends TestCase
         $header->addParameter($paramName, $paramValue);
     }
 
-    public function setTypeProvider(): array
+    public static function setTypeProvider(): array
     {
         $foldingHeaderLine = "Content-Type: foo/baz;\r\n charset=\"us-ascii\"";
         $foldingFieldValue = "foo/baz;\r\n charset=\"us-ascii\"";
@@ -174,7 +174,7 @@ class ContentTypeTest extends TestCase
         // @codingStandardsIgnoreEnd
     }
 
-    public function invalidParametersProvider(): array
+    public static function invalidParametersProvider(): array
     {
         $invalidArgumentException = Exception\InvalidArgumentException::class;
 
@@ -188,7 +188,7 @@ class ContentTypeTest extends TestCase
         // @codingStandardsIgnoreEnd
     }
 
-    public function invalidHeaderLinesProvider(): array
+    public static function invalidHeaderLinesProvider(): array
     {
         $invalidArgumentException = Exception\InvalidArgumentException::class;
 
@@ -263,7 +263,7 @@ class ContentTypeTest extends TestCase
         $this->assertFalse($header->removeParameter('level'));
     }
 
-    public function parameterWrappingProvider(): iterable
+    public static function parameterWrappingProvider(): iterable
     {
         yield 'Example from RFC2231' => [
             "Content-Type: application/x-stuff; title*=us-ascii'en-us'This%20is%20%2A%2A%2Afun%2A%2A%2A",
@@ -271,7 +271,7 @@ class ContentTypeTest extends TestCase
         ];
     }
 
-    public function unconventionalHeaderLinesProvider(): array
+    public static function unconventionalHeaderLinesProvider(): array
     {
         return [
             // Description => [header line, expected value]

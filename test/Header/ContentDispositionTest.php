@@ -197,7 +197,7 @@ class ContentDispositionTest extends TestCase
         $this->assertEquals(true, $header->removeParameter('name'));
     }
 
-    public function setDispositionProvider(): array
+    public static function setDispositionProvider(): array
     {
         // @codingStandardsIgnoreStart
         $foldingFieldValue = "attachment;\r\n filename=\"this-test-filename-is-long-enough-to-flow-to-two-lines.txt\"";
@@ -257,7 +257,7 @@ class ContentDispositionTest extends TestCase
         // @codingStandardsIgnoreEnd
     }
 
-    public function invalidParametersProvider(): array
+    public static function invalidParametersProvider(): array
     {
         $invalidArgumentException = InvalidArgumentException::class;
 
@@ -270,7 +270,7 @@ class ContentDispositionTest extends TestCase
         // @codingStandardsIgnoreEnd
     }
 
-    public function invalidHeaderLinesProvider(): array
+    public static function invalidHeaderLinesProvider(): array
     {
         $invalidArgumentException = InvalidArgumentException::class;
 
@@ -287,7 +287,7 @@ class ContentDispositionTest extends TestCase
         // @codingStandardsIgnoreEnd
     }
 
-    public function getParameterProvider(): array
+    public static function getParameterProvider(): array
     {
         // @codingStandardsIgnoreStart
         return [
@@ -303,7 +303,7 @@ class ContentDispositionTest extends TestCase
         // @codingStandardsIgnoreEnd
     }
 
-    public function parameterWrappingProvider(): iterable
+    public static function parameterWrappingProvider(): iterable
     {
         // @codingStandardsIgnoreStart
         yield 'Without sequence number' => [
@@ -326,7 +326,7 @@ class ContentDispositionTest extends TestCase
         // @codingStandardsIgnoreEnd
     }
 
-    public function parameterWrappingProviderExceptions(): iterable
+    public static function parameterWrappingProviderExceptions(): iterable
     {
         // @codingStandardsIgnoreStart
         yield 'With non-numeric-sequence' => [
@@ -339,7 +339,7 @@ class ContentDispositionTest extends TestCase
         // @codingStandardsIgnoreEnd
     }
 
-    public function unconventionalHeaderLinesProvider(): array
+    public static function unconventionalHeaderLinesProvider(): array
     {
         return [
             // Description => [header line, expected]

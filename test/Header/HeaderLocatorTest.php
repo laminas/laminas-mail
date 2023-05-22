@@ -15,7 +15,7 @@ class HeaderLocatorTest extends TestCase
         $this->headerLocator = new Header\HeaderLocator();
     }
 
-    public function provideHeaderNames(): array
+    public static function provideHeaderNames(): array
     {
         return [
             'with existing name'     => ['to', Header\To::class],
@@ -25,8 +25,8 @@ class HeaderLocatorTest extends TestCase
     }
 
     /**
-     * @param null|class-string $expected
-     * @param null|class-string $default
+     * @param null|class-string<Header\HeaderInterface> $expected
+     * @param null|class-string<Header\HeaderInterface> $default
      * @dataProvider provideHeaderNames
      */
     public function testHeaderIsProperlyLoaded(string $name, ?string $expected, ?string $default = null): void

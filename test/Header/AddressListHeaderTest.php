@@ -67,7 +67,7 @@ class AddressListHeaderTest extends TestCase
         $header = new To();
         $list   = $header->getAddressList();
         $this->populateAddressList($list);
-        $expected = $this->getExpectedFieldValue();
+        $expected = self::getExpectedFieldValue();
         $this->assertEquals($expected, $header->getFieldValue());
     }
 
@@ -80,7 +80,7 @@ class AddressListHeaderTest extends TestCase
         $list->add('first@last.example.com', 'Last, First');
     }
 
-    public function getExpectedFieldValue(): string
+    public static function getExpectedFieldValue(): string
     {
         // @codingStandardsIgnoreStart
         return "Example Test <test@example.com>,\r\n list@example.com,\r\n Example Announce List <announce@example.com>,\r\n \"Last, First\" <first@last.example.com>";
@@ -93,13 +93,13 @@ class AddressListHeaderTest extends TestCase
     public function testStringRepresentationIncludesHeaderAndFieldValue(AbstractAddressList $header, string $type): void
     {
         $this->populateAddressList($header->getAddressList());
-        $expected = sprintf('%s: %s', $type, $this->getExpectedFieldValue());
+        $expected = sprintf('%s: %s', $type, self::getExpectedFieldValue());
         $this->assertEquals($expected, $header->toString());
     }
 
-    public function getStringHeaders(): array
+    public static function getStringHeaders(): array
     {
-        $value = $this->getExpectedFieldValue();
+        $value = self::getExpectedFieldValue();
         return [
             'cc'       => ['Cc: ' . $value, Cc::class],
             'bcc'      => ['Bcc: ' . $value, Bcc::class],
@@ -134,9 +134,9 @@ class AddressListHeaderTest extends TestCase
         $this->assertEquals('Last, First', $address->getName());
     }
 
-    public function getStringHeadersWithNoWhitespaceSeparator(): array
+    public static function getStringHeadersWithNoWhitespaceSeparator(): array
     {
-        $value = $this->getExpectedFieldValue();
+        $value = self::getExpectedFieldValue();
         return [
             'cc'       => ['Cc:' . $value, Cc::class],
             'bcc'      => ['Bcc:' . $value, Bcc::class],
@@ -157,7 +157,7 @@ class AddressListHeaderTest extends TestCase
         $this->assertTrue($list->has('user@example.com'));
     }
 
-    public function getHeadersWithComments(): array
+    public static function getHeadersWithComments(): array
     {
         return [
             ['From: user@example.com (Comment)'],
@@ -180,7 +180,7 @@ class AddressListHeaderTest extends TestCase
     /**
      * @return string[][]
      */
-    public function getHeadersWithSurroundingSingleQuotes(): array
+    public static function getHeadersWithSurroundingSingleQuotes(): array
     {
         return [
             ['To: <\'foo@example.com\'>'],
@@ -229,7 +229,7 @@ class AddressListHeaderTest extends TestCase
         }
     }
 
-    public function getAddressListsWithGroup(): array
+    public static function getAddressListsWithGroup(): array
     {
         return [
             ['To: undisclosed-recipients:;', 0, null],
@@ -237,7 +237,7 @@ class AddressListHeaderTest extends TestCase
         ];
     }
 
-    public function specialCharHeaderProvider(): array
+    public static function specialCharHeaderProvider(): array
     {
         return [
             [
@@ -274,7 +274,7 @@ class AddressListHeaderTest extends TestCase
         }
     }
 
-    public function unconventionalHeaderLinesProvider(): array
+    public static function unconventionalHeaderLinesProvider(): array
     {
         return [
             // Description => [header line, expected]

@@ -325,7 +325,7 @@ class SendmailTest extends TestCase
         );
     }
 
-    public function additionalParametersContainingFromSwitch(): iterable
+    public static function additionalParametersContainingFromSwitch(): iterable
     {
         yield 'leading'     => ['-f\'foo@example.com\''];
         yield 'not-leading' => ['-bs -f\'foo@example.com\''];

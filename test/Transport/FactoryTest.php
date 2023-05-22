@@ -34,7 +34,7 @@ class FactoryTest extends TestCase
         Factory::create($spec);
     }
 
-    public function invalidSpecTypeProvider(): array
+    public static function invalidSpecTypeProvider(): array
     {
         return [
             ['spec'],
@@ -66,7 +66,7 @@ class FactoryTest extends TestCase
         $this->assertInstanceOf($type, $transport);
     }
 
-    public function typeProvider(): array
+    public static function typeProvider(): array
     {
         return [
             [File::class],
@@ -89,7 +89,7 @@ class FactoryTest extends TestCase
         $this->assertInstanceOf($expectedClass, $transport);
     }
 
-    public function typeAliasProvider(): array
+    public static function typeAliasProvider(): array
     {
         return [
             ['file', File::class],
@@ -140,7 +140,7 @@ class FactoryTest extends TestCase
         ]);
     }
 
-    public function invalidClassProvider(): array
+    public static function invalidClassProvider(): array
     {
         return [
             ['stdClass'],
