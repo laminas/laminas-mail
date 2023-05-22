@@ -27,7 +27,7 @@ class MimeVersionTest extends TestCase
         $this->assertEquals('MIME-Version: 1.0', $mime->toString());
     }
 
-    public function headerLines(): array
+    public static function headerLines(): array
     {
         return [
             'newline'   => ["MIME-Version: 5.0\nbar"],
@@ -47,7 +47,7 @@ class MimeVersionTest extends TestCase
         $mime = Header\MimeVersion::fromString($header);
     }
 
-    public function invalidVersions(): array
+    public static function invalidVersions(): array
     {
         return [
             'no-decimal'    => ['1'],
@@ -88,7 +88,7 @@ class MimeVersionTest extends TestCase
         $this->assertSame('ASCII', $header->getEncoding());
     }
 
-    public function unconventionalHeaderLinesProvider(): array
+    public static function unconventionalHeaderLinesProvider(): array
     {
         return [
             // Description => [header line, expected value]

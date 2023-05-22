@@ -1,4 +1,4 @@
-.phpunit.result.cache
+/.phpunit.result.cache
 /clover.xml
 /coveralls-upload.json
 /docs/html/
@@ -7,4 +7,5 @@
 /phpunit.xml
 /vendor/
 /test/_files/test.maildir/
-.phpcs-cache
+/.phpcs-cache
+/.phpunit.cache/

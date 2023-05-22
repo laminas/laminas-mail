@@ -739,7 +739,7 @@ class MessageTest extends TestCase
         $this->assertEquals('', $this->message->getBodyText());
     }
 
-    public function messageRecipients(): array
+    public static function messageRecipients(): array
     {
         return [
             'setFrom'    => ['setFrom'],

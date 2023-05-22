@@ -501,7 +501,7 @@ class MessageTest extends TestCase
         $this->assertEquals('nicpoń', $address->getName());
     }
 
-    public function filesProvider(): array
+    public static function filesProvider(): array
     {
         $filePath                    = __DIR__ . '/../_files/mail.eml';
         $fileBlankLineOnTop          = __DIR__ . '/../_files/mail_blank_top_line.eml';

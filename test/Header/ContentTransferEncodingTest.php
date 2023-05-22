@@ -18,7 +18,7 @@ use function substr;
  */
 class ContentTransferEncodingTest extends TestCase
 {
-    public function dataValidEncodings(): array
+    public static function dataValidEncodings(): array
     {
         return [
             ['7bit'],
@@ -28,7 +28,7 @@ class ContentTransferEncodingTest extends TestCase
         ];
     }
 
-    public function dataInvalidEncodings(): array
+    public static function dataInvalidEncodings(): array
     {
         return [
             ['9bit'],
@@ -111,7 +111,7 @@ class ContentTransferEncodingTest extends TestCase
         ContentTransferEncoding::fromString('Content-Transfer-Encoding' . chr(32) . ': 8bit');
     }
 
-    public function headerLines(): array
+    public static function headerLines(): array
     {
         return [
             'newline'   => ["Content-Transfer-Encoding: 8bit\n7bit"],
@@ -171,7 +171,7 @@ class ContentTransferEncodingTest extends TestCase
         $this->assertSame('ASCII', $header->getEncoding());
     }
 
-    public function unconventionalHeaderLinesProvider(): array
+    public static function unconventionalHeaderLinesProvider(): array
     {
         return [
             // Description => [header line, expected value]
