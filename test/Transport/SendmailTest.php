@@ -12,10 +12,10 @@ use ReflectionMethod;
 use ReflectionProperty;
 
 use function escapeshellarg;
+use function str_contains;
 use function strtoupper;
 use function substr;
 use function trim;
-use function str_contains;
 
 use const PHP_OS;
 use const PHP_VERSION_ID;
