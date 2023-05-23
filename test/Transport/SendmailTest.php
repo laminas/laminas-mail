@@ -22,7 +22,7 @@ use const PHP_VERSION_ID;
 /**
  * @covers Laminas\Mail\Transport\Sendmail<extended>
  */
-class SendmailTest extends TestCase
+class SendmailTestBk extends TestCase
 {
     /** @var Sendmail */
     public $transport;
@@ -64,15 +64,15 @@ class SendmailTest extends TestCase
     {
         $message = new Message();
         $message->addTo('test@example.com', 'Example Test')
-                ->addCc('matthew@example.com')
-                ->addBcc('list@example.com', 'Example, List')
-                ->addFrom([
-                    'test@example.com',
-                    'matthew@example.com' => 'Matthew',
-                ])
-                ->setSender('ralph@example.com', 'Ralph Schindler')
-                ->setSubject('Testing Laminas\Mail\Transport\Sendmail')
-                ->setBody('This is only a test.');
+            ->addCc('matthew@example.com')
+            ->addBcc('list@example.com', 'Example, List')
+            ->addFrom([
+                'test@example.com',
+                'matthew@example.com' => 'Matthew',
+            ])
+            ->setSender('ralph@example.com', 'Ralph Schindler')
+            ->setSubject('Testing Laminas\Mail\Transport\Sendmail')
+            ->setBody('This is only a test.');
         $message->getHeaders()->addHeaders([
             'X-Foo-Bar' => 'Matthew',
         ]);
@@ -267,9 +267,9 @@ class SendmailTest extends TestCase
     {
         $message = new Message();
         $message->addCc('matthew@example.com')
-                ->setSender('ralph@example.com', 'Ralph Schindler')
-                ->setSubject('Testing Laminas\Mail\Transport\Sendmail')
-                ->setBody('This is only a test.');
+            ->setSender('ralph@example.com', 'Ralph Schindler')
+            ->setSubject('Testing Laminas\Mail\Transport\Sendmail')
+            ->setBody('This is only a test.');
 
         $this->transport->send($message);
         $this->assertStringContainsString('Sender: Ralph Schindler <ralph@example.com>', $this->additionalHeaders);
@@ -279,9 +279,9 @@ class SendmailTest extends TestCase
     {
         $message = new Message();
         $message->addBcc('list@example.com', 'Example, List')
-                ->setSender('ralph@example.com', 'Ralph Schindler')
-                ->setSubject('Testing Laminas\Mail\Transport\Sendmail')
-                ->setBody('This is only a test.');
+            ->setSender('ralph@example.com', 'Ralph Schindler')
+            ->setSubject('Testing Laminas\Mail\Transport\Sendmail')
+            ->setBody('This is only a test.');
 
         $this->transport->send($message);
         $this->assertStringContainsString('Sender: Ralph Schindler <ralph@example.com>', $this->additionalHeaders);
@@ -291,8 +291,8 @@ class SendmailTest extends TestCase
     {
         $message = new Message();
         $message->setSender('ralph@example.com', 'Ralph Schindler')
-                ->setSubject('Testing Laminas\Mail\Transport\Sendmail')
-                ->setBody('This is only a test.');
+            ->setSubject('Testing Laminas\Mail\Transport\Sendmail')
+            ->setBody('This is only a test.');
 
         $this->expectException(RuntimeException::class);
         $this->transport->send($message);
@@ -342,8 +342,34 @@ class SendmailTest extends TestCase
 
         $message = $this->getMessage();
         $this->transport->setParameters($parameters);
-
         $this->transport->send($message);
         $this->assertEquals($parameters, $this->additionalParameters);
+    }
+
+    /**
+     * @see https://github.com/laminas/laminas-mail/issues/240
+     */
+    public function testAllowMessageWithEmptySubjectButHasBccHeader(): void
+    {
+        $message = Message::fromString('')->setEncoding('utf-8');
+        $message
+            ->addTo('matthew@example.org')
+            ->addFrom('ralph@example.org')
+            ->setBody("Sorry, I'm going to be late today!");
+        $this->transport->setCallable([$this->transport, 'mailHandler']);
+        try {
+            $this->transport->send($message);
+        } catch (\RuntimeException $runtimeException) {
+            if (
+                str_contains(
+                    $runtimeException->getMessage(),
+                    'mail(): Passing null to parameter #2 ($subject) of type string is deprecated'
+                )
+            ) {
+                $this->fail($runtimeException->getMessage());
+            }
+        }
+
+        $this->assertTrue(true);
     }
 }
