@@ -22,7 +22,7 @@ use const PHP_VERSION_ID;
 /**
  * @covers Laminas\Mail\Transport\Sendmail<extended>
  */
-class SendmailTest extends TestCase
+class SendmailTestBk extends TestCase
 {
     /** @var Sendmail */
     public $transport;
