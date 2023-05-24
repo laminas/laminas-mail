@@ -9,12 +9,22 @@ use Laminas\Mail\Protocol\Smtp;
  */
 class SmtpProtocolSpy extends Smtp
 {
+    public const ERRONEOUS_RECIPIENT               = 'nosuchuser@example.com';
+    public const ERRONEOUS_RECIPIENT_CODE          = '550';
+    public const ERRONEOUS_RECIPIENT_ENHANCED_CODE = '5.1.1';
+    public const ERRONEOUS_RECIPIENT_MESSAGE       = 'Mailbox "nosuchuser" does not exist';
+    public const ERRONEOUS_RECIPIENT_RESPONSE      = self::ERRONEOUS_RECIPIENT_CODE . ' '
+                                                . self::ERRONEOUS_RECIPIENT_ENHANCED_CODE . ' '
+                                                . self::ERRONEOUS_RECIPIENT_MESSAGE;
+
     /** @var bool */
     public $calledQuit = false;
     /** @var bool */
     protected $connect = false;
     /** @var string[] */
-    protected $rcptTest = [];
+    protected $rcptTest            = [];
+    protected bool $useReceive     = false;
+    protected string $fakeResponse = '';
 
     public function connect(): bool
     {
@@ -46,7 +56,17 @@ class SmtpProtocolSpy extends Smtp
      */
     public function rcpt($to): void
     {
-        parent::rcpt($to);
+        if ($to === self::ERRONEOUS_RECIPIENT) {
+            $this->setFakeResponse(self::ERRONEOUS_RECIPIENT_RESPONSE);
+            try {
+                parent::rcpt($to);
+            } finally {
+                $this->resetFakeResponse();
+            }
+        } else {
+            parent::rcpt($to);
+        }
+
         $this->rcpt       = true;
         $this->rcptTest[] = $to;
     }
@@ -62,7 +82,17 @@ class SmtpProtocolSpy extends Smtp
     // @codingStandardsIgnoreStart
     protected function _expect($code, $timeout = null): string
     {
+        if ($this->useReceive) {
+            return parent::_expect($code, $timeout);
+        }
         return '';
+    }
+    // @codingStandardsIgnoreEnd
+
+    // @codingStandardsIgnoreStart
+    protected function _receive($timeout = null): string
+    {
+        return $this->fakeResponse;
     }
     // @codingStandardsIgnoreEnd
 
@@ -113,6 +143,26 @@ class SmtpProtocolSpy extends Smtp
     {
         $this->sess = (bool) $status;
 
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function setFakeResponse(string $response): self
+    {
+        $this->useReceive   = true;
+        $this->fakeResponse = $response;
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function resetFakeResponse(): self
+    {
+        $this->useReceive   = false;
+        $this->fakeResponse = '';
         return $this;
     }
 }
