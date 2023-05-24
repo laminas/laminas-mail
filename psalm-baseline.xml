@@ -1663,9 +1663,6 @@
     </MissingReturnType>
   </file>
   <file src="src/Transport/Envelope.php">
-    <InvalidNullableReturnType>
-      <code>string</code>
-    </InvalidNullableReturnType>
     <MissingReturnType>
       <code>setFrom</code>
       <code>setTo</code>
@@ -1746,9 +1743,6 @@
     <MixedAssignment>
       <code>$param</code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code>string</code>
-    </MixedInferredReturnType>
     <MixedOperand>
       <code>$param</code>
     </MixedOperand>

@@ -9,6 +9,7 @@ use Laminas\Mail\Transport\Exception\InvalidArgumentException;
 use Laminas\Mail\Transport\Exception\RuntimeException;
 use Traversable;
 
+use function assert;
 use function count;
 use function escapeshellarg;
 use function gettype;
@@ -202,8 +203,10 @@ class Sendmail implements TransportInterface
         if (! $headers->has('subject')) {
             return '';
         }
-        $header = $headers->get('subject');
-        return $header->getFieldValue(HeaderInterface::FORMAT_ENCODED);
+        $header     = $headers->get('subject');
+        $fieldValue = $header->getFieldValue(HeaderInterface::FORMAT_ENCODED);
+        assert(is_string($fieldValue));
+        return $fieldValue;
     }
 
     /**
@@ -259,7 +262,7 @@ class Sendmail implements TransportInterface
     protected function prepareParameters(Mail\Message $message)
     {
         if ($this->isWindowsOs()) {
-            return '';
+            return;
         }
 
         $parameters = (string) $this->parameters;
