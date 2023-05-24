@@ -9,8 +9,8 @@ class Envelope extends AbstractOptions
     /** @var string */
     protected $from = '';
 
-    /** @var string */
-    protected $to = '';
+    /** @var string|null */
+    protected $to;
 
     /**
      * Get MAIL FROM
@@ -35,7 +35,7 @@ class Envelope extends AbstractOptions
     /**
      * Get RCPT TO
      *
-     * @return string
+     * @return string|null
      */
     public function getTo()
     {
@@ -49,6 +49,6 @@ class Envelope extends AbstractOptions
      */
     public function setTo($to)
     {
-        $this->to = (string)$to;
+        $this->to = $to;
     }
 }
