@@ -1737,18 +1737,12 @@
     <InvalidArgument>
       <code><![CDATA[[$this, 'handleMailErrors']]]></code>
     </InvalidArgument>
-    <InvalidNullableReturnType>
-      <code>string</code>
-    </InvalidNullableReturnType>
     <MissingReturnType>
       <code>mailHandler</code>
     </MissingReturnType>
     <MixedAssignment>
       <code>$param</code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code>string</code>
-    </MixedInferredReturnType>
     <MixedOperand>
       <code>$param</code>
     </MixedOperand>
