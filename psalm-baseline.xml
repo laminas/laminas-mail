@@ -1663,6 +1663,9 @@
     </MissingReturnType>
   </file>
   <file src="src/Transport/Envelope.php">
+    <InvalidNullableReturnType>
+      <code>string</code>
+    </InvalidNullableReturnType>
     <MissingReturnType>
       <code>setFrom</code>
       <code>setTo</code>
@@ -1734,9 +1737,6 @@
     <InvalidArgument>
       <code><![CDATA[[$this, 'handleMailErrors']]]></code>
     </InvalidArgument>
-    <InvalidNullableReturnType>
-      <code>string</code>
-    </InvalidNullableReturnType>
     <MissingReturnType>
       <code>mailHandler</code>
     </MissingReturnType>
