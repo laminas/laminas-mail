@@ -7,7 +7,7 @@ use Laminas\Stdlib\AbstractOptions;
 class Envelope extends AbstractOptions
 {
     /** @var string */
-    protected $from = '';
+    protected $from =' ';
 
     /** @var string */
     protected $to = '';
