@@ -262,7 +262,7 @@ class Sendmail implements TransportInterface
     protected function prepareParameters(Mail\Message $message)
     {
         if ($this->isWindowsOs()) {
-            return;
+            return '';
         }
 
         $parameters = (string) $this->parameters;
