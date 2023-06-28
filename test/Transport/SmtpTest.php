@@ -16,7 +16,6 @@ use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
 use function explode;
-use function sprintf;
 use function str_repeat;
 use function strlen;
 use function substr;
@@ -231,7 +230,7 @@ class SmtpTest extends TestCase
         $this->assertCount(28, $lines);
 
         foreach ($lines as $line) {
-            $this->assertLessThanOrEqual($maxLen, strlen($line), sprintf('Line is too long: ' . $line));
+            $this->assertLessThanOrEqual($maxLen, strlen($line), 'Line is too long: ' . $line);
         }
 
         $this->assertStringNotContainsString(
