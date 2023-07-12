@@ -140,11 +140,12 @@ class Sendmail implements TransportInterface
 
         // On *nix platforms, we need to replace \r\n with \n
         // sendmail is not an SMTP server, it is a unix command - it expects LF
+        // Should not apply to additional headers per php mail()page.
         if (PHP_VERSION_ID < 80000 && ! $this->isWindowsOs()) {
             $to      = str_replace("\r\n", "\n", $to);
             $subject = str_replace("\r\n", "\n", $subject);
             $body    = str_replace("\r\n", "\n", $body);
-            $headers = str_replace("\r\n", "\n", $headers);
+            // $headers = str_replace("\r\n", "\n", $headers);
         }
 
         ($this->callable)($to, $subject, $body, $headers, $params);
