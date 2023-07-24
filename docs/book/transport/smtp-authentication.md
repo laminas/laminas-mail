@@ -135,6 +135,85 @@ $options   = new SmtpOptions([
 $transport->setOptions($options);
 ```
 
+### SMTP Transport Usage with XOAUTH2
+
+```php
+use Laminas\Mail\Transport\Smtp as SmtpTransport;
+use Laminas\Mail\Transport\SmtpOptions;
+
+// Setup SMTP transport using XOAUTH2 authentication
+$transport = new SmtpTransport();
+$options   = new SmtpOptions([
+    'name'              => 'localhost.localdomain',
+    'host'              => '127.0.0.1',
+    'connection_class'  => 'Xoauth2',
+    'connection_config' => [
+        'username' => 'user', // the email address of user that approved token
+        'access_token' => $access_token, // the access token you've acquired via an authorization token or refresh token reuest
+        'ssl' => 'tls',
+    ],
+]);
+$transport->setOptions($options);
+```
+
+#### For example on acquiring access tokens: a **Microsoft Office 365** implementation looks like this
+
+Get access token using an "authorization code" (can only be performed once per authorization code
+
+```php
+$body = [
+    'client_id' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    'client_secret' => 'xxxxx~xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    'redirect_uri' => 'https://your-host.com/your/redirect-uri', // This needs to match what you've configured in the admin on Azure for the app
+    'grant_type' => 'authorization_code',
+    'code' => $authorization_code, // The authorization code you've received at the redirect url specified from a prior browser-based authorization
+    'scope' => 'offline_access https://outlook.office.com/SMTP.Send',
+];
+
+$opts = [
+    'http' => [
+        'method'  => 'POST',
+        'header'  => 'Content-type: application/x-www-form-urlencoded',
+        'content' => http_build_query($body)
+    ]
+];
+                
+$context  = stream_context_create($opts);
+$result = file_get_contents('https://login.microsoftonline.com/organizations/oauth2/v2.0/token', false, $context);
+```
+
+In order to avoid human interaction every time you need to send email via SMTP, you need to include "offline_access" in the scope like above so that you receive a "refresh_token" in the response. Then you can use that to generate the next access token with no human-interaction.
+
+Use a refresh token to get a new access token:
+
+```php
+$body = [
+    'client_id' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    'client_secret' => 'xxxxx~xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    'redirect_uri' => 'https://your-host.com/your/redirect-uri', // This needs to match what you've configured in the admin on Azure for the app
+    'scope' => 'https://outlook.office.com/SMTP.Send',
+    'grant_type' => 'refresh_token',
+    'refresh_token' => $refresh_token, // The refresh_token you've received from the previous grant request
+];
+
+$opts = [
+    'http' => [
+        'method'  => 'POST',
+        'header'  => 'Content-type: application/x-www-form-urlencoded',
+        'content' => http_build_query($body)
+    ]
+];
+                
+$context  = stream_context_create($opts);
+$result = file_get_contents('https://login.microsoftonline.com/organizations/oauth2/v2.0/token', false, $context);
+```
+
+Here are the docs for Office 365 on obtaining access tokens and such:
+[Reuest an authorization code](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow#request-an-authorization-code)
+
+One more thing for after you've acquired an access token, you still need to enable SMTP authentication for the mailbox as an admin (one time) in Office 365
+[Enable SMTP authentication for Office 365 account](https://learn.microsoft.com/en-us/exchange/clients-and-mobile-in-exchange-online/authenticated-client-smtp-submission#use-the-microsoft-365-admin-center-to-enable-or-disable-smtp-auth-on-specific-mailboxes)
+
 ### SMTP Transport Usage for servers with reuse time limit
 
 By default, every `Laminas\Mail\Protocol\Smtp\*` class tries to disconnect from
