@@ -29,7 +29,7 @@ class HeaderWrapTest extends TestCase
         $header = $this->createMock(UnstructuredInterface::class);
         $header->expects($this->any())
             ->method('getEncoding')
-            ->will($this->returnValue('ASCII'));
+            ->willReturn('ASCII');
         $expected = wordwrap($string, 78, "\r\n ");
 
         $test = HeaderWrap::wrap($string, $header);
@@ -45,7 +45,7 @@ class HeaderWrapTest extends TestCase
         $header = $this->createMock(UnstructuredInterface::class);
         $header->expects($this->any())
             ->method('getEncoding')
-            ->will($this->returnValue('UTF-8'));
+            ->willReturn('UTF-8');
         $expected = "=?UTF-8?Q?foobarblahblahblah=20baz=20batfoobarblahblahblah=20baz=20?=\r\n"
                     . " =?UTF-8?Q?batfoobarblahblahblah=20baz=20bat?=";
 
