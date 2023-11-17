@@ -115,8 +115,11 @@ $html->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
 $content = new MimeMessage();
 // This order is important for email clients to properly display the correct version of the content
 $content->setParts([$text, $html]);
+$content->setType(Mime::
 
-$contentPart = new MimePart($content->generateMessage());
+$contentPart           = new MimePart($content->generateMessage());
+$contentPart->type     = Mime::MULTIPART_ALTERNATIVE;
+$contentPart->boundary = $content->getMime()->boundary();
 
 $image              = new MimePart(fopen($pathToImage, 'r'));
 $image->type        = 'image/jpeg';
