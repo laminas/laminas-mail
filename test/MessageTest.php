@@ -850,6 +850,30 @@ class MessageTest extends TestCase
         $this->assertEquals('multipart/report', $contentType->getType());
     }
 
+    public function testCanParseMultipartEmail(): void
+    {
+        $raw     = file_get_contents(__DIR__ . '/_files/mail_with_pdf_attachment.eml');
+        $message = Message::fromString($raw);
+        $this->assertInstanceOf(Message::class, $message);
+        $this->assertInstanceof(MimeMessage::class, $message->getBody());
+        $this->assertTrue($message->getBody()->isMultiPart());
+        $parts = $message->getBody()->getParts();
+        $this->assertCount(2, $parts);
+        $partOne = $parts[0];
+        $this->assertCount(2, $partOne->getParts());
+        $this->assertSame(
+            "This is a test email with 1 attachment.",
+            trim($partOne->getParts()[0]->getContent())
+        );
+        $this->assertSame(
+            '<div dir="ltr">This is a test email with 1 attachment.<br clear="all"><div><br></div>-- <br><div class="gmail_signature" data-smartmail="gmail_signature"><div dir="ltr"><img src="https://sendgrid.com/brand/sg-logo-email.png" width="96" height="17"><br><div><br></div></div></div>
+</div>',
+            trim($partOne->getParts()[1]->getRawContent())
+        );
+
+        $attachmentPart = $parts[1];
+    }
+
     public function testMailHeaderContainsZeroValue(): void
     {
         $message =

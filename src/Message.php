@@ -571,9 +571,17 @@ class Message
         $headers = null;
         $content = null;
         Mime\Decode::splitMessage($rawMessage, $headers, $content, Headers::EOL);
-        // if ($headers->has('mime-version')) {
-            // todo - restore body to mime\message
-        // }
+
+        if ($headers->has('mime-version')) {
+            $boundary = null;
+            if ($headers->has('content-type')) {
+                $contentType = $headers->get('content-type');
+                $parameters  = $contentType->getParameters();
+                $boundary    = $parameters['boundary'];
+            }
+            $content = Mime\Message::createFromMessage($content, $boundary);
+        }
+
         $message->setHeaders($headers);
         $message->setBody($content);
         return $message;
