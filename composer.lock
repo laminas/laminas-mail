@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "18e511b298f74d503450bcbde45948cc",
+    "content-hash": "e65dff875e45e39e65c72645d718b615",
     "packages": [
         {
             "name": "laminas/laminas-loader",
@@ -64,11 +64,17 @@
         },
         {
             "name": "laminas/laminas-mime",
-            "version": "dev-add-multipart-alternative-support",
+            "version": "2.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-mime.git",
+                "reference": "08cc544778829b7d68d27a097885bd6e7130135e"
+            },
             "dist": {
-                "type": "path",
-                "url": "../laminas-mime",
-                "reference": "b9b26d9b5c89d49cbafe37bf5887e0f7aed2171c"
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-mime/zipball/08cc544778829b7d68d27a097885bd6e7130135e",
+                "reference": "08cc544778829b7d68d27a097885bd6e7130135e",
+                "shasum": ""
             },
             "require": {
                 "laminas/laminas-stdlib": "^2.7 || ^3.0",
@@ -91,32 +97,7 @@
                     "Laminas\\Mime\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "files": [
-                    "test/TestAsset/Mail/Headers.php"
-                ],
-                "psr-4": {
-                    "LaminasTest\\Mime\\": "test/"
-                }
-            },
-            "scripts": {
-                "check": [
-                    "@cs-check",
-                    "@test"
-                ],
-                "cs-check": [
-                    "phpcs"
-                ],
-                "cs-fix": [
-                    "phpcbf"
-                ],
-                "test": [
-                    "phpunit --colors=always"
-                ],
-                "test-coverage": [
-                    "phpunit --colors=always --coverage-clover clover.xml"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -127,16 +108,20 @@
                 "mime"
             ],
             "support": {
-                "docs": "https://docs.laminas.dev/laminas-mime/",
-                "issues": "https://github.com/laminas/laminas-mime/issues",
-                "source": "https://github.com/laminas/laminas-mime",
-                "rss": "https://github.com/laminas/laminas-mime/releases.atom",
                 "chat": "https://laminas.dev/chat",
-                "forum": "https://discourse.laminas.dev"
+                "docs": "https://docs.laminas.dev/laminas-mime/",
+                "forum": "https://discourse.laminas.dev",
+                "issues": "https://github.com/laminas/laminas-mime/issues",
+                "rss": "https://github.com/laminas/laminas-mime/releases.atom",
+                "source": "https://github.com/laminas/laminas-mime"
             },
-            "transport-options": {
-                "relative": true
-            }
+            "funding": [
+                {
+                    "url": "https://funding.communitybridge.org/projects/laminas-project",
+                    "type": "community_bridge"
+                }
+            ],
+            "time": "2023-11-02T16:47:19+00:00"
         },
         {
             "name": "laminas/laminas-servicemanager",
@@ -1721,68 +1706,6 @@
             "time": "2023-05-05T16:22:28+00:00"
         },
         {
-            "name": "laminas/laminas-escaper",
-            "version": "2.13.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laminas/laminas-escaper.git",
-                "reference": "af459883f4018d0f8a0c69c7a209daef3bf973ba"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-escaper/zipball/af459883f4018d0f8a0c69c7a209daef3bf973ba",
-                "reference": "af459883f4018d0f8a0c69c7a209daef3bf973ba",
-                "shasum": ""
-            },
-            "require": {
-                "ext-ctype": "*",
-                "ext-mbstring": "*",
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0"
-            },
-            "conflict": {
-                "zendframework/zend-escaper": "*"
-            },
-            "require-dev": {
-                "infection/infection": "^0.27.0",
-                "laminas/laminas-coding-standard": "~2.5.0",
-                "maglnet/composer-require-checker": "^3.8.0",
-                "phpunit/phpunit": "^9.6.7",
-                "psalm/plugin-phpunit": "^0.18.4",
-                "vimeo/psalm": "^5.9"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Laminas\\Escaper\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Securely and safely escape HTML, HTML attributes, JavaScript, CSS, and URLs",
-            "homepage": "https://laminas.dev",
-            "keywords": [
-                "escaper",
-                "laminas"
-            ],
-            "support": {
-                "chat": "https://laminas.dev/chat",
-                "docs": "https://docs.laminas.dev/laminas-escaper/",
-                "forum": "https://discourse.laminas.dev",
-                "issues": "https://github.com/laminas/laminas-escaper/issues",
-                "rss": "https://github.com/laminas/laminas-escaper/releases.atom",
-                "source": "https://github.com/laminas/laminas-escaper"
-            },
-            "funding": [
-                {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
-                }
-            ],
-            "time": "2023-10-10T08:35:13+00:00"
-        },
-        {
             "name": "myclabs/deep-copy",
             "version": "1.11.1",
             "source": {
@@ -2223,114 +2146,6 @@
                 "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.6.2"
             },
             "time": "2022-10-14T12:47:21+00:00"
-        },
-        {
-            "name": "phpoffice/phpword",
-            "version": "1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/PHPOffice/PHPWord.git",
-                "reference": "90a55955e6a772bb4cd9b1ef6a7e88c8976c2561"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PHPWord/zipball/90a55955e6a772bb4cd9b1ef6a7e88c8976c2561",
-                "reference": "90a55955e6a772bb4cd9b1ef6a7e88c8976c2561",
-                "shasum": ""
-            },
-            "require": {
-                "ext-dom": "*",
-                "ext-json": "*",
-                "ext-xml": "*",
-                "laminas/laminas-escaper": ">=2.6",
-                "php": "^7.1|^8.0"
-            },
-            "require-dev": {
-                "dompdf/dompdf": "^2.0",
-                "ext-gd": "*",
-                "ext-libxml": "*",
-                "ext-zip": "*",
-                "friendsofphp/php-cs-fixer": "^3.3",
-                "mpdf/mpdf": "^8.1",
-                "phpmd/phpmd": "^2.13",
-                "phpunit/phpunit": ">=7.0",
-                "symfony/process": "^4.4",
-                "tecnickcom/tcpdf": "^6.5"
-            },
-            "suggest": {
-                "dompdf/dompdf": "Allows writing PDF",
-                "ext-gd2": "Allows adding images",
-                "ext-xmlwriter": "Allows writing OOXML and ODF",
-                "ext-xsl": "Allows applying XSL style sheet to headers, to main document part, and to footers of an OOXML template",
-                "ext-zip": "Allows writing OOXML and ODF"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "PhpOffice\\PhpWord\\": "src/PhpWord"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Mark Baker"
-                },
-                {
-                    "name": "Gabriel Bull",
-                    "email": "me@gabrielbull.com",
-                    "homepage": "http://gabrielbull.com/"
-                },
-                {
-                    "name": "Franck Lefevre",
-                    "homepage": "https://rootslabs.net/blog/"
-                },
-                {
-                    "name": "Ivan Lanin",
-                    "homepage": "http://ivan.lanin.org"
-                },
-                {
-                    "name": "Roman Syroeshko",
-                    "homepage": "http://ru.linkedin.com/pub/roman-syroeshko/34/a53/994/"
-                },
-                {
-                    "name": "Antoine de Troostembergh"
-                }
-            ],
-            "description": "PHPWord - A pure PHP library for reading and writing word processing documents (OOXML, ODF, RTF, HTML, PDF)",
-            "homepage": "https://phpword.readthedocs.io/",
-            "keywords": [
-                "ISO IEC 29500",
-                "OOXML",
-                "Office Open XML",
-                "OpenDocument",
-                "OpenXML",
-                "PhpOffice",
-                "PhpWord",
-                "Rich Text Format",
-                "WordprocessingML",
-                "doc",
-                "docx",
-                "html",
-                "odf",
-                "odt",
-                "office",
-                "pdf",
-                "php",
-                "reader",
-                "rtf",
-                "template",
-                "template processor",
-                "word",
-                "writer"
-            ],
-            "support": {
-                "issues": "https://github.com/PHPOffice/PHPWord/issues",
-                "source": "https://github.com/PHPOffice/PHPWord/tree/1.1.0"
-            },
-            "time": "2023-05-30T07:59:14+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
@@ -4720,16 +4535,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "5.15.0",
+            "version": "5.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "5c774aca4746caf3d239d9c8cadb9f882ca29352"
+                "reference": "2897ba636551a8cb61601cc26f6ccfbba6c36591"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/5c774aca4746caf3d239d9c8cadb9f882ca29352",
-                "reference": "5c774aca4746caf3d239d9c8cadb9f882ca29352",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/2897ba636551a8cb61601cc26f6ccfbba6c36591",
+                "reference": "2897ba636551a8cb61601cc26f6ccfbba6c36591",
                 "shasum": ""
             },
             "require": {
@@ -4754,8 +4569,8 @@
                 "php": "^7.4 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0",
                 "sebastian/diff": "^4.0 || ^5.0",
                 "spatie/array-to-xml": "^2.17.0 || ^3.0",
-                "symfony/console": "^4.1.6 || ^5.0 || ^6.0",
-                "symfony/filesystem": "^5.4 || ^6.0"
+                "symfony/console": "^4.1.6 || ^5.0 || ^6.0 || ^7.0",
+                "symfony/filesystem": "^5.4 || ^6.0 || ^7.0"
             },
             "conflict": {
                 "nikic/php-parser": "4.17.0"
@@ -4777,7 +4592,7 @@
                 "psalm/plugin-phpunit": "^0.18",
                 "slevomat/coding-standard": "^8.4",
                 "squizlabs/php_codesniffer": "^3.6",
-                "symfony/process": "^4.4 || ^5.0 || ^6.0"
+                "symfony/process": "^4.4 || ^5.0 || ^6.0 || ^7.0"
             },
             "suggest": {
                 "ext-curl": "In order to send data to shepherd",
@@ -4790,7 +4605,7 @@
                 "psalm-refactor",
                 "psalter"
             ],
-            "type": "library",
+            "type": "project",
             "extra": {
                 "branch-alias": {
                     "dev-master": "5.x-dev",
@@ -4822,10 +4637,11 @@
                 "static analysis"
             ],
             "support": {
+                "docs": "https://psalm.dev/docs",
                 "issues": "https://github.com/vimeo/psalm/issues",
-                "source": "https://github.com/vimeo/psalm/tree/5.15.0"
+                "source": "https://github.com/vimeo/psalm"
             },
-            "time": "2023-08-20T23:07:30+00:00"
+            "time": "2023-11-22T20:38:47+00:00"
         },
         {
             "name": "webimpress/coding-standard",
@@ -4885,9 +4701,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "laminas/laminas-mime": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
