@@ -82,10 +82,11 @@ If you wish to set other headers, you can do that as well.
 $message->getHeaders()->addHeaderLine('X-API-Key', 'FOO-BAR-BAZ-BAT');
 ```
 
-Sometimes you may want to provide HTML content, or multi-part content. To do
-that, you'll first create a MIME message object, and then set it as the body of
-your mail message object. When you do so, the `Message` class will automatically
-set a "MIME-Version" header, as well as an appropriate "Content-Type" header.
+Sometimes you may want to provide HTML content, or [multipart][multipart-content]
+content. To do that, you'll first create a [MIME][mime-message] message object, 
+and then set it as the body of your mail message object. When you do so, the `Message` 
+class will automatically set a "MIME-Version" header, as well as an appropriate 
+"Content-Type" header.
 
 If you are interested in multipart emails or using attachments, read the chapter
 on [Adding Attachments](attachments.md).
@@ -508,3 +509,6 @@ Instantiates a `Message` object from a raw message string that is compliant with
 ```php
 fromString() : Laminas\Mail\Message
 ```
+
+[multipart-content]: https://www.w3.org/Protocols/rfc1341/7_2_Multipart.html
+[mime-message]: https://en.wikipedia.org/wiki/MIME

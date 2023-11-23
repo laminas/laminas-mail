@@ -7,8 +7,7 @@ bodies, allowing you to create multipart emails.
 
 ## Basic multipart content
 
-The following example creates an email with two parts, HTML content and an
-image.
+The following example creates an email with two parts, HTML content and an image.
 
 ```php
 use Laminas\Mail\Message;
@@ -37,14 +36,11 @@ $contentTypeHeader = $message->getHeaders()->get('Content-Type');
 $contentTypeHeader->setType('multipart/related');
 ```
 
-Note that the above code requires us to manually specify the message content
-type; laminas-mime does not automatically select the multipart type for us, nor
-does laminas-mail populate it by default.
-
 ## multipart/alternative content
 
 One of the most common email types sent by web applications is
-`multipart/alternative` messages with both text and HTML parts.
+`multipart/alternative` messages containing both plain text and HTML parts.
+Below, you'll find an example of how to programmatically create one.
 
 ```php
 use Laminas\Mail\Message;
@@ -67,22 +63,17 @@ $body->setParts([$text, $html]);
 
 $message = new Message();
 $message->setBody($body);
-
-$contentTypeHeader = $message->getHeaders()->get('Content-Type');
-$contentTypeHeader->setType('multipart/alternative');
 ```
 
 The only differences from the first example are:
 
 - We have text and HTML parts instead of an HTML and image part.
-- The `Content-Type` header is now `multipart/alternative`.
+- The message's `Content-Type` header is automatically set to [`multipart/mixed`][multipart-content-type].
 
 ## multipart/alternative emails with attachments
 
-Another common task is creating `multipart/alternative` emails where the HTML
-content refers to assets attachments (images, CSS, etc.).
-
-To accomplish this, we need to:
+Another common task is creating `multipart/alternative` emails where one of the parts contains assets, such as images, and CSS, etc.
+To accomplish this, we need to complete the following steps:
 
 - Create a `Laminas\Mime\Part` instance containing our `multipart/alternative`
   message.
@@ -93,6 +84,14 @@ To accomplish this, we need to:
 
 The following example creates a MIME message with three parts: text and HTML
 alternative versions of an email, and an image attachment.
+
+**Note:** The message part order is important for email clients to properly display the correct version of the content. For more information, refer to the quote below, from [section 7.2.3 The Multipart/alternative subtype of RFC 1341][multipart-content-type]:
+
+> In general, user agents that compose multipart/alternative entities should place the body parts in increasing order of preference, that is, with the preferred format last. For fancy text, the sending user agent should put the plainest format first and the richest format last. Receiving user agents should pick and display the last format they are capable of displaying. In the case where one of the alternatives is itself of type "multipart" and contains unrecognized sub-parts, the user agent may choose either to show that alternative, an earlier alternative, or both.
+>
+> NOTE: From an implementor's perspective, it might seem more sensible to reverse this ordering, and have the plainest alternative last. However, placing the plainest alternative first is the friendliest possible option when mutlipart/alternative entities are viewed using a non-MIME- compliant mail reader. While this approach does impose some burden on compliant mail readers, interoperability with older mail readers was deemed to be more important in this case.
+>
+> It may be the case that some user agents, if they can recognize more than one of the formats, will prefer to offer the user the choice of which format to view. This makes sense, for example, if mail includes both a nicely-formatted image version and an easily-edited text version. What is most critical, however, is that the user not automatically be shown multiple versions of the same data. Either the user should be shown the last recognized version or should explicitly be given the choice.
 
 ```php
 use Laminas\Mail\Message;
@@ -138,13 +137,15 @@ $contentTypeHeader->setType('multipart/related');
 
 ## Setting custom MIME boundaries
 
-In a multipart message, a MIME boundary for separating the different parts of
-the message is normally generated at random. In some cases, however, you might
-want to specify the MIME boundary that is used. This can be done by injecting a
-new `Laminas\Mime\Mime` instance into the MIME message.
+In a multipart message, [a MIME boundary][mime-boundary] for separating the different parts of
+the message is normally generated at random, e.g., `000000000000d80dfc060ac6d232` or `Apple-Mail=_CEE98D34-7402-4263-858D-9820B6208C21`. 
+In some cases, however, you might want to specify the MIME boundary that is used. This can be done by injecting a new `Laminas\Mime\Mime` instance into the MIME message, as in the following example.
 
 ```php
 use Laminas\Mime\Mime;
 
 $mimeMessage->setMime(new Mime($customBoundary));
 ```
+
+[mime-boundary]: https://www.oreilly.com/library/view/programming-internet-email/9780596802585/ch03s04.html
+[multipart-content-type]: https://www.w3.org/Protocols/rfc1341/7_2_Multipart.html
