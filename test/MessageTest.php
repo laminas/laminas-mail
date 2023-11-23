@@ -14,13 +14,20 @@ use Laminas\Mime\Message as MimeMessage;
 use Laminas\Mime\Mime;
 use Laminas\Mime\Part as MimePart;
 use PHPUnit\Framework\TestCase;
+use Smalot\PdfParser\Parser;
 use stdClass;
 
 use function count;
 use function date;
+use function fclose;
 use function file_get_contents;
+use function fopen;
+use function fwrite;
 use function implode;
+use function sprintf;
 use function substr;
+use function sys_get_temp_dir;
+use function trim;
 
 /**
  * @group      Laminas_Mail
@@ -872,6 +879,27 @@ class MessageTest extends TestCase
         );
 
         $attachmentPart = $parts[1];
+
+        $tempFile = sprintf("%stemp.pdf", sys_get_temp_dir());
+        $handle   = fopen($tempFile, "w");
+        fwrite($handle, $attachmentPart->getRawContent());
+        fclose($handle);
+
+        $parser = new Parser();
+        $pdf    = $parser->parseFile($tempFile);
+
+        $this->assertSame('Here is a document.', $pdf->getText());
+        $this->assertSame(
+            [
+                'Title'        => 'test document',
+                'Producer'     => 'macOS Version 13.6 (Build 22G120) Quartz PDFContext',
+                'Creator'      => 'Pages',
+                'CreationDate' => '2023-11-15T06:37:32+00:00',
+                'ModDate'      => '2023-11-15T06:37:32+00:00',
+                'Pages'        => 1,
+            ],
+            $pdf->getDetails()
+        );
     }
 
     public function testMailHeaderContainsZeroValue(): void
