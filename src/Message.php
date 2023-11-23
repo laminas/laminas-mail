@@ -5,8 +5,10 @@ namespace Laminas\Mail;
 use ArrayIterator;
 use Laminas\Mail\Header\Bcc;
 use Laminas\Mail\Header\Cc;
+use Laminas\Mail\Header\ContentTransferEncoding;
 use Laminas\Mail\Header\ContentType;
 use Laminas\Mail\Header\From;
+use Laminas\Mail\Header\HeaderInterface;
 use Laminas\Mail\Header\MimeVersion;
 use Laminas\Mail\Header\ReplyTo;
 use Laminas\Mail\Header\Sender;
@@ -14,7 +16,7 @@ use Laminas\Mail\Header\To;
 use Laminas\Mime;
 use Traversable;
 
-use function array_shift;
+use function array_filter;
 use function count;
 use function date;
 use function gettype;
@@ -23,6 +25,9 @@ use function is_object;
 use function is_string;
 use function method_exists;
 use function sprintf;
+use function str_starts_with;
+
+use const ARRAY_FILTER_USE_BOTH;
 
 class Message
 {
@@ -372,9 +377,8 @@ class Message
      *
      * @param  null|string|\Laminas\Mime\Message|object $body
      * @throws Exception\InvalidArgumentException
-     * @return Message
      */
-    public function setBody($body)
+    public function setBody($body): Message
     {
         if (! is_string($body) && $body !== null) {
             if (! is_object($body)) {
@@ -396,34 +400,105 @@ class Message
                 }
             }
         }
+
+        /**
+         * Set the required mime message headers.
+         */
+        if ($body instanceof Mime\Message) {
+            /**
+             * Add the mime-version header if the body is mime-compliant,
+             *  and the mime-version header is not already set.
+             *
+             * @see https://www.w3.org/Protocols/rfc1341/3_MIME-Version.html
+             */
+            if (! $this->getHeaders()->has('mime-version')) {
+                $this->headers->addHeader(new MimeVersion());
+            }
+
+            /**
+             * Add a multipart (mixed) content-type header, if the body
+             * is multipart, and a multipart (mixed) content-type header is not
+             * already set.
+             *
+             * @see https://www.w3.org/Protocols/rfc1341/7_2_Multipart.html
+             * */
+            if ($body->isMultiPart()) {
+                if (! $this->hasMultipartContentType()) {
+                    $this->headers->addHeader(
+                        (new ContentType())
+                            ->setType(Mime\Mime::MULTIPART_MIXED)
+                            ->addParameter('boundary', $body->getMime()->boundary())
+                    );
+                }
+            }
+
+            switch (count($body->getParts())) {
+                /**
+                 * Set the default headers (content-type and content-transfer-encoding) to their default values.
+                 *
+                 * @see https://www.w3.org/Protocols/rfc1341/7_1_Text.html
+                 * @see https://www.w3.org/Protocols/rfc1341/5_Content-Transfer-Encoding.html
+                 */
+                case 0:
+                    $this->headers->addHeader(
+                        (new ContentType())
+                            ->setType(Mime\Mime::TYPE_TEXT)
+                            ->addParameter('charset', 'us-ascii')
+                    );
+                    $this->headers->addHeader(
+                        (new ContentTransferEncoding())
+                            ->setTransferEncoding(Mime\Mime::ENCODING_7BIT)
+                    );
+                    break;
+
+                /**
+                 * Set the default headers from the sole message part available.
+                 */
+                case 1:
+                    $part = $body->getParts()[0];
+                    $this->headers->addHeader(
+                        (new ContentType())
+                            ->setType($part->getType())
+                            ->addParameter('charset', $part->getCharset())
+                    );
+                    $this->headers->addHeader(
+                        (new ContentTransferEncoding())
+                            ->setTransferEncoding($part->getEncoding())
+                    );
+                    break;
+            }
+        }
+
         $this->body = $body;
 
-        if (! $this->body instanceof Mime\Message) {
-            return $this;
-        }
-
-        // Get headers, and set Mime-Version header
-        $headers = $this->getHeaders();
-        $this->getHeaderByName('mime-version', MimeVersion::class);
-
-        // Multipart content headers
-        if ($this->body->isMultiPart()) {
-            $mime = $this->body->getMime();
-
-            /** @var ContentType $header */
-            $header = $this->getHeaderByName('content-type', ContentType::class);
-            $header->setType('multipart/mixed');
-            $header->addParameter('boundary', $mime->boundary());
-            return $this;
-        }
-
-        // MIME single part headers
-        $parts = $this->body->getParts();
-        if (! empty($parts)) {
-            $part = array_shift($parts);
-            $headers->addHeaders($part->getHeadersArray("\r\n"));
-        }
         return $this;
+    }
+
+    public function hasMultipartContentType(): bool
+    {
+        if (! $this->getHeaders()->has('content-type')) {
+            return false;
+        }
+
+        $contentTypes = $this->getHeaders()->get('content-type');
+
+        if ($contentTypes instanceof HeaderInterface) {
+            return str_starts_with($contentTypes->getFieldValue(), 'multipart');
+        }
+
+        if ($contentTypes instanceof ArrayIterator) {
+            $headers = array_filter(
+                $contentTypes->getArrayCopy(),
+                /** @var HeaderInterface $contentType */
+                function ($contentType) {
+                    return str_starts_with($contentType->getFieldValue(), 'multipart');
+                },
+                ARRAY_FILTER_USE_BOTH
+            );
+            return count($headers) !== 0;
+        }
+
+        return false;
     }
 
     /**
@@ -457,7 +532,7 @@ class Message
      *
      * @param  string $headerName
      * @param  string $headerClass
-     * @return Header\HeaderInterface|ArrayIterator header instance or collection of headers
+     * @return HeaderInterface|ArrayIterator header instance or collection of headers
      */
     protected function getHeaderByName($headerName, $headerClass)
     {

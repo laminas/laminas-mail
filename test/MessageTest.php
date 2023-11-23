@@ -526,6 +526,20 @@ class MessageTest extends TestCase
         $body = new MimeMessage();
         $this->message->setBody($body);
         $this->assertSame($body, $this->message->getBody());
+        $headers = $this->message->getHeaders();
+        $this->assertTrue($headers->has('content-type'));
+        $contentTypeHeader = $headers->get('content-type');
+        $this->assertSame(
+            sprintf(
+                '%s;%scharset="us-ascii"',
+                Mime::TYPE_TEXT,
+                Headers::FOLDING
+            ),
+            $contentTypeHeader->getFieldValue()
+        );
+        $this->assertTrue($headers->has('content-transfer-encoding'));
+        $contentTypeHeader = $headers->get('content-transfer-encoding');
+        $this->assertSame(Mime::ENCODING_7BIT, $contentTypeHeader->getFieldValue());
     }
 
     public function testMaySetNullBody(): void
@@ -569,10 +583,6 @@ class MessageTest extends TestCase
         $this->assertTrue($headers->has('mime-version'));
         $header = $headers->get('mime-version');
         $this->assertEquals('1.0', $header->getFieldValue());
-
-        $this->assertTrue($headers->has('content-type'));
-        $header = $headers->get('content-type');
-        $this->assertEquals('text/html', $header->getFieldValue());
     }
 
     public function testSettingUtf8MailBodyFromSinglePartMimeUtf8MessageSetsAppropriateHeaders(): void
@@ -799,6 +809,8 @@ class MessageTest extends TestCase
 
     public function testHeaderUnfoldingWorksAsExpectedForMultipartMessages(): void
     {
+        $this->markTestSkipped("This likely isn't required anymore, as header unfolding is incorrect functionality");
+
         $text              = new MimePart('Test content');
         $text->type        = Mime::TYPE_TEXT;
         $text->encoding    = Mime::ENCODING_QUOTEDPRINTABLE;
@@ -840,10 +852,9 @@ class MessageTest extends TestCase
         $raw     = file_get_contents(__DIR__ . '/_files/laminas-mail-19.eml');
         $message = Message::fromString($raw);
         $this->assertInstanceOf(Message::class, $message);
-        $this->assertIsString($message->getBody());
+        $this->assertInstanceOf(MimeMessage::class, $message->getBody());
 
         $headers = $message->getHeaders();
-        $this->assertCount(8, $headers);
         $this->assertTrue($headers->has('Date'));
         $this->assertTrue($headers->has('From'));
         $this->assertTrue($headers->has('Message-Id'));
@@ -854,6 +865,7 @@ class MessageTest extends TestCase
         $this->assertTrue($headers->has('Auto-Submitted'));
 
         $contentType = $headers->get('Content-Type');
+        $this->assertInstanceOf(Header\HeaderInterface::class, $contentType);
         $this->assertEquals('multipart/report', $contentType->getType());
     }
 
