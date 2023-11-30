@@ -13,16 +13,23 @@ use Laminas\Mail\Header\MimeVersion;
 use Laminas\Mail\Header\ReplyTo;
 use Laminas\Mail\Header\Sender;
 use Laminas\Mail\Header\To;
+use Laminas\Mail\Iterator\AttachmentPartFilterIterator;
+use Laminas\Mail\Iterator\MessagePartFilterIterator;
+use Laminas\Mail\Iterator\PartsIterator;
 use Laminas\Mime;
+use Laminas\Mime\Part;
+use RecursiveIteratorIterator;
 use Traversable;
 
 use function array_filter;
+use function array_pop;
 use function count;
 use function date;
 use function gettype;
 use function is_array;
 use function is_object;
 use function is_string;
+use function iterator_to_array;
 use function method_exists;
 use function sprintf;
 use function str_starts_with;
@@ -116,6 +123,46 @@ class Message
             $this->headers->addHeader($date);
         }
         return $this->headers;
+    }
+
+    public function getBodyPart(string $partType): Part
+    {
+        /** @var Part[] $iterator */
+        $iterator = new RecursiveIteratorIterator(
+            new MessagePartFilterIterator(
+                new PartsIterator($this->getBody()->getParts()),
+                $partType
+            )
+        );
+
+        $part = iterator_to_array($iterator);
+        return array_pop($part);
+    }
+
+    public function getPlainTextBodyPart(): Part
+    {
+        return $this->getBodyPart(\Laminas\Mime\Mime::TYPE_TEXT);
+    }
+
+    public function getHtmlBodyPart(): Part
+    {
+        return $this->getBodyPart(\Laminas\Mime\Mime::TYPE_HTML);
+    }
+
+    /**
+     * @return Part[]
+     */
+    public function getAttachments(): array
+    {
+        /** @var Part[] $iterator */
+        $iterator = new RecursiveIteratorIterator(
+            new AttachmentPartFilterIterator(
+                new PartsIterator(
+                    $this->getBody()->getParts()
+                ),
+            )
+        );
+        return iterator_to_array($iterator);
     }
 
     /**

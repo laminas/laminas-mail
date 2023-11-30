@@ -12,11 +12,13 @@ use Laminas\Mail\Headers;
 use Laminas\Mail\Message;
 use Laminas\Mime\Message as MimeMessage;
 use Laminas\Mime\Mime;
+use Laminas\Mime\Part;
 use Laminas\Mime\Part as MimePart;
 use PHPUnit\Framework\TestCase;
 use Smalot\PdfParser\Parser;
 use stdClass;
 
+use function array_pop;
 use function count;
 use function date;
 use function fclose;
@@ -25,6 +27,7 @@ use function fopen;
 use function fwrite;
 use function implode;
 use function sprintf;
+use function str_starts_with;
 use function substr;
 use function sys_get_temp_dir;
 use function trim;
@@ -888,12 +891,45 @@ class MessageTest extends TestCase
             '<div>This is a test email with 1 attachment.</div>',
             trim($partOne->getParts()[1]->getRawContent())
         );
+    }
 
-        $attachmentPart = $parts[1];
+    public function testCanReturnPlainTextAndHTMLMessageBodyIfAvailable()
+    {
+        $raw     = file_get_contents(__DIR__ . '/_files/mail_with_pdf_attachment.eml');
+        $message = Message::fromString($raw);
+        $this->assertInstanceOf(Message::class, $message);
+        $this->assertTrue($message->getBody()->isMultiPart());
+        $plainTextBody = $message->getPlainTextBodyPart();
+        $this->assertSame("This is a test email with 1 attachment.", trim($plainTextBody->getRawContent()));
+        $htmlBody = $message->getHtmlBodyPart();
+        $this->assertSame("<div>This is a test email with 1 attachment.</div>", trim($htmlBody->getRawContent()));
+    }
+
+    public function testReturnsEmptyAttachmentsListWhenEmailHasNoAttachments()
+    {
+        $raw     = file_get_contents(__DIR__ . '/_files/laminas-mail-19.eml');
+        $message = Message::fromString($raw);
+        $this->assertInstanceOf(Message::class, $message);
+        $this->assertTrue($message->getBody()->isMultiPart());
+        $this->assertEmpty($message->getAttachments());
+    }
+
+    public function testCanRetrieveMessageAttachmentsWhenAttachmentsAreAvailable()
+    {
+        $raw     = file_get_contents(__DIR__ . '/_files/mail_with_pdf_attachment.eml');
+        $message = Message::fromString($raw);
+        $this->assertInstanceOf(Message::class, $message);
+        $this->assertTrue($message->getBody()->isMultiPart());
+
+        $attachments = $message->getAttachments();
+        $this->assertCount(1, $attachments);
+        /** @var Part $attachment */
+        $attachment = array_pop($attachments);
+        $this->assertTrue(str_starts_with($attachment->getType(), "application/pdf"));
 
         $tempFile = sprintf("%stemp.pdf", sys_get_temp_dir());
         $handle   = fopen($tempFile, "w");
-        fwrite($handle, $attachmentPart->getRawContent());
+        fwrite($handle, $attachment->getRawContent());
         fclose($handle);
 
         $parser = new Parser();

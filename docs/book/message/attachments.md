@@ -147,5 +147,22 @@ use Laminas\Mime\Mime;
 $mimeMessage->setMime(new Mime($customBoundary));
 ```
 
+## Retrieving attachments
+
+If you have created a multipart message with one or more attachments, whether programmatically 
+or via the `Message::fromString();` method, you can readily retrieve them by calling the `getAttachments()` method.
+It will return an array of `\Laminas\Mime\Part` objects.
+
+For example:
+
+```php
+// Instantiate a Message object from a .eml file.
+$raw         = file_get_contents(__DIR__ . '/mail_with_attachments.eml');
+$message     = Message::fromString($raw);
+
+// Retrieve the email's attachments.
+$attachments = $message->getAttachments();
+```
+
 [mime-boundary]: https://www.oreilly.com/library/view/programming-internet-email/9780596802585/ch03s04.html
 [multipart-content-type]: https://www.w3.org/Protocols/rfc1341/7_2_Multipart.html

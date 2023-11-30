@@ -207,6 +207,21 @@ EOF;
 $message = Message::fromString($rawEmail);
 ```
 
+### Retrieve a Message's plain text and HTML body
+
+Commonly, though not always, an email will contain one or both of a plain text and/or HTMl body.
+To retrieve these directly, there are two methods available `getPlainTextBodyPart()` and 
+`getHtmlBodyPart()`. For example:
+
+```php
+// Instantiate a Message object from a .eml file.
+$raw         = file_get_contents(__DIR__ . '/mail_with_attachments.eml');
+$message     = Message::fromString($raw);
+
+echo $message->getPlainTextBodyPart();
+echo $message->getHtmlBodyPart();
+```
+
 ## Configuration Options
 
 The `Message` class has no configuration options, and is instead a value object.

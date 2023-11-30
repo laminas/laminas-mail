@@ -31,7 +31,7 @@ Content-Transfer-Encoding: quoted-printable
 --001a11447dc881e40b0537fe6d58--
 
 --001a11447dc881e40f0537fe6d5a
-Content-Disposition: inline;
+Content-Disposition: attachment;
 	filename="test document.pdf"
 Content-Type: application/pdf;
 	x-mac-hide-extension=yes;
