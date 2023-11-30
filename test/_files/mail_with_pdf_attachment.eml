@@ -26,11 +26,7 @@ This is a test email with 1 attachment.
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">This is a test email with 1 attachment.<br clear=3D"all"><=
-div><br></div>-- <br><div class=3D"gmail_signature" data-smartmail=3D"gmail=
-_signature"><div dir=3D"ltr"><img src=3D"https://sendgrid.com/brand/sg-logo=
--email.png" width=3D"96" height=3D"17"><br><div><br></div></div></div>
-</div>
+<div>This is a test email with 1 attachment.</div>
 
 --001a11447dc881e40b0537fe6d58--
 

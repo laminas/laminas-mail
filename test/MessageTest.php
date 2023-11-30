@@ -885,8 +885,7 @@ class MessageTest extends TestCase
             trim($partOne->getParts()[0]->getContent())
         );
         $this->assertSame(
-            '<div dir="ltr">This is a test email with 1 attachment.<br clear="all"><div><br></div>-- <br><div class="gmail_signature" data-smartmail="gmail_signature"><div dir="ltr"><img src="https://sendgrid.com/brand/sg-logo-email.png" width="96" height="17"><br><div><br></div></div></div>
-</div>',
+            '<div>This is a test email with 1 attachment.</div>',
             trim($partOne->getParts()[1]->getRawContent())
         );
 
