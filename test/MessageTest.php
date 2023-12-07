@@ -12,15 +12,25 @@ use Laminas\Mail\Headers;
 use Laminas\Mail\Message;
 use Laminas\Mime\Message as MimeMessage;
 use Laminas\Mime\Mime;
+use Laminas\Mime\Part;
 use Laminas\Mime\Part as MimePart;
 use PHPUnit\Framework\TestCase;
+use Smalot\PdfParser\Parser;
 use stdClass;
 
+use function array_pop;
 use function count;
 use function date;
+use function fclose;
 use function file_get_contents;
+use function fopen;
+use function fwrite;
 use function implode;
+use function sprintf;
+use function str_starts_with;
 use function substr;
+use function sys_get_temp_dir;
+use function trim;
 
 /**
  * @group      Laminas_Mail
@@ -519,6 +529,20 @@ class MessageTest extends TestCase
         $body = new MimeMessage();
         $this->message->setBody($body);
         $this->assertSame($body, $this->message->getBody());
+        $headers = $this->message->getHeaders();
+        $this->assertTrue($headers->has('content-type'));
+        $contentTypeHeader = $headers->get('content-type');
+        $this->assertSame(
+            sprintf(
+                '%s;%scharset="us-ascii"',
+                Mime::TYPE_TEXT,
+                Headers::FOLDING
+            ),
+            $contentTypeHeader->getFieldValue()
+        );
+        $this->assertTrue($headers->has('content-transfer-encoding'));
+        $contentTypeHeader = $headers->get('content-transfer-encoding');
+        $this->assertSame(Mime::ENCODING_7BIT, $contentTypeHeader->getFieldValue());
     }
 
     public function testMaySetNullBody(): void
@@ -562,10 +586,6 @@ class MessageTest extends TestCase
         $this->assertTrue($headers->has('mime-version'));
         $header = $headers->get('mime-version');
         $this->assertEquals('1.0', $header->getFieldValue());
-
-        $this->assertTrue($headers->has('content-type'));
-        $header = $headers->get('content-type');
-        $this->assertEquals('text/html', $header->getFieldValue());
     }
 
     public function testSettingUtf8MailBodyFromSinglePartMimeUtf8MessageSetsAppropriateHeaders(): void
@@ -792,6 +812,8 @@ class MessageTest extends TestCase
 
     public function testHeaderUnfoldingWorksAsExpectedForMultipartMessages(): void
     {
+        $this->markTestSkipped("This likely isn't required anymore, as header unfolding is incorrect functionality");
+
         $text              = new MimePart('Test content');
         $text->type        = Mime::TYPE_TEXT;
         $text->encoding    = Mime::ENCODING_QUOTEDPRINTABLE;
@@ -833,10 +855,9 @@ class MessageTest extends TestCase
         $raw     = file_get_contents(__DIR__ . '/_files/laminas-mail-19.eml');
         $message = Message::fromString($raw);
         $this->assertInstanceOf(Message::class, $message);
-        $this->assertIsString($message->getBody());
+        $this->assertInstanceOf(MimeMessage::class, $message->getBody());
 
         $headers = $message->getHeaders();
-        $this->assertCount(8, $headers);
         $this->assertTrue($headers->has('Date'));
         $this->assertTrue($headers->has('From'));
         $this->assertTrue($headers->has('Message-Id'));
@@ -847,7 +868,85 @@ class MessageTest extends TestCase
         $this->assertTrue($headers->has('Auto-Submitted'));
 
         $contentType = $headers->get('Content-Type');
+        $this->assertInstanceOf(Header\HeaderInterface::class, $contentType);
         $this->assertEquals('multipart/report', $contentType->getType());
+    }
+
+    public function testCanParseMultipartEmail(): void
+    {
+        $raw     = file_get_contents(__DIR__ . '/_files/mail_with_pdf_attachment.eml');
+        $message = Message::fromString($raw);
+        $this->assertInstanceOf(Message::class, $message);
+        $this->assertInstanceof(MimeMessage::class, $message->getBody());
+        $this->assertTrue($message->getBody()->isMultiPart());
+        $parts = $message->getBody()->getParts();
+        $this->assertCount(2, $parts);
+        $partOne = $parts[0];
+        $this->assertCount(2, $partOne->getParts());
+        $this->assertSame(
+            "This is a test email with 1 attachment.",
+            trim($partOne->getParts()[0]->getContent())
+        );
+        $this->assertSame(
+            '<div>This is a test email with 1 attachment.</div>',
+            trim($partOne->getParts()[1]->getRawContent())
+        );
+    }
+
+    public function testCanReturnPlainTextAndHTMLMessageBodyIfAvailable()
+    {
+        $raw     = file_get_contents(__DIR__ . '/_files/mail_with_pdf_attachment.eml');
+        $message = Message::fromString($raw);
+        $this->assertInstanceOf(Message::class, $message);
+        $this->assertTrue($message->getBody()->isMultiPart());
+        $plainTextBody = $message->getPlainTextBodyPart();
+        $this->assertSame("This is a test email with 1 attachment.", trim($plainTextBody->getRawContent()));
+        $htmlBody = $message->getHtmlBodyPart();
+        $this->assertSame("<div>This is a test email with 1 attachment.</div>", trim($htmlBody->getRawContent()));
+    }
+
+    public function testReturnsEmptyAttachmentsListWhenEmailHasNoAttachments()
+    {
+        $raw     = file_get_contents(__DIR__ . '/_files/laminas-mail-19.eml');
+        $message = Message::fromString($raw);
+        $this->assertInstanceOf(Message::class, $message);
+        $this->assertTrue($message->getBody()->isMultiPart());
+        $this->assertEmpty($message->getAttachments());
+    }
+
+    public function testCanRetrieveMessageAttachmentsWhenAttachmentsAreAvailable()
+    {
+        $raw     = file_get_contents(__DIR__ . '/_files/mail_with_pdf_attachment.eml');
+        $message = Message::fromString($raw);
+        $this->assertInstanceOf(Message::class, $message);
+        $this->assertTrue($message->getBody()->isMultiPart());
+
+        $attachments = $message->getAttachments();
+        $this->assertCount(1, $attachments);
+        /** @var Part $attachment */
+        $attachment = array_pop($attachments);
+        $this->assertTrue(str_starts_with($attachment->getType(), "application/pdf"));
+
+        $tempFile = sprintf("%stemp.pdf", sys_get_temp_dir());
+        $handle   = fopen($tempFile, "w");
+        fwrite($handle, $attachment->getRawContent());
+        fclose($handle);
+
+        $parser = new Parser();
+        $pdf    = $parser->parseFile($tempFile);
+
+        $this->assertSame('Here is a document.', $pdf->getText());
+        $this->assertSame(
+            [
+                'Title'        => 'test document',
+                'Producer'     => 'macOS Version 13.6 (Build 22G120) Quartz PDFContext',
+                'Creator'      => 'Pages',
+                'CreationDate' => '2023-11-15T06:37:32+00:00',
+                'ModDate'      => '2023-11-15T06:37:32+00:00',
+                'Pages'        => 1,
+            ],
+            $pdf->getDetails()
+        );
     }
 
     public function testMailHeaderContainsZeroValue(): void

@@ -82,10 +82,11 @@ If you wish to set other headers, you can do that as well.
 $message->getHeaders()->addHeaderLine('X-API-Key', 'FOO-BAR-BAZ-BAT');
 ```
 
-Sometimes you may want to provide HTML content, or multi-part content. To do
-that, you'll first create a MIME message object, and then set it as the body of
-your mail message object. When you do so, the `Message` class will automatically
-set a "MIME-Version" header, as well as an appropriate "Content-Type" header.
+Sometimes you may want to provide HTML content, or [multipart][multipart-content]
+content. To do that, you'll first create a [MIME][mime-message] message object, 
+and then set it as the body of your mail message object. When you do so, the `Message` 
+class will automatically set a "MIME-Version" header, as well as an appropriate 
+"Content-Type" header.
 
 If you are interested in multipart emails or using attachments, read the chapter
 on [Adding Attachments](attachments.md).
@@ -135,6 +136,90 @@ Once your message is shaped to your liking, pass it to a
 
 ```php
 $transport->send($message);
+```
+
+### Create a Message from a raw email string
+
+You can also create a Message object from a raw email string, one compliant with one or more of the applicable RFCs ([822](https://datatracker.ietf.org/doc/html/rfc822), [2045](https://datatracker.ietf.org/doc/html/rfc2045), [2046](https://datatracker.ietf.org/doc/html/rfc2046), [2047](https://datatracker.ietf.org/doc/html/rfc2047)), by using the static `fromString()` method.
+
+```php
+$rawEmail = <<<EOF
+From: "piro-test@clear-code.com" <piro-test@clear-code.com>
+Subject: test confirmation
+To: mailmaster@example.com, mailmaster@example.org, webmaster@example.com,
+ webmaster@example.org, webmaster@example.jp, mailmaster@example.jp
+Message-ID: <05c18622-f2ad-cb77-2ce9-a0bbfc7d7ad0@clear-code.com>
+Date: Thu, 15 Aug 2019 14:54:37 +0900
+X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0;
+ attachmentreminder=0; deliveryformat=4
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101
+ Thunderbird/69.0
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="------------26A45336F6C6196BD8BBA2A2"
+Content-Language: en-US
+
+This is a multi-part message in MIME format.
+--------------26A45336F6C6196BD8BBA2A2
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+testtest
+testtest
+testtest
+testtest
+testtest
+testtest
+
+--------------26A45336F6C6196BD8BBA2A2
+Content-Type: text/plain; charset=UTF-8;
+ name="sha1hash.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="sha1hash.txt"
+
+NzRjOGYwOWRmYTMwZWFjY2ZiMzkyYjEzMjMxNGZjNmI5NzhmMzI1YSAqZmxleC1jb25maXJt
+LW1haWwuMS4xMC4wLnhwaQpjY2VlNGI0YWE0N2Y1MTNhYmNlMzQyY2UxZTJlYzJmZDk2MDBl
+MzFiICpmbGV4LWNvbmZpcm0tbWFpbC4xLjExLjAueHBpCjA3MWU5ZTM3OGFkMDE3OWJmYWRi
+MWJkYzY1MGE0OTQ1NGQyMDRhODMgKmZsZXgtY29uZmlybS1tYWlsLjEuMTIuMC54cGkKOWQ3
+YWExNTM0MThlYThmYmM4YmU3YmE2ZjU0Y2U4YTFjYjdlZTQ2OCAqZmxleC1jb25maXJtLW1h
+aWwuMS45LjkueHBpCjgxNjg1NjNjYjI3NmVhNGY5YTJiNjMwYjlhMjA3ZDkwZmIxMTg1NmUg
+KmZsZXgtY29uZmlybS1tYWlsLnhwaQo=
+--------------26A45336F6C6196BD8BBA2A2
+Content-Type: application/json;
+ name="manifest.json"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="manifest.json"
+
+ewogICJtYW5pZmVzdF92ZXJzaW9uIjogMiwKICAiYXBwbGljYXRpb25zIjogewogICAgImdl
+Y2tvIjogewogICAgICAiaWQiOiAiZmxleGlibGUtY29uZmlybS1tYWlsQGNsZWFyLWNvZGUu
+Y29tIiwKICAgICAgInN0cmljdF9taW5fdmVyc2lvbiI6ICI2OC4wIgogICAgfQogIH0sCiAg
+Im5hbWUiOiAiRmxleCBDb25maXJtIE1haWwiLAogICJkZXNjcmlwdGlvbiI6ICJDb25maXJt
+IG1haWxhZGRyZXNzIGFuZCBhdHRhY2htZW50cyBiYXNlZCBvbiBmbGV4aWJsZSBydWxlcy4i
+LAogICJ2ZXJzaW9uIjogIjIuMCIsCgogICJsZWdhY3kiOiB7CiAgICAidHlwZSI6ICJ4dWwi
+LAogICAgIm9wdGlvbnMiOiB7CiAgICAgICJwYWdlIjogImNocm9tZTovL2NvbmZpcm0tbWFp
+bC9jb250ZW50L3NldHRpbmcueHVsIiwKICAgICAgIm9wZW5faW5fdGFiIjogdHJ1ZQogICAg
+fQogIH0KfQ==
+--------------26A45336F6C6196BD8BBA2A2--
+EOF;
+
+$message = Message::fromString($rawEmail);
+```
+
+### Retrieve a Message's plain text and HTML body
+
+Commonly, though not always, an email will contain one or both of a plain text and/or HTMl body.
+To retrieve these directly, there are two methods available `getPlainTextBodyPart()` and 
+`getHtmlBodyPart()`. For example:
+
+```php
+// Instantiate a Message object from a .eml file.
+$raw         = file_get_contents(__DIR__ . '/mail_with_attachments.eml');
+$message     = Message::fromString($raw);
+
+echo $message->getPlainTextBodyPart();
+echo $message->getHtmlBodyPart();
 ```
 
 ## Configuration Options
@@ -426,3 +511,19 @@ toString() : string
 ```
 
 Serialize to string.
+
+### fromString
+
+Instantiates a `Message` object from a raw message string that is compliant with one or more of the applicable RFCs, including:
+
+- [822](https://datatracker.ietf.org/doc/html/rfc822)
+- [2045](https://datatracker.ietf.org/doc/html/rfc2045)
+- [2046](https://datatracker.ietf.org/doc/html/rfc2046)
+- [2047](https://datatracker.ietf.org/doc/html/rfc2047)
+
+```php
+fromString() : Laminas\Mail\Message
+```
+
+[multipart-content]: https://www.w3.org/Protocols/rfc1341/7_2_Multipart.html
+[mime-message]: https://en.wikipedia.org/wiki/MIME
