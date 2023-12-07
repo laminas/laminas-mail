@@ -25,7 +25,7 @@
         "phpunit/phpunit": "^10.4.2",
         "psalm/plugin-phpunit": "^0.18.4",
         "smalot/pdfparser": "^2.7",
-        "symfony/process": "^6.3.4",
+        "symfony/process": "^6.3.4 || ^7.0.0",
         "vimeo/psalm": "^5.15"
     },
     "suggest": {
