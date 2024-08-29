@@ -169,6 +169,10 @@ class Imap
     {
         $line = $this->nextLine();
 
+        if (! str_contains($line, ' ')) {
+            throw new Exception\RuntimeException('Invalid response line received: ' . $line);
+        }
+
         // separate tag from line
         [$tag, $line] = explode(' ', $line, 2);
 
@@ -445,9 +449,10 @@ class Imap
                 $result = $this->requestAndResponse('LOGOUT', [], true);
             } catch (Exception\ExceptionInterface) {
                 // ignoring exception
+            } finally {
+                fclose($this->socket);
+                $this->socket = null;
             }
-            fclose($this->socket);
-            $this->socket = null;
         }
         return $result;
     }
