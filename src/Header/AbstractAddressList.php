@@ -118,7 +118,12 @@ abstract class AbstractAddressList implements HeaderInterface
                     ],
                     $value
                 );
-                return empty($value) ? null : Address::fromString($value, $comments);
+                try {
+                    return Address::fromString($value, $comments);
+                } catch (\Laminas\Mail\Exception\InvalidArgumentException $e) {
+                    // ignore invalid addresses
+                    return null;
+                }
             },
             $values
         );
