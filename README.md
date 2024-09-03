@@ -7,10 +7,11 @@
 > This package is **abandoned** and will receive no further development!
 >
 > It is suggested to use
+> 
 > - [ddeboer/imap](https://github.com/ddeboer/imap) for interacting with IMAP
 > - [zbateson/mail-mime-parser](https://github.com/zbateson/mail-mime-parser) for parsing MIME messages
 > - [symfony/mailer](https://github.com/symfony/mailer) for sending mail
->
+> 
 > See the Technical Steering Committee [meeting minutes](https://github.com/laminas/technical-steering-committee/blob/main/meetings/minutes/2023-12-04-TSC-Minutes.md).
 
 > ## 🇷🇺 Русским гражданам
