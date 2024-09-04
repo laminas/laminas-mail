@@ -2,6 +2,18 @@
 
 [![Build Status](https://github.com/laminas/laminas-mail/workflows/Continuous%20Integration/badge.svg)](https://github.com/laminas/laminas-mail/actions?query=workflow%3A"Continuous+Integration")
 
+> ## Abandoned
+>
+> This package is **abandoned** and will receive no further development!
+>
+> It is suggested to use
+>
+> - [ddeboer/imap](https://github.com/ddeboer/imap) for interacting with IMAP
+> - [zbateson/mail-mime-parser](https://github.com/zbateson/mail-mime-parser) for parsing MIME messages
+> - [symfony/mailer](https://github.com/symfony/mailer) for sending mail
+>
+> See the Technical Steering Committee [meeting minutes](https://github.com/laminas/technical-steering-committee/blob/main/meetings/minutes/2023-12-04-TSC-Minutes.md).
+
 > ## 🇷🇺 Русским гражданам
 >
 > Мы, участники Laminas, родились и живем в разных странах. У многих из нас есть друзья, родственники и коллеги как в России, так и в Украине. Некоторые из нас родились в России. Некоторые из нас живут в России. У некоторых бабушки и дедушки сражались с фашистами во Второй мировой войне. Здесь никто не поддерживает фашизм.
