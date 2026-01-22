@@ -408,12 +408,11 @@ class Message
 
         // Multipart content headers
         if ($this->body->isMultiPart()) {
-            $mime = $this->body->getMime();
-
-            /** @var ContentType $header */
-            $header = $this->getHeaderByName('content-type', ContentType::class);
-            $header->setType('multipart/mixed');
-            $header->addParameter('boundary', $mime->boundary());
+            $this->clearHeaderByName('content-type');
+            $this->clearHeaderByName('content-transfer-encoding');
+            $this->getHeaderByName('content-type', ContentType::class)
+                ->setType('multipart/mixed')
+                ->addParameter('boundary', $this->body->getMime()->boundary());
             return $this;
         }
 
