@@ -23,7 +23,7 @@
         "laminas/laminas-coding-standard": "~2.5.0",
         "laminas/laminas-db": "^2.18",
         "laminas/laminas-servicemanager": "^3.22.1",
-        "phpunit/phpunit": "^10.4.2",
+        "phpunit/phpunit": "^11.0.0",
         "psalm/plugin-phpunit": "^0.18.4",
         "symfony/process": "^6.3.4 || ^7.0.0",
         "vimeo/psalm": "^5.15"
