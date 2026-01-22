@@ -9,7 +9,7 @@
     "abandoned": "symfony/mailer",
     "license": "BSD-3-Clause",
     "require": {
-        "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+        "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
         "ext-iconv": "*",
         "laminas/laminas-loader": "^2.9.0",
         "laminas/laminas-mime": "^2.11.0",
@@ -24,7 +24,7 @@
         "laminas/laminas-db": "^2.18",
         "laminas/laminas-servicemanager": "^3.22.1",
         "phpunit/phpunit": "^10.4.2",
-        "psalm/plugin-phpunit": "^0.18.4",
+        "psalm/plugin-phpunit": "^0.19.0",
         "symfony/process": "^6.3.4 || ^7.0.0",
         "vimeo/psalm": "^5.15"
     },
